@@ -1,10 +1,11 @@
-import Header from "@/components/Header";
+import LeftSection from "@/components/login/LeftSection";
+import RightSection from "@/components/login/RightSection";
 
 export default function LoginPage() {
   return (
-    <div>
-      <Header />
-      로그인 페이지
+    <div className="flex flex-row min-h-dvh bg-[#F8FAF5]">
+      <LeftSection />
+      <RightSection />
     </div>
   );
 }
