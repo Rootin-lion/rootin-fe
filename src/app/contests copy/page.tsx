@@ -1,16 +1,14 @@
 import Banner from "@/components/contests/Banner";
 import Header from "@/components/Header";
 import RankingSectipn from "@/components/contests/RankingSection";
-import PastContestsSection from "@/components/contests/PastContestsSection";
 
 export default function ContestPage() {
   return (
     <>
       <Header />
       <Banner />
-      <div className="flex flex-col gap-5 max-w-5xl mx-auto mt-6 w-full">
+      <div className="flex flex-col gap-5">
         <RankingSectipn />
-        <PastContestsSection />
       </div>
     </>
   );
