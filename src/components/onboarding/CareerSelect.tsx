@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import OptionButton from "./OptionButton";
 
 type CareerOption = {
   label: string;
@@ -61,20 +62,14 @@ export default function CareerSelect({
               const isSelected = option.value === value;
 
               return (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => {
-                    onChange(option.value);
-                  }}
-                  className={`cursor-pointer rounded-md border px-3 py-1.5 text-[12px] font-medium transition-colors ${
-                    isSelected
-                      ? "border-[#51A05C] bg-[#51A05C] text-white"
-                      : "border-[#D5D9DD] bg-white text-[#1A1A1A]"
-                  }`}
-                >
-                  {option.label}
-                </button>
+                <>
+                  <OptionButton
+                    isSelected={isSelected}
+                    onClick={() => onChange(option.value)}
+                  >
+                    {option.label}
+                  </OptionButton>
+                </>
               );
             })}
           </div>
