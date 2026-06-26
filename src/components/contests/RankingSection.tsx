@@ -3,17 +3,16 @@ import BoxWrapper from "../shared/BoxWrapper";
 import RankingBoxWrapper from "./RankingBoxWrapper";
 import CharImg from "../../assets/success_char.png";
 import CrownImg from "../../assets/crown.png";
+import SectionTitle from "./SectionTitle";
 
 export default function RankingSection() {
   return (
     <BoxWrapper>
       <div className="flex flex-col px-6">
-        <div>
-          <p className="text-text font-bold text-[20px]">CS 랭킹 TOP 3</p>
-          <p className="text-[12px] font-medium text-sub-text">
-            실력을 증명한 최고의 참가자들이에요!
-          </p>
-        </div>
+        <SectionTitle
+          title="CS 랭킹 TOP 3"
+          content="실력을 증명한 최고의 참가자들이에요!"
+        />
         <div className="flex items-end gap-15 justify-center">
           <RankingBoxWrapper
             type="Silver"

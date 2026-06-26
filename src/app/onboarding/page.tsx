@@ -28,11 +28,12 @@ export default function OnBoardingPage() {
     }));
   };
 
-  const isSubmitDisabled = !info.nickname || info.age === 0 || !info.career;
+  const isSubmitEnabled =
+    info.nickname.trim() !== "" && info.age !== 0 && info.career !== "";
 
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center bg-bg-green-50">
-      <p className="text-[28px] font-bold text-text">프로필 설정</p>
+    <div className="bg-bg-green-50 flex min-h-dvh flex-col items-center justify-center">
+      <p className="text-text text-[28px] font-bold">프로필 설정</p>
 
       <div className="mt-8 flex w-full max-w-108 flex-col gap-6">
         <InputWrapper>
@@ -43,7 +44,7 @@ export default function OnBoardingPage() {
             readOnly
             value="이메일@example.com"
             placeholder="이메일을 입력해주세요."
-            className="border-[#D5D9DD] bg-bg-green-100"
+            className="bg-bg-green-100 border-[#D5D9DD]"
           />
         </InputWrapper>
 
@@ -103,7 +104,9 @@ export default function OnBoardingPage() {
           />
         </InputWrapper>
 
-        <Button disabled={isSubmitDisabled}>저장하기</Button>
+        <Button disabled={!isSubmitEnabled} isActive={isSubmitEnabled}>
+          저장하기
+        </Button>
       </div>
     </div>
   );

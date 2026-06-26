@@ -33,7 +33,7 @@ export default function CareerSelect({
         type="button"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between rounded-lg border border-[#9FD1A5] bg-white px-4 py-3 text-left text-[12px] text-[#6B7280] cursor-pointer"
+        className="flex w-full cursor-pointer items-center justify-between rounded-lg border border-[#9FD1A5] bg-white px-4 py-3 text-left text-[12px] text-[#6B7280]"
       >
         <span className={selectedOption ? "text-[#1A1A1A]" : ""}>
           {selectedOption?.label ?? placeholder}
@@ -58,12 +58,13 @@ export default function CareerSelect({
       {isOpen && (
         <div className="rounded-xl border border-[#9FD1A5] bg-white p-3">
           <div className="grid grid-cols-3 gap-2">
-            {options.map((option) => {
+            {options.map((option, index) => {
               const isSelected = option.value === value;
 
               return (
                 <>
                   <OptionButton
+                    key={index}
                     isSelected={isSelected}
                     onClick={() => onChange(option.value)}
                   >
