@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import LogoImg from "../../assets/logo.png";
 
 export default function Header() {
@@ -9,16 +10,26 @@ export default function Header() {
           <Image
             src={LogoImg}
             alt="logo"
-            className="h-auto w-45 cursor-pointer"
+            width={120}
+            height={40}
+            className="cursor-pointer"
             loading="eager"
           />
-          <div className="text-sub-text flex items-center gap-19">
-            <p>CS 대회</p>
-            <p>모의 면접</p>
-            <p>마이페이지</p>
+          <div className="text-sub-text flex items-center gap-19 text-[16px]">
+            <Link href="#" className="text-sub-text text-[15px] font-medium">
+              CS 대회
+            </Link>
+            <Link href="#" className="text-sub-text text-[15px] font-medium">
+              AI 면접
+            </Link>
+            <Link href="#" className="text-sub-text text-[15px] font-medium">
+              마이 페이지
+            </Link>
           </div>
         </div>
-        <div className="h-10 w-10 rounded-[50%] bg-green-300"></div>
+        <div className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-[50%] bg-[#7FB25B] text-white">
+          U
+        </div>
       </div>
     </div>
   );

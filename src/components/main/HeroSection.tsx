@@ -1,5 +1,5 @@
 import Image from "next/image";
-import HeroImg from "../../assets/main/hero.png";
+import HeroImg from "../../assets/hero.png";
 import { SectionWrapper } from "../shared/main/SectionWrapper";
 
 const HeroButton = () => {
@@ -16,7 +16,7 @@ const HeroButton = () => {
 export function HeroSection() {
   return (
     <SectionWrapper variant={"primary"}>
-      <div className="flex h-full max-h-200 flex-col justify-between pt-24 pb-35">
+      <div className="flex h-full max-h-200 flex-col justify-between gap-4 pt-24 pb-35">
         <div>
           <p className="text-primary-900 text-[26px] font-semibold">
             개발자 취업 준비를 위한 CS 통합 학습 플랫폼
@@ -47,8 +47,8 @@ export function HeroSection() {
         <Image
           src={HeroImg}
           alt="hero"
-          width={604}
-          height={400}
+          width={580}
+          height={388}
           loading="lazy"
         />
       </div>
