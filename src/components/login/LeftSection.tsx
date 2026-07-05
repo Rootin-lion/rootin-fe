@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LoginImg from "../../assets/login.png";
+import LoginImg from "../../assets/hero.png";
 
 export default function LeftSection() {
   return (

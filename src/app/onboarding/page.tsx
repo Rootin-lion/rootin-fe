@@ -5,20 +5,26 @@ import Button from "@/components/shared/Button";
 import InputWrapper from "@/components/shared/InputWrapper";
 import { useState } from "react";
 
+interface OnBoardingInfo {
+  nickname: string;
+  age: number;
+  career: string[];
+}
+
 const careerOptions = [
-  { label: "0~1년차", value: "0-1" },
-  { label: "2~3년차", value: "2-3" },
-  { label: "4~6년차", value: "4-6" },
-  { label: "7~9년차", value: "7-9" },
-  { label: "10년차 이상", value: "10+" },
-  { label: "그 외 (학생)", value: "student" },
+  { label: "데이터베이스", value: "데이터베이스" },
+  { label: "인프라(Docker/AWS)", value: "인프라(Docker/AWS)" },
+  { label: "자료구조/알고리즘", value: "자료구조/알고리즘" },
+  { label: "네트워크", value: "네트워크" },
+  { label: "자바/스프링", value: "자바/스프링" },
+  { label: "운영체제", value: "운영체제" },
 ];
 
 export default function OnBoardingPage() {
-  const [info, setInfo] = useState({
+  const [info, setInfo] = useState<OnBoardingInfo>({
     nickname: "",
     age: 0,
-    career: "",
+    career: [],
   });
 
   const handleAgeClick = (targetAge: number) => {
@@ -28,8 +34,19 @@ export default function OnBoardingPage() {
     }));
   };
 
+  const handleCareerClick = (targetCareer: string) => {
+    if (info.career.length >= 3 && !info.career.includes(targetCareer)) return;
+
+    setInfo((prev) => ({
+      ...prev,
+      career: prev.career.includes(targetCareer)
+        ? prev.career.filter((career) => career !== targetCareer)
+        : [...prev.career, targetCareer],
+    }));
+  };
+
   const isSubmitEnabled =
-    info.nickname.trim() !== "" && info.age !== 0 && info.career !== "";
+    info.nickname.trim() !== "" && info.age !== 0 && info.career.length > 0;
 
   return (
     <div className="bg-bg-green-50 flex min-h-dvh flex-col items-center justify-center">
@@ -94,13 +111,11 @@ export default function OnBoardingPage() {
         </InputWrapper>
 
         <InputWrapper>
-          <InputWrapper.Label>경력</InputWrapper.Label>
+          <InputWrapper.Label>관심분야</InputWrapper.Label>
           <CareerSelect
             value={info.career}
             options={careerOptions}
-            onChange={(career) => {
-              setInfo((prev) => ({ ...prev, career }));
-            }}
+            onClick={handleCareerClick}
           />
         </InputWrapper>
 

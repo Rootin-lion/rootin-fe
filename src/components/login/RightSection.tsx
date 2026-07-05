@@ -1,7 +1,7 @@
 import Image from "next/image";
 import LogoImg from "../../assets/logo.png";
-import KakaoImg from "../../assets/kakao.png";
-import GoogleImg from "../../assets/google.png";
+import KakaoImg from "../../assets/login/kakao.png";
+import GoogleImg from "../../assets/login/google.png";
 
 const ButtonText = ({ text }: { text: string }) => {
   return <p className="text-[15px] font-medium">{text}</p>;
@@ -43,7 +43,7 @@ const HighlightText = ({ children }: { children: React.ReactNode }) => {
 
 export default function RightSection() {
   return (
-    <div className="flex flex-1 items-center justify-start bg-green-50">
+    <div className="bg-primary-50 flex flex-1 items-center justify-start">
       <div className="ml-26 flex flex-col items-center justify-center">
         <div className="flex flex-col gap-2">
           <Image src={LogoImg} alt="logo" width={180} height={90} />
