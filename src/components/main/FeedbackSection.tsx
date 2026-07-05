@@ -1,3 +1,5 @@
+import { SectionWrapper } from "../shared/main/SectionWrapper";
+
 export function FeedbackSection() {
-  return <div>피드백 섹션</div>;
+  return <SectionWrapper variant={"primary"}>피드백 섹션</SectionWrapper>;
 }

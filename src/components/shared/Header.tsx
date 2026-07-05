@@ -9,7 +9,7 @@ export default function Header() {
           <Image
             src={LogoImg}
             alt="logo"
-            className="h-auto w-45"
+            className="h-auto w-45 cursor-pointer"
             loading="eager"
           />
           <div className="text-sub-text flex items-center gap-19">

@@ -1,3 +1,5 @@
+import { SectionWrapper } from "../shared/main/SectionWrapper";
+
 export function StatusSection() {
-  return <div>상태 섹션</div>;
+  return <SectionWrapper variant={"ivory"}>상태 섹션</SectionWrapper>;
 }
