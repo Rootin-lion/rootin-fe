@@ -10,9 +10,9 @@ export default function Header() {
           <Image
             src={LogoImg}
             alt="logo"
+            className="cursor-pointer"
             width={120}
             height={40}
-            className="cursor-pointer"
             loading="eager"
           />
           <div className="text-sub-text flex items-center gap-19 text-[16px]">

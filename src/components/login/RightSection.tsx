@@ -1,7 +1,7 @@
 import Image from "next/image";
 import LogoImg from "../../assets/logo.png";
-import KakaoImg from "../../assets/kakao.png";
-import GoogleImg from "../../assets/google.png";
+import KakaoImg from "../../assets/login/kakao.png";
+import GoogleImg from "../../assets/login/google.png";
 
 const ButtonText = ({ text }: { text: string }) => {
   return <p className="text-[15px] font-medium">{text}</p>;
