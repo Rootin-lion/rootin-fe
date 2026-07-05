@@ -3,7 +3,7 @@ import RightSection from "@/components/login/RightSection";
 
 export default function LoginPage() {
   return (
-    <div className="flex flex-row min-h-dvh">
+    <div className="flex min-h-dvh flex-row">
       <LeftSection />
       <RightSection />
     </div>

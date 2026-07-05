@@ -43,7 +43,7 @@ const HighlightText = ({ children }: { children: React.ReactNode }) => {
 
 export default function RightSection() {
   return (
-    <div className="flex flex-1 items-center justify-start">
+    <div className="flex flex-1 items-center justify-start bg-green-50">
       <div className="ml-26 flex flex-col items-center justify-center">
         <div className="flex flex-col gap-2">
           <Image src={LogoImg} alt="logo" width={180} height={90} />

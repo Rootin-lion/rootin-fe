@@ -22,14 +22,8 @@
   --color-disabled-text: #9ca3af;
   --color-text: #1f2937;
   --font-sans:
-    "Pretendard Variable",
-    "Pretendard",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Apple SD Gothic Neo",
-    "Noto Sans KR",
-    "Segoe UI",
-    sans-serif;
+    "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
 }
 
 :root {
@@ -46,7 +40,7 @@
   --bg-green-50: var(--color-bg-green-50);
   --bg-green-100: var(--color-bg-green-100);
   --bg-green-200: var(--color-bg-green-200);
-  --bg-ivory: var(--color-bg-ivory);
+  --bg-bg-ivory: var(--color-bg-ivory);
   --error-color: var(--color-error);
   --warring-color: var(--color-warring);
   --success-color: var(--color-success);
