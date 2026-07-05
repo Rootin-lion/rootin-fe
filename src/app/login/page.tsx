@@ -1,3 +1,11 @@
-export default function Home() {
-  return <div>로그인 페이지</div>;
+import LeftSection from "@/components/login/LeftSection";
+import RightSection from "@/components/login/RightSection";
+
+export default function LoginPage() {
+  return (
+    <div className="flex min-h-dvh flex-row">
+      <LeftSection />
+      <RightSection />
+    </div>
+  );
 }
