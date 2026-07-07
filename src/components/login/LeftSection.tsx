@@ -12,7 +12,7 @@ export default function LeftSection() {
         <Image
           src={LoginImg}
           width={530}
-          height={430}
+          height={353}
           alt="login"
           className="mt-12"
           loading="eager"

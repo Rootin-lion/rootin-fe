@@ -22,7 +22,7 @@ export function HeroSection() {
             개발자 취업 준비를 위한 CS 통합 학습 플랫폼
           </p>
           <p className="text-[48px] font-bold whitespace-pre-wrap">
-            실력은 연습으로,{"\n"}성장은{" "}
+            실력은 연습으로,{"\n"}성장은
             <span
               className="bg-clip-text text-transparent"
               style={{
@@ -48,8 +48,9 @@ export function HeroSection() {
           src={HeroImg}
           alt="hero"
           width={580}
-          height={388}
+          height={386}
           loading="lazy"
+          style={{ width: "580px", height: "auto" }}
         />
       </div>
     </SectionWrapper>

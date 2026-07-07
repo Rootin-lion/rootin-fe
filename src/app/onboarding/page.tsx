@@ -49,7 +49,7 @@ export default function OnBoardingPage() {
     info.nickname.trim() !== "" && info.age !== 0 && info.career.length > 0;
 
   return (
-    <div className="bg-bg-green-50 flex min-h-dvh flex-col items-center justify-center">
+    <div className="bg-primary-50 flex min-h-dvh flex-col items-center justify-center">
       <p className="text-text text-[28px] font-bold">프로필 설정</p>
 
       <div className="mt-8 flex w-full max-w-108 flex-col gap-6">
