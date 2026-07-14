@@ -3,8 +3,9 @@ import TrophyImg from "../../../assets/main/trophy.png";
 import DocumentImg from "../../../assets/main/document.png";
 import analysisImg from "../../../assets/main/analysis.png";
 import { FeatureCard } from "./FeaturedCard";
+import { FeatureData } from "@/types/main/featureItem";
 
-const FEATURED_DATA = [
+const FEATURED_DATA: FeatureData[] = [
   {
     id: 1,
     title: "실전 대회 & 실시간 랭킹",

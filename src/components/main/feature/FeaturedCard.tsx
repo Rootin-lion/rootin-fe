@@ -1,13 +1,6 @@
 import Image from "next/image";
-import type { ImageProps } from "next/image";
 import ArrowIcon from "../../../assets/main/arrow.svg";
-
-interface FeatureData {
-  title: string;
-  image: ImageProps["src"];
-  textColor: string;
-  bg: string;
-}
+import { FeatureData } from "@/types/main/featureItem";
 
 interface FeatureCardProps {
   item: FeatureData;

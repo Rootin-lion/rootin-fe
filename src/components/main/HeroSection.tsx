@@ -1,17 +1,7 @@
 import Image from "next/image";
 import HeroImg from "../../assets/hero.png";
 import { SectionWrapper } from "./SectionWrapper";
-
-const HeroButton = () => {
-  return (
-    <button
-      type="button"
-      className="bg-primary-900 max-w-48 cursor-pointer rounded-lg px-7 py-4 text-[20px] font-semibold text-white"
-    >
-      지금 시작하기 →
-    </button>
-  );
-};
+import { MainButton } from "../shared/main/MainButton";
 
 export function HeroSection() {
   return (
@@ -22,7 +12,7 @@ export function HeroSection() {
             개발자 취업 준비를 위한 CS 통합 학습 플랫폼
           </p>
           <p className="text-[48px] font-bold whitespace-pre-wrap">
-            실력은 연습으로,{"\n"}성장은
+            실력은 연습으로,{"\n"}성장은{" "}
             <span
               className="bg-clip-text text-transparent"
               style={{
@@ -37,11 +27,14 @@ export function HeroSection() {
             으로
           </p>
           <p className="text-disabled-text text-[18px] font-medium whitespace-pre-wrap">
-            CS 대회, 모의 면접, 개인 분석을 통해{"\n"}
-            나만의 성장을 체계적으로 만들어보세요
+            CS 대회, 모의 면접, 개인 분석을 통해{"\n"}나만의 성장을 체계적으로
+            만들어보세요
           </p>
         </div>
-        <HeroButton />
+
+        <div className="w-48">
+          <MainButton text={"지금 시작하기 →"} />
+        </div>
       </div>
       <div>
         <Image
