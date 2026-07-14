@@ -24,6 +24,114 @@
   --font-sans:
     "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
     "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+  --text-title-1: 48px;
+  --text-title-1--line-height: normal;
+  --font-weight-title-1: 700;
+  --tracking-title-1: 0em;
+  --text-title-2: 36px;
+  --text-title-2--line-height: normal;
+  --font-weight-title-2: 700;
+  --tracking-title-2: 0em;
+  --text-title-3: 28px;
+  --text-title-3--line-height: normal;
+  --font-weight-title-3: 700;
+  --tracking-title-3: 0em;
+  --text-title-4: 20px;
+  --text-title-4--line-height: normal;
+  --font-weight-title-4: 700;
+  --tracking-title-4: 0em;
+  --text-subtitle: 18px;
+  --text-subtitle--line-height: 120%;
+  --font-weight-subtitle: 600;
+  --tracking-subtitle: 0em;
+  --text-body-1: 20px;
+  --text-body-1--line-height: normal;
+  --font-weight-body-1: 500;
+  --tracking-body-1: 0em;
+  --text-body-2: 16px;
+  --text-body-2--line-height: normal;
+  --font-weight-body-2: 400;
+  --tracking-body-2: 0em;
+  --text-body-3: 14px;
+  --text-body-3--line-height: normal;
+  --font-weight-body-3: 400;
+  --tracking-body-3: 0em;
+  --text-caption: 12px;
+  --text-caption--line-height: normal;
+  --font-weight-caption: 500;
+  --tracking-caption: 0em;
+}
+
+@utility typo-title-1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-title-1);
+  line-height: var(--text-title-1--line-height);
+  font-weight: var(--font-weight-title-1);
+  letter-spacing: var(--tracking-title-1);
+}
+
+@utility typo-title-2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-title-2);
+  line-height: var(--text-title-2--line-height);
+  font-weight: var(--font-weight-title-2);
+  letter-spacing: var(--tracking-title-2);
+}
+
+@utility typo-title-3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-title-3);
+  line-height: var(--text-title-3--line-height);
+  font-weight: var(--font-weight-title-3);
+  letter-spacing: var(--tracking-title-3);
+}
+
+@utility typo-title-4 {
+  font-family: var(--font-sans);
+  font-size: var(--text-title-4);
+  line-height: var(--text-title-4--line-height);
+  font-weight: var(--font-weight-title-4);
+  letter-spacing: var(--tracking-title-4);
+}
+
+@utility typo-subtitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-subtitle);
+  line-height: var(--text-subtitle--line-height);
+  font-weight: var(--font-weight-subtitle);
+  letter-spacing: var(--tracking-subtitle);
+}
+
+@utility typo-body-1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-1);
+  line-height: var(--text-body-1--line-height);
+  font-weight: var(--font-weight-body-1);
+  letter-spacing: var(--tracking-body-1);
+}
+
+@utility typo-body-2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-2);
+  line-height: var(--text-body-2--line-height);
+  font-weight: var(--font-weight-body-2);
+  letter-spacing: var(--tracking-body-2);
+}
+
+@utility typo-body-3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-3);
+  line-height: var(--text-body-3--line-height);
+  font-weight: var(--font-weight-body-3);
+  letter-spacing: var(--tracking-body-3);
+}
+
+@utility typo-caption {
+  font-family: var(--font-sans);
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  font-weight: var(--font-weight-caption);
+  letter-spacing: var(--tracking-caption);
 }
 
 :root {

@@ -69,15 +69,14 @@ export default function CareerSelect({
                 const isSelected = value.includes(option.value);
 
                 return (
-                  <>
+                  <p key={index}>
                     <OptionButton
-                      key={index}
                       isSelected={isSelected}
                       onClick={() => onClick(option.value)}
                     >
                       {option.label}
                     </OptionButton>
-                  </>
+                  </p>
                 );
               })}
             </div>

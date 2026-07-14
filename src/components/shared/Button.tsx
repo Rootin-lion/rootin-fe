@@ -1,14 +1,16 @@
+interface ButtonProps {
+  children: React.ReactNode;
+  disabled?: boolean;
+  isActive?: boolean;
+  onClick?: () => void;
+}
+
 export default function Button({
   children,
   disabled,
   isActive = false,
   onClick,
-}: {
-  children: React.ReactNode;
-  disabled?: boolean;
-  isActive?: boolean;
-  onClick?: () => void;
-}) {
+}: ButtonProps) {
   const bgStyle = isActive ? "bg-primary" : "bg-[#D5D9DD]";
   const textStyle = isActive ? "text-green-50" : "text-[#888F9C]";
   const cursorStyle = disabled ? "cursor-not-allowed" : "cursor-pointer";
@@ -17,7 +19,7 @@ export default function Button({
     <button
       type="button"
       disabled={disabled}
-      className={`py-2 min-w-25 ${bgStyle} ${textStyle} ${cursorStyle} rounded-lg font-medium w-full`}
+      className={`min-w-25 py-2 ${bgStyle} ${textStyle} ${cursorStyle} w-full rounded-lg font-medium`}
       onClick={onClick}
     >
       {children}
