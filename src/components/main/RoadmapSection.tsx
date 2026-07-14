@@ -1,5 +1,5 @@
-import { SectionWrapper } from "../shared/main/SectionWrapper";
-import { RoadmaBox } from "../roadmap/RoadmapBox";
+import { SectionWrapper } from "./SectionWrapper";
+import { RoadmapBox } from "../roadmap/RoadmapBox";
 
 export function RoadmapSection() {
   return (
@@ -24,7 +24,7 @@ export function RoadmapSection() {
           대회 결과, 면접 데이터, 학습 기록을 기반으로{"\n"}AI가 당신만의 성장
           로드맵을 제안합니다.
         </p>
-        <RoadmaBox />
+        <RoadmapBox />
       </div>
     </SectionWrapper>
   );

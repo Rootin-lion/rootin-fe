@@ -1,4 +1,4 @@
-import { SectionWrapper } from "../shared/main/SectionWrapper";
+import { SectionWrapper } from "./SectionWrapper";
 import FeedbackImg from "../../assets/main/feedback.png";
 import Image from "next/image";
 

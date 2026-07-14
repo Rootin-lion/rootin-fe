@@ -1,5 +1,9 @@
-import { SectionWrapper } from "../shared/main/SectionWrapper";
+import { SectionWrapper } from "./SectionWrapper";
 
 export function CTASection() {
-  return <SectionWrapper variant={"primary"}>CTA 섹션</SectionWrapper>;
+  return (
+    <SectionWrapper variant={"primary"}>
+      <div>CTA 섹션</div>
+    </SectionWrapper>
+  );
 }

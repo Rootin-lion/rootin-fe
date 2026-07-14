@@ -1,4 +1,4 @@
-import { SectionWrapper } from "../../shared/main/SectionWrapper";
+import { SectionWrapper } from "../SectionWrapper";
 import TrophyImg from "../../../assets/main/trophy.png";
 import DocumentImg from "../../../assets/main/document.png";
 import analysisImg from "../../../assets/main/analysis.png";
@@ -6,18 +6,21 @@ import { FeatureCard } from "./FeaturedCard";
 
 const FEATURED_DATA = [
   {
+    id: 1,
     title: "실전 대회 & 실시간 랭킹",
     image: TrophyImg,
     textColor: "text-primary-900",
     bg: "bg-green-50",
   },
   {
+    id: 2,
     title: "면접 시뮬레이션",
     image: DocumentImg,
     textColor: "text-[#2349D1]",
     bg: "bg-[#F1F5FE]",
   },
   {
+    id: 3,
     title: "개인 분석 & 맞춤 추천",
     image: analysisImg,
     textColor: "text-[#2E1AC6]",
@@ -50,8 +53,8 @@ export function FeaturedSection() {
           </p>
         </div>
         <div className="mt-17 flex gap-8">
-          {FEATURED_DATA.map((feature, index) => (
-            <FeatureCard key={index} item={feature} />
+          {FEATURED_DATA.map((feature) => (
+            <FeatureCard key={feature.id} item={feature} />
           ))}
         </div>
       </div>

@@ -62,6 +62,78 @@
   --tracking-caption: 0em;
 }
 
+@utility typo-title-1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-title-1);
+  line-height: var(--text-title-1--line-height);
+  font-weight: var(--font-weight-title-1);
+  letter-spacing: var(--tracking-title-1);
+}
+
+@utility typo-title-2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-title-2);
+  line-height: var(--text-title-2--line-height);
+  font-weight: var(--font-weight-title-2);
+  letter-spacing: var(--tracking-title-2);
+}
+
+@utility typo-title-3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-title-3);
+  line-height: var(--text-title-3--line-height);
+  font-weight: var(--font-weight-title-3);
+  letter-spacing: var(--tracking-title-3);
+}
+
+@utility typo-title-4 {
+  font-family: var(--font-sans);
+  font-size: var(--text-title-4);
+  line-height: var(--text-title-4--line-height);
+  font-weight: var(--font-weight-title-4);
+  letter-spacing: var(--tracking-title-4);
+}
+
+@utility typo-subtitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-subtitle);
+  line-height: var(--text-subtitle--line-height);
+  font-weight: var(--font-weight-subtitle);
+  letter-spacing: var(--tracking-subtitle);
+}
+
+@utility typo-body-1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-1);
+  line-height: var(--text-body-1--line-height);
+  font-weight: var(--font-weight-body-1);
+  letter-spacing: var(--tracking-body-1);
+}
+
+@utility typo-body-2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-2);
+  line-height: var(--text-body-2--line-height);
+  font-weight: var(--font-weight-body-2);
+  letter-spacing: var(--tracking-body-2);
+}
+
+@utility typo-body-3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-3);
+  line-height: var(--text-body-3--line-height);
+  font-weight: var(--font-weight-body-3);
+  letter-spacing: var(--tracking-body-3);
+}
+
+@utility typo-caption {
+  font-family: var(--font-sans);
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  font-weight: var(--font-weight-caption);
+  letter-spacing: var(--tracking-caption);
+}
+
 :root {
   --primary-color: var(--color-primary);
   --primary-color-900: var(--color-primary-900);

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import HeroImg from "../../assets/hero.png";
-import { SectionWrapper } from "../shared/main/SectionWrapper";
+import { SectionWrapper } from "./SectionWrapper";
 
 const HeroButton = () => {
   return (
