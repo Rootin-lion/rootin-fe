@@ -1,5 +1,5 @@
-import { SectionWrapper } from "../../shared/main/SectionWrapper";
-import { RoadmaBox } from "./RoadmapBox";
+import { SectionWrapper } from "../shared/main/SectionWrapper";
+import { RoadmaBox } from "../roadmap/RoadmapBox";
 
 export function RoadmapSection() {
   return (

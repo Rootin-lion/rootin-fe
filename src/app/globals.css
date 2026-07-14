@@ -24,6 +24,42 @@
   --font-sans:
     "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
     "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+  --text-title-1: 48px;
+  --text-title-1--line-height: normal;
+  --font-weight-title-1: 700;
+  --tracking-title-1: 0em;
+  --text-title-2: 36px;
+  --text-title-2--line-height: normal;
+  --font-weight-title-2: 700;
+  --tracking-title-2: 0em;
+  --text-title-3: 28px;
+  --text-title-3--line-height: normal;
+  --font-weight-title-3: 700;
+  --tracking-title-3: 0em;
+  --text-title-4: 20px;
+  --text-title-4--line-height: normal;
+  --font-weight-title-4: 700;
+  --tracking-title-4: 0em;
+  --text-subtitle: 18px;
+  --text-subtitle--line-height: 120%;
+  --font-weight-subtitle: 600;
+  --tracking-subtitle: 0em;
+  --text-body-1: 20px;
+  --text-body-1--line-height: normal;
+  --font-weight-body-1: 500;
+  --tracking-body-1: 0em;
+  --text-body-2: 16px;
+  --text-body-2--line-height: normal;
+  --font-weight-body-2: 400;
+  --tracking-body-2: 0em;
+  --text-body-3: 14px;
+  --text-body-3--line-height: normal;
+  --font-weight-body-3: 400;
+  --tracking-body-3: 0em;
+  --text-caption: 12px;
+  --text-caption--line-height: normal;
+  --font-weight-caption: 500;
+  --tracking-caption: 0em;
 }
 
 :root {

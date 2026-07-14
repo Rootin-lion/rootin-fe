@@ -2,7 +2,7 @@ import { CTASection } from "@/components/main/CTASection";
 import { FeaturedSection } from "@/components/main/feature/FeaturedSection";
 import { FeedbackSection } from "@/components/main/FeedbackSection";
 import { HeroSection } from "@/components/main/HeroSection";
-import { RoadmapSection } from "@/components/main/roadmap/RoadmapSection";
+import { RoadmapSection } from "@/components/main/RoadmapSection";
 import { StatusSection } from "@/components/main/StatsSection";
 import Header from "@/components/shared/Header";
 
