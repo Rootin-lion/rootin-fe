@@ -3,7 +3,7 @@ import { FeaturedSection } from "@/components/main/feature/FeaturedSection";
 import { FeedbackSection } from "@/components/main/FeedbackSection";
 import { HeroSection } from "@/components/main/HeroSection";
 import { RoadmapSection } from "@/components/main/RoadmapSection";
-import { StatusSection } from "@/components/main/StatsSection";
+import { StatusSection } from "@/components/main/stats/StatsSection";
 import Header from "@/components/shared/Header";
 
 export default function Home() {

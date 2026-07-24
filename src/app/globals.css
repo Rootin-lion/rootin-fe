@@ -50,7 +50,8 @@
   --tracking-body-1: 0em;
   --text-body-2: 16px;
   --text-body-2--line-height: normal;
-  --font-weight-body-2: 400;
+  --text-body-2--font-weight: 500;
+  --font-weight-body-2: 500;
   --tracking-body-2: 0em;
   --text-body-3: 14px;
   --text-body-3--line-height: normal;
@@ -160,4 +161,58 @@
 html,
 body {
   font-family: var(--font-sans);
+}
+
+@keyframes feedback-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes feedback-counter-orbit {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.feedback-orbit {
+  animation: feedback-orbit 30s linear infinite;
+}
+
+.feedback-counter-orbit {
+  animation: feedback-counter-orbit 30s linear infinite;
+}
+
+.feedback-orbit-group:hover .feedback-orbit,
+.feedback-orbit-group:hover .feedback-counter-orbit {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedback-orbit,
+  .feedback-counter-orbit {
+    animation-play-state: paused;
+  }
+}
+
+.banner-gradient-border {
+  position: relative;
+}
+
+.banner-gradient-border::before {
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #36723e 30%, #1f2937 100%);
+  content: "";
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
 }
