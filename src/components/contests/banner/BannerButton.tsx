@@ -5,7 +5,7 @@ interface BannerButtonProps {
   onClick?: () => void;
 }
 
-export function BannerButton({ children, onClick }: BannerButtonProps) {
+export default function BannerButton({ children, onClick }: BannerButtonProps) {
   return (
     <button
       type="button"

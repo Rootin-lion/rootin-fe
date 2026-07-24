@@ -1,6 +1,6 @@
 import Image from "next/image";
-import TrophyImg from "../../../assets/trophy.png";
-import { BannerButton } from "./BannerButton";
+import TrophyImg from "../../../assets/contests/trophy.png";
+import BannerButton from "./BannerButton";
 
 const Status = ({ children }: { children: React.ReactNode }) => {
   return (

@@ -10,11 +10,11 @@ export default function SectionTitle({
   return (
     <div className="flex justify-between">
       <div>
-        <p className="text-text font-bold text-[20px]">{title}</p>
-        <p className="text-[12px] font-medium text-sub-text">{content}</p>
+        <p className="text-text text-[20px] font-bold">{title}</p>
+        <p className="text-sub-text text-[12px] font-medium">{content}</p>
       </div>
       {isRanking && (
-        <p className="text-sub-text text-[12px] font-medium">
+        <p className="text-primary-900 text-[14px] font-bold">
           종료된 대회 더 보기 →
         </p>
       )}

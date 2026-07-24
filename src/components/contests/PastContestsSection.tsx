@@ -19,10 +19,10 @@ export default function PastContestsSection() {
         />
         <div className="mt-7 flex w-full justify-center">
           <div className="grid w-full max-w-210 grid-cols-2 justify-items-center gap-6">
-            <ContestResultCard />
-            <ContestResultCard />
-            <ContestResultCard />
-            <ContestResultCard />
+            <ContestResultCard isDisabled={false} />
+            <ContestResultCard isDisabled={true} />
+            <ContestResultCard isDisabled={false} />
+            <ContestResultCard isDisabled={false} />
           </div>
         </div>
         <div className="mt-9 flex justify-center gap-2">
