@@ -1,9 +1,10 @@
-import Image from "next/image";
+// import Image from "next/image";
 import BoxWrapper from "../shared/BoxWrapper";
-import RankingBoxWrapper from "./RankingBoxWrapper";
-import CharImg from "../../assets/success_char.png";
-import CrownImg from "../../assets/crown.png";
+// import RankingBoxWrapper from "./RankingBoxWrapper";
 import SectionTitle from "./SectionTitle";
+import RankingBox from "./ranking/RankingBox";
+import RankingCircle from "./ranking/RankingCircle";
+import RankingConnector from "./ranking/RankingConnector";
 
 export default function RankingSection() {
   return (
@@ -13,72 +14,33 @@ export default function RankingSection() {
           title="CS 랭킹 TOP 3"
           content="실력을 증명한 최고의 참가자들이에요!"
         />
-        <div className="flex items-end gap-15 justify-center">
-          <RankingBoxWrapper
-            type="Silver"
-            className="max-w-5xl relative flex items-center justify-center rounded-lg w-50 h-50 border border-[#a87d7d] bg-[#fdf9f6]"
-          >
-            <div className="text-text text-center gap-5 flex flex-col">
-              <Image
-                src={CharImg}
-                alt="char"
-                width={65}
-                height={70}
-                className="bg-[#FFB84D30] rounded-[50px] py-1 px-2"
-              />
-              <p className="text-[18px] font-semibold">안녕</p>
-              <p className="text-[16px] font-semibold">1328점</p>
-            </div>
-          </RankingBoxWrapper>
+        <div className="flex flex-row items-center justify-center gap-10">
+          <RankingBox>
+            <RankingCircle type="Silver" />
+            <p className="mt-4 text-[20px] font-semibold">안녕</p>
+            <p className="text-[16px] font-semibold">1328점</p>
+          </RankingBox>
+          <RankingConnector />
           <div className="relative">
             <div className="absolute inset-0 z-0">
-              <div className="blur-[30px] w-62.5 h-62.5 opacity-80 absolute bg-[#FFFCF6] border-5 border-warring" />
+              <div className="border-warring absolute h-41 w-41 border-5 bg-[#FFFCF6] opacity-80 blur-[30px]" />
             </div>
-
-            <RankingBoxWrapper
-              type="Gold"
-              className="max-w-5xl relative flex items-center justify-center rounded-lg w-62.5 h-62.5 border border-warring bg-[#FFFCF6]"
-            >
-              <div className="text-text text-center gap-6 flex flex-col relative z-10">
-                <div className="relative">
-                  <Image
-                    src={CrownImg}
-                    width={40}
-                    height={40}
-                    alt="crown"
-                    className="absolute -top-8 right-3"
-                  />
-                  <Image
-                    src={CharImg}
-                    alt="char"
-                    width={65}
-                    height={70}
-                    className="bg-[#FFB84D30] rounded-[50px] py-1 px-2"
-                  />
-                </div>
-                <p className="text-[20px] font-semibold">안녕</p>
+            <div className="text-text relative z-10 flex flex-col text-center">
+              <RankingBox>
+                <RankingCircle type="Gold" />
+                <p className="mt-4 text-[20px] font-semibold">안녕</p>
                 <p className="text-[16px] font-semibold">1328점</p>
-              </div>
-            </RankingBoxWrapper>
-          </div>
-          <RankingBoxWrapper
-            type="Dong"
-            className="max-w-5xl relative flex items-center justify-center rounded-lg w-50 h-50 border border-[#a87d7d] bg-[#fdf9f6]"
-          >
-            <div className="text-text text-center gap-5 flex flex-col">
-              <Image
-                src={CharImg}
-                alt="char"
-                width={65}
-                height={70}
-                className="bg-[#FFB84D30] rounded-[50px] py-1 px-2"
-              />
-              <p className="text-[18px] font-semibold">안녕</p>
-              <p className="text-[16px] font-semibold">1328점</p>
+              </RankingBox>
             </div>
-          </RankingBoxWrapper>
+          </div>
+          <RankingConnector />
+          <RankingBox>
+            <RankingCircle type="Dong" />
+            <p className="mt-4 text-[20px] font-semibold">안녕</p>
+            <p className="text-[16px] font-semibold">1328점</p>
+          </RankingBox>
         </div>
-        <p className="text-right cursor-pointer text-primary-900 text-[16px] font-semibold mt-6">
+        <p className="text-primary-900 mt-6 cursor-pointer text-right text-[16px] font-semibold">
           전체 랭킹 보기 →
         </p>
       </div>

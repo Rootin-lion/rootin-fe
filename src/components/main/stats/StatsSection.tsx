@@ -1,4 +1,5 @@
-import { SectionWrapper } from "./SectionWrapper";
+import { SectionWrapper } from "../SectionWrapper";
+import { AnimatedNumber } from "./AnimatedNumber";
 
 interface StatItem {
   id: number;
@@ -26,7 +27,7 @@ function StatCard({ item }: { item: StatItem }) {
     <div className="flex flex-col items-center gap-2 text-center">
       <p className="typo-subtitle text-text">{item.title}</p>
       <p className="text-[30px] font-extrabold" style={gradientTextStyle}>
-        {item.value}
+        <AnimatedNumber value={item.value} />
       </p>
     </div>
   );
