@@ -63,7 +63,7 @@ export default function FeedbackCycle() {
         alt="feedback"
         width={190}
         loading="eager"
-        className="z-10 duration-300 hover:scale-120"
+        className="z-10 duration-300 ease-in-out hover:scale-120"
       />
     </div>
   );

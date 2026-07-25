@@ -9,7 +9,7 @@ interface FeatureCardProps {
 export function FeatureCard({ item }: FeatureCardProps) {
   return (
     <div
-      className={`h-90 w-76 ${item.bg} flex flex-col justify-between rounded-[10px] px-8 py-8 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(31,41,55,0.12)]`}
+      className={`h-90 w-76 ${item.bg} flex flex-col justify-between rounded-[10px] px-8 py-8 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(31,41,55,0.12)]`}
     >
       <div className="flex flex-col items-center">
         <p className={`${item.textColor} text-[24px] font-bold`}>

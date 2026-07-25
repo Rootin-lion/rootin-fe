@@ -12,7 +12,7 @@ const BannerButton = ({ children, onClick }: BannerButtonProps) => {
     <button
       type="button"
       onClick={onClick}
-      className="banner-gradient-border text-primary-800 min-w-30 cursor-pointer rounded-xl border border-transparent px-5 py-2 text-[14px] font-semibold"
+      className="banner-gradient-border text-primary-800 focus-visible:ring-primary-700 min-w-30 cursor-pointer rounded-xl border border-transparent px-5 py-2 text-[14px] font-semibold transition-all hover:shadow-[0_8px_20px_rgba(54,114,62,0.18)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:translate-y-0 active:scale-95"
     >
       {children}
     </button>
@@ -43,10 +43,8 @@ export default function Banner() {
           </div>
           <Image
             src={TrophyImg}
-            width={160}
-            height={160}
             alt="trophy"
-            className="duration-300 hover:scale-120"
+            className="h-auto w-40 shrink-0 duration-300 hover:scale-120"
           />
         </div>
         <div className="text-primary-900 pr-35 text-center text-[16px] font-normal">

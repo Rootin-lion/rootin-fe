@@ -14,7 +14,7 @@ export default function SectionTitle({
         <p className="text-sub-text text-[12px] font-medium">{content}</p>
       </div>
       {isRanking && (
-        <p className="text-primary-900 text-[14px] font-bold">
+        <p className="text-primary-900 cursor-pointer text-[14px] font-bold">
           종료된 대회 더 보기 →
         </p>
       )}
