@@ -31,7 +31,6 @@ export function HeroSection() {
             만들어보세요
           </p>
         </div>
-
         <div className="w-48">
           <MainButton text={"지금 시작하기 →"} />
         </div>

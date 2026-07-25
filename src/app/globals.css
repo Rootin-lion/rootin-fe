@@ -163,6 +163,7 @@ body {
   font-family: var(--font-sans);
 }
 
+/* 메인 페이지 피드백 원 애니메이션 */
 @keyframes feedback-orbit {
   to {
     transform: rotate(360deg);
@@ -183,11 +184,6 @@ body {
   animation: feedback-counter-orbit 30s linear infinite;
 }
 
-.feedback-orbit-group:hover .feedback-orbit,
-.feedback-orbit-group:hover .feedback-counter-orbit {
-  animation-play-state: paused;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .feedback-orbit,
   .feedback-counter-orbit {
@@ -195,6 +191,39 @@ body {
   }
 }
 
+@keyframes roadmap-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.roadmap-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.roadmap-list.is-visible .roadmap-reveal {
+  animation: roadmap-reveal 700ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roadmap-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .roadmap-list.is-visible .roadmap-reveal {
+    animation: none;
+  }
+}
+
+/* 배너 외곽선 그라디언트 */
 .banner-gradient-border {
   position: relative;
 }

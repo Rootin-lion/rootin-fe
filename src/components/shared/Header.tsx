@@ -21,14 +21,16 @@ export default function Header() {
     <div className="bg-bg-ivory flex w-full items-center justify-center">
       <div className="flex w-full max-w-5xl items-center justify-between py-4">
         <div className="flex gap-31">
-          <Image
-            src={LogoImg}
-            alt="logo"
-            width={120}
-            height={38}
-            className="cursor-pointer"
-            loading="eager"
-          />
+          <Link href="/">
+            <Image
+              src={LogoImg}
+              alt="logo"
+              width={120}
+              height={38}
+              className="cursor-pointer"
+              loading="eager"
+            />
+          </Link>
           <div className="text-sub-text flex items-center gap-19 text-[16px]">
             {NavItems.map((item) => (
               <NavItem key={item.id} content={item.content} to={item.to} />

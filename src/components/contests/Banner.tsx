@@ -1,6 +1,23 @@
 import Image from "next/image";
-import TrophyImg from "../../../assets/contests/trophy.png";
-import BannerButton from "./BannerButton";
+import TrophyImg from "../../assets/contests/trophy.png";
+import React from "react";
+
+interface BannerButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
+const BannerButton = ({ children, onClick }: BannerButtonProps) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="banner-gradient-border text-primary-800 min-w-30 cursor-pointer rounded-xl border border-transparent px-5 py-2 text-[14px] font-semibold"
+    >
+      {children}
+    </button>
+  );
+};
 
 const Status = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -24,7 +41,13 @@ export default function Banner() {
               매일 진행되는 CS 대회에 참여하고 실력을 증명해보세요.
             </p>
           </div>
-          <Image src={TrophyImg} width={160} height={160} alt="trophy" />
+          <Image
+            src={TrophyImg}
+            width={160}
+            height={160}
+            alt="trophy"
+            className="duration-300 hover:scale-120"
+          />
         </div>
         <div className="text-primary-900 pr-35 text-center text-[16px] font-normal">
           <p>대회 입장 마감</p>

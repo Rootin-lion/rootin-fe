@@ -1,9 +1,10 @@
 import Header from "@/components/shared/Header";
-import Banner from "@/components/contests/banner/Banner";
+
 import RankingSectipn from "@/components/contests/RankingSection";
 import PastContestsSection from "@/components/contests/PastContestsSection";
 import WaringBanner from "@/components/contests/WaringBanner";
 import ContestCtaBanner from "@/components/contests/ContestCtaBanner";
+import Banner from "@/components/contests/Banner";
 
 export default function ContestPage() {
   return (
