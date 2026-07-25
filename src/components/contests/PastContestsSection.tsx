@@ -5,7 +5,11 @@ import SectionTitle from "./SectionTitle";
 const Bar = ({ isActive }: { isActive?: boolean }) => {
   const wdtStyle = isActive ? "w-8" : "w-5";
   const bgStyle = isActive ? "bg-primary" : "bg-[#D9D9D9]";
-  return <div className={`h-2 w-5 rounded-lg ${wdtStyle} ${bgStyle}`} />;
+  return (
+    <div
+      className={`h-2 w-5 rounded-lg ${wdtStyle} ${bgStyle} cursor-pointer`}
+    />
+  );
 };
 
 export default function PastContestsSection() {

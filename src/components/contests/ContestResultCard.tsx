@@ -13,7 +13,8 @@ const CardButton = ({
     <button
       type="button"
       onClick={onClick}
-      className={`${isDisabled ? "border-disabled-text" : "border-primary-900"} rounded-2xl border px-4 py-1 text-[12px] font-semibold ${isDisabled ? "text-disabled-text" : "text-black"}`}
+      disabled={isDisabled}
+      className={`${isDisabled ? "border-disabled-text" : "border-primary-900"} cursor-pointer rounded-2xl border px-4 py-1 text-[12px] font-semibold ${isDisabled ? "text-disabled-text" : "text-black"}`}
     >
       {children}
     </button>
