@@ -34,7 +34,13 @@ export function CTASection() {
           </div>
         </div>
         <div>
-          <Image src={CtaImg} width={292} height={328} alt="cta" />
+          <Image
+            src={CtaImg}
+            width={292}
+            height={328}
+            alt="cta"
+            className="duration-300 ease-in-out hover:scale-120"
+          />
         </div>
       </div>
     </SectionWrapper>
