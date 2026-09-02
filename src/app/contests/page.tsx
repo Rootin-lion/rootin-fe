@@ -9,7 +9,7 @@ export default function ContestPage() {
   return (
     <>
       <Header />
-      <div className="bg-bg-green-50 flex w-full flex-col gap-6 pb-140">
+      <div className="bg-bg-green-50 flex w-full flex-col gap-6">
         <Banner />
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
           <RankingSectipn />
