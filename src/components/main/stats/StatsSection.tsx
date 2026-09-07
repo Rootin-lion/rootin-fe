@@ -33,7 +33,7 @@ function StatCard({ item }: { item: StatItem }) {
   );
 }
 
-export function StatusSection() {
+export function StatsSection() {
   return (
     <SectionWrapper variant={"ivory"}>
       <div className="relative flex h-full w-full max-w-360 flex-col items-center overflow-hidden px-6 pt-24">

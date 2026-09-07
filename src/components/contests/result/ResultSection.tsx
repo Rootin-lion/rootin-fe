@@ -1,8 +1,8 @@
-import DetailWrapper from "./DetailWarpper";
+import DetailWrapper from "./DetailWrapper";
 
 type ItemType = "CORRECT" | "INCORRECT" | "UNANSWERED";
 
-interface ReultItemProps {
+interface ResultItemProps {
   type: ItemType;
 }
 
@@ -12,7 +12,7 @@ const RESULT_ITEM_TYPE = {
   UNANSWERED: { title: "미답", score: "0점", bg: "bg-disabled-text" },
 };
 
-const ResultItem = ({ type }: ReultItemProps) => {
+const ResultItem = ({ type }: ResultItemProps) => {
   return (
     <div className="flex flex-col items-center gap-3">
       <div

@@ -1,4 +1,4 @@
-export default function WaringBanner() {
+export default function WarningBanner() {
   return (
     <div className="rounded-lg border border-[#F0F0F030] bg-[#F0F0F0] px-6 py-4">
       <p className="text-text text-[15px] font-medium">대회 참여 안내</p>

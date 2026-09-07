@@ -4,7 +4,7 @@ import LogoImg from "../../assets/logo.png";
 
 const NavItems = [
   { id: 1, content: "CS 대회", to: "/contests" },
-  { id: 2, content: "AI 면접", to: "/#" },
+  { id: 2, content: "AI 면접", to: "/interviews" },
   { id: 3, content: "마이 페이지", to: "/#" },
 ];
 

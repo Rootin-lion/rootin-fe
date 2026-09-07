@@ -23,7 +23,7 @@ export default function RankingSection() {
           <RankingConnector />
           <div className="relative">
             <div className="absolute inset-0 z-0">
-              <div className="border-warring absolute h-41 w-41 border-5 bg-[#FFFCF6] opacity-80 blur-[30px]" />
+              <div className="border-warning absolute h-41 w-41 border-5 bg-[#FFFCF6] opacity-80 blur-[30px]" />
             </div>
             <div className="text-text relative z-10 flex flex-col text-center">
               <RankingBox>

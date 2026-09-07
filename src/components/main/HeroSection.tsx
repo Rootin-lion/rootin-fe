@@ -1,7 +1,7 @@
 import Image from "next/image";
 import HeroImg from "../../assets/hero.png";
 import { SectionWrapper } from "./SectionWrapper";
-import { MainButton } from "../shared/main/MainButton";
+import { MainButton } from "./MainButton";
 
 export function HeroSection() {
   return (

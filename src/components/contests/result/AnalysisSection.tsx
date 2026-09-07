@@ -1,13 +1,13 @@
-import DetailWrapper from "./DetailWarpper";
+import DetailWrapper from "./DetailWrapper";
 import StrengthIcon from "../../../assets/contests/result/strength.png";
 import WeaknessIcon from "../../../assets/contests/result/weakness.png";
 import CorrectIcon from "../../../assets/contests/result/correct.png";
 import Image from "next/image";
 
-type Cardtype = "STRENGTH" | "WEAKNESS" | "CORRECT";
+type CardType = "STRENGTH" | "WEAKNESS" | "CORRECT";
 
 interface AnalysisCardWrapperProps {
-  type: Cardtype;
+  type: CardType;
 }
 
 const CARD_TYPE = {

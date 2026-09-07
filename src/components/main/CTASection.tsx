@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { SectionWrapper } from "./SectionWrapper";
 import CtaImg from "../../assets/main/cta.png";
-import { MainButton } from "../shared/main/MainButton";
+import { MainButton } from "./MainButton";
 
 export function CTASection() {
   return (

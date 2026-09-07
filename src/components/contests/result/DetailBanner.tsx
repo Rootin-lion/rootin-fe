@@ -1,4 +1,4 @@
-import DetailWrapper from "./DetailWarpper";
+import DetailWrapper from "./DetailWrapper";
 import DetailImg from "../../../assets/contests/result/detail_img.png";
 import Image from "next/image";
 

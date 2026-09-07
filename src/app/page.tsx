@@ -3,7 +3,7 @@ import { FeaturedSection } from "@/components/main/feature/FeaturedSection";
 import { FeedbackSection } from "@/components/main/FeedbackSection";
 import { HeroSection } from "@/components/main/HeroSection";
 import { RoadmapSection } from "@/components/main/RoadmapSection";
-import { StatusSection } from "@/components/main/stats/StatsSection";
+import { StatsSection } from "@/components/main/stats/StatsSection";
 import Header from "@/components/shared/Header";
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
       <FeaturedSection />
       <FeedbackSection />
       <RoadmapSection />
-      <StatusSection />
+      <StatsSection />
       <CTASection />
     </div>
   );
