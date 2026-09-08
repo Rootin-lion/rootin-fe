@@ -40,7 +40,9 @@ export function StatsSection() {
         <div className="pointer-events-none absolute top-56 left-1/2 h-230 w-400 -translate-x-1/2 rounded-[50%] bg-[linear-gradient(180deg,#EAF3E8_0%,#FCFDF9_25.48%)]" />
 
         <div className="relative z-10 flex flex-col items-center gap-6 text-center">
-          <p className="typo-title-2 text-text">함께 만들어가는 성장의 결과</p>
+          <h2 className="typo-title-2 text-text">
+            함께 만들어가는 성장의 결과
+          </h2>
           <p className="text-disabled-text text-[24px] font-medium">
             <span className="text-primary-900">ROOTIN</span>과 함께한 개발자들의
             놀라운 기록을 확인해보세요.

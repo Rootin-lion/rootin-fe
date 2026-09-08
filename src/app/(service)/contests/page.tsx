@@ -1,4 +1,3 @@
-import Header from "@/components/shared/Header";
 import RankingSection from "@/components/contests/RankingSection";
 import PastContestsSection from "@/components/contests/PastContestsSection";
 import WarningBanner from "@/components/contests/WarningBanner";
@@ -9,11 +8,8 @@ import Banner from "@/components/contests/Banner";
 
 export default function ContestPage() {
   return (
-    <>
-      <Header />
-      <div className="bg-bg-green-50 flex w-full flex-col gap-6">
-        {/* <ModalWrapper>
-          <div className="flex flex-col gap-6">
+    <div className="bg-bg-green-50 flex w-full flex-col gap-6">
+      {/* <ModalWrapper>
             <ModalWrapper.Box>
               <ModalWrapper.Title>대회에 참여하시겠습니까?</ModalWrapper.Title>
             </ModalWrapper.Box>
@@ -33,16 +29,14 @@ export default function ContestPage() {
                 <Button isActive={true}>시작하기</Button>
               </div>
             </ModalWrapper.Box>
-          </div>
         </ModalWrapper> */}
-        <Banner />
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
-          <RankingSection />
-          <PastContestsSection />
-          <WarningBanner />
-        </div>
-        <ContestCtaBanner />
+      <Banner />
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
+        <RankingSection />
+        <PastContestsSection />
+        <WarningBanner />
       </div>
-    </>
+      <ContestCtaBanner />
+    </div>
   );
 }

@@ -62,7 +62,7 @@ export default function FeedbackCycle() {
         src={FeedbackImg}
         alt="feedback"
         width={190}
-        loading="eager"
+        loading="lazy"
         className="z-10 duration-300 ease-in-out hover:scale-120"
       />
     </div>

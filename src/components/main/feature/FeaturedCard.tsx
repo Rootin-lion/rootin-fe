@@ -12,9 +12,9 @@ export function FeatureCard({ item }: FeatureCardProps) {
       className={`h-90 w-76 ${item.bg} flex flex-col justify-between rounded-[10px] px-8 py-8 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(31,41,55,0.12)]`}
     >
       <div className="flex flex-col items-center">
-        <p className={`${item.textColor} text-[24px] font-bold`}>
+        <h2 className={`${item.textColor} text-[24px] font-bold`}>
           {item.title}
-        </p>
+        </h2>
         <p className="text-sub-text mt-5 text-center text-[16px] leading-7.5 font-medium whitespace-pre-wrap">
           매일 진행되는 CS 대회로 실력을{"\n"}증명하고 실시간 순위를 확인하세요
         </p>

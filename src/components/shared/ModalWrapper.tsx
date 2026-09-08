@@ -8,7 +8,7 @@ function ModalBox({ children }: ModalProps) {
 
 function ModalNoticeBox({ children }: ModalProps) {
   return (
-    <div className="mx-auto w-75.5 rounded-lg bg-[#F0F0F0] px-3 py-3 text-left">
+    <div className="mx-auto w-76 rounded-lg bg-[#F0F0F0] px-4 py-3 text-left">
       {children}
     </div>
   );
@@ -26,7 +26,7 @@ function ModalWrapperMain({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="fixed inset-0 z-90 bg-black/20 backdrop-blur-[3px]" />
-      <div className="fixed top-1/2 left-1/2 z-100 min-h-44 min-w-95 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white py-8 text-center">
+      <div className="fixed top-1/2 left-1/2 z-100 flex min-h-44 min-w-95 -translate-x-1/2 -translate-y-1/2 flex-col gap-6 rounded-lg bg-white py-8 text-center">
         {children}
       </div>
     </>

@@ -29,7 +29,7 @@ export function RoadmapItem({
       <div
         className={`${BG_COLORS[status].bg} flex h-12 w-12 items-center justify-center rounded-[50%]`}
       >
-        <Image src={BG_COLORS[status].img} alt="done" className="h-4.5 w-4.5" />
+        <Image src={BG_COLORS[status].img} alt="" className="h-4.5 w-4.5" />
       </div>
       <p className="typo-caption text-sub-text">{step}</p>
       <p className="typo-body-2">{title}</p>

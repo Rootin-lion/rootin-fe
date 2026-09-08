@@ -19,7 +19,9 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/pretendard/dist/web/static/pretendard.css"
         />
       </head>
-      <body className="flex min-h-full flex-col font-sans">{children}</body>
+      <body className="bg-bg-ivory flex min-h-full flex-col font-sans">
+        {children}
+      </body>
     </html>
   );
 }
