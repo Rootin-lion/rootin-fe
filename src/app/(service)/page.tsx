@@ -3,19 +3,17 @@ import { FeaturedSection } from "@/components/main/feature/FeaturedSection";
 import { FeedbackSection } from "@/components/main/FeedbackSection";
 import { HeroSection } from "@/components/main/HeroSection";
 import { RoadmapSection } from "@/components/main/RoadmapSection";
-import { StatusSection } from "@/components/main/stats/StatsSection";
-import Header from "@/components/shared/Header";
+import { StatsSection } from "@/components/main/stats/StatsSection";
 
 export default function Home() {
   return (
-    <div>
-      <Header />
+    <>
       <HeroSection />
       <FeaturedSection />
       <FeedbackSection />
       <RoadmapSection />
-      <StatusSection />
+      <StatsSection />
       <CTASection />
-    </div>
+    </>
   );
 }

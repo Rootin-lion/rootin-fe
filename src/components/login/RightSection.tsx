@@ -12,7 +12,7 @@ const ButtonText = ({ text }: { text: string }) => {
 
 const KakaoButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <div
+    <section
       className="flex cursor-pointer items-center gap-20 rounded-xl bg-[#FEE500] px-6 py-4"
       onClick={onClick}
     >
@@ -24,14 +24,14 @@ const KakaoButton = ({ onClick }: { onClick: () => void }) => {
         loading="eager"
       />
       <ButtonText text="카카오 계정으로 시작하기" />
-    </div>
+    </section>
   );
 };
 
 const GoogleButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <div
-      className="flex cursor-pointer items-center gap-20 rounded-xl border border-[#6FB377] bg-[#ffffff] px-6 py-4"
+      className="flex cursor-pointer items-center gap-20 rounded-xl border border-[#6FB377] bg-white px-6 py-4"
       onClick={onClick}
     >
       <Image

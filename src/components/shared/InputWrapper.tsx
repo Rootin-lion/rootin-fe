@@ -1,7 +1,7 @@
 import Image from "next/image";
 import CancelImg from "../../assets/cancel.png";
 // import SuccessImg from "../../assets/success.png";
-// import WarringImg from "../../assets/warring.png";
+// import WarningImg from "../../assets/warning.png";
 
 interface InputWrapperProps {
   children?: React.ReactNode;
@@ -47,7 +47,7 @@ function InputWrapperField({
         {...props}
         value={value}
         onChange={onChange}
-        className={` rounded-lg border cursor-pointer ${fieldStyle} w-full px-4 py-3 font-normal ${className ?? ""} outline-[#BFDEBE]`}
+        className={`cursor-pointer rounded-lg border ${fieldStyle} w-full px-4 py-3 font-normal ${className ?? ""} outline-[#BFDEBE]`}
       />
       {value && !disabled && (
         <Image
@@ -56,7 +56,7 @@ function InputWrapperField({
           width={20}
           height={20}
           onClick={onDelete}
-          className="bg-[#888F9C] ring p-1 rounded-[50px] absolute right-3.5 top-3.5 cursor-pointer z-10"
+          className="absolute top-3.5 right-3.5 z-10 cursor-pointer rounded-[50px] bg-[#888F9C] p-1 ring"
         />
       )}
       {/* {value && !disabled && (
@@ -65,7 +65,7 @@ function InputWrapperField({
           <p className="text-[12px] text-[#51A05C] font-normal">
             사용 가능한 닉네임입니다.
           </p>
-          <Image src={WarringImg} alt="success" width={20} height={20} />
+          <Image src={WarningImg} alt="warning" width={20} height={20} />
           <p className="text-[12px] text-[#CC0003] font-normal">
             이미 등록된 닉네임입니다.
           </p>

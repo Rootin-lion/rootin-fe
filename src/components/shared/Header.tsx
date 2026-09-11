@@ -4,7 +4,7 @@ import LogoImg from "../../assets/logo.png";
 
 const NavItems = [
   { id: 1, content: "CS 대회", to: "/contests" },
-  { id: 2, content: "AI 면접", to: "/#" },
+  { id: 2, content: "AI 면접", to: "/interviews" },
   { id: 3, content: "마이 페이지", to: "/#" },
 ];
 
@@ -18,17 +18,19 @@ const NavItem = ({ content, to }: { content: string; to: string }) => {
 
 export default function Header() {
   return (
-    <div className="bg-bg-ivory flex w-full items-center justify-center">
+    <header className="bg-bg-ivory flex w-full items-center justify-center">
       <div className="flex w-full max-w-5xl items-center justify-between py-4">
         <div className="flex gap-31">
-          <Image
-            src={LogoImg}
-            alt="logo"
-            width={120}
-            height={38}
-            className="cursor-pointer"
-            loading="eager"
-          />
+          <Link href="/">
+            <Image
+              src={LogoImg}
+              alt="logo"
+              width={120}
+              height={38}
+              className="cursor-pointer"
+              loading="eager"
+            />
+          </Link>
           <div className="text-sub-text flex items-center gap-19 text-[16px]">
             {NavItems.map((item) => (
               <NavItem key={item.id} content={item.content} to={item.to} />
@@ -42,6 +44,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

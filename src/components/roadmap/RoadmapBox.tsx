@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { RoadmapItem } from "./RoadmapItem";
 
 const roadmapItems = [
@@ -25,10 +28,40 @@ function RoadmapArrow() {
 }
 
 export function RoadmapBox() {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const element = boxRef.current;
+
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.intersectionRatio >= 0.4);
+      },
+
+      { threshold: [0, 0.4] },
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="flex gap-2 rounded-xl border border-[#E1E1E1] px-8 py-8">
+    <div
+      ref={boxRef}
+      className={`roadmap-list flex gap-2 rounded-xl border border-[#E1E1E1] px-8 py-8 ${
+        isVisible ? "is-visible" : ""
+      }`}
+    >
       {roadmapItems.map((item, index) => (
-        <div key={item.step} className="mx-auto flex items-start">
+        <div
+          key={item.step}
+          className="roadmap-reveal mx-auto flex items-start gap-2"
+          style={{ animationDelay: `${index * 500}ms` }}
+        >
           <RoadmapItem {...item} />
           {index < roadmapItems.length - 1 && <RoadmapArrow />}
         </div>

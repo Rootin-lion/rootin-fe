@@ -1,18 +1,20 @@
 import Image from "next/image";
 import HeroImg from "../../assets/hero.png";
 import { SectionWrapper } from "./SectionWrapper";
-import { MainButton } from "../shared/main/MainButton";
+import { MainButton } from "./MainButton";
 
 export function HeroSection() {
   return (
-    <SectionWrapper variant={"primary"}>
+    <SectionWrapper variant="primary">
       <div className="flex h-full max-h-200 flex-col justify-between gap-4 pt-24 pb-35">
         <div>
-          <p className="text-primary-900 text-[26px] font-semibold">
+          <h2 className="text-primary-900 text-[26px] font-semibold">
             개발자 취업 준비를 위한 CS 통합 학습 플랫폼
-          </p>
-          <p className="text-[48px] font-bold whitespace-pre-wrap">
-            실력은 연습으로,{"\n"}성장은{" "}
+          </h2>
+          <h1 className="text-[48px] font-bold">
+            실력은 연습으로,
+            <br />
+            성장은{" "}
             <span
               className="bg-clip-text text-transparent"
               style={{
@@ -25,15 +27,15 @@ export function HeroSection() {
               ROOTIN
             </span>
             으로
-          </p>
-          <p className="text-disabled-text text-[18px] font-medium whitespace-pre-wrap">
-            CS 대회, 모의 면접, 개인 분석을 통해{"\n"}나만의 성장을 체계적으로
-            만들어보세요
+          </h1>
+          <p className="text-disabled-text text-[18px] font-medium">
+            CS 대회, 모의 면접, 개인 분석을 통해
+            <br />
+            나만의 성장을 체계적으로 만들어보세요
           </p>
         </div>
-
         <div className="w-48">
-          <MainButton text={"지금 시작하기 →"} />
+          <MainButton text="지금 시작하기 →" />
         </div>
       </div>
       <div>
@@ -42,7 +44,7 @@ export function HeroSection() {
           alt="hero"
           width={580}
           height={386}
-          loading="lazy"
+          priority
           style={{ width: "580px", height: "auto" }}
         />
       </div>

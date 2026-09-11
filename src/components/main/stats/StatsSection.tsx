@@ -14,33 +14,27 @@ const STATS_DATA: StatItem[] = [
   { id: 4, title: "사용자 만족도", value: "98%" },
 ];
 
-const gradientTextStyle = {
-  background: "linear-gradient(90deg, #36723E 30%, #1F2937 100%)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
-  color: "transparent",
-} as const;
-
 function StatCard({ item }: { item: StatItem }) {
   return (
     <div className="flex flex-col items-center gap-2 text-center">
       <p className="typo-subtitle text-text">{item.title}</p>
-      <p className="text-[30px] font-extrabold" style={gradientTextStyle}>
+      <p className="text-gradient-primary text-[30px] font-extrabold">
         <AnimatedNumber value={item.value} />
       </p>
     </div>
   );
 }
 
-export function StatusSection() {
+export function StatsSection() {
   return (
     <SectionWrapper variant={"ivory"}>
       <div className="relative flex h-full w-full max-w-360 flex-col items-center overflow-hidden px-6 pt-24">
         <div className="pointer-events-none absolute top-56 left-1/2 h-230 w-400 -translate-x-1/2 rounded-[50%] bg-[linear-gradient(180deg,#EAF3E8_0%,#FCFDF9_25.48%)]" />
 
         <div className="relative z-10 flex flex-col items-center gap-6 text-center">
-          <p className="typo-title-2 text-text">함께 만들어가는 성장의 결과</p>
+          <h2 className="typo-title-2 text-text">
+            함께 만들어가는 성장의 결과
+          </h2>
           <p className="text-disabled-text text-[24px] font-medium">
             <span className="text-primary-900">ROOTIN</span>과 함께한 개발자들의
             놀라운 기록을 확인해보세요.
