@@ -32,7 +32,12 @@ export default function ContestResultCard({
       <div className="flex items-baseline gap-3">
         <div className="flex flex-col gap-3">
           <p className="text-text text-[16px] font-semibold">
-            {contests.competitionDate}
+            {contests.competitionDate.replaceAll("-", ".")}(
+            {new Date(contests.competitionDate).toLocaleDateString("ko-KR", {
+              weekday: "short",
+              timeZone: "Asia/Seoul",
+            })}
+            )
           </p>
           <p className="text-disabled-text text-[12px] font-semibold">
             {contests.participantCount}명이 참가했어요

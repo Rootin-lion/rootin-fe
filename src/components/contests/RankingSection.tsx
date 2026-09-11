@@ -9,6 +9,7 @@ import RankingBox from "./ranking/RankingBox";
 import RankingCircle from "./ranking/RankingCircle";
 import RankingConnector from "./ranking/RankingConnector";
 import { RankingState } from "@/types/contests/competition";
+import Link from "next/link";
 
 export default function RankingSection() {
   const [rankings, setRankings] = useState<RankingState[]>([
@@ -79,9 +80,12 @@ export default function RankingSection() {
             <p className="text-[16px] font-semibold">{rankings[2].score}점</p>
           </RankingBox>
         </div>
-        <p className="text-primary-900 mt-6 cursor-pointer text-right text-[16px] font-semibold">
+        <Link
+          href="/ranking"
+          className="text-primary-900 mt-6 cursor-pointer text-right text-[16px] font-semibold"
+        >
           전체 랭킹 보기 →
-        </p>
+        </Link>
       </div>
     </BoxWrapper>
   );
