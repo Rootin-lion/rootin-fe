@@ -31,7 +31,7 @@ const KakaoButton = ({ onClick }: { onClick: () => void }) => {
 const GoogleButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <div
-      className="flex cursor-pointer items-center gap-20 rounded-xl border border-[#6FB377] bg-[#ffffff] px-6 py-4"
+      className="flex cursor-pointer items-center gap-20 rounded-xl border border-[#6FB377] bg-white px-6 py-4"
       onClick={onClick}
     >
       <Image

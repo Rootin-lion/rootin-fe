@@ -14,7 +14,7 @@ const RefreshButton = () => {
 
 export default function RankingTitleSection() {
   return (
-    <div className="mt-20 flex flex-row justify-between">
+    <div className="flex flex-row justify-between">
       <div className="flex flex-col justify-between">
         <h1 className="text-title-2 text-primary-900">전체 랭킹</h1>
         <p className="text-body-3 text-sub-text">

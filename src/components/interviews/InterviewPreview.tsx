@@ -66,7 +66,7 @@ export default function InterviewPreview({
   const data = INTERVIEW_LIST[field as keyof typeof INTERVIEW_LIST];
 
   return (
-    <div className="bg-primary-50 max-h-70 rounded-[14px] border border-green-50 px-6 pt-2">
+    <div className="bg-primary-50 border-bg-green-50 max-h-70 rounded-[14px] border px-6 pt-2">
       <div className="flex flex-row items-center gap-1">
         <Image
           src={data.img}

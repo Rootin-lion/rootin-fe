@@ -32,7 +32,7 @@ export default function InterviewsPage() {
   };
 
   return (
-    <div className="bg-bg-ivory mx-auto mt-11 flex max-w-218 flex-row gap-5 rounded-[14px] border border-green-200 px-6 py-9">
+    <div className="bg-bg-ivory border-bg-green-200 mx-auto mt-11 flex max-w-218 flex-row gap-5 rounded-[14px] border px-6 py-9">
       {/* <ModalWrapper>
           <ModalWrapper.Box>
             <ModalWrapper.Title>면접을 시작하시겠습니까?</ModalWrapper.Title>

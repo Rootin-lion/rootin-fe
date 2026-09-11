@@ -3,9 +3,11 @@ import RankingTitleSection from "@/components/ranking/RankingTitleSection";
 
 export default function RankingPage() {
   return (
-    <div className="mx-auto w-full max-w-5xl">
-      <RankingTitleSection />
-      <RankingContentSection />
+    <div className="bg-primary-50 min-h-dvh w-full">
+      <div className="mx-auto max-w-5xl pt-20">
+        <RankingTitleSection />
+        <RankingContentSection />
+      </div>
     </div>
   );
 }
