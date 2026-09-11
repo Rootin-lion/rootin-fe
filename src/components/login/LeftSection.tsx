@@ -3,7 +3,7 @@ import LoginImg from "../../assets/hero.png";
 
 export default function LeftSection() {
   return (
-    <div className="flex flex-1 flex-col items-end justify-center bg-[#EEF3E7]">
+    <section className="flex flex-1 flex-col items-end justify-center bg-[#EEF3E7]">
       <div className="mr-26 flex flex-col items-center justify-center">
         <div className="w-132.5 text-left text-[40px] font-bold whitespace-pre-wrap">
           CS 실력 성장의 시작, {"\n"}
@@ -18,6 +18,6 @@ export default function LeftSection() {
           loading="eager"
         />
       </div>
-    </div>
+    </section>
   );
 }

@@ -18,7 +18,7 @@ const NavItem = ({ content, to }: { content: string; to: string }) => {
 
 export default function Header() {
   return (
-    <div className="bg-bg-ivory flex w-full items-center justify-center">
+    <header className="bg-bg-ivory flex w-full items-center justify-center">
       <div className="flex w-full max-w-5xl items-center justify-between py-4">
         <div className="flex gap-31">
           <Link href="/">
@@ -44,6 +44,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

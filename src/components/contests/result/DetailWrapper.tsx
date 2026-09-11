@@ -3,5 +3,5 @@ export default function DetailWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="w-full rounded-lg bg-white">{children}</div>;
+  return <section className="w-full rounded-lg bg-white">{children}</section>;
 }

@@ -11,7 +11,7 @@ const ResultStatsItem = ({ children }: { children: React.ReactNode }) => {
 
 export default function ScoreSection() {
   return (
-    <div className="mt-5">
+    <section className="mt-5">
       <SectionTitle>내 점수</SectionTitle>
       <p className="text-[14px] font-semibold text-black">
         <SelectedNumber>70점</SelectedNumber> {""}/ 100점
@@ -26,6 +26,6 @@ export default function ScoreSection() {
           <ResultStatsItem>10 : 13</ResultStatsItem>
         </ResultStats>
       </div>
-    </div>
+    </section>
   );
 }
