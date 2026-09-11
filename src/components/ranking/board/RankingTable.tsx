@@ -1,3 +1,8 @@
+"use client";
+
+import { useState } from "react";
+import RankingPagnation from "./RankingPagnation";
+
 const rowLayout =
   "grid grid-cols-[80px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-x-4 px-5 text-center";
 
@@ -50,6 +55,11 @@ const TableItem = ({ rank }: { rank: number }) => {
 };
 
 export default function RankingTable() {
+  const [page, setPage] = useState<number>(1);
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
   return (
     <div className="text-body-3 mt-4 w-full rounded-lg bg-white p-5 text-black">
       <TableHeader />
@@ -62,6 +72,7 @@ export default function RankingTable() {
         <TableItem rank={6} />
         <TableItem rank={7} />
       </div>
+      <RankingPagnation page={page} onClick={handlePageChange} />
     </div>
   );
 }
