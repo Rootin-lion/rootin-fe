@@ -17,3 +17,12 @@ export interface RankingState {
   score: number;
   submittedAt: string;
 }
+
+export interface ContestResultsState {
+  competitionId: number;
+  competitionDate: string;
+  problemCount: number;
+  timeLimitMinutes: number;
+  participantCount: number;
+  viewable: boolean;
+}

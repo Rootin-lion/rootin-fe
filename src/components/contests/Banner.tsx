@@ -61,6 +61,9 @@ export default function Banner({
     return `${m}분 ${s}초`;
   };
 
+  const timeColor =
+    competition.remainingSeconds >= 300 ? "text-primary-900" : "text-error";
+
   return (
     <div className="w-full bg-[radial-gradient(100%_100%_at_0%_50%,#EEF3E7_0%,#E4EFE0_50%,#DAEBD9_100%)]">
       <div className="mx-auto flex max-w-5xl items-center justify-between py-7">
@@ -108,7 +111,7 @@ export default function Banner({
               ) : (
                 <>
                   <p>대회 입장 마감</p>
-                  <p className="text-[24px] font-bold">
+                  <p className={`${timeColor} text-[24px] font-bold`}>
                     {formatRemainingTime(competition.remainingSeconds)}
                   </p>
                   <p>132명이 참가했어요.</p>
