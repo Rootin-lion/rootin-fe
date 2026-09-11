@@ -14,19 +14,11 @@ const STATS_DATA: StatItem[] = [
   { id: 4, title: "사용자 만족도", value: "98%" },
 ];
 
-const gradientTextStyle = {
-  background: "linear-gradient(90deg, #36723E 30%, #1F2937 100%)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
-  color: "transparent",
-} as const;
-
 function StatCard({ item }: { item: StatItem }) {
   return (
     <div className="flex flex-col items-center gap-2 text-center">
       <p className="typo-subtitle text-text">{item.title}</p>
-      <p className="text-[30px] font-extrabold" style={gradientTextStyle}>
+      <p className="text-gradient-primary text-[30px] font-extrabold">
         <AnimatedNumber value={item.value} />
       </p>
     </div>

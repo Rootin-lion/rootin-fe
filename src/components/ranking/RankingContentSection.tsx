@@ -1,3 +1,11 @@
+import RankingBoard from "./RankingBoard";
+import RankingSidebar from "./RankingSidebar";
+
 export default function RankingContentSection() {
-  return <div>내용</div>;
+  return (
+    <div className="mt-4 flex flex-row">
+      <RankingSidebar />
+      <RankingBoard />
+    </div>
+  );
 }
