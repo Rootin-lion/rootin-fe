@@ -1,12 +1,26 @@
+"use client";
+
 import RankingSection from "@/components/contests/RankingSection";
 import PastContestsSection from "@/components/contests/PastContestsSection";
 import WarningBanner from "@/components/contests/WarningBanner";
 import ContestCtaBanner from "@/components/contests/ContestCtaBanner";
 import Banner from "@/components/contests/Banner";
+import { useState } from "react";
+import { TodayCompetitionState } from "@/types/contests/competition";
 // import ModalWrapper from "@/components/shared/ModalWrapper";
 // import Button from "@/components/shared/Button";
 
 export default function ContestPage() {
+  const [todayCompetition, setTodayCompetition] =
+    useState<TodayCompetitionState>({
+      competitionId: 2,
+      competitionDate: "2026-08-03",
+      startAt: "2026-08-03T12:00:00",
+      endAt: "2026-08-03T13:00:00",
+      status: "IN_PROGRESS",
+      remainingSeconds: 4753,
+    });
+
   return (
     <div className="bg-bg-green-50 flex w-full flex-col gap-6">
       {/* <ModalWrapper>
@@ -30,7 +44,7 @@ export default function ContestPage() {
               </div>
             </ModalWrapper.Box>
         </ModalWrapper> */}
-      <Banner />
+      <Banner competition={todayCompetition} />
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
         <RankingSection />
         <PastContestsSection />

@@ -7,8 +7,8 @@ import { useState } from "react";
 
 interface OnBoardingInfo {
   nickname: string;
-  age: number;
-  career: string[];
+  ageGrop: number;
+  interestFields: string[];
 }
 
 const careerOptions = [
@@ -23,30 +23,38 @@ const careerOptions = [
 export default function OnBoardingPage() {
   const [info, setInfo] = useState<OnBoardingInfo>({
     nickname: "",
-    age: 0,
-    career: [],
+    ageGrop: 0,
+    interestFields: [],
   });
 
-  const handleAgeClick = (targetAge: number) => {
+  const handleAgeGroupClick = (targetAge: number) => {
     setInfo((prev) => ({
       ...prev,
-      age: prev.age === targetAge ? 0 : targetAge,
+      ageGrop: prev.ageGrop === targetAge ? 0 : targetAge,
     }));
   };
 
-  const handleCareerClick = (targetCareer: string) => {
-    if (info.career.length >= 3 && !info.career.includes(targetCareer)) return;
+  const handleInterestClick = (targetInterest: string) => {
+    if (
+      info.interestFields.length >= 3 &&
+      !info.interestFields.includes(targetInterest)
+    )
+      return;
 
     setInfo((prev) => ({
       ...prev,
-      career: prev.career.includes(targetCareer)
-        ? prev.career.filter((career) => career !== targetCareer)
-        : [...prev.career, targetCareer],
+      career: prev.interestFields.includes(targetInterest)
+        ? prev.interestFields.filter(
+            (interestFields) => interestFields !== targetInterest,
+          )
+        : [...prev.interestFields, targetInterest],
     }));
   };
 
   const isSubmitEnabled =
-    info.nickname.trim() !== "" && info.age !== 0 && info.career.length > 0;
+    info.nickname.trim() !== "" &&
+    info.ageGrop !== 0 &&
+    info.interestFields.length > 0;
 
   return (
     <div className="bg-primary-50 flex min-h-dvh flex-col items-center justify-center">
@@ -84,26 +92,26 @@ export default function OnBoardingPage() {
           <InputWrapper.Label>연령대</InputWrapper.Label>
           <div className="flex justify-center gap-2">
             <Button
-              isActive={info.age === 10}
-              onClick={() => handleAgeClick(10)}
+              isActive={info.ageGrop === 10}
+              onClick={() => handleAgeGroupClick(10)}
             >
               10대
             </Button>
             <Button
-              isActive={info.age === 20}
-              onClick={() => handleAgeClick(20)}
+              isActive={info.ageGrop === 20}
+              onClick={() => handleAgeGroupClick(20)}
             >
               20대
             </Button>
             <Button
-              isActive={info.age === 30}
-              onClick={() => handleAgeClick(30)}
+              isActive={info.ageGrop === 30}
+              onClick={() => handleAgeGroupClick(30)}
             >
               30대
             </Button>
             <Button
-              isActive={info.age === 40}
-              onClick={() => handleAgeClick(40)}
+              isActive={info.ageGrop === 40}
+              onClick={() => handleAgeGroupClick(40)}
             >
               40대
             </Button>
@@ -113,9 +121,9 @@ export default function OnBoardingPage() {
         <InputWrapper>
           <InputWrapper.Label>관심분야</InputWrapper.Label>
           <CareerSelect
-            value={info.career}
+            value={info.interestFields}
             options={careerOptions}
-            onClick={handleCareerClick}
+            onClick={handleInterestClick}
           />
         </InputWrapper>
 
