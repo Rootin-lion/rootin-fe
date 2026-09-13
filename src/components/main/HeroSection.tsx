@@ -1,9 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import HeroImg from "../../assets/hero.png";
 import { SectionWrapper } from "./SectionWrapper";
-import { MainButton } from "./MainButton";
+import PrimaryDarkButton from "../shared/PrimaryDarkButton";
+import { useRouter } from "next/navigation";
 
 export function HeroSection() {
+  const router = useRouter();
+
   return (
     <SectionWrapper variant="primary">
       <div className="flex h-full max-h-200 flex-col justify-between gap-4 pt-24 pb-35">
@@ -35,7 +40,12 @@ export function HeroSection() {
           </p>
         </div>
         <div className="w-48">
-          <MainButton text="지금 시작하기 →" />
+          <PrimaryDarkButton
+            className="px-7 py-4 text-[20px] duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(31,41,55,0.12)]"
+            onClick={() => router.push("contests")}
+          >
+            지금 시작하기 →
+          </PrimaryDarkButton>
         </div>
       </div>
       <div>
