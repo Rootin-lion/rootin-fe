@@ -8,6 +8,8 @@ export type InterviewFieldType =
 
 export type InterviewModeType = "TEXT" | "VOICE";
 
+export type MessageType = "AI" | "CLIENT";
+
 export default interface InterviewConfig {
   field: InterviewFieldType;
   questionCount: null | number;

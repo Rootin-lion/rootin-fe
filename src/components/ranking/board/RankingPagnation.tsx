@@ -1,3 +1,6 @@
+import PrevIcon from "../../../assets/ranking/prev.svg";
+import NextIcon from "../../../assets/ranking/next.svg";
+
 const PageNumberButton = ({
   page,
   isActive,
@@ -28,8 +31,8 @@ export default function RankingPagnation({
 }) {
   return (
     <div className="mx-auto mt-8 flex max-w-84.5 flex-row items-center justify-between gap-7">
-      <div className="flex h-7 w-7 items-center justify-center rounded-[5px] border border-[#E1E1E1]">
-        prev
+      <div className="flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border border-[#E1E1E1]">
+        <PrevIcon role="img" aria-label="이전 페이지" />
       </div>
       <div className="flex flex-row items-center justify-between gap-6">
         <PageNumberButton page={1} isActive={page === 1} onClick={onClick} />
@@ -44,8 +47,8 @@ export default function RankingPagnation({
         </div>
         <PageNumberButton page={9} isActive={page === 9} onClick={onClick} />
       </div>
-      <div className="flex h-7 w-7 items-center justify-center rounded-[5px] border border-[#E1E1E1]">
-        next
+      <div className="flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border border-[#E1E1E1]">
+        <NextIcon role="img" aria-label="다음 페이지" />
       </div>
     </div>
   );

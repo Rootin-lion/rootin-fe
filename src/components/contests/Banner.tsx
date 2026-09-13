@@ -51,8 +51,10 @@ const EndContest = () => {
 
 export default function Banner({
   competition,
+  onClick,
 }: {
   competition: TodayCompetitionState;
+  onClick: () => void;
 }) {
   const formatRemainingTime = (remainingTime: number) => {
     const m = Math.floor(remainingTime / 60);
@@ -116,7 +118,7 @@ export default function Banner({
                   </p>
                   <p>132명이 참가했어요.</p>
                   <div className="mt-3">
-                    <BannerButton>대회 참여하기</BannerButton>
+                    <BannerButton onClick={onClick}>대회 참여하기</BannerButton>
                   </div>
                 </>
               )}

@@ -10,7 +10,7 @@ import { useState } from "react";
 // import ModalWrapper from "@/components/shared/ModalWrapper";
 // import Button from "@/components/shared/Button";
 
-export default function InterviewsPage() {
+export default function InterviewPage() {
   const [config, setConfig] = useState<InterviewConfig>({
     field: "OPERATING_SYSTEM",
     questionCount: null,
