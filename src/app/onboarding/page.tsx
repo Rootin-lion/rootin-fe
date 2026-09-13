@@ -43,7 +43,7 @@ export default function OnBoardingPage() {
 
     setInfo((prev) => ({
       ...prev,
-      career: prev.interestFields.includes(targetInterest)
+      interestFields: prev.interestFields.includes(targetInterest)
         ? prev.interestFields.filter(
             (interestFields) => interestFields !== targetInterest,
           )

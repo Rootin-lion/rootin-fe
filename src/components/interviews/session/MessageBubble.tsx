@@ -6,11 +6,11 @@ const MESSAGE_STYLES = {
 };
 
 export default function MessageBubble({
-  text,
   type = "AI",
+  text,
 }: {
+  type: MessageType;
   text: string;
-  type?: MessageType;
 }) {
   return (
     <div
