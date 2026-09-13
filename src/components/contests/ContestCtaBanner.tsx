@@ -1,17 +1,6 @@
 import Image from "next/image";
 import BannerImg from "../../assets/contests/bannerImg.png";
-
-const CtaButton = ({ onClick }: { onClick: () => void }) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="text-primary-900 border-primary-900 cursor-pointer rounded-xl border px-5 py-2 text-[14px] font-semibold"
-    >
-      대회 참여하기
-    </button>
-  );
-};
+import ContestJoinButton from "./ContestJoinButton";
 
 export default function ContestCtaBanner({ onClick }: { onClick: () => void }) {
   return (
@@ -31,7 +20,7 @@ export default function ContestCtaBanner({ onClick }: { onClick: () => void }) {
           </div>
         </div>
         <div>
-          <CtaButton onClick={onClick} />
+          <ContestJoinButton onClick={onClick}>대회 참여하기</ContestJoinButton>
         </div>
       </div>
     </div>

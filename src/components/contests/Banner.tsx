@@ -2,23 +2,7 @@ import Image from "next/image";
 import TrophyImg from "../../assets/contests/trophy.png";
 import React from "react";
 import { TodayCompetitionState } from "@/types/contests/competition";
-
-interface BannerButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-}
-
-const BannerButton = ({ children, onClick }: BannerButtonProps) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="banner-gradient-border text-primary-800 focus-visible:ring-primary-700 min-w-30 cursor-pointer rounded-xl border border-transparent px-5 py-2 text-[14px] font-semibold transition-all hover:shadow-[0_8px_20px_rgba(54,114,62,0.18)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:translate-y-0 active:scale-95"
-    >
-      {children}
-    </button>
-  );
-};
+import ContestJoinButton from "./ContestJoinButton";
 
 const Status = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -107,7 +91,7 @@ export default function Banner({
                   <p>대회 입장까지</p>
                   <p className="text-[24px] font-bold">12분 30초</p>
                   <div className="mt-6">
-                    <BannerButton>대회 준비중</BannerButton>
+                    <ContestJoinButton>대회 준비중</ContestJoinButton>
                   </div>
                 </>
               ) : (
@@ -118,7 +102,9 @@ export default function Banner({
                   </p>
                   <p>132명이 참가했어요.</p>
                   <div className="mt-3">
-                    <BannerButton onClick={onClick}>대회 참여하기</BannerButton>
+                    <ContestJoinButton onClick={onClick}>
+                      대회 참여하기
+                    </ContestJoinButton>
                   </div>
                 </>
               )}
