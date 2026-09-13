@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import RankingPagnation from "./RankingPagnation";
+import RankingPagination from "./RankingPagination";
 
 const rowLayout =
   "grid grid-cols-[80px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-x-4 px-5 text-center";
@@ -72,7 +72,7 @@ export default function RankingTable() {
         <TableItem rank={6} />
         <TableItem rank={7} />
       </div>
-      <RankingPagnation page={page} onClick={handlePageChange} />
+      <RankingPagination page={page} onClick={handlePageChange} />
     </div>
   );
 }

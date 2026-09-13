@@ -67,7 +67,7 @@ export default function Banner({
     competition.remainingSeconds >= 300 ? "text-primary-900" : "text-error";
 
   return (
-    <div className="w-full bg-[radial-gradient(100%_100%_at_0%_50%,#EEF3E7_0%,#E4EFE0_50%,#DAEBD9_100%)]">
+    <div className="bg-gradient-primary w-full">
       <div className="mx-auto flex max-w-5xl items-center justify-between py-7">
         {competition.status === "CLOSED" ? (
           <EndContest />

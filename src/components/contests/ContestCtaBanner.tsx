@@ -15,7 +15,7 @@ const CtaButton = ({ onClick }: { onClick: () => void }) => {
 
 export default function ContestCtaBanner({ onClick }: { onClick: () => void }) {
   return (
-    <div className="mt-8 w-full bg-[radial-gradient(100%_100%_at_0%_50%,#EEF3E7_0%,#E4EFE0_50%,#DAEBD9_100%)]">
+    <div className="bg-gradient-primary mt-8 w-full">
       <div className="mx-auto flex max-w-5xl items-end justify-between py-9">
         <div className="flex items-center gap-5">
           <div className="flex h-18 w-18 items-center justify-center rounded-[50%] bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_30%,#DAEBD9_100%)]">

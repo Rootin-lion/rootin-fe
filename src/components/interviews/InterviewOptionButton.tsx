@@ -11,7 +11,7 @@ export default function InterviewOptionButton({
     <button
       type="button"
       onClick={onClick}
-      className={`${isActive ? "bg-[#DFF0E4]" : "bg-white"} text-body-3 cursor-pointer rounded-lg border border-[#DDE8D0] py-3 text-[#6C6A6A]`}
+      className={`${isActive ? "bg-bg-green-200" : "bg-white"} text-body-3 cursor-pointer rounded-lg border border-[#DDE8D0] py-3 text-[#6C6A6A]`}
     >
       {children}
     </button>

@@ -62,7 +62,7 @@ function InputWrapperField({
       {/* {value && !disabled && (
         <div className="flex mt-1">
           <Image src={SuccessImg} alt="success" width={20} height={20} />
-          <p className="text-[12px] text-[#51A05C] font-normal">
+          <p className="text-[12px] text-primary font-normal">
             사용 가능한 닉네임입니다.
           </p>
           <Image src={WarningImg} alt="warning" width={20} height={20} />

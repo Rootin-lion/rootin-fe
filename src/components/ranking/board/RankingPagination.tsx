@@ -22,7 +22,7 @@ const PageNumberButton = ({
   );
 };
 
-export default function RankingPagnation({
+export default function RankingPagination({
   page,
   onClick,
 }: {

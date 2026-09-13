@@ -7,7 +7,7 @@ import InterviewConfig, {
   InterviewModeType,
 } from "../../types/interviews/interview";
 
-export default function InterveiwSetup({
+export default function InterviewSetup({
   config,
   onFieldChange,
   onQuestionCountChange,

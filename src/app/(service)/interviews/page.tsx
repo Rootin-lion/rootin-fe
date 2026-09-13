@@ -1,7 +1,7 @@
 "use client";
 
 import InterviewPreview from "@/components/interviews/InterviewPreview";
-import InterveiwSetup from "@/components/interviews/InterviewSetup";
+import InterviewSetup from "@/components/interviews/InterviewSetup";
 import InterviewConfig, {
   InterviewFieldType,
   InterviewModeType,
@@ -58,7 +58,7 @@ export default function InterviewPage() {
           </ModalWrapper.Box>
         </ModalWrapper> */}
 
-      <InterveiwSetup
+      <InterviewSetup
         config={config}
         onFieldChange={handleFieldChange}
         onQuestionCountChange={handleQuestionCountChange}

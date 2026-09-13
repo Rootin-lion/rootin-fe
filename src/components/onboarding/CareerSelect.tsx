@@ -39,7 +39,7 @@ export default function CareerSelect({
           type="button"
           aria-expanded={isOpen}
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-4 py-3 text-left text-[12px] text-[#6B7280]"
+          className="text-sub-text flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-4 py-3 text-left text-[12px]"
         >
           <span
             className={`text-[12px] ${selectedOption ? "text-[#1A1A1A]" : ""}`}
@@ -48,7 +48,7 @@ export default function CareerSelect({
           </span>
 
           <svg
-            className={`h-4 w-4 text-[#51A05C] transition-transform ${isOpen ? "rotate-180" : "180"}`}
+            className={`text-primary h-4 w-4 transition-transform ${isOpen ? "rotate-180" : "180"}`}
             viewBox="0 0 20 20"
             fill="none"
             aria-hidden="true"

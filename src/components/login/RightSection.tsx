@@ -12,7 +12,7 @@ const ButtonText = ({ text }: { text: string }) => {
 
 const KakaoButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <section
+    <div
       className="flex cursor-pointer items-center gap-20 rounded-xl bg-[#FEE500] px-6 py-4"
       onClick={onClick}
     >
@@ -24,7 +24,7 @@ const KakaoButton = ({ onClick }: { onClick: () => void }) => {
         loading="eager"
       />
       <ButtonText text="카카오 계정으로 시작하기" />
-    </section>
+    </div>
   );
 };
 
@@ -54,7 +54,7 @@ export default function RightSection() {
   const router = useRouter();
 
   return (
-    <div className="bg-primary-50 flex flex-1 items-center justify-start">
+    <section className="bg-primary-50 flex flex-1 items-center justify-start">
       <div className="ml-26 flex flex-col items-center justify-center">
         <div className="flex flex-col gap-2">
           <Image src={LogoImg} alt="logo" width={180} height={57} />
@@ -81,6 +81,6 @@ export default function RightSection() {
           간주됩니다.
         </p>
       </div>
-    </div>
+    </section>
   );
 }

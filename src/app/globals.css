@@ -134,6 +134,15 @@
   letter-spacing: var(--text-caption--letter-spacing);
 }
 
+@utility bg-gradient-primary {
+  background-image: radial-gradient(
+    100% 100% at 0% 50%,
+    #eef3e7 0%,
+    #e4efe0 50%,
+    #daebd9 100%
+  );
+}
+
 .text-gradient-primary {
   background-image: linear-gradient(90deg, #36723e 30%, #1f2937 100%);
   -webkit-background-clip: text;
