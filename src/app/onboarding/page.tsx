@@ -1,6 +1,6 @@
 "use client";
 
-import CareerSelect from "@/components/onboarding/CareerSelect";
+import FieldSelect from "@/components/onboarding/FieldSelect";
 import Button from "@/components/shared/Button";
 import InputWrapper from "@/components/shared/InputWrapper";
 import { useState } from "react";
@@ -120,7 +120,7 @@ export default function OnBoardingPage() {
 
         <InputWrapper>
           <InputWrapper.Label>관심분야</InputWrapper.Label>
-          <CareerSelect
+          <FieldSelect
             value={info.interestFields}
             options={careerOptions}
             onClick={handleInterestClick}

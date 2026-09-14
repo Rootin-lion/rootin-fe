@@ -1,26 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import OptionButton from "./OptionButton";
+import OptionButton from "../shared/OptionButton";
 
 type CareerOption = {
   label: string;
   value: string;
 };
 
-interface CareerSelectProps {
+interface FieldSelectProps {
   value: string[];
   options: CareerOption[];
   onClick: (value: string) => void;
   defaultOpen?: boolean;
 }
 
-export default function CareerSelect({
+export default function FieldSelect({
   value,
   options,
   onClick,
   defaultOpen = false,
-}: CareerSelectProps) {
+}: FieldSelectProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const selectedOption = options.find((option) => value.includes(option.value));
   const message =
@@ -71,7 +71,8 @@ export default function CareerSelect({
                 return (
                   <p key={index}>
                     <OptionButton
-                      isSelected={isSelected}
+                      variant="outline"
+                      selected={isSelected}
                       onClick={() => onClick(option.value)}
                     >
                       {option.label}

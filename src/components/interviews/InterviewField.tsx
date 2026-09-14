@@ -1,4 +1,4 @@
-import InterviewOptionButton from "./InterviewOptionButton";
+import OptionButton from "../shared/OptionButton";
 import { InterviewFieldType } from "../../types/interviews/interview";
 import { TOPIC_LIST } from "@/constants/interviews/interview";
 
@@ -14,13 +14,14 @@ export default function InterviewTopic({
       <div className="text-body-3 text-text">면접 분야</div>
       <div className="grid grid-cols-3 gap-4">
         {TOPIC_LIST.map((item) => (
-          <InterviewOptionButton
+          <OptionButton
+            variant="filled"
             key={item.id}
-            isActive={item.label === field}
+            selected={item.label === field}
             onClick={() => onChange(item.label)}
           >
             {item.title}
-          </InterviewOptionButton>
+          </OptionButton>
         ))}
       </div>
     </div>
