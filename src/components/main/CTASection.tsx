@@ -48,7 +48,7 @@ export function CTASection() {
             src={CtaImg}
             width={292}
             height={328}
-            alt="cta"
+            alt=""
             className="duration-300 ease-in-out hover:scale-120"
           />
         </div>

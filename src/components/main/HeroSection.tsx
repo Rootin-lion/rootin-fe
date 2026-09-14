@@ -13,9 +13,9 @@ export function HeroSection() {
     <SectionWrapper variant="primary">
       <div className="flex h-full max-h-200 flex-col justify-between gap-4 pt-24 pb-35">
         <div>
-          <h2 className="text-primary-900 text-[26px] font-semibold">
+          <p className="text-primary-900 text-[26px] font-semibold">
             개발자 취업 준비를 위한 CS 통합 학습 플랫폼
-          </h2>
+          </p>
           <h1 className="text-[48px] font-bold">
             실력은 연습으로,
             <br />
@@ -51,7 +51,7 @@ export function HeroSection() {
       <div>
         <Image
           src={HeroImg}
-          alt="hero"
+          alt=""
           width={580}
           height={386}
           priority
