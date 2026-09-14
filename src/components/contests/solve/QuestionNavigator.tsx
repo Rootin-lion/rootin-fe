@@ -1,7 +1,5 @@
 import Image from "next/image";
-
 import NavImg from "@/assets/contests/solve/nav_char.png";
-
 import QuestionSurface from "./QuestionSurface";
 import QuestionStatus from "./QuestionStatus";
 

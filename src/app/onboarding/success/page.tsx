@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import SuccessImg from "@/assets/success_char.png";
 
 export default function SuccessPage() {

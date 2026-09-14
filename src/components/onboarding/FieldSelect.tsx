@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-
 import OptionButton from "@/components/shared/OptionButton";
 
 type CareerOption = {

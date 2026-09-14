@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
 import LogoImg from "@/assets/logo.png";
 import KakaoImg from "@/assets/login/kakao.png";
 import GoogleImg from "@/assets/login/google.png";

@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-
 import Button from "@/components/shared/Button";
 import InputWrapper from "@/components/shared/InputWrapper";
-
 import FieldSelect from "@/components/onboarding/FieldSelect";
 
 interface OnBoardingInfo {

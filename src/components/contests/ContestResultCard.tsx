@@ -1,7 +1,5 @@
 import React from "react";
-
 import type { ContestResultsState } from "@/types/contests/competition";
-
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
 
 export default function ContestResultCard({

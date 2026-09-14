@@ -4,7 +4,6 @@ import DbImg from "@/assets/interviews/db.png";
 import DataImg from "@/assets/interviews/data.png";
 import InfraImg from "@/assets/interviews/infra.png";
 import SpringImg from "@/assets/interviews/spring.png";
-
 import type { InterviewFieldType } from "@/types/interviews/interview";
 
 export const Field_LIST: {

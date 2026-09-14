@@ -1,5 +1,4 @@
 import type { InterviewModeType } from "@/types/interviews/interview";
-
 import OptionButton from "@/components/shared/OptionButton";
 
 export default function InterviewMode({

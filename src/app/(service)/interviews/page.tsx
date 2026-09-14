@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-
 import type InterviewConfig from "@/types/interviews/interview";
 import type {
   InterviewFieldType,

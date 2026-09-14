@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import CharImg from "@/assets/success_char.png";
 import CrownImg from "@/assets/crown.png";
 

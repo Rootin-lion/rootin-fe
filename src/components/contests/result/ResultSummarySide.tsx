@@ -1,9 +1,6 @@
 import Image from "next/image";
-
 import CharImg from "@/assets/contests/result/char.png";
-
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
-
 import ScoreSection from "./ScoreSection";
 import RankSection from "./RankSection";
 

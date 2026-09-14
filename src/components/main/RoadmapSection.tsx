@@ -1,5 +1,4 @@
 import RoadmapBox from "@/components/roadmap/RoadmapBox";
-
 import SectionWrapper from "./SectionWrapper";
 
 export function RoadmapSection() {

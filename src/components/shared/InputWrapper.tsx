@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import CancelImg from "@/assets/cancel.png";
 // import SuccessImg from "@/assets/success.png";
 // import WarningImg from "@/assets/warning.png";

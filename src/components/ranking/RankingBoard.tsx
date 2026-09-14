@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
 import type { TabType } from "@/types/ranking/ranking";
-
 import RankingTable from "./board/RankingTable";
 
 const RankingTabs = ({

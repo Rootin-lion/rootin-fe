@@ -1,11 +1,8 @@
 "use client";
 
 import { useState } from "react";
-
 import type { ContestResultsState } from "@/types/contests/competition";
-
-import BoxWrapper from "@/components/shared/BoxWrapper";
-
+import BoxWrapper from "@/components/contests/BoxWrapper";
 import ContestResultCard from "./ContestResultCard";
 import SectionTitle from "./SectionTitle";
 

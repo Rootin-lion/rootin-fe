@@ -2,11 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
 import CtaImg from "@/assets/main/cta.png";
-
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
-
 import SectionWrapper from "./SectionWrapper";
 
 export function CTASection() {

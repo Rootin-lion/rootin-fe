@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import UpIcon from "@/assets/contests/result/up.png";
 
 // import DownIcon from "@/assets/contests/result/down.png";

@@ -1,9 +1,7 @@
 import Image from "next/image";
-
 import StrengthIcon from "@/assets/contests/result/strength.png";
 import WeaknessIcon from "@/assets/contests/result/weakness.png";
 import CorrectIcon from "@/assets/contests/result/correct.png";
-
 import DetailWrapper from "./DetailWrapper";
 
 type CardType = "STRENGTH" | "WEAKNESS" | "CORRECT";

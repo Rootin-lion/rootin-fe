@@ -2,11 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
 import type { RankingState } from "@/types/contests/competition";
-
-import BoxWrapper from "@/components/shared/BoxWrapper";
-
+import BoxWrapper from "@/components/contests/BoxWrapper";
 import SectionTitle from "./SectionTitle";
 import RankingBox from "./ranking/RankingBox";
 import RankingCircle from "./ranking/RankingCircle";
