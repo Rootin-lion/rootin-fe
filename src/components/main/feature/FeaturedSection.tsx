@@ -1,9 +1,12 @@
-import { SectionWrapper } from "../SectionWrapper";
-import TrophyImg from "../../../assets/main/trophy.png";
-import DocumentImg from "../../../assets/main/document.png";
-import analysisImg from "../../../assets/main/analysis.png";
+import TrophyImg from "@/assets/main/trophy.png";
+import DocumentImg from "@/assets/main/document.png";
+import analysisImg from "@/assets/main/analysis.png";
+
+import type { FeatureData } from "@/types/main/featureItem";
+
+import SectionWrapper from "@/components/main/SectionWrapper";
+
 import { FeatureCard } from "./FeaturedCard";
-import { FeatureData } from "@/types/main/featureItem";
 
 const FEATURED_DATA: FeatureData[] = [
   {

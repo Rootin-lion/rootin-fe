@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import LogoImg from "../../assets/logo.png";
+
+import LogoImg from "@/assets/logo.png";
 
 const NavItems = [
   { id: 1, content: "CS 대회", to: "/contests" },

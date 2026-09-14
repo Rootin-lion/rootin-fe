@@ -1,11 +1,11 @@
-export type CompetitiionStausType = "BEFORE_START" | "IN_PROGRESS" | "CLOSED";
+export type CompetitionStatus = "BEFORE_START" | "IN_PROGRESS" | "CLOSED";
 
 export interface TodayCompetitionState {
   competitionId: number;
   competitionDate: string;
   startAt: string;
   endAt: string;
-  status: CompetitiionStausType;
+  status: CompetitionStatus;
   remainingSeconds: number;
 }
 

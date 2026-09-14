@@ -1,5 +1,5 @@
+import SectionWrapper from "./SectionWrapper";
 import FeedbackCycle from "./feedback/FeedbackCycle";
-import { SectionWrapper } from "./SectionWrapper";
 
 export function FeedbackSection() {
   return (

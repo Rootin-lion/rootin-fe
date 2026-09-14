@@ -1,7 +1,9 @@
-import QuestionSurface from "./QuestionSurface";
-import QuestionStatus from "./QutestionStatus";
-import NavImg from "../../../assets/contests/solve/nav_char.png";
 import Image from "next/image";
+
+import NavImg from "@/assets/contests/solve/nav_char.png";
+
+import QuestionSurface from "./QuestionSurface";
+import QuestionStatus from "./QuestionStatus";
 
 const NavItem = ({ children }: { children: React.ReactNode }) => {
   // 일반 bg-bg-green-50 text-[#1A1A1A]

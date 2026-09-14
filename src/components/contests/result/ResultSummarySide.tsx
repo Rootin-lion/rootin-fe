@@ -1,15 +1,11 @@
 import Image from "next/image";
-import CharImg from "../../../assets/contests/result/char.png";
+
+import CharImg from "@/assets/contests/result/char.png";
+
+import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
+
 import ScoreSection from "./ScoreSection";
 import RankSection from "./RankSection";
-
-const Button = () => {
-  return (
-    <button className="bg-primary-900 mt-4 w-full cursor-pointer rounded-lg py-2 text-center text-[12px] font-semibold text-white">
-      랭킹 보기
-    </button>
-  );
-};
 
 export default function ResultSummarySide() {
   return (
@@ -21,7 +17,9 @@ export default function ResultSummarySide() {
       <p className="mt-2 text-[12px] font-medium">2026.06.24 (수)</p>
       <ScoreSection />
       <RankSection />
-      <Button />
+      <PrimaryDarkButton className="mt-4 py-2 text-center text-[12px]">
+        랭킹 보기
+      </PrimaryDarkButton>
     </div>
   );
 }

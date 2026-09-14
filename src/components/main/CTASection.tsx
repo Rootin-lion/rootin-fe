@@ -1,9 +1,17 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { SectionWrapper } from "./SectionWrapper";
-import CtaImg from "../../assets/main/cta.png";
-import { MainButton } from "./MainButton";
+
+import CtaImg from "@/assets/main/cta.png";
+
+import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
+
+import SectionWrapper from "./SectionWrapper";
 
 export function CTASection() {
+  const router = useRouter();
+
   return (
     <SectionWrapper variant={"primary"}>
       <div className="flex gap-70">
@@ -30,7 +38,12 @@ export function CTASection() {
           </p>
 
           <div className="mt-14 w-80">
-            <MainButton text="ROOTIN 시작하기  →" />
+            <PrimaryDarkButton
+              className="px-7 py-4 text-[20px] duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(31,41,55,0.12)]"
+              onClick={() => router.push("/contests")}
+            >
+              ROOTIN 시작하기 →
+            </PrimaryDarkButton>
           </div>
         </div>
         <div>

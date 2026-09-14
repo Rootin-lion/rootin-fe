@@ -11,9 +11,11 @@
   --color-primary-200: #daebd9;
   --color-primary-100: #eaf3e8;
   --color-primary-50: #f7faf5;
+
   --color-bg-green-50: #f8faf5;
   --color-bg-green-100: #edf7ef;
   --color-bg-green-200: #dff0e4;
+
   --color-bg-ivory: #fcfdf9;
   --color-error: #f24e4e;
   --color-warning: #ffb84d;
@@ -21,41 +23,51 @@
   --color-sub-text: #6b7280;
   --color-disabled-text: #9ca3af;
   --color-text: #1f2937;
+
   --font-sans:
     "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
     "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+
   --text-title-1: 48px;
   --text-title-1--line-height: normal;
   --text-title-1--font-weight: var(--font-weight-bold);
   --text-title-1--letter-spacing: 0em;
+
   --text-title-2: 36px;
   --text-title-2--line-height: normal;
   --text-title-2--font-weight: var(--font-weight-bold);
   --text-title-2--letter-spacing: 0em;
+
   --text-title-3: 28px;
   --text-title-3--line-height: normal;
   --text-title-3--font-weight: var(--font-weight-bold);
   --text-title-3--letter-spacing: 0em;
+
   --text-title-4: 20px;
   --text-title-4--line-height: normal;
   --text-title-4--font-weight: var(--font-weight-bold);
   --text-title-4--letter-spacing: 0em;
+
   --text-subtitle: 18px;
   --text-subtitle--line-height: 120%;
   --text-subtitle--font-weight: var(--font-weight-semibold);
   --text-subtitle--letter-spacing: 0em;
+
   --text-body-1: 20px;
   --text-body-1--line-height: normal;
   --text-body-1--font-weight: var(--font-weight-medium);
   --text-body-1--letter-spacing: 0em;
+
   --text-body-2: 16px;
   --text-body-2--line-height: normal;
   --text-body-2--font-weight: var(--font-weight-normal);
   --text-body-2--letter-spacing: 0em;
+
   --text-body-3: 14px;
   --text-body-3--line-height: normal;
   --text-body-3--font-weight: var(--font-weight-normal);
   --text-body-3--letter-spacing: 0em;
+
   --text-caption: 12px;
   --text-caption--line-height: normal;
   --text-caption--font-weight: var(--font-weight-medium);
@@ -134,6 +146,15 @@
   letter-spacing: var(--text-caption--letter-spacing);
 }
 
+@utility bg-gradient-primary {
+  background-image: radial-gradient(
+    100% 100% at 0% 50%,
+    #eef3e7 0%,
+    #e4efe0 50%,
+    #daebd9 100%
+  );
+}
+
 .text-gradient-primary {
   background-image: linear-gradient(90deg, #36723e 30%, #1f2937 100%);
   -webkit-background-clip: text;
@@ -153,9 +174,11 @@
   --primary-color-200: var(--color-primary-200);
   --primary-color-100: var(--color-primary-100);
   --primary-color-50: var(--color-primary-50);
+
   --bg-green-50: var(--color-bg-green-50);
   --bg-green-100: var(--color-bg-green-100);
   --bg-green-200: var(--color-bg-green-200);
+
   --bg-bg-ivory: var(--color-bg-ivory);
   --error-color: var(--color-error);
   --warning-color: var(--color-warning);

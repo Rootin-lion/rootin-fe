@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import BoxWrapper from "../shared/BoxWrapper";
+
+import type { ContestResultsState } from "@/types/contests/competition";
+
+import BoxWrapper from "@/components/shared/BoxWrapper";
+
 import ContestResultCard from "./ContestResultCard";
 import SectionTitle from "./SectionTitle";
-import { ContestResultsState } from "@/types/contests/competition";
 
 const Bar = ({ isActive }: { isActive?: boolean }) => {
   const wdtStyle = isActive ? "w-8" : "w-5";

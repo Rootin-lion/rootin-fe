@@ -1,6 +1,8 @@
 import Image from "next/image";
-import ArrowIcon from "../../../assets/main/arrow.svg";
-import { FeatureData } from "@/types/main/featureItem";
+
+import ArrowIcon from "@/assets/main/arrow.svg";
+
+import type { FeatureData } from "@/types/main/featureItem";
 
 interface FeatureCardProps {
   item: FeatureData;

@@ -1,4 +1,4 @@
-import SendIcon from "../../../assets/interviews/send.svg";
+import SendIcon from "@/assets/interviews/send.svg";
 
 export default function InterviewForm() {
   return (

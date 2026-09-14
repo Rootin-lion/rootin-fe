@@ -1,13 +1,15 @@
 "use client";
 
-import CareerSelect from "@/components/onboarding/CareerSelect";
+import { useState } from "react";
+
 import Button from "@/components/shared/Button";
 import InputWrapper from "@/components/shared/InputWrapper";
-import { useState } from "react";
+
+import FieldSelect from "@/components/onboarding/FieldSelect";
 
 interface OnBoardingInfo {
   nickname: string;
-  ageGrop: number;
+  ageGroup: number;
   interestFields: string[];
 }
 
@@ -23,14 +25,14 @@ const careerOptions = [
 export default function OnBoardingPage() {
   const [info, setInfo] = useState<OnBoardingInfo>({
     nickname: "",
-    ageGrop: 0,
+    ageGroup: 0,
     interestFields: [],
   });
 
   const handleAgeGroupClick = (targetAge: number) => {
     setInfo((prev) => ({
       ...prev,
-      ageGrop: prev.ageGrop === targetAge ? 0 : targetAge,
+      ageGroup: prev.ageGroup === targetAge ? 0 : targetAge,
     }));
   };
 
@@ -43,7 +45,7 @@ export default function OnBoardingPage() {
 
     setInfo((prev) => ({
       ...prev,
-      career: prev.interestFields.includes(targetInterest)
+      interestFields: prev.interestFields.includes(targetInterest)
         ? prev.interestFields.filter(
             (interestFields) => interestFields !== targetInterest,
           )
@@ -53,7 +55,7 @@ export default function OnBoardingPage() {
 
   const isSubmitEnabled =
     info.nickname.trim() !== "" &&
-    info.ageGrop !== 0 &&
+    info.ageGroup !== 0 &&
     info.interestFields.length > 0;
 
   return (
@@ -92,25 +94,25 @@ export default function OnBoardingPage() {
           <InputWrapper.Label>연령대</InputWrapper.Label>
           <div className="flex justify-center gap-2">
             <Button
-              isActive={info.ageGrop === 10}
+              isActive={info.ageGroup === 10}
               onClick={() => handleAgeGroupClick(10)}
             >
               10대
             </Button>
             <Button
-              isActive={info.ageGrop === 20}
+              isActive={info.ageGroup === 20}
               onClick={() => handleAgeGroupClick(20)}
             >
               20대
             </Button>
             <Button
-              isActive={info.ageGrop === 30}
+              isActive={info.ageGroup === 30}
               onClick={() => handleAgeGroupClick(30)}
             >
               30대
             </Button>
             <Button
-              isActive={info.ageGrop === 40}
+              isActive={info.ageGroup === 40}
               onClick={() => handleAgeGroupClick(40)}
             >
               40대
@@ -120,7 +122,7 @@ export default function OnBoardingPage() {
 
         <InputWrapper>
           <InputWrapper.Label>관심분야</InputWrapper.Label>
-          <CareerSelect
+          <FieldSelect
             value={info.interestFields}
             options={careerOptions}
             onClick={handleInterestClick}

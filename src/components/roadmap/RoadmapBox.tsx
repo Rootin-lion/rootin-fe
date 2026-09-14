@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { RoadmapItem } from "./RoadmapItem";
+
+import RoadmapItem from "./RoadmapItem";
 
 const roadmapItems = [
   { status: "DONE" as const, step: "STEP 01", title: "CS 기초" },
@@ -27,7 +28,7 @@ function RoadmapArrow() {
   );
 }
 
-export function RoadmapBox() {
+export default function RoadmapBox() {
   const boxRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 

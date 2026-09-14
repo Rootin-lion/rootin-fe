@@ -11,7 +11,10 @@ const BgColorMap: Record<VariantColor, string> = {
   ivory: "bg-bg-ivory",
 };
 
-export function SectionWrapper({ children, variant }: SectionWrapperProps) {
+export default function SectionWrapper({
+  children,
+  variant,
+}: SectionWrapperProps) {
   return (
     <section
       className={`${BgColorMap[variant]} flex h-dvh items-center justify-center`}

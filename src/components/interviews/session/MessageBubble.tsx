@@ -1,4 +1,4 @@
-import { MessageType } from "@/types/interviews/interview";
+import type { MessageType } from "@/types/interviews/interview";
 
 const MESSAGE_STYLES = {
   AI: "rounded-tr-2xl rounded-b-2xl border-[#DDE8D0] bg-white",
@@ -6,11 +6,11 @@ const MESSAGE_STYLES = {
 };
 
 export default function MessageBubble({
-  text,
   type = "AI",
+  text,
 }: {
+  type: MessageType;
   text: string;
-  type?: MessageType;
 }) {
   return (
     <div

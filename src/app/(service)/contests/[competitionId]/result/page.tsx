@@ -1,5 +1,5 @@
-import ResultDetailSide from "@/components/contests/result/ResultDetailSide";
 import ResultSummarySide from "@/components/contests/result/ResultSummarySide";
+import ResultDetailSide from "@/components/contests/result/ResultDetailSide";
 
 export default function ContestResultPage() {
   return (

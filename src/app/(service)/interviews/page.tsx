@@ -1,14 +1,17 @@
 "use client";
 
-import InterviewPreview from "@/components/interviews/InterviewPreview";
-import InterveiwSetup from "@/components/interviews/InterviewSetup";
-import InterviewConfig, {
+import { useState } from "react";
+
+import type InterviewConfig from "@/types/interviews/interview";
+import type {
   InterviewFieldType,
   InterviewModeType,
-} from "../../../types/interviews/interview";
-import { useState } from "react";
+} from "@/types/interviews/interview";
+
 // import ModalWrapper from "@/components/shared/ModalWrapper";
 // import Button from "@/components/shared/Button";
+import InterviewPreview from "@/components/interviews/InterviewPreview";
+import InterviewSetup from "@/components/interviews/InterviewSetup";
 
 export default function InterviewPage() {
   const [config, setConfig] = useState<InterviewConfig>({
@@ -58,7 +61,7 @@ export default function InterviewPage() {
           </ModalWrapper.Box>
         </ModalWrapper> */}
 
-      <InterveiwSetup
+      <InterviewSetup
         config={config}
         onFieldChange={handleFieldChange}
         onQuestionCountChange={handleQuestionCountChange}

@@ -1,5 +1,5 @@
-import PrevIcon from "../../../assets/ranking/prev.svg";
-import NextIcon from "../../../assets/ranking/next.svg";
+import PrevIcon from "@/assets/ranking/prev.svg";
+import NextIcon from "@/assets/ranking/next.svg";
 
 const PageNumberButton = ({
   page,
@@ -22,7 +22,7 @@ const PageNumberButton = ({
   );
 };
 
-export default function RankingPagnation({
+export default function RankingPagination({
   page,
   onClick,
 }: {
