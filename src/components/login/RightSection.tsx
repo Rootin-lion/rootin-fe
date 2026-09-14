@@ -17,13 +17,7 @@ const KakaoButton = ({ onClick }: { onClick: () => void }) => {
       className="flex cursor-pointer items-center gap-20 rounded-xl bg-[#FEE500] px-6 py-4"
       onClick={onClick}
     >
-      <Image
-        src={KakaoImg}
-        width={20}
-        height={20}
-        alt="kakako"
-        loading="eager"
-      />
+      <Image src={KakaoImg} width={20} height={20} alt="" loading="eager" />
       <ButtonText text="카카오 계정으로 시작하기" />
     </button>
   );
@@ -36,13 +30,7 @@ const GoogleButton = ({ onClick }: { onClick: () => void }) => {
       className="flex cursor-pointer items-center gap-20 rounded-xl border border-[#6FB377] bg-white px-6 py-4"
       onClick={onClick}
     >
-      <Image
-        src={GoogleImg}
-        width={20}
-        height={20}
-        alt="google"
-        loading="eager"
-      />
+      <Image src={GoogleImg} width={20} height={20} alt="" loading="eager" />
       <ButtonText text="구글 계정으로 시작하기" />
     </button>
   );
@@ -59,7 +47,7 @@ export default function RightSection() {
     <section className="bg-primary-50 flex flex-1 items-center justify-start">
       <div className="ml-26 flex flex-col items-center justify-center">
         <div className="flex flex-col gap-2">
-          <Image src={LogoImg} alt="logo" width={180} height={57} />
+          <Image src={LogoImg} alt="ROOTIN" width={180} height={57} />
           <p className="text-sub-text mt-6 text-[14px] font-normal">
             소셜 로그인으로 빠르게 시작하세요
           </p>
