@@ -4,14 +4,17 @@ import SuccessImg from "@/assets/success_char.png";
 export default function SuccessPage() {
   return (
     <main className="flex min-h-dvh items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,#f7faf5_0%,#edf7ef_50%,#eaf3e8_100%)] px-6 py-10">
-      <section className="relative w-full max-w-md rounded-4xl px-8 py-10">
+      <section
+        aria-labelledby="onboarding-success"
+        className="relative w-full max-w-md rounded-4xl px-8 py-10"
+      >
         <div className="relative mx-auto mb-8 flex h-56 w-56 items-center justify-center rounded-full">
           <Image
             src={SuccessImg}
             alt="루틴 시작을 환영하는 모코 캐릭터"
             width={200}
             height={210}
-            priority
+            preload
             className="relative h-auto w-47 drop-shadow-[0_12px_24px_rgba(31,41,55,0.14)]"
           />
         </div>
@@ -20,7 +23,10 @@ export default function SuccessPage() {
           <p className="text-primary-800 text-sm font-semibold tracking-[0.18em]">
             WELCOME TO ROOTIN
           </p>
-          <h1 className="text-text text-[30px] leading-tight font-semibold">
+          <h1
+            id="success-title"
+            className="text-text text-[30px] leading-tight font-semibold"
+          >
             모코가 기다리고 있었어요
           </h1>
           <p className="text-sub-text text-[15px] leading-6 whitespace-pre-wrap">
