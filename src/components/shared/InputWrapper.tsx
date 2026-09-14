@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import CancelImg from "@/assets/cancel.png";
 // import SuccessImg from "@/assets/success.png";
 // import WarningImg from "@/assets/warning.png";
@@ -47,18 +46,20 @@ function InputWrapperField({
       <input
         {...props}
         value={value}
+        disabled={disabled}
         onChange={onChange}
         className={`cursor-pointer rounded-lg border ${fieldStyle} w-full px-4 py-3 font-normal ${className ?? ""} outline-[#BFDEBE]`}
       />
       {value && !disabled && (
-        <Image
-          src={CancelImg}
-          alt="cancel"
-          width={20}
-          height={20}
-          onClick={onDelete}
-          className="absolute top-3.5 right-3.5 z-10 cursor-pointer rounded-[50px] bg-[#888F9C] p-1 ring"
-        />
+        <button type="button" aria-label="입력값 지우기" onClick={onDelete}>
+          <Image
+            src={CancelImg}
+            alt=""
+            width={20}
+            height={20}
+            className="absolute top-3.5 right-3.5 z-10 cursor-pointer rounded-[50px] bg-[#888F9C] p-1 ring"
+          />
+        </button>
       )}
       {/* {value && !disabled && (
         <div className="flex mt-1">

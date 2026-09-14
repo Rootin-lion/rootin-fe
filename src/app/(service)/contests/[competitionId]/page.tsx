@@ -1,5 +1,5 @@
 import QuestionSidebar from "@/components/contests/solve/QuestionSidebar";
-import QuestionPanel from "@/components/contests/solve/QuestionPanel";
+import QuestionPanel from "@/components/contests/shared/QuestionPanel";
 
 export default function ContestSolvePage() {
   return (

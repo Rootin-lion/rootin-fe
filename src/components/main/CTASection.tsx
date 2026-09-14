@@ -2,11 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
 import CtaImg from "@/assets/main/cta.png";
-
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
-
 import SectionWrapper from "./SectionWrapper";
 
 export function CTASection() {
@@ -51,7 +48,7 @@ export function CTASection() {
             src={CtaImg}
             width={292}
             height={328}
-            alt="cta"
+            alt=""
             className="duration-300 ease-in-out hover:scale-120"
           />
         </div>

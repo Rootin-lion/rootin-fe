@@ -1,6 +1,6 @@
-import InterviewChat from "@/components/interviews/session/InterviewChat";
-import InterviewForm from "@/components/interviews/session/InterviewForm";
-import InterviewVideo from "@/components/interviews/session/InterviewVideo";
+import InterviewChat from "@/components/interviews/interview/InterviewChat";
+import InterviewForm from "@/components/interviews/interview/InterviewForm";
+import InterviewVideo from "@/components/interviews/interview/InterviewVideo";
 
 export default function InterviewSessionPage() {
   return (

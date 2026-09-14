@@ -1,7 +1,5 @@
 import Image from "next/image";
-
 import type { InterviewFieldType } from "@/types/interviews/interview";
-
 import { INTERVIEW_LIST } from "@/constants/interviews/interview";
 
 export default function InterviewPreview({

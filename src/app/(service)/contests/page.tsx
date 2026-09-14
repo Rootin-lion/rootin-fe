@@ -2,12 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import type { TodayCompetitionState } from "@/types/contests/competition";
-
 import Button from "@/components/shared/Button";
 import ModalWrapper from "@/components/shared/ModalWrapper";
-
 import RankingSection from "@/components/contests/RankingSection";
 import PastContestsSection from "@/components/contests/PastContestsSection";
 import WarningBanner from "@/components/contests/WarningBanner";

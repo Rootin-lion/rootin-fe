@@ -1,9 +1,6 @@
 import Image from "next/image";
-
 import AiImg from "@/assets/interviews/msg_char.png";
-
 import type { MessageType } from "@/types/interviews/interview";
-
 import MessageBubble from "./MessageBubble";
 
 export default function InterviewMessage({

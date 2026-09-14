@@ -1,5 +1,4 @@
 import SectionWrapper from "@/components/main/SectionWrapper";
-
 import AnimatedNumber from "./AnimatedNumber";
 
 interface StatItem {

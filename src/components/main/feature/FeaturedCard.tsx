@@ -1,7 +1,6 @@
 import Image from "next/image";
-
+import Link from "next/link";
 import ArrowIcon from "@/assets/main/arrow.svg";
-
 import type { FeatureData } from "@/types/main/featureItem";
 
 interface FeatureCardProps {
@@ -23,9 +22,12 @@ export function FeatureCard({ item }: FeatureCardProps) {
         <Image src={item.image} alt={item.title} className="mt-7 h-25 w-auto" />
       </div>
       <div className="flex justify-end">
-        <div className="flex h-7.5 w-7.5 cursor-pointer items-center justify-center rounded-[50%] border border-[#DAE9DD]">
+        <Link
+          href="#"
+          className="flex h-7.5 w-7.5 cursor-pointer items-center justify-center rounded-[50%] border border-[#DAE9DD]"
+        >
           <ArrowIcon className="fill-error" />
-        </div>
+        </Link>
       </div>
     </div>
   );

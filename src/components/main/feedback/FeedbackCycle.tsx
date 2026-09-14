@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import FeedbackImg from "@/assets/main/feedback.png";
 
 const FeedbackBox = ({ text, angle }: { text: string; angle: number }) => {
@@ -61,7 +60,7 @@ export default function FeedbackCycle() {
       </div>
       <Image
         src={FeedbackImg}
-        alt="feedback"
+        alt=""
         width={190}
         loading="lazy"
         className="z-10 duration-300 ease-in-out hover:scale-120"

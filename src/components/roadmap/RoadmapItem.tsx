@@ -1,9 +1,7 @@
 import Image from "next/image";
-
 import DoneIcon from "@/assets/roadmap/done.png";
 import PlayIcon from "@/assets/roadmap/play.png";
 import LockIcon from "@/assets/roadmap/lock.png";
-
 import type { RoadmapStatus } from "@/types/roadmap/roadMapItem";
 
 interface RoadmapItemProps {

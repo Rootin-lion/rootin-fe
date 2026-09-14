@@ -1,15 +1,12 @@
 import Image from "next/image";
-
 import CharImg from "@/assets/contests/result/char.png";
-
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
-
 import ScoreSection from "./ScoreSection";
 import RankSection from "./RankSection";
 
 export default function ResultSummarySide() {
   return (
-    <div className="flex min-w-37 flex-col items-center rounded-lg bg-white px-5 py-7">
+    <div className="flex max-h-122.5 min-w-37 flex-col items-center rounded-lg bg-white px-5 py-7">
       <div className="border-primary-300 flex h-20 w-20 flex-col items-center justify-center rounded-[50%] border">
         <Image src={CharImg} alt="char" width={73} height={80} />
       </div>

@@ -1,7 +1,5 @@
 import Image from "next/image";
-
 import TimerIcon from "@/assets/contests/solve/timer.png";
-
 import QuestionSurface from "./QuestionSurface";
 
 export default function QuestionTimer() {

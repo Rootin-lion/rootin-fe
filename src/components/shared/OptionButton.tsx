@@ -1,5 +1,12 @@
 type OptionButtonType = "outline" | "filled";
 
+interface OptionButtonProps {
+  children: React.ReactNode;
+  variant: OptionButtonType;
+  selected: boolean;
+  onClick?: () => void;
+}
+
 const VARIANT_STYLES = {
   outline: {
     base: "rounded-md  bg-white px-3 py-1.5 text-[14px] font-medium text-black transition-colors",
@@ -18,17 +25,13 @@ export default function OptionButton({
   variant,
   selected,
   onClick,
-}: {
-  children: React.ReactNode;
-  variant: OptionButtonType;
-  selected: boolean;
-  onClick?: () => void;
-}) {
+}: OptionButtonProps) {
   const styles = VARIANT_STYLES[variant];
 
   return (
     <button
       type="button"
+      aria-pressed={selected}
       onClick={onClick}
       className={`cursor-pointer border ${styles.base} ${
         selected ? styles.selected : styles.unselected
