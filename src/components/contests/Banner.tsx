@@ -2,7 +2,7 @@ import Image from "next/image";
 import TrophyImg from "../../assets/contests/trophy.png";
 import React from "react";
 import { TodayCompetitionState } from "@/types/contests/competition";
-import ContestJoinButton from "./ContestJoinButton";
+import GradientOutlineButton from "../shared/GradientOutlineButton";
 
 const Status = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -91,7 +91,9 @@ export default function Banner({
                   <p>대회 입장까지</p>
                   <p className="text-[24px] font-bold">12분 30초</p>
                   <div className="mt-6">
-                    <ContestJoinButton>대회 준비중</ContestJoinButton>
+                    <GradientOutlineButton variant="gradient">
+                      대회 준비중
+                    </GradientOutlineButton>
                   </div>
                 </>
               ) : (
@@ -102,9 +104,9 @@ export default function Banner({
                   </p>
                   <p>132명이 참가했어요.</p>
                   <div className="mt-3">
-                    <ContestJoinButton onClick={onClick}>
+                    <GradientOutlineButton variant="gradient" onClick={onClick}>
                       대회 참여하기
-                    </ContestJoinButton>
+                    </GradientOutlineButton>
                   </div>
                 </>
               )}

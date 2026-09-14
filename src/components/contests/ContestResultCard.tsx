@@ -1,26 +1,6 @@
-import { ContestResultsState } from "@/types/contests/competition";
 import React from "react";
-
-const CardButton = ({
-  children,
-  isDisabled,
-  onClick,
-}: {
-  children: React.ReactNode;
-  isDisabled: boolean;
-  onClick?: () => void;
-}) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={isDisabled}
-      className={`${isDisabled ? "border-primary-900 text-black" : "border-disabled-text text-disabled-text"} cursor-pointer rounded-2xl border px-4 py-1 text-[12px] font-semibold`}
-    >
-      {children}
-    </button>
-  );
-};
+import { ContestResultsState } from "@/types/contests/competition";
+import GradientOutlineButton from "../shared/GradientOutlineButton";
 
 export default function ContestResultCard({
   contests,
@@ -49,7 +29,9 @@ export default function ContestResultCard({
       </div>
 
       <div className="text-right">
-        <CardButton isDisabled={contests.viewable}>결과 보기</CardButton>
+        <GradientOutlineButton variant="outline" disabled={!contests.viewable}>
+          결과 보기
+        </GradientOutlineButton>
       </div>
     </div>
   );

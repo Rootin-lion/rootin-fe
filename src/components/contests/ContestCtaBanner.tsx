@@ -1,6 +1,6 @@
 import Image from "next/image";
 import BannerImg from "../../assets/contests/bannerImg.png";
-import ContestJoinButton from "./ContestJoinButton";
+import GradientOutlineButton from "../shared/GradientOutlineButton";
 
 export default function ContestCtaBanner({ onClick }: { onClick: () => void }) {
   return (
@@ -20,7 +20,9 @@ export default function ContestCtaBanner({ onClick }: { onClick: () => void }) {
           </div>
         </div>
         <div>
-          <ContestJoinButton onClick={onClick}>대회 참여하기</ContestJoinButton>
+          <GradientOutlineButton variant="gradient" onClick={onClick}>
+            대회 참여하기
+          </GradientOutlineButton>
         </div>
       </div>
     </div>
