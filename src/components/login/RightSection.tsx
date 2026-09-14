@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import LogoImg from "../../assets/logo.png";
-import KakaoImg from "../../assets/login/kakao.png";
-import GoogleImg from "../../assets/login/google.png";
+import Image from "next/image";
+
+import LogoImg from "@/assets/logo.png";
+import KakaoImg from "@/assets/login/kakao.png";
+import GoogleImg from "@/assets/login/google.png";
 
 const ButtonText = ({ text }: { text: string }) => {
   return <p className="text-[15px] font-medium">{text}</p>;
@@ -12,7 +13,8 @@ const ButtonText = ({ text }: { text: string }) => {
 
 const KakaoButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <div
+    <button
+      type="button"
       className="flex cursor-pointer items-center gap-20 rounded-xl bg-[#FEE500] px-6 py-4"
       onClick={onClick}
     >
@@ -24,13 +26,14 @@ const KakaoButton = ({ onClick }: { onClick: () => void }) => {
         loading="eager"
       />
       <ButtonText text="카카오 계정으로 시작하기" />
-    </div>
+    </button>
   );
 };
 
 const GoogleButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <div
+    <button
+      type="button"
       className="flex cursor-pointer items-center gap-20 rounded-xl border border-[#6FB377] bg-white px-6 py-4"
       onClick={onClick}
     >
@@ -42,7 +45,7 @@ const GoogleButton = ({ onClick }: { onClick: () => void }) => {
         loading="eager"
       />
       <ButtonText text="구글 계정으로 시작하기" />
-    </div>
+    </button>
   );
 };
 

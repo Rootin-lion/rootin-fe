@@ -1,5 +1,6 @@
 import Image from "next/image";
-import TimerIcon from "../../../assets/interviews/timer.png";
+
+import TimerIcon from "@/assets/interviews/timer.png";
 
 export default function InterviewVideo() {
   return (

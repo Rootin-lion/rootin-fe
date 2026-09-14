@@ -1,6 +1,8 @@
 import Image from "next/image";
-import BannerImg from "../../assets/contests/bannerImg.png";
-import GradientOutlineButton from "../shared/GradientOutlineButton";
+
+import BannerImg from "@/assets/contests/bannerImg.png";
+
+import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
 
 export default function ContestCtaBanner({ onClick }: { onClick: () => void }) {
   return (

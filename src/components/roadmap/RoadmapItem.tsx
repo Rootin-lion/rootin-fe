@@ -1,8 +1,10 @@
-import DoneIcon from "../../assets/roadmap/done.png";
-import PlayIcon from "../../assets/roadmap/play.png";
-import LockIcon from "../../assets/roadmap/lock.png";
 import Image from "next/image";
-import { RoadmapStatus } from "@/types/roadmap/roadMapItem";
+
+import DoneIcon from "@/assets/roadmap/done.png";
+import PlayIcon from "@/assets/roadmap/play.png";
+import LockIcon from "@/assets/roadmap/lock.png";
+
+import type { RoadmapStatus } from "@/types/roadmap/roadMapItem";
 
 interface RoadmapItemProps {
   status: RoadmapStatus;
@@ -18,7 +20,7 @@ const BG_COLORS = {
   LAST: { bg: "bg-[#E1E1E1]", img: LockIcon },
 };
 
-export function RoadmapItem({
+export default function RoadmapItem({
   status,
   isPlaying,
   step,

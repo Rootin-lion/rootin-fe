@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import RankingPagination from "./RankingPagination";
 
 const rowLayout =

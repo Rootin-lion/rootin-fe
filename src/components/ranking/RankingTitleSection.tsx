@@ -1,4 +1,4 @@
-import RefreshIcon from "../../assets/ranking/refresh.svg";
+import RefreshIcon from "@/assets/ranking/refresh.svg";
 
 const RefreshButton = () => {
   return (

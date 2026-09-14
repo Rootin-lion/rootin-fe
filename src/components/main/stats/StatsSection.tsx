@@ -1,5 +1,6 @@
-import { SectionWrapper } from "../SectionWrapper";
-import { AnimatedNumber } from "./AnimatedNumber";
+import SectionWrapper from "@/components/main/SectionWrapper";
+
+import AnimatedNumber from "./AnimatedNumber";
 
 interface StatItem {
   id: number;

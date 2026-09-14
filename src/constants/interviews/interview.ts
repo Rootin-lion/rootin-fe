@@ -1,12 +1,13 @@
-import { InterviewFieldType } from "@/types/interviews/interview";
-import OsImg from "../../assets/interviews/os.png";
-import NetworkImg from "../../assets/interviews/network.png";
-import DbImg from "../../assets/interviews/db.png";
-import DataImg from "../../assets/interviews/data.png";
-import InfraImg from "../../assets/interviews/infra.png";
-import SpringImg from "../../assets/interviews/spring.png";
+import OsImg from "@/assets/interviews/os.png";
+import NetworkImg from "@/assets/interviews/network.png";
+import DbImg from "@/assets/interviews/db.png";
+import DataImg from "@/assets/interviews/data.png";
+import InfraImg from "@/assets/interviews/infra.png";
+import SpringImg from "@/assets/interviews/spring.png";
 
-export const TOPIC_LIST: {
+import type { InterviewFieldType } from "@/types/interviews/interview";
+
+export const Field_LIST: {
   id: number;
   title: string;
   label: InterviewFieldType;

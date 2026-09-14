@@ -3,7 +3,8 @@ type GradientOutlineButtonType = "gradient" | "outline";
 interface GradientOutlineButtonProps {
   children: React.ReactNode;
   variant: GradientOutlineButtonType;
-  disabled: boolean;
+  disabled?: boolean;
+  onClick?: () => void;
   className?: string;
 }
 
@@ -25,6 +26,7 @@ export default function GradientOutlineButton({
   children,
   variant = "gradient",
   disabled = false,
+  onClick,
   className = "",
 }: GradientOutlineButtonProps) {
   const styles = VARIANT_STYLES[variant];
@@ -33,6 +35,7 @@ export default function GradientOutlineButton({
     <button
       type="button"
       disabled={disabled}
+      onClick={onClick}
       className={`${styles.base} ${disabled ? styles.enabled : styles.abled} focus-visible:ring-primary-900 border font-semibold transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none enabled:cursor-pointer enabled:active:scale-95 disabled:cursor-not-allowed ${className}`}
     >
       {children}

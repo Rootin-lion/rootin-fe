@@ -1,11 +1,14 @@
-import Button from "../shared/Button";
+import type InterviewConfig from "@/types/interviews/interview";
+import type {
+  InterviewFieldType,
+  InterviewModeType,
+} from "@/types/interviews/interview";
+
+import Button from "@/components/shared/Button";
+
 import InterviewCount from "./InterviewCount";
 import InterviewMode from "./InterviewMode";
 import InterviewTopic from "./InterviewField";
-import InterviewConfig, {
-  InterviewFieldType,
-  InterviewModeType,
-} from "../../types/interviews/interview";
 
 export default function InterviewSetup({
   config,

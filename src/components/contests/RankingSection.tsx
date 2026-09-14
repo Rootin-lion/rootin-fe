@@ -1,15 +1,16 @@
 "use client";
 
-// import Image from "next/image";
 import { useState } from "react";
-import BoxWrapper from "../shared/BoxWrapper";
-// import RankingBoxWrapper from "./RankingBoxWrapper";
+import Link from "next/link";
+
+import type { RankingState } from "@/types/contests/competition";
+
+import BoxWrapper from "@/components/shared/BoxWrapper";
+
 import SectionTitle from "./SectionTitle";
 import RankingBox from "./ranking/RankingBox";
 import RankingCircle from "./ranking/RankingCircle";
 import RankingConnector from "./ranking/RankingConnector";
-import { RankingState } from "@/types/contests/competition";
-import Link from "next/link";
 
 export default function RankingSection() {
   const [rankings, setRankings] = useState<RankingState[]>([

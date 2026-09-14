@@ -1,9 +1,11 @@
 "use client";
 
-import FieldSelect from "@/components/onboarding/FieldSelect";
+import { useState } from "react";
+
 import Button from "@/components/shared/Button";
 import InputWrapper from "@/components/shared/InputWrapper";
-import { useState } from "react";
+
+import FieldSelect from "@/components/onboarding/FieldSelect";
 
 interface OnBoardingInfo {
   nickname: string;

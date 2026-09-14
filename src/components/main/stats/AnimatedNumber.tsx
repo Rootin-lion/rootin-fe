@@ -25,7 +25,7 @@ function parseValue(value: string) {
   };
 }
 
-export function AnimatedNumber({
+export default function AnimatedNumber({
   value,
   duration = 1400,
 }: AnimatedNumberProps) {

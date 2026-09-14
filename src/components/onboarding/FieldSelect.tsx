@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import OptionButton from "../shared/OptionButton";
+
+import OptionButton from "@/components/shared/OptionButton";
 
 type CareerOption = {
   label: string;

@@ -1,8 +1,10 @@
+import Image from "next/image";
+
+import UpIcon from "@/assets/contests/result/up.png";
+
+// import DownIcon from "@/assets/contests/result/down.png";
 import SectionTitle from "./SectionTitle";
 import SelectedNumber from "./SelectedNumber";
-import UpIcon from "../../../assets/contests/result/up.png";
-import Image from "next/image";
-// import DownIcon from "../../../assets/contests/result/down.png";
 
 export default function RankSection() {
   return (

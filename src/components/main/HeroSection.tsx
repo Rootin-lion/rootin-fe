@@ -1,10 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import HeroImg from "../../assets/hero.png";
-import { SectionWrapper } from "./SectionWrapper";
-import PrimaryDarkButton from "../shared/PrimaryDarkButton";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+import HeroImg from "@/assets/hero.png";
+
+import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
+
+import SectionWrapper from "./SectionWrapper";
 
 export function HeroSection() {
   const router = useRouter();
