@@ -1,3 +1,4 @@
+import QuestionPanel from "../shared/QuestionPanel";
 import DetailWrapper from "./DetailWrapper";
 
 type ItemType = "CORRECT" | "INCORRECT" | "UNANSWERED";
@@ -47,6 +48,8 @@ export default function ResultSection() {
         <ResultItem type="CORRECT" />
         <ResultItem type="CORRECT" />
       </div>
+
+      <QuestionPanel variant="result" />
     </DetailWrapper>
   );
 }
