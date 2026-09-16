@@ -7,12 +7,14 @@ import type {
   InterviewModeType,
 } from "@/types/interviews/interview";
 
-// import ModalWrapper from "@/components/shared/ModalWrapper";
-// import Button from "@/components/shared/Button";
+import ModalWrapper from "@/components/shared/ModalWrapper";
+import Button from "@/components/shared/Button";
 import InterviewPreview from "@/components/interviews/InterviewPreview";
 import InterviewSetup from "@/components/interviews/InterviewSetup";
+import useModal from "@/hooks/useModal";
 
 export default function InterviewPage() {
+  const { isModalOpen, openModal, closeModal } = useModal();
   const [config, setConfig] = useState<InterviewConfig>({
     field: "OPERATING_SYSTEM",
     questionCount: null,
@@ -35,7 +37,8 @@ export default function InterviewPage() {
 
   return (
     <div className="bg-bg-ivory border-bg-green-200 mx-auto mt-11 flex max-w-218 flex-row gap-5 rounded-[14px] border px-6 py-9">
-      {/* <ModalWrapper>
+      {isModalOpen && (
+        <ModalWrapper onClose={closeModal}>
           <ModalWrapper.Box>
             <ModalWrapper.Title>면접을 시작하시겠습니까?</ModalWrapper.Title>
           </ModalWrapper.Box>
@@ -43,7 +46,7 @@ export default function InterviewPage() {
             <div className="text-text text-[15px] font-semibold">
               면접 주의사항
             </div>
-            <ul className="text-disabled-text mt-3 list-inside list-disc text-[13px] font-medium whitespace-pre-line">
+            <ul className="text-disabled-text mt-3 list-outside list-disc pl-5 text-[12px] leading-5 font-medium">
               <li>면접 시작 전 마이크 및 카메라 권한을 확인해주세요.</li>
               <li>제한 시간 초과 시 빈 문자열이 자동 제출됩니다.</li>
               <li>
@@ -54,17 +57,19 @@ export default function InterviewPage() {
           </ModalWrapper.Notice>
           <ModalWrapper.Box>
             <div className="flex flex-row gap-6">
-              <Button>취소</Button>
+              <Button onClick={closeModal}>취소</Button>
               <Button isActive={true}>시작하기</Button>
             </div>
           </ModalWrapper.Box>
-        </ModalWrapper> */}
+        </ModalWrapper>
+      )}
 
       <InterviewSetup
         config={config}
         onFieldChange={handleFieldChange}
         onQuestionCountChange={handleQuestionCountChange}
         onInterviewModeChange={handleInterviewModeChange}
+        onStart={openModal}
       />
       <InterviewPreview field={config.field} />
     </div>

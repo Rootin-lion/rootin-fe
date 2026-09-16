@@ -13,11 +13,13 @@ export default function InterviewSetup({
   onFieldChange,
   onQuestionCountChange,
   onInterviewModeChange,
+  onStart,
 }: {
   config: InterviewConfig;
   onFieldChange: (field: InterviewFieldType) => void;
   onQuestionCountChange: (questionCount: null | number) => void;
   onInterviewModeChange: (interviewMode: InterviewModeType) => void;
+  onStart: () => void;
 }) {
   return (
     <div className="flex w-111 flex-col gap-6">
@@ -30,7 +32,9 @@ export default function InterviewSetup({
         interviewMode={config.interviewMode}
         onChange={onInterviewModeChange}
       />
-      <Button isActive={true}>면접 시작하기</Button>
+      <Button isActive={true} onClick={onStart}>
+        면접 시작하기
+      </Button>
     </div>
   );
 }

@@ -6,6 +6,7 @@ interface ButtonProps {
   disabled?: boolean;
   isActive?: boolean;
   onClick?: () => void;
+  className?: string;
   "aria-pressed"?: boolean;
 }
 
@@ -15,6 +16,7 @@ export default function Button({
   disabled,
   isActive = false,
   onClick,
+  className,
   "aria-pressed": ariaPressed,
 }: ButtonProps) {
   const bgStyle = isActive ? "bg-primary" : "bg-[#D5D9DD]";
@@ -26,7 +28,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       aria-pressed={ariaPressed}
-      className={`min-w-25 py-2 ${bgStyle} ${textStyle} ${cursorStyle} w-full rounded-lg font-medium`}
+      className={`${className} flex min-w-25 items-center justify-center py-2 ${bgStyle} ${textStyle} ${cursorStyle} w-full rounded-lg font-medium`}
       onClick={onClick}
     >
       {children}

@@ -1,5 +1,6 @@
 import PrevIcon from "@/assets/ranking/prev.svg";
 import NextIcon from "@/assets/ranking/next.svg";
+import Link from "next/link";
 
 const PageNumberButton = ({
   page,
@@ -11,14 +12,15 @@ const PageNumberButton = ({
   onClick: (page: number) => void;
 }) => {
   return (
-    <div
+    <Link
+      href="#"
       className={`${isActive ? "bg-primary flex h-7 w-7 shrink-0 items-center justify-center rounded-[50%] text-white" : "text-text"} text-body-3 cursor-pointer`}
       onClick={() => {
         onClick(page);
       }}
     >
       {page}
-    </div>
+    </Link>
   );
 };
 

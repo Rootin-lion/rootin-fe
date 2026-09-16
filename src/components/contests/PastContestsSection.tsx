@@ -58,7 +58,6 @@ export default function PastContestsSection() {
         <SectionTitle
           title="종료된 대회"
           content="이전 대회의 결과를 확인해보세요."
-          isRanking={true}
         />
         <div className="mt-7 flex w-full justify-center">
           <div className="grid w-full max-w-210 grid-cols-2 justify-items-center gap-6">

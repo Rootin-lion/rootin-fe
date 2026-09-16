@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import LogoImg from "@/assets/logo.png";
 
 const NavItems = [
@@ -9,8 +12,17 @@ const NavItems = [
 ];
 
 const NavItem = ({ content, to }: { content: string; to: string }) => {
+  const pathname = usePathname();
+  const isActive = pathname === to || pathname.startsWith(`${to}/`);
+
   return (
-    <Link href={to} className="text-sub-text text-[15px] font-medium">
+    <Link
+      href={to}
+      aria-current={
+        isActive ? (pathname === to ? "page" : "location") : undefined
+      }
+      className={`text-[15px] ${isActive ? "text-primary-900 font-bold" : "text-sub-text font-medium"}`}
+    >
       {content}
     </Link>
   );
@@ -24,7 +36,7 @@ export default function Header() {
           <Link href="/">
             <Image
               src={LogoImg}
-              alt="logo"
+              alt=""
               width={120}
               height={38}
               className="cursor-pointer"
