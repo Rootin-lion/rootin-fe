@@ -1,4 +1,4 @@
-import BookmarkIcon from "@/assets/contests/bookmark.svg";
+import BookmarkAction from "@/components/shared/BookmarkAction";
 
 const QuestionOption = () => {
   return (
@@ -23,13 +23,7 @@ export default function QuestionCard({
           1. 프로세스(Process)와 스레드(Thread)의 관계에 대한 설명으로 옳은
           것은?
         </h1>
-        {showBookmark && (
-          <BookmarkIcon
-            className="text-disabled-text h-6 w-6 shrink-0"
-            role="img"
-            aria-label="북마크"
-          />
-        )}
+        {showBookmark && <BookmarkAction />}
       </div>
       <div className="mt-7.5 flex flex-col gap-4">
         <QuestionOption />

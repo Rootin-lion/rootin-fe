@@ -302,3 +302,19 @@ body {
     border-radius: 9999px;
   }
 }
+
+/* 면접 채팅 AI 로딩 애니메이션 */
+@keyframes typing-bounce {
+  0%,
+  100% {
+    transform: translateY(-7px);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+}
+
+@utility animate-typing-bounce {
+  animation: typing-bounce 1s ease-in-out infinite;
+}

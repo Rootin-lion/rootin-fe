@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { TodayCompetitionState } from "@/types/contests/competition";
+import useModal from "@/hooks/useModal";
 import Button from "@/components/shared/Button";
 import ModalWrapper from "@/components/shared/ModalWrapper";
 import RankingSection from "@/components/contests/RankingSection";
@@ -29,20 +30,12 @@ export default function ContestPage() {
       status: "IN_PROGRESS",
       remainingSeconds: 4753,
     });
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
     <div className="bg-bg-green-50 flex w-full flex-col gap-6">
       {isModalOpen && (
-        <ModalWrapper onClose={handleModalClose}>
+        <ModalWrapper onClose={closeModal}>
           <ModalWrapper.Box>
             <ModalWrapper.Title>대회에 참여하시겠습니까?</ModalWrapper.Title>
           </ModalWrapper.Box>
@@ -58,7 +51,7 @@ export default function ContestPage() {
           </ModalWrapper.Notice>
           <ModalWrapper.Box>
             <div className="flex flex-row gap-6">
-              <Button onClick={handleModalClose}>취소</Button>
+              <Button onClick={closeModal}>취소</Button>
               <Button
                 isActive={true}
                 onClick={() =>
@@ -72,13 +65,13 @@ export default function ContestPage() {
         </ModalWrapper>
       )}
 
-      <Banner competition={todayCompetition} onClick={handleModalOpen} />
+      <Banner competition={todayCompetition} onClick={openModal} />
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
         <RankingSection />
         <PastContestsSection />
         <WarningBanner />
       </div>
-      <ContestCtaBanner onClick={handleModalOpen} />
+      <ContestCtaBanner onClick={openModal} />
     </div>
   );
 }

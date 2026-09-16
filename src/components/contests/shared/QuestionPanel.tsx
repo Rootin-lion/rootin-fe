@@ -14,8 +14,10 @@ const NumberLabel = () => {
 
 export default function QuestionPanel({
   variant = "solve",
+  onNext,
 }: {
   variant?: PanelType;
+  onNext?: () => void;
 }) {
   return (
     <QuestionSurface>
@@ -24,7 +26,9 @@ export default function QuestionPanel({
           {variant === "solve" && <NumberLabel />}
           <QuestionCard showBookmark={variant === "result"} />
         </div>
-        {variant === "solve" && <QuestionButtonBox status="isLast" />}
+        {variant === "solve" && (
+          <QuestionButtonBox status="isLast" onClick={onNext} />
+        )}
       </div>
     </QuestionSurface>
   );
