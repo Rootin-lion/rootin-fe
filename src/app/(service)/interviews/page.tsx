@@ -12,8 +12,10 @@ import Button from "@/components/shared/Button";
 import InterviewPreview from "@/components/interviews/InterviewPreview";
 import InterviewSetup from "@/components/interviews/InterviewSetup";
 import useModal from "@/hooks/useModal";
+import { useRouter } from "next/navigation";
 
 export default function InterviewPage() {
+  const router = useRouter();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [config, setConfig] = useState<InterviewConfig>({
     field: "OPERATING_SYSTEM",
@@ -58,7 +60,14 @@ export default function InterviewPage() {
           <ModalWrapper.Box>
             <div className="flex flex-row gap-6">
               <Button onClick={closeModal}>취소</Button>
-              <Button isActive={true}>시작하기</Button>
+              <Button
+                isActive={true}
+                onClick={() => {
+                  router.push("/interviews/2");
+                }}
+              >
+                시작하기
+              </Button>
             </div>
           </ModalWrapper.Box>
         </ModalWrapper>

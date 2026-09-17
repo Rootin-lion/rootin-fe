@@ -307,14 +307,16 @@ body {
 @keyframes typing-bounce {
   0%,
   100% {
+    opacity: 0.45;
     transform: translateY(-7px);
   }
 
   50% {
+    opacity: 1;
     transform: translateY(0);
   }
 }
 
 @utility animate-typing-bounce {
-  animation: typing-bounce 1s ease-in-out infinite;
+  animation: typing-bounce 1.15s ease-in-out infinite;
 }

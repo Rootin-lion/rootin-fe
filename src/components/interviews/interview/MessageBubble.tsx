@@ -20,6 +20,7 @@ export default function MessageBubble({
     >
       {loading ? (
         <span className="flex items-center gap-2" aria-hidden="true">
+          {/* shadow-[0_3px_4px_rgba(81,160,92,0.35)] */}
           <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full [animation-delay:-300ms] motion-reduce:animate-none" />
           <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full [animation-delay:-150ms] motion-reduce:animate-none" />
           <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full motion-reduce:animate-none" />
