@@ -28,7 +28,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       aria-pressed={ariaPressed}
-      className={`${className} flex min-w-25 items-center justify-center py-2 ${bgStyle} ${textStyle} ${cursorStyle} w-full rounded-lg font-medium`}
+      className={`${className} flex min-w-25 items-center justify-center py-2.5 ${bgStyle} ${textStyle} ${cursorStyle} w-full rounded-lg text-[14px] font-medium`}
       onClick={onClick}
     >
       {children}

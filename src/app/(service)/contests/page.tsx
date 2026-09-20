@@ -28,6 +28,7 @@ export default function ContestPage() {
       startAt: "2026-08-03T12:00:00",
       endAt: "2026-08-03T13:00:00",
       status: "IN_PROGRESS",
+      // status: "BEFORE_START",
       remainingSeconds: 4753,
     });
   const { isModalOpen, openModal, closeModal } = useModal();

@@ -37,7 +37,7 @@ export default function Header() {
             <Image
               src={LogoImg}
               alt=""
-              width={120}
+              width={100}
               height={38}
               className="cursor-pointer"
               loading="eager"

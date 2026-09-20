@@ -8,7 +8,7 @@ export default function ServiceLayout({
   return (
     <div className="bg-bg-ivory flex min-h-dvh flex-col">
       <Header />
-      <main className="flex flex-1 flex-col">{children}</main>
+      <main className="bg-bg-green-50 flex flex-1 flex-col">{children}</main>
     </div>
   );
 }

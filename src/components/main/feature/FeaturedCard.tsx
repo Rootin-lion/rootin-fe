@@ -26,7 +26,7 @@ export function FeatureCard({ item }: FeatureCardProps) {
           href="#"
           className="flex h-7.5 w-7.5 cursor-pointer items-center justify-center rounded-[50%] border border-[#DAE9DD]"
         >
-          <ArrowIcon className="fill-error" />
+          <ArrowIcon className="fill-primary-900" />
         </Link>
       </div>
     </div>

@@ -29,6 +29,7 @@ export default function QuestionCard({
         <QuestionOption />
         <QuestionOption />
         <QuestionOption />
+        <QuestionOption />
       </div>
     </div>
   );
