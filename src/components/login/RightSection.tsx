@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import LogoImg from "@/assets/logo.png";
 import KakaoImg from "@/assets/login/kakao.png";
@@ -41,8 +40,6 @@ const HighlightText = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default function RightSection() {
-  const router = useRouter();
-
   return (
     <section className="bg-primary-50 flex flex-1 items-center justify-start">
       <div className="ml-26 flex flex-col items-center justify-center">
@@ -55,12 +52,12 @@ export default function RightSection() {
         <div className="mt-8 flex w-full max-w-95 flex-col gap-6">
           <KakaoButton
             onClick={() => {
-              router.push("/onboarding");
+              window.location.assign("/oauth/kakao");
             }}
           />
           <GoogleButton
             onClick={() => {
-              router.push("/onboarding");
+              window.location.assign("/oauth/google");
             }}
           />
         </div>
