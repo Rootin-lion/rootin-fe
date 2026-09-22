@@ -2,8 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
-import { AuthInitializer } from "@/stores/useAuthStore";
-import { AuthSession } from "@/types/oauth/auth";
+import { AuthSession } from "@/types/oauth/oauth";
 
 export default async function ServiceLayout({
   children,
@@ -11,26 +10,24 @@ export default async function ServiceLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
+  const rawSession = cookieStore.get("memberSnapshot")?.value;
+  let member: AuthSession["member"] | null = null;
 
   if (!cookieStore.get("sessionToken")?.value) {
     redirect("/login");
   }
 
-  const rawSession = cookieStore.get("memberSnapshot")?.value;
-  let session: AuthSession | null = null;
-
   if (rawSession) {
     try {
-      session = JSON.parse(rawSession) as AuthSession;
+      member = (JSON.parse(rawSession) as AuthSession).member ?? null;
     } catch {
-      session = null;
+      redirect("/login");
     }
   }
 
   return (
     <div className="bg-bg-ivory flex min-h-dvh flex-col">
-      <AuthInitializer session={session} />
-      <Header />
+      <Header member={member} />
       <main className="bg-bg-green-50 flex flex-1 flex-col">{children}</main>
       <Footer />
     </div>

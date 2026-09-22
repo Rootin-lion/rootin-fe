@@ -9,7 +9,7 @@ import {
   KAKAO_STATE_COOKIE,
   KAKAO_STATE_COOKIE_PATH,
 } from "@/constants/oauth";
-import { AuthSession } from "@/types/oauth/auth";
+import { AuthSession } from "@/types/oauth/oauth";
 
 const providers = {
   kakao: {

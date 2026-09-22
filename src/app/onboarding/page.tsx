@@ -1,147 +1,26 @@
-"use client";
+import OnboardingForm from "@/components/onboarding/OnboardingForm";
+import { AuthSession } from "@/types/oauth/oauth";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-import { useState } from "react";
-import Button from "@/components/shared/Button";
-import InputWrapper from "@/components/shared/InputWrapper";
-import FieldSelect from "@/components/onboarding/FieldSelect";
+export default async function OnBoardingPage() {
+  const cookieStore = await cookies();
+  const rawSession = cookieStore.get("memberSnapshot")?.value;
 
-interface OnBoardingInfo {
-  nickname: string;
-  ageGroup: number;
-  interestFields: string[];
-}
+  if (!cookieStore.get("sessionToken")?.value) {
+    redirect("/login");
+  }
 
-const careerOptions = [
-  { label: "데이터베이스", value: "데이터베이스" },
-  { label: "인프라(Docker/AWS)", value: "인프라(Docker/AWS)" },
-  { label: "자료구조/알고리즘", value: "자료구조/알고리즘" },
-  { label: "네트워크", value: "네트워크" },
-  { label: "자바/스프링", value: "자바/스프링" },
-  { label: "운영체제", value: "운영체제" },
-];
+  if (!rawSession) redirect("/login");
 
-export default function OnBoardingPage() {
-  const [info, setInfo] = useState<OnBoardingInfo>({
-    nickname: "",
-    ageGroup: 0,
-    interestFields: [],
-  });
+  let session: AuthSession;
+  try {
+    session = JSON.parse(rawSession) as AuthSession;
+  } catch {
+    redirect("/login");
+  }
 
-  const handleAgeGroupClick = (targetAge: number) => {
-    setInfo((prev) => ({
-      ...prev,
-      ageGroup: prev.ageGroup === targetAge ? 0 : targetAge,
-    }));
-  };
+  if (typeof session.member?.email !== "string") redirect("/login");
 
-  const handleInterestClick = (targetInterest: string) => {
-    if (
-      info.interestFields.length >= 3 &&
-      !info.interestFields.includes(targetInterest)
-    )
-      return;
-
-    setInfo((prev) => ({
-      ...prev,
-      interestFields: prev.interestFields.includes(targetInterest)
-        ? prev.interestFields.filter(
-            (interestFields) => interestFields !== targetInterest,
-          )
-        : [...prev.interestFields, targetInterest],
-    }));
-  };
-
-  const isSubmitEnabled =
-    info.nickname.trim() !== "" &&
-    info.ageGroup !== 0 &&
-    info.interestFields.length > 0;
-
-  return (
-    <main className="bg-primary-50 flex min-h-dvh flex-col items-center justify-center">
-      <h1 className="text-text text-[28px] font-bold">프로필 설정</h1>
-
-      <form className="mt-8 flex w-full max-w-108 flex-col gap-6">
-        <InputWrapper>
-          <InputWrapper.Label>이메일</InputWrapper.Label>
-          <InputWrapper.Input
-            type="email"
-            disabled
-            readOnly
-            value="이메일@example.com"
-            placeholder="이메일을 입력해주세요."
-            className="bg-bg-green-100 border-[#D5D9DD]"
-          />
-        </InputWrapper>
-
-        <InputWrapper>
-          <InputWrapper.Label htmlFor="nickname">닉네임</InputWrapper.Label>
-          <InputWrapper.Input
-            type="text"
-            id="nickname"
-            name="nickname"
-            required
-            placeholder="닉네임을 입력해주세요."
-            value={info.nickname}
-            onChange={(e) => {
-              setInfo((prev) => ({ ...prev, nickname: e.target.value }));
-            }}
-            onDelete={() => {
-              setInfo((prev) => ({ ...prev, nickname: "" }));
-            }}
-          />
-        </InputWrapper>
-
-        <InputWrapper>
-          <InputWrapper.Label>연령대</InputWrapper.Label>
-          <div className="flex justify-center gap-2">
-            <Button
-              isActive={info.ageGroup === 10}
-              aria-pressed={info.ageGroup === 10}
-              onClick={() => handleAgeGroupClick(10)}
-            >
-              10대
-            </Button>
-            <Button
-              isActive={info.ageGroup === 20}
-              aria-pressed={info.ageGroup === 20}
-              onClick={() => handleAgeGroupClick(20)}
-            >
-              20대
-            </Button>
-            <Button
-              isActive={info.ageGroup === 30}
-              aria-pressed={info.ageGroup === 30}
-              onClick={() => handleAgeGroupClick(30)}
-            >
-              30대
-            </Button>
-            <Button
-              isActive={info.ageGroup === 40}
-              aria-pressed={info.ageGroup === 40}
-              onClick={() => handleAgeGroupClick(40)}
-            >
-              40대
-            </Button>
-          </div>
-        </InputWrapper>
-
-        <InputWrapper>
-          <InputWrapper.Label>관심분야</InputWrapper.Label>
-          <FieldSelect
-            value={info.interestFields}
-            options={careerOptions}
-            onClick={handleInterestClick}
-          />
-        </InputWrapper>
-
-        <Button
-          type="submit"
-          disabled={!isSubmitEnabled}
-          isActive={isSubmitEnabled}
-        >
-          저장하기
-        </Button>
-      </form>
-    </main>
-  );
+  return <OnboardingForm email={session.member.email} />;
 }

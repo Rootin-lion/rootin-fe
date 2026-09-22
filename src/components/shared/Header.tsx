@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoImg from "@/assets/logo.png";
-import { useAuthStore } from "@/stores/useAuthStore";
+import { AuthMember } from "@/types/oauth/oauth";
 
 const NavItems = [
   { id: 1, content: "CS 대회", to: "/contests" },
@@ -29,11 +29,10 @@ const NavItem = ({ content, to }: { content: string; to: string }) => {
   );
 };
 
-export default function Header() {
-  const member = useAuthStore((state) => state.session?.member);
+export default function Header({ member }: { member: AuthMember | null }) {
   const nickname =
     typeof member?.nickname === "string" ? member.nickname.trim() : "";
-  const profileImage =
+  const profileImg =
     typeof member?.imgUrl === "string" ? member.imgUrl.trim() : "";
 
   return (
@@ -64,9 +63,9 @@ export default function Header() {
                 : "회원님"
               : "로그인해 주세요"}
           </p>
-          {profileImage ? (
+          {profileImg ? (
             <Image
-              src={profileImage}
+              src={profileImg}
               alt=""
               width={44}
               height={44}
