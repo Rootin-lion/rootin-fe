@@ -28,12 +28,18 @@ export default function FieldSelect({
       ? "최대 3개까지 선택할 수 있어요"
       : "관심분야를 선택해주세요";
 
-  const selectedValues = value.map((career) => career).join(", ");
+  const selectedValues = value
+    .map(
+      (selectedValue) =>
+        options.find((option) => option.value === selectedValue)?.label ??
+        selectedValue,
+    )
+    .join(", ");
 
   return (
     <div className="flex flex-col gap-2">
       <div
-        className={`rounded-lg bg-white ${isOpen ? "border border-[#9FD1A5]" : ""} py-2`}
+        className={`rounded-lg bg-white ${isOpen || selectedOption ? "border-2 border-[#9FD1A5]" : ""}`}
       >
         <button
           type="button"
@@ -42,7 +48,7 @@ export default function FieldSelect({
           className="text-sub-text flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-4 py-3 text-left text-[12px]"
         >
           <span
-            className={`text-[12px] ${selectedOption ? "text-[#1A1A1A]" : ""}`}
+            className={`text-[14px] ${selectedOption ? "text-[#1A1A1A]" : ""}`}
           >
             {value && value.length > 0 ? selectedValues : message}
           </span>

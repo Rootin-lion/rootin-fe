@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import InputWrapper from "../shared/InputWrapper";
-import Button from "../shared/Button";
+import React, { useEffect, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import InputWrapper from "@/components/shared/InputWrapper";
+import Button from "@/components/shared/Button";
 import FieldSelect from "./FieldSelect";
 import { OnboardingPayload } from "@/types/auth/auth";
+import {
+  checkNicknameAction,
+  completeProfileAction,
+} from "@/app/onboarding/action";
+import ErroModal from "../shared/ErrorModal";
+import useErrorModal from "@/hooks/useErrorModal";
 
 const CREATE_OPTIONS = [
   { label: "데이터베이스", value: "DATABASE" },
@@ -16,16 +23,32 @@ const CREATE_OPTIONS = [
 ];
 
 export default function OnboardingForm({ email }: { email: string }) {
+  const router = useRouter();
   const [info, setInfo] = useState<OnboardingPayload>({
     nickname: "",
-    ageGroup: 0,
+    ageGroup: "",
     interestFields: [],
   });
+  const [nicknameAvailable, setNicknameAvailable] = useState<boolean | null>(
+    null,
+  );
+  const { error, setErrorContext, isModalOpen, openModal, closeModal } =
+    useErrorModal();
+  const [isCompletePending, startCompleteTransition] = useTransition();
+  const [, startNicknameTransition] = useTransition();
 
-  const handleAgeGroupClick = (targetAge: number) => {
+  const hanldeNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nickname = e.target.value;
+
+    setInfo((prev) => ({ ...prev, nickname }));
+
+    setNicknameAvailable(null);
+  };
+
+  const handleAgeGroupClick = (targetAge: string) => {
     setInfo((prev) => ({
       ...prev,
-      ageGroup: prev.ageGroup === targetAge ? 0 : targetAge,
+      ageGroup: prev.ageGroup === targetAge ? "" : targetAge,
     }));
   };
 
@@ -46,16 +69,87 @@ export default function OnboardingForm({ email }: { email: string }) {
     }));
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!isSubmitEnabled || isCompletePending) return;
+
+    startCompleteTransition(async () => {
+      try {
+        const res = await completeProfileAction(info);
+
+        if (!res.ok) {
+          setErrorContext(res.error);
+          openModal();
+          return;
+        }
+
+        router.replace("/onboarding/success");
+      } catch {
+        setErrorContext({
+          code: "UNKNOWN_ERROR",
+          message: "프로필 저장 중 오류가 발생했습니다.",
+        });
+        openModal();
+      }
+    });
+  };
+
   const isSubmitEnabled =
     info.nickname.trim() !== "" &&
-    info.ageGroup !== 0 &&
-    info.interestFields.length > 0;
+    info.ageGroup !== "" &&
+    info.interestFields.length > 0 &&
+    nicknameAvailable === true;
+
+  // 닉네임 검증 로직
+  useEffect(() => {
+    const nickname = info.nickname.trim();
+
+    if (!nickname) return;
+
+    // 이전 값 보호
+    let ignore = false;
+
+    const timeoutId = window.setTimeout(() => {
+      startNicknameTransition(async () => {
+        try {
+          const res = await checkNicknameAction(nickname);
+          console.log(res.data);
+
+          if (ignore) return;
+
+          setNicknameAvailable(res?.data?.available);
+        } catch (error) {
+          if (ignore) return;
+
+          console.log(error);
+          setNicknameAvailable(null);
+        }
+      });
+    }, 300);
+
+    return () => {
+      ignore = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [info.nickname]);
 
   return (
     <main className="bg-primary-50 flex min-h-dvh flex-col items-center justify-center">
+      {isModalOpen && (
+        <ErroModal
+          code={error.code}
+          message={error.message}
+          onClose={closeModal}
+        />
+      )}
+
       <h1 className="text-text text-[28px] font-bold">프로필 설정</h1>
 
-      <form className="mt-8 flex w-full max-w-108 flex-col gap-6">
+      <form
+        onSubmit={handleSubmit}
+        className="mt-8 flex w-full max-w-108 flex-col gap-6"
+      >
         <InputWrapper>
           <InputWrapper.Label>이메일</InputWrapper.Label>
           <InputWrapper.Input
@@ -74,12 +168,11 @@ export default function OnboardingForm({ email }: { email: string }) {
             type="text"
             id="nickname"
             name="nickname"
+            isAvailable={nicknameAvailable}
             required
             placeholder="닉네임을 입력해주세요."
             value={info.nickname}
-            onChange={(e) => {
-              setInfo((prev) => ({ ...prev, nickname: e.target.value }));
-            }}
+            onChange={hanldeNicknameChange}
             onDelete={() => {
               setInfo((prev) => ({ ...prev, nickname: "" }));
             }}
@@ -90,30 +183,30 @@ export default function OnboardingForm({ email }: { email: string }) {
           <InputWrapper.Label>연령대</InputWrapper.Label>
           <div className="flex justify-center gap-2">
             <Button
-              isActive={info.ageGroup === 10}
-              aria-pressed={info.ageGroup === 10}
-              onClick={() => handleAgeGroupClick(10)}
+              isActive={info.ageGroup === "TEENS"}
+              aria-pressed={info.ageGroup === "TEENS"}
+              onClick={() => handleAgeGroupClick("TEENS")}
             >
               10대
             </Button>
             <Button
-              isActive={info.ageGroup === 20}
-              aria-pressed={info.ageGroup === 20}
-              onClick={() => handleAgeGroupClick(20)}
+              isActive={info.ageGroup === "TWENTIES"}
+              aria-pressed={info.ageGroup === "TWENTIES"}
+              onClick={() => handleAgeGroupClick("TWENTIES")}
             >
               20대
             </Button>
             <Button
-              isActive={info.ageGroup === 30}
-              aria-pressed={info.ageGroup === 30}
-              onClick={() => handleAgeGroupClick(30)}
+              isActive={info.ageGroup === "THIRTIES"}
+              aria-pressed={info.ageGroup === "THIRTIES"}
+              onClick={() => handleAgeGroupClick("THIRTIES")}
             >
               30대
             </Button>
             <Button
-              isActive={info.ageGroup === 40}
-              aria-pressed={info.ageGroup === 40}
-              onClick={() => handleAgeGroupClick(40)}
+              isActive={info.ageGroup === "FOURTIES"}
+              aria-pressed={info.ageGroup === "FOURTIES"}
+              onClick={() => handleAgeGroupClick("FOURTIES")}
             >
               40대
             </Button>
@@ -131,10 +224,10 @@ export default function OnboardingForm({ email }: { email: string }) {
 
         <Button
           type="submit"
-          disabled={!isSubmitEnabled}
-          isActive={isSubmitEnabled}
+          disabled={!isSubmitEnabled || isCompletePending}
+          isActive={isSubmitEnabled && !isCompletePending}
         >
-          저장하기
+          {isCompletePending ? "저장 중..." : "저장하기"}
         </Button>
       </form>
     </main>

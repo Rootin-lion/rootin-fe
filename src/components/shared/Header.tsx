@@ -34,6 +34,7 @@ export default function Header({ member }: { member: AuthMember | null }) {
     typeof member?.nickname === "string" ? member.nickname.trim() : "";
   const profileImg =
     typeof member?.imgUrl === "string" ? member.imgUrl.trim() : "";
+  const email = typeof member?.email === "string" ? member.email.trim() : "";
 
   return (
     <header className="bg-bg-ivory flex w-full items-center justify-center">
@@ -60,7 +61,7 @@ export default function Header({ member }: { member: AuthMember | null }) {
             {member
               ? nickname
                 ? `${nickname} 님`
-                : "회원님"
+                : `${email}님`
               : "로그인해 주세요"}
           </p>
           {profileImg ? (

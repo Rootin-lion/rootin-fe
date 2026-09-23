@@ -1,37 +1,33 @@
 import Image from "next/image";
 import SuccessImg from "@/assets/success_char.png";
+import AutoRedirect from "@/components/onboarding/AutoRedirect";
 
 export default function SuccessPage() {
   return (
     <main className="flex min-h-dvh items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,#f7faf5_0%,#edf7ef_50%,#eaf3e8_100%)] px-6 py-10">
+      <AutoRedirect />
       <section
         aria-labelledby="onboarding-success"
         className="relative w-full max-w-md rounded-4xl px-8 py-10"
       >
-        <div className="relative mx-auto mb-8 flex h-56 w-56 items-center justify-center rounded-full">
+        <div className="relative mx-auto mb-8 flex items-center justify-center rounded-full">
           <Image
             src={SuccessImg}
             alt="루틴 시작을 환영하는 모코 캐릭터"
-            width={200}
-            height={210}
             preload
-            className="relative h-auto w-47 drop-shadow-[0_12px_24px_rgba(31,41,55,0.14)]"
+            className="relative h-70 w-70 drop-shadow-[0_12px_24px_rgba(31,41,55,0.14)]"
           />
         </div>
 
         <div className="space-y-3 text-center">
-          <p className="text-primary-800 text-sm font-semibold tracking-[0.18em]">
-            WELCOME TO ROOTIN
-          </p>
           <h1
             id="success-title"
-            className="text-text text-[30px] leading-tight font-semibold"
+            className="text-gradient-primary text-[28px] leading-10.5 font-semibold"
           >
-            모코가 기다리고 있었어요
+            환영합니다!
           </h1>
-          <p className="text-sub-text text-[15px] leading-6 whitespace-pre-wrap">
-            프로필 설정이 끝났어요.{"\n"} 이제 모코와 함께 나만의 루틴을
-            차근차근 시작해볼까요?
+          <p className="text-[15px] leading-5.75 font-medium text-black">
+            회원가입이 완료됐어요.
           </p>
         </div>
       </section>
