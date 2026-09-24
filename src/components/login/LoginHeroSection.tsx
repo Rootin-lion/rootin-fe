@@ -1,7 +1,7 @@
 import Image from "next/image";
 import LoginImg from "@/assets/hero.png";
 
-export default function LeftSection() {
+export default function LoginHeroSection() {
   return (
     <section className="flex flex-1 flex-col items-end justify-center bg-[#EEF3E7]">
       <div className="mr-26 flex flex-col items-center justify-center">

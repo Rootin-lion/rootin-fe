@@ -5,11 +5,7 @@ import LogoImg from "@/assets/logo.png";
 import KakaoImg from "@/assets/login/kakao.png";
 import GoogleImg from "@/assets/login/google.png";
 
-const ButtonText = ({ text }: { text: string }) => {
-  return <p className="text-[15px] font-medium">{text}</p>;
-};
-
-const KakaoButton = ({ onClick }: { onClick: () => void }) => {
+const KakaoLoginButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       type="button"
@@ -17,12 +13,12 @@ const KakaoButton = ({ onClick }: { onClick: () => void }) => {
       onClick={onClick}
     >
       <Image src={KakaoImg} width={20} height={20} alt="" loading="eager" />
-      <ButtonText text="카카오 계정으로 시작하기" />
+      <span className="text-[15px] font-medium">카카오 계정으로 시작하기</span>
     </button>
   );
 };
 
-const GoogleButton = ({ onClick }: { onClick: () => void }) => {
+const GoogleLoginButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       type="button"
@@ -30,16 +26,20 @@ const GoogleButton = ({ onClick }: { onClick: () => void }) => {
       onClick={onClick}
     >
       <Image src={GoogleImg} width={20} height={20} alt="" loading="eager" />
-      <ButtonText text="구글 계정으로 시작하기" />
+      <span className="text-[15px] font-medium">구글 계정으로 시작하기</span>
     </button>
   );
 };
 
-const HighlightText = ({ children }: { children: React.ReactNode }) => {
+const LoginAgreementHighlight = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   return <span className="text-primary-400">{children}</span>;
 };
 
-export default function RightSection() {
+export default function SocialLoginSection() {
   return (
     <section className="bg-primary-50 flex flex-1 items-center justify-start">
       <div className="ml-26 flex flex-col items-center justify-center">
@@ -50,22 +50,23 @@ export default function RightSection() {
           </p>
         </div>
         <div className="mt-8 flex w-full max-w-95 flex-col gap-6">
-          <KakaoButton
+          <KakaoLoginButton
             onClick={() => {
               window.location.assign("/oauth/kakao");
             }}
           />
-          <GoogleButton
+          <GoogleLoginButton
             onClick={() => {
               window.location.assign("/oauth/google");
             }}
           />
         </div>
         <p className="text-sub-text mt-7 text-[12px] font-normal">
-          계속 진행하면 <HighlightText>Rootin</HighlightText>의
-          <HighlightText>이용약관</HighlightText>과
-          <HighlightText>개인정보처리방침</HighlightText>에 동의하는 것으로
-          간주됩니다.
+          계속 진행하면
+          <LoginAgreementHighlight>Rootin</LoginAgreementHighlight>의
+          <LoginAgreementHighlight>이용약관</LoginAgreementHighlight>과
+          <LoginAgreementHighlight>개인정보처리방침</LoginAgreementHighlight>에
+          동의하는 것으로 간주됩니다.
         </p>
       </div>
     </section>
