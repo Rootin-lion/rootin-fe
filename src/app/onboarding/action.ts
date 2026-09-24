@@ -28,7 +28,7 @@ export async function completeProfileAction(payload: OnboardingPayload) {
       } as const;
     }
 
-    const updateSession: AuthSession = {
+    const updatedSession: AuthSession = {
       newMember: false,
       member: {
         id: profile.id,
@@ -44,7 +44,7 @@ export async function completeProfileAction(payload: OnboardingPayload) {
 
     cookieStore.set(
       MEMBER_SNAPSHOT_COOKIE,
-      JSON.stringify(updateSession),
+      JSON.stringify(updatedSession),
       MEMBER_SNAPSHOT_COOKIE_OPTIONS,
     );
 

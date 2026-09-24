@@ -3,14 +3,14 @@
 import { useState } from "react";
 import OptionButton from "@/components/shared/OptionButton";
 
-type CareerOption = {
+type InterestFieldOption = {
   label: string;
   value: string;
 };
 
-interface FieldSelectProps {
+interface InterestFieldSelectorProps {
   value: string[];
-  options: CareerOption[];
+  options: InterestFieldOption[];
   onClick: (value: string) => void;
   defaultOpen?: boolean;
 }
@@ -20,7 +20,7 @@ export default function InterestFieldSelector({
   options,
   onClick,
   defaultOpen = false,
-}: FieldSelectProps) {
+}: InterestFieldSelectorProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const selectedOption = options.find((option) => value.includes(option.value));
   const message =
@@ -28,7 +28,7 @@ export default function InterestFieldSelector({
       ? "최대 3개까지 선택할 수 있어요"
       : "관심분야를 선택해주세요";
 
-  const selectedValues = value
+  const selectedLabelsText = value
     .map(
       (selectedValue) =>
         options.find((option) => option.value === selectedValue)?.label ??
@@ -50,7 +50,7 @@ export default function InterestFieldSelector({
           <span
             className={`text-[14px] ${selectedOption ? "text-[#1A1A1A]" : ""}`}
           >
-            {value && value.length > 0 ? selectedValues : message}
+            {value && value.length > 0 ? selectedLabelsText : message}
           </span>
 
           <svg

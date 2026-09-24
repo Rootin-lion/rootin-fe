@@ -6,22 +6,22 @@ import { redirect } from "next/navigation";
 
 export default async function OnboardingPage() {
   const cookieStore = await cookies();
-  const rawSession = cookieStore.get(MEMBER_SNAPSHOT_COOKIE)?.value;
+  const rawMemberSnapshot = cookieStore.get(MEMBER_SNAPSHOT_COOKIE)?.value;
 
   if (!cookieStore.get("sessionToken")?.value) {
     redirect("/login");
   }
 
-  if (!rawSession) redirect("/login");
+  if (!rawMemberSnapshot) redirect("/login");
 
-  let session: AuthSession;
+  let memberSnapshot: AuthSession;
   try {
-    session = JSON.parse(rawSession) as AuthSession;
+    memberSnapshot = JSON.parse(rawMemberSnapshot) as AuthSession;
   } catch {
     redirect("/login");
   }
 
-  if (typeof session.member?.email !== "string") redirect("/login");
+  if (typeof memberSnapshot.member?.email !== "string") redirect("/login");
 
-  return <OnboardingProfileForm email={session.member.email} />;
+  return <OnboardingProfileForm email={memberSnapshot.member.email} />;
 }

@@ -12,46 +12,46 @@ import {
 } from "@/app/onboarding/action";
 import ErrorModal from "../shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
-import { CREATE_OPTIONS } from "@/constants/onboarding/onboarding";
+import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
 
 export default function OnboardingProfileForm({ email }: { email: string }) {
   const router = useRouter();
-  const [info, setInfo] = useState<OnboardingPayload>({
+  const [profileForm, setProfileForm] = useState<OnboardingPayload>({
     nickname: "",
     ageGroup: "",
     interestFields: [],
   });
-  const [nicknameAvailable, setNicknameAvailable] = useState<boolean | null>(
-    null,
-  );
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState<
+    boolean | null
+  >(null);
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
-  const [isCompletePending, startCompleteTransition] = useTransition();
-  const [, startNicknameTransition] = useTransition();
+  const [isSubmitting, startSubmitTransition] = useTransition();
+  const [, startNicknameCheckTransition] = useTransition();
 
-  const hanldeNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
 
-    setInfo((prev) => ({ ...prev, nickname }));
+    setProfileForm((prev) => ({ ...prev, nickname }));
 
-    setNicknameAvailable(null);
+    setIsNicknameAvailable(null);
   };
 
-  const handleAgeGroupClick = (targetAge: string) => {
-    setInfo((prev) => ({
+  const handleAgeGroupToggle = (targetAge: string) => {
+    setProfileForm((prev) => ({
       ...prev,
       ageGroup: prev.ageGroup === targetAge ? "" : targetAge,
     }));
   };
 
-  const handleInterestClick = (targetInterest: string) => {
+  const handleInterestToggle = (targetInterest: string) => {
     if (
-      info.interestFields.length >= 3 &&
-      !info.interestFields.includes(targetInterest)
+      profileForm.interestFields.length >= 3 &&
+      !profileForm.interestFields.includes(targetInterest)
     )
       return;
 
-    setInfo((prev) => ({
+    setProfileForm((prev) => ({
       ...prev,
       interestFields: prev.interestFields.includes(targetInterest)
         ? prev.interestFields.filter(
@@ -61,14 +61,14 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!isSubmitEnabled || isCompletePending) return;
+    if (!isSubmitEnabled || isSubmitting) return;
 
-    startCompleteTransition(async () => {
+    startSubmitTransition(async () => {
       try {
-        const res = await completeProfileAction(info);
+        const res = await completeProfileAction(profileForm);
 
         if (!res.ok) {
           setErrorContext(res.error);
@@ -88,43 +88,43 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
   };
 
   const isSubmitEnabled =
-    info.nickname.trim() !== "" &&
-    info.ageGroup !== "" &&
-    info.interestFields.length > 0 &&
-    nicknameAvailable === true;
+    profileForm.nickname.trim() !== "" &&
+    profileForm.ageGroup !== "" &&
+    profileForm.interestFields.length > 0 &&
+    isNicknameAvailable === true;
 
   // 닉네임 검증 로직
   useEffect(() => {
-    const nickname = info.nickname.trim();
+    const nickname = profileForm.nickname.trim();
 
     if (!nickname) return;
 
     // 이전 값 보호
-    let ignore = false;
+    let shouldIgnoreResult = false;
 
     const timeoutId = window.setTimeout(() => {
-      startNicknameTransition(async () => {
+      startNicknameCheckTransition(async () => {
         try {
           const res = await checkNicknameAction(nickname);
           console.log(res.data);
 
-          if (ignore) return;
+          if (shouldIgnoreResult) return;
 
-          setNicknameAvailable(res?.data?.available);
+          setIsNicknameAvailable(res?.data?.available);
         } catch (error) {
-          if (ignore) return;
+          if (shouldIgnoreResult) return;
 
           console.log(error);
-          setNicknameAvailable(null);
+          setIsNicknameAvailable(null);
         }
       });
     }, 300);
 
     return () => {
-      ignore = true;
+      shouldIgnoreResult = true;
       window.clearTimeout(timeoutId);
     };
-  }, [info.nickname]);
+  }, [profileForm.nickname]);
 
   return (
     <main className="bg-primary-50 flex min-h-dvh flex-col items-center justify-center">
@@ -139,7 +139,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
       <h1 className="text-text text-[28px] font-bold">프로필 설정</h1>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleProfileSubmit}
         className="mt-8 flex w-full max-w-108 flex-col gap-6"
       >
         <InputWrapper>
@@ -160,13 +160,13 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
             type="text"
             id="nickname"
             name="nickname"
-            isAvailable={nicknameAvailable}
+            isAvailable={isNicknameAvailable}
             required
             placeholder="닉네임을 입력해주세요."
-            value={info.nickname}
-            onChange={hanldeNicknameChange}
+            value={profileForm.nickname}
+            onChange={handleNicknameChange}
             onDelete={() => {
-              setInfo((prev) => ({ ...prev, nickname: "" }));
+              setProfileForm((prev) => ({ ...prev, nickname: "" }));
             }}
           />
         </InputWrapper>
@@ -175,30 +175,30 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
           <InputWrapper.Label>연령대</InputWrapper.Label>
           <div className="flex justify-center gap-2">
             <Button
-              isActive={info.ageGroup === "TEENS"}
-              aria-pressed={info.ageGroup === "TEENS"}
-              onClick={() => handleAgeGroupClick("TEENS")}
+              isActive={profileForm.ageGroup === "TEENS"}
+              aria-pressed={profileForm.ageGroup === "TEENS"}
+              onClick={() => handleAgeGroupToggle("TEENS")}
             >
               10대
             </Button>
             <Button
-              isActive={info.ageGroup === "TWENTIES"}
-              aria-pressed={info.ageGroup === "TWENTIES"}
-              onClick={() => handleAgeGroupClick("TWENTIES")}
+              isActive={profileForm.ageGroup === "TWENTIES"}
+              aria-pressed={profileForm.ageGroup === "TWENTIES"}
+              onClick={() => handleAgeGroupToggle("TWENTIES")}
             >
               20대
             </Button>
             <Button
-              isActive={info.ageGroup === "THIRTIES"}
-              aria-pressed={info.ageGroup === "THIRTIES"}
-              onClick={() => handleAgeGroupClick("THIRTIES")}
+              isActive={profileForm.ageGroup === "THIRTIES"}
+              aria-pressed={profileForm.ageGroup === "THIRTIES"}
+              onClick={() => handleAgeGroupToggle("THIRTIES")}
             >
               30대
             </Button>
             <Button
-              isActive={info.ageGroup === "FOURTIES"}
-              aria-pressed={info.ageGroup === "FOURTIES"}
-              onClick={() => handleAgeGroupClick("FOURTIES")}
+              isActive={profileForm.ageGroup === "FOURTIES"}
+              aria-pressed={profileForm.ageGroup === "FOURTIES"}
+              onClick={() => handleAgeGroupToggle("FOURTIES")}
             >
               40대
             </Button>
@@ -208,18 +208,18 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
         <InputWrapper>
           <InputWrapper.Label>관심분야</InputWrapper.Label>
           <InterestFieldSelector
-            value={info.interestFields}
-            options={CREATE_OPTIONS}
-            onClick={handleInterestClick}
+            value={profileForm.interestFields}
+            options={INTEREST_FIELD_OPTIONS}
+            onClick={handleInterestToggle}
           />
         </InputWrapper>
 
         <Button
           type="submit"
-          disabled={!isSubmitEnabled || isCompletePending}
-          isActive={isSubmitEnabled && !isCompletePending}
+          disabled={!isSubmitEnabled || isSubmitting}
+          isActive={isSubmitEnabled && !isSubmitting}
         >
-          {isCompletePending ? "저장 중..." : "저장하기"}
+          {isSubmitting ? "저장 중..." : "저장하기"}
         </Button>
       </form>
     </main>

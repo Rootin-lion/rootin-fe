@@ -1,4 +1,4 @@
-export const CREATE_OPTIONS = [
+export const INTEREST_FIELD_OPTIONS = [
   { label: "데이터베이스", value: "DATABASE" },
   { label: "인프라(Docker/AWS)", value: "INFRA_CLOUD" },
   { label: "자료구조/알고리즘", value: "DATA_STRUCTURE_ALGORITHM" },
