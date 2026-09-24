@@ -1,6 +1,6 @@
 import ModalWrapper from "./ModalWrapper";
 
-export default function ErroModal({
+export default function ErrorModal({
   code,
   message,
   onClose,

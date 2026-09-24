@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { AuthSession } from "@/types/oauth/oauth";
+import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
 
 export default async function ServiceLayout({
   children,
@@ -10,7 +11,7 @@ export default async function ServiceLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const rawSession = cookieStore.get("memberSnapshot")?.value;
+  const rawSession = cookieStore.get(MEMBER_SNAPSHOT_COOKIE)?.value;
   let member: AuthSession["member"] | null = null;
 
   if (!cookieStore.get("sessionToken")?.value) {

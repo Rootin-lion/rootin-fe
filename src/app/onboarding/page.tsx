@@ -1,11 +1,12 @@
-import OnboardingForm from "@/components/onboarding/OnboardingForm";
+import OnboardingProfileForm from "@/components/onboarding/OnboardingProfileForm";
+import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
 import { AuthSession } from "@/types/oauth/oauth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function OnBoardingPage() {
+export default async function OnboardingPage() {
   const cookieStore = await cookies();
-  const rawSession = cookieStore.get("memberSnapshot")?.value;
+  const rawSession = cookieStore.get(MEMBER_SNAPSHOT_COOKIE)?.value;
 
   if (!cookieStore.get("sessionToken")?.value) {
     redirect("/login");
@@ -22,5 +23,5 @@ export default async function OnBoardingPage() {
 
   if (typeof session.member?.email !== "string") redirect("/login");
 
-  return <OnboardingForm email={session.member.email} />;
+  return <OnboardingProfileForm email={session.member.email} />;
 }

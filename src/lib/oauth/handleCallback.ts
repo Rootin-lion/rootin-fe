@@ -10,6 +10,10 @@ import {
   KAKAO_STATE_COOKIE_PATH,
 } from "@/constants/oauth";
 import { AuthSession } from "@/types/oauth/oauth";
+import {
+  MEMBER_SNAPSHOT_COOKIE,
+  MEMBER_SNAPSHOT_COOKIE_OPTIONS,
+} from "@/constants/auth/memberSnapshotCookie";
 
 const providers = {
   kakao: {
@@ -112,12 +116,11 @@ export async function handleOAuthCallback(
     );
 
     // 사용자 정보 쿠키 저장
-    response.cookies.set("memberSnapshot", JSON.stringify(session), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-    });
+    response.cookies.set(
+      MEMBER_SNAPSHOT_COOKIE,
+      JSON.stringify(session),
+      MEMBER_SNAPSHOT_COOKIE_OPTIONS,
+    );
 
     return clearStateCookie(response, provider);
   } catch (error) {

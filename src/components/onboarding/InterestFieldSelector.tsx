@@ -15,7 +15,7 @@ interface FieldSelectProps {
   defaultOpen?: boolean;
 }
 
-export default function FieldSelect({
+export default function InterestFieldSelector({
   value,
   options,
   onClick,

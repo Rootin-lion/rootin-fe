@@ -4,17 +4,17 @@ import React, { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import InputWrapper from "@/components/shared/InputWrapper";
 import Button from "@/components/shared/Button";
-import FieldSelect from "./FieldSelect";
+import InterestFieldSelector from "./InterestFieldSelector";
 import { OnboardingPayload } from "@/types/auth/auth";
 import {
   checkNicknameAction,
   completeProfileAction,
 } from "@/app/onboarding/action";
-import ErroModal from "../shared/ErrorModal";
+import ErrorModal from "../shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
 import { CREATE_OPTIONS } from "@/constants/onboarding/onboarding";
 
-export default function OnboardingForm({ email }: { email: string }) {
+export default function OnboardingProfileForm({ email }: { email: string }) {
   const router = useRouter();
   const [info, setInfo] = useState<OnboardingPayload>({
     nickname: "",
@@ -129,7 +129,7 @@ export default function OnboardingForm({ email }: { email: string }) {
   return (
     <main className="bg-primary-50 flex min-h-dvh flex-col items-center justify-center">
       {isModalOpen && (
-        <ErroModal
+        <ErrorModal
           code={error.code}
           message={error.message}
           onClose={closeModal}
@@ -207,7 +207,7 @@ export default function OnboardingForm({ email }: { email: string }) {
 
         <InputWrapper>
           <InputWrapper.Label>관심분야</InputWrapper.Label>
-          <FieldSelect
+          <InterestFieldSelector
             value={info.interestFields}
             options={CREATE_OPTIONS}
             onClick={handleInterestClick}

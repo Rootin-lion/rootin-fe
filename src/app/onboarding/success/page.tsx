@@ -1,8 +1,8 @@
 import Image from "next/image";
-import SuccessImg from "@/assets/success_char.png";
+import SuccessCharacterImage from "@/assets/success_char.png";
 import AutoRedirect from "@/components/onboarding/AutoRedirect";
 
-export default function SuccessPage() {
+export default function OnboardingSuccessPage() {
   return (
     <main className="flex min-h-dvh items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,#f7faf5_0%,#edf7ef_50%,#eaf3e8_100%)] px-6 py-10">
       <AutoRedirect />
@@ -12,7 +12,7 @@ export default function SuccessPage() {
       >
         <div className="relative mx-auto mb-8 flex items-center justify-center rounded-full">
           <Image
-            src={SuccessImg}
+            src={SuccessCharacterImage}
             alt="루틴 시작을 환영하는 모코 캐릭터"
             preload
             className="relative h-70 w-70 drop-shadow-[0_12px_24px_rgba(31,41,55,0.14)]"
