@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import LogoImg from "@/assets/logo.png";
-import KakaoImg from "@/assets/login/kakao.png";
-import GoogleImg from "@/assets/login/google.png";
+import KakaoIcon from "@/assets/login/kakao.png";
+import GoogleIcon from "@/assets/login/google.png";
 
 const KakaoLoginButton = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -12,7 +12,7 @@ const KakaoLoginButton = ({ onClick }: { onClick: () => void }) => {
       className="flex cursor-pointer items-center gap-20 rounded-xl bg-[#FEE500] px-6 py-4"
       onClick={onClick}
     >
-      <Image src={KakaoImg} width={20} height={20} alt="" loading="eager" />
+      <Image src={KakaoIcon} width={20} height={20} alt="" loading="eager" />
       <span className="text-[15px] font-medium">카카오 계정으로 시작하기</span>
     </button>
   );
@@ -25,17 +25,13 @@ const GoogleLoginButton = ({ onClick }: { onClick: () => void }) => {
       className="flex cursor-pointer items-center gap-20 rounded-xl border border-[#6FB377] bg-white px-6 py-4"
       onClick={onClick}
     >
-      <Image src={GoogleImg} width={20} height={20} alt="" loading="eager" />
+      <Image src={GoogleIcon} width={20} height={20} alt="" loading="eager" />
       <span className="text-[15px] font-medium">구글 계정으로 시작하기</span>
     </button>
   );
 };
 
-const LoginAgreementHighlight = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+const LoginNoticeHighlight = ({ children }: { children: React.ReactNode }) => {
   return <span className="text-primary-400">{children}</span>;
 };
 
@@ -63,9 +59,9 @@ export default function SocialLoginSection() {
         </div>
         <p className="text-sub-text mt-7 text-[12px] font-normal">
           계속 진행하면
-          <LoginAgreementHighlight>Rootin</LoginAgreementHighlight>의
-          <LoginAgreementHighlight>이용약관</LoginAgreementHighlight>과
-          <LoginAgreementHighlight>개인정보처리방침</LoginAgreementHighlight>에
+          <LoginNoticeHighlight>Rootin</LoginNoticeHighlight>의
+          <LoginNoticeHighlight>이용약관</LoginNoticeHighlight>과
+          <LoginNoticeHighlight>개인정보처리방침</LoginNoticeHighlight>에
           동의하는 것으로 간주됩니다.
         </p>
       </div>
