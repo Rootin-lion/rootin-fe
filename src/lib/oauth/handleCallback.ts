@@ -93,12 +93,13 @@ export async function handleOAuthCallback(
         nickname: payload.member.nickname,
         ageGroup: payload.member.ageGroup,
         interestFields: payload.member.interestFields,
+        profileCompleted: payload.member.profileCompleted,
       },
     };
 
-    const response = payload.newMember
-      ? NextResponse.redirect(new URL("/onboarding", request.url))
-      : NextResponse.redirect(new URL("/", request.url));
+    const response = payload.member.profileCompleted
+      ? NextResponse.redirect(new URL("/", request.url))
+      : NextResponse.redirect(new URL("/onboarding", request.url));
 
     // accessToken, refreshToken 쿠키 저장
     response.cookies.set(

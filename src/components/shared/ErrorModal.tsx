@@ -1,3 +1,4 @@
+import Button from "./Button";
 import ModalWrapper from "./ModalWrapper";
 
 export default function ErrorModal({
@@ -14,6 +15,11 @@ export default function ErrorModal({
       <ModalWrapper.Box>
         <ModalWrapper.Title>{code}</ModalWrapper.Title>
         <ModalWrapper.Content>{message}</ModalWrapper.Content>
+      </ModalWrapper.Box>
+      <ModalWrapper.Box>
+        <Button isActive={true} onClick={onClose}>
+          닫기
+        </Button>
       </ModalWrapper.Box>
     </ModalWrapper>
   );

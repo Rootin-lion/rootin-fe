@@ -1,22 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useModal from "./useModal";
-
-interface ErrorContext {
-  code: string;
-  message: string;
-}
+import { ApiError } from "@/types/api/error";
 
 export default function useErrorModal() {
-  const [error, setError] = useState<ErrorContext>({
+  const [error, setError] = useState<ApiError>({
     code: "",
     message: "",
   });
 
-  const setErrorContext = (context: ErrorContext) => {
+  const setErrorContext = useCallback((context: ApiError) => {
     setError(context);
-  };
+  }, []);
+
   const { isModalOpen, openModal, closeModal } = useModal();
 
   return { error, setErrorContext, isModalOpen, openModal, closeModal };

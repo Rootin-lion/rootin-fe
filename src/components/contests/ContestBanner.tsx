@@ -17,23 +17,19 @@ const EndContest = () => {
     <div className="flex w-full justify-between px-4">
       <div>
         <Status>종료</Status>
-        <h1 className="mt-2 bg-[linear-gradient(180deg,#305035_0%,#4B6D50_49.52%,#A1CCA7_100%)] bg-clip-text text-[30px] font-bold whitespace-pre-wrap text-transparent">
+        <h1 className="mt-2 bg-[linear-gradient(180deg,#305035_0%,#4B6D50_49.52%,#A1CCA7_100%)] bg-clip-text text-[24px] font-bold whitespace-pre-wrap text-transparent">
           오늘의 대회가 종료되었습니다.{"\n"}내일 다시 참여해주세요!
         </h1>
-        <p className="text-sub-text text-[14px] font-normal">
+        <p className="text-sub-text mt-2 text-[12px] font-normal">
           매일 진행되는 CS 대회에 참여하고 실력을 증명해보세요.
         </p>
       </div>
-      <Image
-        src={TrophyImg}
-        alt=""
-        className="mr-30 h-auto w-40 shrink-0 duration-300 hover:scale-120"
-      />
+      <Image src={TrophyImg} alt="" className="mr-30 h-auto w-30 shrink-0" />
     </div>
   );
 };
 
-export default function Banner({
+export default function ContestBanner({
   competition,
   onClick,
 }: {
@@ -89,7 +85,9 @@ export default function Banner({
               {competition.status === "BEFORE_START" ? (
                 <>
                   <p>대회 입장까지</p>
-                  <p className="text-[20px] font-bold">12분 30초</p>
+                  <p className="text-[20px] font-bold">
+                    {formatRemainingTime(competition.remainingSeconds)}
+                  </p>
                   <div className="mt-6">
                     <GradientOutlineButton variant="gradient">
                       대회 준비중

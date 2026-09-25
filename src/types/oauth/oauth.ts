@@ -5,6 +5,7 @@ export interface AuthMember {
   nickname: string | null;
   ageGroup: string | null;
   interestFields: string[];
+  profileCompleted: boolean;
 }
 
 export interface AuthSession {

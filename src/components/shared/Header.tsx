@@ -60,7 +60,7 @@ export default function Header({ member }: { member: AuthMember | null }) {
           <p className="text-body-2 text-text">
             {member
               ? nickname
-                ? `${nickname} 님`
+                ? `${nickname}님`
                 : `${email}님`
               : "로그인해 주세요"}
           </p>

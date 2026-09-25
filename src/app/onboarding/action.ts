@@ -5,9 +5,9 @@ import {
   MEMBER_SNAPSHOT_COOKIE,
   MEMBER_SNAPSHOT_COOKIE_OPTIONS,
 } from "@/constants/auth/memberSnapshotCookie";
+import { apiError } from "@/lib/apiError";
 import { OnboardingPayload } from "@/types/auth/auth";
 import { AuthSession } from "@/types/oauth/oauth";
-import { isAxiosError } from "axios";
 import { cookies } from "next/headers";
 
 // 프로필 설정
@@ -37,6 +37,7 @@ export async function completeProfileAction(payload: OnboardingPayload) {
         nickname: profile.nickname ?? null,
         ageGroup: profile.ageGroup ?? null,
         interestFields: profile.interestFields ?? [],
+        profileCompleted: profile.member.profileCompleted,
       },
     };
 
@@ -50,24 +51,9 @@ export async function completeProfileAction(payload: OnboardingPayload) {
 
     return { ok: true } as const;
   } catch (error) {
-    if (isAxiosError(error)) {
-      return {
-        ok: false,
-        error: {
-          code: error.response?.data.errorCode ?? "UNKNOWN_ERROR",
-          message:
-            error.response?.data.message ??
-            "프로필 저장 중 오류가 발생했습니다.",
-        },
-      };
-    }
-
     return {
       ok: false,
-      error: {
-        code: "UNKNOWN_ERROR",
-        message: "프로필 저장 중 오류가 발생했습니다.",
-      },
+      error: apiError(error, "프로필 저장 중 오류가 발생했습니다."),
     };
   }
 }
