@@ -3,6 +3,7 @@ import Image from "next/image";
 import TrophyImg from "@/assets/contests/trophy.png";
 import type { TodayCompetitionState } from "@/types/contests/competition";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
+import ContestCountdown from "./ContestCountdown";
 
 const Status = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -32,20 +33,12 @@ const EndContest = () => {
 export default function ContestBanner({
   competition,
   onClick,
+  onExpire,
 }: {
   competition: TodayCompetitionState;
   onClick: () => void;
+  onExpire: () => void;
 }) {
-  const formatRemainingTime = (remainingTime: number) => {
-    const m = Math.floor(remainingTime / 60);
-    const s = remainingTime % 60;
-
-    return `${m}분 ${s}초`;
-  };
-
-  const timeColor =
-    competition.remainingSeconds >= 300 ? "text-primary-900" : "text-error";
-
   return (
     <div className="bg-gradient-primary w-full">
       <div className="mx-auto flex max-w-5xl items-center justify-between py-5">
@@ -85,9 +78,11 @@ export default function ContestBanner({
               {competition.status === "BEFORE_START" ? (
                 <>
                   <p>대회 입장까지</p>
-                  <p className="text-[20px] font-bold">
-                    {formatRemainingTime(competition.remainingSeconds)}
-                  </p>
+                  <ContestCountdown
+                    initialSeconds={competition.remainingSeconds}
+                    status={competition.status}
+                    onExpire={onExpire}
+                  />
                   <div className="mt-6">
                     <GradientOutlineButton variant="gradient">
                       대회 준비중
@@ -97,9 +92,11 @@ export default function ContestBanner({
               ) : (
                 <>
                   <p>대회 입장 마감</p>
-                  <p className={`${timeColor} text-[20px] font-bold`}>
-                    {formatRemainingTime(competition.remainingSeconds)}
-                  </p>
+                  <ContestCountdown
+                    initialSeconds={competition.remainingSeconds}
+                    status={competition.status}
+                    onExpire={onExpire}
+                  />
                   <p>132명이 참가했어요.</p>
                   <div className="mt-3">
                     <GradientOutlineButton variant="gradient" onClick={onClick}>

@@ -3,7 +3,7 @@
 import useModal from "@/hooks/useModal";
 import { TodayCompetitionState } from "@/types/contests/competition";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ModalWrapper from "../shared/ModalWrapper";
 import Button from "../shared/Button";
 import ContestBanner from "./ContestBanner";
@@ -35,32 +35,42 @@ export default function ContestContent() {
     });
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  useEffect(() => {
-    const getCompetition = async () => {
-      try {
-        const res = await getTodayCompetitionAction();
+  const getCompetition = useCallback(async () => {
+    try {
+      const res = await getTodayCompetitionAction();
 
-        if (!res.ok) {
-          setErrorContext(res.error);
-          setTodayCompetition((prev) => ({ ...prev, status: "CLOSED" }));
-          openErrorModal();
-
-          return;
-        }
-
-        setTodayCompetition(res.data);
-      } catch {
-        setErrorContext({
-          code: "UNKNOWN_ERROR",
-          message: "대회를 불러오지 못했습니다.",
-        });
-        setTodayCompetition((prev) => ({ ...prev, status: "CLOSED" }));
+      if (!res.ok) {
+        setErrorContext(res.error);
+        setTodayCompetition((prev) => ({
+          ...prev,
+          status: "CLOSED",
+        }));
         openErrorModal();
-      }
-    };
 
-    getCompetition();
+        return;
+      }
+
+      setTodayCompetition(res.data);
+    } catch {
+      setErrorContext({
+        code: "UNKNOWN_ERROR",
+        message: "대회를 불러오지 못했습니다.",
+      });
+      setTodayCompetition((prev) => ({
+        ...prev,
+        status: "CLOSED",
+      }));
+      openErrorModal();
+    }
   }, [openErrorModal, setErrorContext]);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      void getCompetition();
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [getCompetition]);
 
   return (
     <div className="bg-bg-green-50 flex w-full flex-col gap-6">
@@ -103,7 +113,11 @@ export default function ContestContent() {
         </ModalWrapper>
       )}
 
-      <ContestBanner competition={todayCompetition} onClick={openModal} />
+      <ContestBanner
+        competition={todayCompetition}
+        onClick={openModal}
+        onExpire={getCompetition}
+      />
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
         <RankingSection />
         <PastContestsSection />
