@@ -1,7 +1,7 @@
 import {
   GOOGLE_STATE_COOKIE,
   GOOGLE_STATE_COOKIE_PATH,
-} from "@/constants/oauth";
+} from "@/constants/oauth/oauth";
 import { NextResponse } from "next/server";
 
 export function GET() {

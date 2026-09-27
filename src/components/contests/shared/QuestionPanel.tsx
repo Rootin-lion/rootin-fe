@@ -1,3 +1,4 @@
+import { CompetitionProblemDetail } from "@/types/contests/competition";
 import QuestionButtonBox from "../solve/QuestionButtonBox";
 import QuestionCard from "../solve/QuestionCard";
 import QuestionSurface from "../solve/QuestionSurface";
@@ -14,11 +15,15 @@ const NumberLabel = () => {
 
 export default function QuestionPanel({
   variant = "solve",
+  currentProblem,
   onNext,
 }: {
   variant?: PanelType;
+  currentProblem?: CompetitionProblemDetail | null;
   onNext?: () => void;
 }) {
+  if (currentProblem === null) return;
+
   return (
     <QuestionSurface>
       <div className="flex h-full flex-col justify-between">

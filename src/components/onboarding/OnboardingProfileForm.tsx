@@ -73,6 +73,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
         if (!res.ok) {
           setErrorContext(res.error);
           openModal();
+
           return;
         }
 

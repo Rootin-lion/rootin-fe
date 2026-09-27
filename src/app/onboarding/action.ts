@@ -5,7 +5,7 @@ import {
   MEMBER_SNAPSHOT_COOKIE,
   MEMBER_SNAPSHOT_COOKIE_OPTIONS,
 } from "@/constants/auth/memberSnapshotCookie";
-import { apiError } from "@/lib/apiError";
+import { apiError } from "@/lib/shared/apiError";
 import { OnboardingPayload } from "@/types/auth/auth";
 import { AuthSession } from "@/types/oauth/oauth";
 import { cookies } from "next/headers";
@@ -37,7 +37,7 @@ export async function completeProfileAction(payload: OnboardingPayload) {
         nickname: profile.nickname ?? null,
         ageGroup: profile.ageGroup ?? null,
         interestFields: profile.interestFields ?? [],
-        profileCompleted: profile.member.profileCompleted,
+        profileCompleted: profile.profileCompleted,
       },
     };
 

@@ -63,7 +63,7 @@ const RollingTimeUnit = ({
   return (
     <span className="inline-flex items-center leading-6">
       <span
-        className={`relative inline-block h-6 overflow-hidden ${widthClass}`}
+        className={`relative inline-block h-6 overflow-y-clip ${widthClass}`}
       >
         {isChanging && (
           <span
@@ -161,7 +161,9 @@ export default function ContestCountdown({
               : null
           }
           unit={displayTime.primaryUnit}
-          widthClass="min-w-[2ch]"
+          widthClass={
+            displayTime.primaryValue < 10 ? "min-w-[1ch]" : "min-w-[2ch]"
+          }
         />
         <RollingTimeUnit
           value={displayTime.secondaryValue}
@@ -171,7 +173,9 @@ export default function ContestCountdown({
               : null
           }
           unit={displayTime.secondaryUnit}
-          widthClass="min-w-[2ch]"
+          widthClass={
+            displayTime.secondaryValue < 10 ? "min-w-[1ch]" : "min-w-[2ch]"
+          }
         />
       </span>
     </p>

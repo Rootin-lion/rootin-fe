@@ -26,3 +26,24 @@ export interface ContestResultsState {
   participantCount: number;
   viewable: boolean;
 }
+
+export interface CompetitionProblemSummary {
+  competitionProblemId: number;
+  problemOrder: number;
+}
+
+export interface CompetitionProblemOption {
+  optionId: number;
+  optionContent: string;
+  optionOrder: number;
+}
+
+export interface CompetitionProblemDetail {
+  competitionProblemId: number;
+  problemId: number;
+  problemOrder: number;
+  problemTitle: string;
+  problemContent: string;
+  category: string;
+  options: CompetitionProblemOption[];
+}

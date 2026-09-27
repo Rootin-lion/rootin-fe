@@ -27,42 +27,11 @@ const Bar = ({
 };
 
 export default function PastContestsSection() {
-  const [contestResults, setContestResults] = useState<ContestResultsState[]>([
-    {
-      competitionId: 1,
-      competitionDate: "2026-08-03",
-      problemCount: 10,
-      timeLimitMinutes: 30,
-      participantCount: 1,
-      viewable: true,
-    },
-    {
-      competitionId: 2,
-      competitionDate: "2026-07-27",
-      problemCount: 10,
-      timeLimitMinutes: 30,
-      participantCount: 0,
-      viewable: false,
-    },
-    {
-      competitionId: 3,
-      competitionDate: "2026-08-03",
-      problemCount: 10,
-      timeLimitMinutes: 30,
-      participantCount: 1,
-      viewable: true,
-    },
-    {
-      competitionId: 4,
-      competitionDate: "2026-07-27",
-      problemCount: 10,
-      timeLimitMinutes: 30,
-      participantCount: 0,
-      viewable: false,
-    },
-  ]);
-  const [pages, setPages] = useState<number>(5);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [contestResults, setContestResults] = useState<ContestResultsState[]>(
+    [],
+  );
+  const [pages, setPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
 
@@ -90,6 +59,8 @@ export default function PastContestsSection() {
     getPastCompetitions(currentPage);
   }, [openModal, setErrorContext, currentPage]);
 
+  const hasPastContent = contestResults.length === 0;
+
   return (
     <BoxWrapper>
       {isModalOpen && (
@@ -107,19 +78,43 @@ export default function PastContestsSection() {
         />
         <div className="mt-7 flex w-full justify-center">
           <div className="grid w-full max-w-210 grid-cols-2 justify-items-center gap-6">
-            {contestResults.map((result) => (
-              <ContestResultCard key={result.competitionId} contests={result} />
-            ))}
+            {hasPastContent ? (
+              <div className="border-primary-100 bg-primary-50 col-span-2 flex min-h-40 w-full flex-col items-center justify-center rounded-lg border border-dashed px-6 text-center">
+                <p className="text-text text-[16px] font-semibold">
+                  아직 종료된 대회가 없어요.
+                </p>
+                <p className="text-sub-text mt-1 text-[12px] font-medium">
+                  대회가 종료되면 참여한 대회의 결과를 확인할 수 있어요.
+                </p>
+              </div>
+            ) : (
+              <>
+                {contestResults.map((result) => (
+                  <ContestResultCard
+                    key={result.competitionId}
+                    contests={result}
+                  />
+                ))}
+              </>
+            )}
           </div>
         </div>
         <div className="mt-9 flex justify-center gap-2">
-          {Array.from({ length: pages + 1 }, (_, index) => (
-            <Bar
-              key={index}
-              isActive={index + 1 === currentPage}
-              onClick={() => setCurrentPage(index + 1)}
-            />
-          ))}
+          {pages === 0 ? (
+            ""
+          ) : (
+            <>
+              {Array.from({ length: pages }, (_, index) => (
+                <Bar
+                  key={index}
+                  isActive={index === currentPage}
+                  onClick={() => {
+                    setCurrentPage(index);
+                  }}
+                />
+              ))}
+            </>
+          )}
         </div>
       </div>
     </BoxWrapper>

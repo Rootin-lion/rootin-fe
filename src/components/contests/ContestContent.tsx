@@ -11,19 +11,16 @@ import ContestCtaBanner from "./ContestCtaBanner";
 import WarningBanner from "./WarningBanner";
 import PastContestsSection from "./PastContestsSection";
 import RankingSection from "./RankingSection";
-import { getTodayCompetitionAction } from "@/app/(service)/contests/action";
+import {
+  getTodayCompetitionAction,
+  joinCompetitionAction,
+} from "@/app/(service)/contests/action";
 import useErrorModal from "@/hooks/useErrorModal";
 import ErrorModal from "../shared/ErrorModal";
+import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
 
 export default function ContestContent() {
   const router = useRouter();
-  const {
-    error,
-    setErrorContext,
-    isModalOpen: isErrorModalOpen,
-    openModal: openErrorModal,
-    closeModal: closeErrorModal,
-  } = useErrorModal();
   const [todayCompetition, setTodayCompetition] =
     useState<TodayCompetitionState>({
       competitionId: 0,
@@ -33,8 +30,17 @@ export default function ContestContent() {
       status: "CLOSED",
       remainingSeconds: 0,
     });
+  const { setParticipation } = useCompetitionParticipationStore();
+  const {
+    error,
+    setErrorContext,
+    isModalOpen: isErrorModalOpen,
+    openModal: openErrorModal,
+    closeModal: closeErrorModal,
+  } = useErrorModal();
   const { isModalOpen, openModal, closeModal } = useModal();
 
+  // 대회 조회
   const getCompetition = useCallback(async () => {
     try {
       const res = await getTodayCompetitionAction();
@@ -63,6 +69,28 @@ export default function ContestContent() {
       openErrorModal();
     }
   }, [openErrorModal, setErrorContext]);
+
+  // 대회 진입
+  const joinCompetition = async () => {
+    try {
+      const res = await joinCompetitionAction(todayCompetition.competitionId);
+
+      if (!res.ok) {
+        setErrorContext(res.error);
+        openErrorModal();
+
+        return;
+      }
+      setParticipation(res.data);
+      router.push(`/contests/${todayCompetition.competitionId}`);
+    } catch {
+      setErrorContext({
+        code: "UNKNOWN_ERROR",
+        message: "대회를 불러오지 못했습니다.",
+      });
+      openErrorModal();
+    }
+  };
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -100,12 +128,7 @@ export default function ContestContent() {
           <ModalWrapper.Box>
             <div className="flex flex-row gap-6">
               <Button onClick={closeModal}>취소</Button>
-              <Button
-                isActive={true}
-                onClick={() =>
-                  router.push(`/contests/${todayCompetition.competitionId}`)
-                }
-              >
+              <Button isActive={true} onClick={() => joinCompetition()}>
                 시작하기
               </Button>
             </div>
@@ -119,7 +142,7 @@ export default function ContestContent() {
         onExpire={getCompetition}
       />
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
-        <RankingSection />
+        <RankingSection competitionId={todayCompetition.competitionId} />
         <PastContestsSection />
         <WarningBanner />
       </div>

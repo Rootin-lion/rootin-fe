@@ -8,7 +8,7 @@ import {
   GOOGLE_STATE_COOKIE_PATH,
   KAKAO_STATE_COOKIE,
   KAKAO_STATE_COOKIE_PATH,
-} from "@/constants/oauth";
+} from "@/constants/oauth/oauth";
 import { AuthSession } from "@/types/oauth/oauth";
 import {
   MEMBER_SNAPSHOT_COOKIE,

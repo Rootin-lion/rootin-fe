@@ -2,6 +2,7 @@ import Image from "next/image";
 import NavImg from "@/assets/contests/solve/nav_char.png";
 import QuestionSurface from "./QuestionSurface";
 import QuestionStatus from "./QuestionStatus";
+import { CompetitionProblemSummary } from "@/types/contests/competition";
 
 const NavItem = ({ children }: { children: React.ReactNode }) => {
   // 일반 bg-bg-green-50 text-[#1A1A1A]
@@ -15,21 +16,20 @@ const NavItem = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default function QuestionNavigator() {
+export default function QuestionNavigator({
+  problemNavigationItems,
+}: {
+  problemNavigationItems: CompetitionProblemSummary[];
+}) {
   return (
     <QuestionSurface>
       <h2 className="text-[13px] font-semibold text-black">문제 목록</h2>
       <div className="mt-5 grid grid-cols-5 gap-1">
-        <NavItem>1</NavItem>
-        <NavItem>2</NavItem>
-        <NavItem>3</NavItem>
-        <NavItem>4</NavItem>
-        <NavItem>5</NavItem>
-        <NavItem>6</NavItem>
-        <NavItem>7</NavItem>
-        <NavItem>8</NavItem>
-        <NavItem>9</NavItem>
-        <NavItem>10</NavItem>
+        {problemNavigationItems.map((problemNavigationItem) => (
+          <NavItem key={problemNavigationItem.competitionProblemId}>
+            {problemNavigationItem.problemOrder}
+          </NavItem>
+        ))}
       </div>
       <QuestionStatus />
       <Image src={NavImg} alt="" width={162} height={159} className="mt-15" />
