@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {
+  getContestStatusAction,
   requestDetailProblemAction,
   requestProblemsAction,
   saveProblemAnswerAction,
@@ -14,6 +15,7 @@ import ErrorModal from "@/components/shared/ErrorModal";
 import ModalWrapper from "@/components/shared/ModalWrapper";
 import useErrorModal from "@/hooks/useErrorModal";
 import useModal from "@/hooks/useModal";
+import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
 import type {
   CompetitionProblemDetail,
   CompetitionProblemSummary,
@@ -28,6 +30,9 @@ export default function QuestionContent({
   competitionId: number;
 }) {
   const router = useRouter();
+  const setParticipation = useCompetitionParticipationStore(
+    (state) => state.setParticipation,
+  );
   const [problemNavigationItems, setProblemNavigationItems] = useState<
     CompetitionProblemSummary[]
   >([]);
@@ -59,32 +64,82 @@ export default function QuestionContent({
     currentProblemIndex === problemNavigationItems.length - 1;
 
   useEffect(() => {
-    const getProblems = async () => {
-      try {
-        const res = await requestProblemsAction(competitionId);
+    let isCancelled = false;
 
-        if (!res.ok) {
+    const initializeCompetition = async () => {
+      try {
+        const statusRes = await getContestStatusAction(competitionId);
+
+        if (isCancelled) return;
+
+        if (!statusRes.ok) {
           setShouldLeaveAfterError(true);
-          setErrorContext(res.error);
+          setErrorContext(statusRes.error);
           openErrorModal();
 
           return;
         }
-        setProblemNavigationItems(res.data.problems);
-        setCurrentProblem(res.data.firstProblem);
+
+        if (statusRes.data.submitted) {
+          router.replace(`/contests/${competitionId}/result`);
+
+          return;
+        }
+
+        setParticipation({
+          participantId: statusRes.data.participantId,
+          startedAt: statusRes.data.startedAt,
+          expiresAt: statusRes.data.expiresAt,
+        });
+        setSelectedOptionByProblemId(
+          Object.fromEntries(
+            statusRes.data.answeredProblems.map(
+              ({ competitionProblemId, selectedOptionId }) => [
+                competitionProblemId,
+                selectedOptionId,
+              ],
+            ),
+          ),
+        );
+
+        const problemsRes = await requestProblemsAction(competitionId);
+
+        if (isCancelled) return;
+
+        if (!problemsRes.ok) {
+          setShouldLeaveAfterError(true);
+          setErrorContext(problemsRes.error);
+          openErrorModal();
+
+          return;
+        }
+
+        setProblemNavigationItems(problemsRes.data.problems);
+        setCurrentProblem(problemsRes.data.firstProblem);
       } catch {
+        if (isCancelled) return;
+
         setShouldLeaveAfterError(true);
         setErrorContext({
           code: "UNKNOWN_ERROR",
-          message: "문제를 불러오지 못했습니다.",
+          message: "대회 진행 정보를 불러오지 못했습니다.",
         });
-
         openErrorModal();
       }
     };
 
-    getProblems();
-  }, [competitionId, setErrorContext, openErrorModal]);
+    void initializeCompetition();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [
+    competitionId,
+    openErrorModal,
+    router,
+    setErrorContext,
+    setParticipation,
+  ]);
 
   const loadProblem = async (competitionProblemId: number) => {
     if (competitionProblemId === currentProblem?.competitionProblemId) return;

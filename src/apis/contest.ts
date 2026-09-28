@@ -1,3 +1,4 @@
+import type { CompetitionProgressState } from "@/types/contests/competition";
 import { RankingPeriod } from "@/types/contests/ranking";
 import { apiClient } from "./client";
 
@@ -96,7 +97,9 @@ export const saveProblemAnswer = (
 
 // 대회 진행 정보 조회
 export const getContestStatus = (competitionId: number) => {
-  const res = apiClient.get(`/competitions/${competitionId}/me`);
+  const res = apiClient.get<{ data: CompetitionProgressState }>(
+    `/competitions/${competitionId}/me`,
+  );
 
   return res;
 };

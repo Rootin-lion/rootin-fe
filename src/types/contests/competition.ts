@@ -47,3 +47,16 @@ export interface CompetitionProblemDetail {
   category: string;
   options: CompetitionProblemOption[];
 }
+
+export interface CompetitionAnsweredProblem {
+  competitionProblemId: number;
+  selectedOptionId: number;
+}
+
+export interface CompetitionProgressState {
+  participantId: number;
+  startedAt: string;
+  expiresAt: string;
+  submitted: boolean;
+  answeredProblems: CompetitionAnsweredProblem[];
+}

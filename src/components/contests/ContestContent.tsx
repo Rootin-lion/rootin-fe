@@ -12,6 +12,7 @@ import WarningBanner from "./WarningBanner";
 import PastContestsSection from "./PastContestsSection";
 import RankingSection from "./RankingSection";
 import {
+  getContestStatusAction,
   getTodayCompetitionAction,
   joinCompetitionAction,
 } from "@/app/(service)/contests/action";
@@ -30,7 +31,9 @@ export default function ContestContent() {
       status: "CLOSED",
       remainingSeconds: 0,
     });
-  const { setParticipation } = useCompetitionParticipationStore();
+  const setParticipation = useCompetitionParticipationStore(
+    (state) => state.setParticipation,
+  );
   const {
     error,
     setErrorContext,
@@ -73,17 +76,40 @@ export default function ContestContent() {
   // 대회 진입
   const joinCompetition = async () => {
     try {
+      const statusRes = await getContestStatusAction(
+        todayCompetition.competitionId,
+      );
+
+      if (statusRes.ok) {
+        setParticipation({
+          participantId: statusRes.data.participantId,
+          startedAt: statusRes.data.startedAt,
+          expiresAt: statusRes.data.expiresAt,
+        });
+        closeModal();
+        router.push(
+          statusRes.data.submitted
+            ? `/contests/${todayCompetition.competitionId}/result`
+            : `/contests/${todayCompetition.competitionId}`,
+        );
+
+        return;
+      }
+
       const res = await joinCompetitionAction(todayCompetition.competitionId);
 
       if (!res.ok) {
+        closeModal();
         setErrorContext(res.error);
         openErrorModal();
 
         return;
       }
       setParticipation(res.data);
+      closeModal();
       router.push(`/contests/${todayCompetition.competitionId}`);
     } catch {
+      closeModal();
       setErrorContext({
         code: "UNKNOWN_ERROR",
         message: "대회를 불러오지 못했습니다.",
