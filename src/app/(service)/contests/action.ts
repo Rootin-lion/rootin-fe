@@ -256,21 +256,16 @@ export async function requestDetailProblemAction(
 // 각 문제 답안 저장
 export async function saveProblemAnswerAction(
   competitionId: number,
+  competitionProblemId: number,
   selectedOptionId: number,
 ) {
   try {
-    const res = await saveProblemAnswer(competitionId, selectedOptionId);
-    const data = res.data.data;
-
-    if (!data) {
-      return {
-        ok: false,
-        error: {
-          code: "PROBLEM_FAILED",
-          message: "문제 답안 저장에 실패했습니다.",
-        },
-      } as const;
-    }
+    const res = await saveProblemAnswer(
+      competitionId,
+      competitionProblemId,
+      selectedOptionId,
+    );
+    const data = res.data;
 
     return {
       ok: true,

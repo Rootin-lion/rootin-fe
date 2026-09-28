@@ -83,10 +83,11 @@ export const requestDetailProblem = (
 // 각 문제 답안 저장
 export const saveProblemAnswer = (
   competitionId: number,
+  competitionProblemId: number,
   selectedOptionId: number,
 ) => {
   const res = apiClient.patch(`/competitions/${competitionId}/answers`, {
-    competitionId,
+    competitionProblemId,
     selectedOptionId,
   });
 
@@ -102,7 +103,7 @@ export const getContestStatus = (competitionId: number) => {
 
 // 대회 제출
 export const submitContest = (competitionId: number) => {
-  const res = apiClient.get(`/competitions/${competitionId}/submit`);
+  const res = apiClient.post(`/competitions/${competitionId}/submit`);
 
   return res;
 };

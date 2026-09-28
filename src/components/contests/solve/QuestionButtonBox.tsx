@@ -1,4 +1,3 @@
-type ButtonBoxType = "isFirst" | "isMiddle" | "isLast";
 type NavigationButtonType = "prev" | "next";
 
 const NAVIGATION_TEXT = {
@@ -20,12 +19,15 @@ const SubmitButton = ({ onClick }: { onClick?: () => void }) => {
 
 const NavigationButton = ({
   direction,
+  onClick,
 }: {
   direction: NavigationButtonType;
+  onClick?: () => void;
 }) => {
   return (
     <button
       type="button"
+      onClick={onClick}
       className="cursor-pointer rounded-lg border border-[#E1E1E1] px-4 py-2 text-[13px] font-medium text-black"
     >
       {NAVIGATION_TEXT[direction]}
@@ -34,22 +36,26 @@ const NavigationButton = ({
 };
 
 export default function QuestionButtonBox({
-  status,
-  onClick,
+  isFirst,
+  isLast,
+  onPrevious,
+  onNext,
+  onSubmit,
 }: {
-  status: ButtonBoxType;
-  onClick?: () => void;
+  isFirst: boolean;
+  isLast: boolean;
+  onPrevious?: () => void;
+  onNext?: () => void;
+  onSubmit?: () => void;
 }) {
   return (
-    <div
-      className={`flex ${status === "isFirst" ? "justify-end" : "justify-between"}`}
-    >
-      {status !== "isFirst" && <NavigationButton direction="prev" />}
+    <div className={`flex ${isFirst ? "justify-end" : "justify-between"}`}>
+      {!isFirst && <NavigationButton direction="prev" onClick={onPrevious} />}
 
-      {status === "isLast" ? (
-        <SubmitButton onClick={onClick} />
+      {isLast ? (
+        <SubmitButton onClick={onSubmit} />
       ) : (
-        <NavigationButton direction="next" />
+        <NavigationButton direction="next" onClick={onNext} />
       )}
     </div>
   );

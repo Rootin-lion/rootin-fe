@@ -8,8 +8,11 @@ export function apiError(error: unknown, message: string) {
     };
   }
 
+  const responseData = error.response?.data;
+
   return {
-    code: error.response?.data?.errorCode ?? "UNKNOWN_ERROR",
-    message: error.response?.data?.message ?? message,
+    code:
+      responseData?.error?.code ?? responseData?.errorCode ?? "UNKNOWN_ERROR",
+    message: responseData?.error?.message ?? responseData?.message ?? message,
   };
 }
