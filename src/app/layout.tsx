@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import OAuthDebugLogger from "@/components/oauth/OAuthDebugLogger";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,10 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/pretendard/dist/web/static/pretendard.css"
         />
       </head>
-      <body className="bg-bg-ivory flex min-h-full flex-col">{children}</body>
+      <body className="bg-bg-ivory flex min-h-full flex-col">
+        <OAuthDebugLogger />
+        {children}
+      </body>
     </html>
   );
 }
