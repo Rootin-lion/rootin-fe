@@ -2,20 +2,25 @@ import Image from "next/image";
 import CheckIcon from "@/assets/competitions/result/check.png";
 import QuestionPanel from "../shared/ProblemPanel";
 import DetailWrapper from "./DetailWrapper";
+import {
+  CompetitionResultState,
+  ProblemResult,
+} from "@/types/competitions/competition";
 
-type ItemType = "CORRECT" | "INCORRECT" | "UNANSWERED";
+type ItemType = "CORRECT" | "WRONG" | "UNANSWERED";
 
 interface ResultItemProps {
   type: ItemType;
+  problem: ProblemResult;
 }
 
 const RESULT_ITEM_TYPE = {
-  CORRECT: { title: "정답", score: "10점", bg: "bg-primary-900" },
-  INCORRECT: { title: "오답", score: "0점", bg: "bg-error" },
-  UNANSWERED: { title: "미답", score: "0점", bg: "bg-disabled-text" },
+  CORRECT: { title: "정답", bg: "bg-primary-900" },
+  WRONG: { title: "오답", bg: "bg-error" },
+  UNANSWERED: { title: "미답", bg: "bg-disabled-text" },
 };
 
-const ResultItem = ({ type }: ResultItemProps) => {
+const ResultItem = ({ type, problem }: ResultItemProps) => {
   return (
     <div className="flex flex-col items-center gap-3">
       <div
@@ -24,12 +29,16 @@ const ResultItem = ({ type }: ResultItemProps) => {
         1
       </div>
       <p>{RESULT_ITEM_TYPE[type].title}</p>
-      <p>{RESULT_ITEM_TYPE[type].score}</p>
+      <p>{problem.score}</p>
     </div>
   );
 };
 
-export default function ResultSection() {
+export default function ResultSection({
+  competitionResult,
+}: {
+  competitionResult: CompetitionResultState;
+}) {
   return (
     <DetailWrapper>
       <div className="flex items-center gap-3 px-8 py-7">
@@ -39,16 +48,13 @@ export default function ResultSection() {
         </p>
       </div>
       <div className="flex items-center justify-center gap-12 pb-11">
-        <ResultItem type="CORRECT" />
-        <ResultItem type="CORRECT" />
-        <ResultItem type="CORRECT" />
-        <ResultItem type="INCORRECT" />
-        <ResultItem type="INCORRECT" />
-        <ResultItem type="UNANSWERED" />
-        <ResultItem type="CORRECT" />
-        <ResultItem type="CORRECT" />
-        <ResultItem type="CORRECT" />
-        <ResultItem type="CORRECT" />
+        {competitionResult.problemResults.map((problem) => (
+          <ResultItem
+            key={problem.competitionProblemId}
+            type={problem.status}
+            problem={problem}
+          />
+        ))}
       </div>
 
       <QuestionPanel variant="result" />

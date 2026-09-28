@@ -1,13 +1,21 @@
+import { CompetitionResultState } from "@/types/competitions/competition";
 import AnalysisSection from "./AnalysisSection";
 import DetailBanner from "./DetailBanner";
 import ResultSection from "./ResultSection";
 
-export default function ResultDetailSide() {
+export default function ResultDetailSide({
+  competitionResult,
+}: {
+  competitionResult: CompetitionResultState;
+}) {
   return (
     <div className="flex max-w-210.5 flex-1 flex-col gap-3">
       <DetailBanner />
-      <ResultSection />
-      <AnalysisSection />
+      <ResultSection competitionResult={competitionResult} />
+      <AnalysisSection
+        strongCategories={competitionResult.strongCategories}
+        weakCategories={competitionResult.weakCategories}
+      />
     </div>
   );
 }

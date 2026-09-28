@@ -1,10 +1,12 @@
 "use server";
 
 import {
+  getCompetitionResult,
   getCompetitionStatus,
   getMyRanking,
   getPastCompetition,
   getRankings,
+  getReulstProblem,
   getTodayCompetition,
   getTop3,
   joinCompetition,
@@ -12,7 +14,7 @@ import {
   requestProblems,
   saveProblemAnswer,
   submitContest,
-} from "@/apis/contest";
+} from "@/apis/competitions";
 import { apiError } from "@/lib/shared/apiError";
 import { RankingPeriod } from "@/types/competitions/ranking";
 
@@ -331,6 +333,63 @@ export async function submitContestAction(competitionId: number) {
     return {
       ok: false,
       error: apiError(error, "대회 제출에 실패했습니다."),
+    } as const;
+  }
+}
+// 대회 결과 조회
+export async function getCompetitionResultAction(competitionId: number) {
+  try {
+    const res = await getCompetitionResult(competitionId);
+    const data = res.data.data;
+
+    if (!data) {
+      return {
+        ok: false,
+        error: {
+          code: "RESULT_FAILED",
+          message: "대회 결과 조회에 실패했습니다.",
+        },
+      };
+    }
+
+    return {
+      ok: true,
+      data,
+    } as const;
+  } catch (error) {
+    return {
+      ok: false,
+      error: apiError(error, "대회 결과 조회에 실패했습니다."),
+    } as const;
+  }
+}
+
+// 대회 결과 문제 상세 조회
+export async function getResultProbleAction(
+  competitionId: number,
+  competitionProblemId: number,
+) {
+  try {
+    const res = await getReulstProblem(competitionId, competitionProblemId);
+    const data = res.data.data;
+    if (!data) {
+      return {
+        ok: false,
+        error: {
+          code: "PROBLEM_FAILED",
+          message: "문제 상세 조회에 실패했습니다.",
+        },
+      };
+    }
+
+    return {
+      ok: true,
+      data,
+    } as const;
+  } catch (error) {
+    return {
+      ok: false,
+      error: apiError(error, "문제 상세 조회에 실패했습니다."),
     } as const;
   }
 }

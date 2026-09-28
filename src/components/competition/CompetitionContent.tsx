@@ -4,8 +4,6 @@ import useModal from "@/hooks/useModal";
 import { TodayCompetitionState } from "@/types/competitions/competition";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import ModalWrapper from "../shared/ModalWrapper";
-import Button from "../shared/Button";
 import CompetitionBanner from "./CompetitionBanner";
 import CompetitionCtaBanner from "./CompetitionCtaBanner";
 import WarningBanner from "./WarningBanner";
@@ -19,6 +17,8 @@ import {
 import useErrorModal from "@/hooks/useErrorModal";
 import ErrorModal from "../shared/ErrorModal";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
+import CompetitionJoinModal from "./CompetitionJoinModal";
+import ProblemAutoSubmitModal from "./problem/ProblemAutoSubmitModal";
 
 export default function CompetitionContent() {
   const router = useRouter();
@@ -117,7 +117,7 @@ export default function CompetitionContent() {
       closeModal();
       setErrorContext({
         code: "UNKNOWN_ERROR",
-        message: "대회를 불러오지 못했습니다.",
+        message: "대회에 참가하지 못했습니다.",
       });
       openErrorModal();
     }
@@ -142,29 +142,7 @@ export default function CompetitionContent() {
       )}
 
       {isModalOpen && (
-        <ModalWrapper onClose={closeModal}>
-          <ModalWrapper.Box>
-            <ModalWrapper.Title>대회에 참여하시겠습니까?</ModalWrapper.Title>
-          </ModalWrapper.Box>
-          <ModalWrapper.Notice>
-            <div className="text-text text-[15px] font-semibold">
-              대회 주의사항
-            </div>
-            <ul className="text-disabled-text mt-3 list-inside list-disc text-[13px] font-medium">
-              <li>정답률에 따라 포인트가 지급됩니다.</li>
-              <li>제한 시간 초과 시 자동으로 제출됩니다.</li>
-              <li>대회 결과는 실시간 랭킹에 반영됩니다.</li>
-            </ul>
-          </ModalWrapper.Notice>
-          <ModalWrapper.Box>
-            <div className="flex flex-row gap-6">
-              <Button onClick={closeModal}>취소</Button>
-              <Button isActive={true} onClick={() => joinCompetition()}>
-                시작하기
-              </Button>
-            </div>
-          </ModalWrapper.Box>
-        </ModalWrapper>
+        <CompetitionJoinModal onClose={closeModal} onStart={joinCompetition} />
       )}
 
       <CompetitionBanner

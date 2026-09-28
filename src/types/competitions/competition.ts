@@ -1,5 +1,6 @@
 export type CompetitionStatuType = "BEFORE_START" | "IN_PROGRESS" | "CLOSED";
 
+export type ProblemStatus = "CORRECT" | "WRONG" | "UNANSWERED";
 export interface TodayCompetitionState {
   competitionId: number;
   competitionDate: string;
@@ -59,4 +60,23 @@ export interface CompetitionProgressState {
   expiresAt: string;
   submitted: boolean;
   answeredProblems: CompetitionAnsweredProblem[];
+}
+
+export interface ProblemResult {
+  problemOrder: number;
+  competitionProblemId: number;
+  status: ProblemStatus;
+  score: number;
+}
+
+export interface CompetitionResultState {
+  competitionDate: string;
+  score: number;
+  totalScore: number;
+  correctCount: number;
+  totalCount: number;
+  solvingTimeSeconds: number;
+  problemResults: ProblemResult[];
+  strongCategories: string[];
+  weakCategories: string[];
 }

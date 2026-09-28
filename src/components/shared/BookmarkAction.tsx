@@ -1,9 +1,8 @@
 "use client";
 
 import BookmarkIcon from "@/assets/bookmark.svg";
-import ModalWrapper from "./ModalWrapper";
-import Button from "./Button";
 import useModal from "@/hooks/useModal";
+import BookmarkModal from "./BookmarkModal";
 
 export default function BookmarkAction({
   selected = false,
@@ -14,24 +13,7 @@ export default function BookmarkAction({
 
   return (
     <>
-      {isModalOpen && (
-        <ModalWrapper onClose={closeModal}>
-          <ModalWrapper.Box>
-            <ModalWrapper.Title>북마크에 저장되었습니다.</ModalWrapper.Title>
-          </ModalWrapper.Box>
-          <ModalWrapper.Box>
-            <div className="mx-auto">
-              <Button
-                isActive={true}
-                className="max-h-7.5 max-w-25"
-                onClick={closeModal}
-              >
-                확인
-              </Button>
-            </div>
-          </ModalWrapper.Box>
-        </ModalWrapper>
-      )}
+      {isModalOpen && <BookmarkModal onClose={closeModal} />}
 
       <div onClick={openModal} className="cursor-pointer">
         <BookmarkIcon

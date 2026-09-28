@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import type { ContestResultsState } from "@/types/competitions/competition";
-import BoxWrapper from "@/components/competition/BoxWrapper";
+import BoxWrapper from "@/components/competition/shared/BoxWrapper";
 import ContestResultCard from "./CompetitionResultCard";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "./shared/SectionTitle";
 import { getPastCompetitionAction } from "@/app/(service)/competitions/action";
 import useErrorModal from "@/hooks/useErrorModal";
 import ErrorModal from "../shared/ErrorModal";

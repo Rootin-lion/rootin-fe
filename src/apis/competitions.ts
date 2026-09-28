@@ -110,3 +110,22 @@ export const submitContest = (competitionId: number) => {
 
   return res;
 };
+
+// 대회 결과 조회
+export const getCompetitionResult = (competitionId: number) => {
+  const res = apiClient.get(`/competitions/${competitionId}/result`);
+
+  return res;
+};
+
+// 대회 결과 문제 상세 조회
+export const getReulstProblem = (
+  competitionId: number,
+  competitionProblemId: number,
+) => {
+  const res = apiClient.get(
+    `/competitions/${competitionId}/problems/${competitionProblemId}/solution `,
+  );
+
+  return res;
+};

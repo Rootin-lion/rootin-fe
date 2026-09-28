@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { RankingState } from "@/types/competitions/competition";
-import BoxWrapper from "@/components/competition/BoxWrapper";
-import SectionTitle from "./SectionTitle";
+import BoxWrapper from "@/components/competition/shared/BoxWrapper";
+import SectionTitle from "./shared/SectionTitle";
 import RankingBox from "./ranking/RankingBox";
 import RankingCircle from "./ranking/RankingCircle";
 import RankingConnector from "./ranking/RankingConnector";

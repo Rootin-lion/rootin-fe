@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import {
   getCompetitionStatusAction,
   requestDetailProblemAction,
@@ -10,11 +9,8 @@ import {
   saveProblemAnswerAction,
   submitContestAction,
 } from "@/app/(service)/competitions/action";
-import Button from "@/components/shared/Button";
 import ErrorModal from "@/components/shared/ErrorModal";
-import ModalWrapper from "@/components/shared/ModalWrapper";
 import useErrorModal from "@/hooks/useErrorModal";
-import useModal from "@/hooks/useModal";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
 import type {
   CompetitionProblemDetail,
@@ -23,6 +19,11 @@ import type {
 
 import ProblemPanel from "../shared/ProblemPanel";
 import ProblemSidebar from "./ProblemSidebar";
+import ProblemSubmitModal from "./ProblemSubmitModal";
+import ProblemAutoSubmitModal from "./ProblemAutoSubmitModal";
+
+type SubmitModalType = "confirm" | "autoSubmitted" | null;
+type SubmitTrigger = "manual" | "timeout";
 
 export default function ProblemContent({
   competitionId,
@@ -30,12 +31,10 @@ export default function ProblemContent({
   competitionId: number;
 }) {
   const router = useRouter();
-
   // 대회 참여 정보
   const setParticipation = useCompetitionParticipationStore(
     (state) => state.setParticipation,
   );
-
   // 문제 풀이 상태
   const [problemNavigationItems, setProblemNavigationItems] = useState<
     CompetitionProblemSummary[]
@@ -45,21 +44,15 @@ export default function ProblemContent({
   const [selectedOptionByProblemId, setSelectedOptionByProblemId] = useState<
     Record<number, number>
   >({});
-
   // 에러 발생 후 대회 목록 이동 여부
   const [shouldLeaveAfterError, setShouldLeaveAfterError] = useState(true);
-
   // 에러 모달 상태
-  const {
-    error,
-    setErrorContext,
-    isModalOpen: isErrorModalOpen,
-    openModal: openErrorModal,
-    closeModal: closeErrorModal,
-  } = useErrorModal();
-
+  const { error, setErrorContext, isModalOpen, openModal, closeModal } =
+    useErrorModal();
   // 제출 확인 모달 상태
-  const { isModalOpen, openModal, closeModal } = useModal();
+
+  const [activeSubmitModal, setActiveSubmitModal] =
+    useState<SubmitModalType>(null);
 
   // 현재 문제 위치
   const currentProblemIndex = currentProblem
@@ -72,6 +65,18 @@ export default function ProblemContent({
   const isLastProblem =
     currentProblemIndex >= 0 &&
     currentProblemIndex === problemNavigationItems.length - 1;
+
+  const openSubmitConfirmModal = () => {
+    setActiveSubmitModal("confirm");
+  };
+
+  const openAutoSubmitModal = () => {
+    setActiveSubmitModal("autoSubmitted");
+  };
+
+  const closeSubmitModal = () => {
+    setActiveSubmitModal(null);
+  };
 
   // 문제 상세 조회
   const loadProblem = async (competitionProblemId: number) => {
@@ -86,7 +91,7 @@ export default function ProblemContent({
       if (!res.ok) {
         setShouldLeaveAfterError(true);
         setErrorContext(res.error);
-        openErrorModal();
+        openModal();
 
         return;
       }
@@ -98,7 +103,7 @@ export default function ProblemContent({
         code: "UNKNOWN_ERROR",
         message: "문제를 불러오지 못했습니다.",
       });
-      openErrorModal();
+      openModal();
     }
   };
 
@@ -144,7 +149,7 @@ export default function ProblemContent({
       if (!res.ok) {
         setShouldLeaveAfterError(false);
         setErrorContext(res.error);
-        openErrorModal();
+        openModal();
 
         return;
       }
@@ -159,32 +164,38 @@ export default function ProblemContent({
         code: "UNKNOWN_ERROR",
         message: "문제 답안 저장에 실패했습니다.",
       });
-      openErrorModal();
+      openModal();
     }
   };
 
   // 대회 제출
-  const submitCompetition = async () => {
+  const submitCompetition = async (trigger: SubmitTrigger) => {
     try {
       const res = await submitContestAction(competitionId);
 
       if (!res.ok) {
-        closeModal();
+        closeSubmitModal();
         setErrorContext(res.error);
-        openErrorModal();
+        openModal();
 
         return;
       }
 
-      closeModal();
+      if (trigger === "timeout") {
+        openAutoSubmitModal();
+
+        return;
+      }
+
+      closeSubmitModal();
       router.replace(`/competitions/${competitionId}/result`);
     } catch {
-      closeModal();
+      closeSubmitModal();
       setErrorContext({
         code: "UNKNOWN_ERROR",
-        message: "문제 답안 저장에 실패했습니다.",
+        message: "대회 제출에 실패했습니다.",
       });
-      openErrorModal();
+      openModal();
     }
   };
 
@@ -201,13 +212,13 @@ export default function ProblemContent({
         if (!statusRes.ok) {
           setShouldLeaveAfterError(true);
           setErrorContext(statusRes.error);
-          openErrorModal();
+          openModal();
 
           return;
         }
 
         if (statusRes.data.submitted) {
-          router.replace(`/contecompetitionssts/${competitionId}/result`);
+          router.replace(`/competitions/${competitionId}/result`);
 
           return;
         }
@@ -235,7 +246,7 @@ export default function ProblemContent({
         if (!problemsRes.ok) {
           setShouldLeaveAfterError(true);
           setErrorContext(problemsRes.error);
-          openErrorModal();
+          openModal();
 
           return;
         }
@@ -250,7 +261,7 @@ export default function ProblemContent({
           code: "UNKNOWN_ERROR",
           message: "대회 진행 정보를 불러오지 못했습니다.",
         });
-        openErrorModal();
+        openModal();
       }
     };
 
@@ -259,22 +270,16 @@ export default function ProblemContent({
     return () => {
       isCancelled = true;
     };
-  }, [
-    competitionId,
-    openErrorModal,
-    router,
-    setErrorContext,
-    setParticipation,
-  ]);
+  }, [competitionId, openModal, router, setErrorContext, setParticipation]);
 
   return (
     <div className="bg-primary-50 min-h-dvh">
-      {isErrorModalOpen && (
+      {isModalOpen && (
         <ErrorModal
           code={error.code}
           message={error.message}
           onClose={() => {
-            closeErrorModal();
+            closeModal();
 
             if (shouldLeaveAfterError) {
               router.replace("/competitions");
@@ -283,29 +288,22 @@ export default function ProblemContent({
         />
       )}
 
-      {isModalOpen && (
-        <ModalWrapper onClose={closeModal}>
-          <ModalWrapper.Box>
-            <ModalWrapper.Title>정말 제출하시겠습니까?</ModalWrapper.Title>
-            <ModalWrapper.Content>
-              제출 후에는 답안을 수정할 수 없습니다.
-            </ModalWrapper.Content>
-          </ModalWrapper.Box>
-          <ModalWrapper.Box>
-            <div className="flex flex-row gap-9">
-              <Button onClick={closeModal} className="max-h-7.5">
-                취소
-              </Button>
-              <Button
-                isActive={true}
-                className="max-h-7.5"
-                onClick={() => submitCompetition()}
-              >
-                제출하기
-              </Button>
-            </div>
-          </ModalWrapper.Box>
-        </ModalWrapper>
+      {activeSubmitModal === "confirm" && (
+        <ProblemSubmitModal
+          onClose={closeSubmitModal}
+          onSubmit={() => {
+            void submitCompetition("manual");
+          }}
+        />
+      )}
+
+      {activeSubmitModal === "autoSubmitted" && (
+        <ProblemAutoSubmitModal
+          competitionId={competitionId}
+          onClose={() => {
+            router.replace(`/competitions/${competitionId}/result`);
+          }}
+        />
       )}
 
       <div className="mx-auto flex w-full max-w-5xl flex-row gap-4 pt-9">
@@ -319,7 +317,7 @@ export default function ProblemContent({
             void loadProblem(competitionProblemId);
           }}
           onExpire={() => {
-            void submitCompetition();
+            void submitCompetition("timeout");
           }}
         />
         <ProblemPanel
@@ -336,7 +334,7 @@ export default function ProblemContent({
           }}
           onPrevious={handlePreviousProblem}
           onNext={handleNextProblem}
-          onSubmit={openModal}
+          onSubmit={openSubmitConfirmModal}
         />
       </div>
     </div>
