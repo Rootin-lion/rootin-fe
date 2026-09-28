@@ -58,9 +58,8 @@ export default function SocialLoginSection() {
           />
         </div>
         <p className="text-sub-text mt-7 text-[12px] font-normal">
-          계속 진행하면
-          <LoginNoticeHighlight>Rootin</LoginNoticeHighlight>의
-          <LoginNoticeHighlight>이용약관</LoginNoticeHighlight>과
+          계속 진행하면 <LoginNoticeHighlight>Rootin</LoginNoticeHighlight>의{" "}
+          <LoginNoticeHighlight>이용약관</LoginNoticeHighlight>과{" "}
           <LoginNoticeHighlight>개인정보처리방침</LoginNoticeHighlight>에
           동의하는 것으로 간주됩니다.
         </p>

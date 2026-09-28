@@ -49,18 +49,18 @@ npm run start
 
 ## 화면 경로
 
-| 경로                               | 화면                                    |
-| ---------------------------------- | --------------------------------------- |
-| `/`                                | 서비스 소개, 학습 로드맵, 주요 기능     |
-| `/login`                           | 소셜 로그인 UI                          |
-| `/onboarding`                      | 사용자 정보 및 관심 분야 설정 UI        |
-| `/onboarding/success`              | 온보딩 완료                             |
-| `/contests`                        | 오늘의 대회, 지난 대회, 대회 랭킹       |
-| `/contests/[competitionId]`        | 대회 문제 풀이                          |
-| `/contests/[competitionId]/result` | 대회 결과 요약 및 상세 분석             |
-| `/interviews`                      | 면접 분야·문항 수·텍스트/음성 모드 설정 |
-| `/interviews/[interviewId]`        | 면접 채팅·답변 입력·영상 영역 UI        |
-| `/ranking`                         | 일간·주간·월간 랭킹 UI                  |
+| 경로                                   | 화면                                    |
+| -------------------------------------- | --------------------------------------- |
+| `/`                                    | 서비스 소개, 학습 로드맵, 주요 기능     |
+| `/login`                               | 소셜 로그인 UI                          |
+| `/onboarding`                          | 사용자 정보 및 관심 분야 설정 UI        |
+| `/onboarding/success`                  | 온보딩 완료                             |
+| `/competitions`                        | 오늘의 대회, 지난 대회, 대회 랭킹       |
+| `/competitions/[competitionId]`        | 대회 문제 풀이                          |
+| `/competitions/[competitionId]/result` | 대회 결과 요약 및 상세 분석             |
+| `/interviews`                          | 면접 분야·문항 수·텍스트/음성 모드 설정 |
+| `/interviews/[interviewId]`            | 면접 채팅·답변 입력·영상 영역 UI        |
+| `/ranking`                             | 일간·주간·월간 랭킹 UI                  |
 
 `[competitionId]`, `[interviewId]`는 동적 경로 구간입니다. `src/app/(service)` 아래의 화면은 공통 Header를 사용하며, `(service)`는 URL에 포함되지 않습니다.
 
@@ -70,7 +70,7 @@ npm run start
 src/
 ├── app/
 │   ├── (service)/      # 메인, 대회, 면접, 랭킹 및 공통 서비스 레이아웃
-│   │   ├── contests/   # 대회 목록
+│   │   ├── competitions/   # 대회 목록
 │   │   │   └── [competitionId]/  # 대회 문제 풀이
 │   │   │       └── result/       # 대회 결과 및 상세 분석
 │   │   ├── interviews/ # 면접 설정
@@ -89,7 +89,7 @@ src/
 │   ├── login/          # 로그인 UI
 │   ├── onboarding/     # 관심 분야 선택
 │   ├── roadmap/        # 학습 로드맵
-│   ├── contests/       # 대회 목록, 문제 풀이, 결과 분석
+│   ├── competitions/       # 대회 목록, 문제 풀이, 결과 분석
 │   ├── interviews/     # 면접 설정 및 세션 UI
 │   └── ranking/        # 랭킹 보드, 페이지네이션, 사이드바
 ├── constants/          # 분야별 상수 및 선택 항목

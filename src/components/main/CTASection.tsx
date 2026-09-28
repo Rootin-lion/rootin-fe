@@ -37,7 +37,7 @@ export function CTASection() {
           <div className="mt-14 w-80">
             <PrimaryDarkButton
               className="px-7 py-4 text-[20px] duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(31,41,55,0.12)]"
-              onClick={() => router.push("/contests")}
+              onClick={() => router.push("/competitions")}
             >
               ROOTIN 시작하기 →
             </PrimaryDarkButton>

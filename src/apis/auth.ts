@@ -1,6 +1,8 @@
 import { apiClient } from "./client";
 import { OnboardingPayload } from "@/types/auth/auth";
 
+export { reissueToken } from "./client";
+
 // 프로필 조회
 export const getProfile = () => {
   const res = apiClient.get("/users/profile");

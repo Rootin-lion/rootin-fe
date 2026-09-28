@@ -14,6 +14,10 @@ import {
   MEMBER_SNAPSHOT_COOKIE,
   MEMBER_SNAPSHOT_COOKIE_OPTIONS,
 } from "@/constants/auth/memberSnapshotCookie";
+import {
+  SESSION_TOKEN_COOKIE,
+  SESSION_TOKEN_COOKIE_OPTIONS,
+} from "@/constants/auth/sessionTokenCookie";
 
 const providers = {
   kakao: {
@@ -103,17 +107,12 @@ export async function handleOAuthCallback(
 
     // accessToken, refreshToken 쿠키 저장
     response.cookies.set(
-      "sessionToken",
+      SESSION_TOKEN_COOKIE,
       JSON.stringify({
         accessToken: accessToken,
         refreshToken: refreshToken,
       }),
-      {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-      },
+      SESSION_TOKEN_COOKIE_OPTIONS,
     );
 
     // 사용자 정보 쿠키 저장

@@ -29,6 +29,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
   const [isSubmitting, startSubmitTransition] = useTransition();
   const [, startNicknameCheckTransition] = useTransition();
 
+  // 닉네임
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
 
@@ -37,6 +38,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
     setIsNicknameAvailable(null);
   };
 
+  // 나이
   const handleAgeGroupToggle = (targetAge: string) => {
     setProfileForm((prev) => ({
       ...prev,
@@ -44,6 +46,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
     }));
   };
 
+  // 관심분야
   const handleInterestToggle = (targetInterest: string) => {
     if (
       profileForm.interestFields.length >= 3 &&
@@ -61,6 +64,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
     }));
   };
 
+  // 프로필 설정
   const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -129,6 +133,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
 
   return (
     <main className="bg-primary-50 flex min-h-dvh flex-col items-center justify-center">
+      {/* 에러 모달 */}
       {isModalOpen && (
         <ErrorModal
           code={error.code}

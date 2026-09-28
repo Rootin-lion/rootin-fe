@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 type GradientOutlineButtonType = "gradient" | "outline";
 
 interface GradientOutlineButtonProps {
@@ -34,12 +32,11 @@ export default function GradientOutlineButton({
   const styles = VARIANT_STYLES[variant];
 
   return (
-    <Link
-      href="#"
+    <button
       onClick={onClick}
       className={`${styles.base} ${disabled ? styles.enabled : styles.abled} focus-visible:ring-primary-900 border text-center font-semibold transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none enabled:cursor-pointer enabled:active:scale-95 disabled:cursor-not-allowed ${className}`}
     >
       {children}
-    </Link>
+    </button>
   );
 }
