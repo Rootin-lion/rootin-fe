@@ -35,14 +35,6 @@ const LoginNoticeHighlight = ({ children }: { children: React.ReactNode }) => {
   return <span className="text-primary-400">{children}</span>;
 };
 
-const startOAuthLogin = (provider: "카카오" | "구글", path: string) => {
-  console.info(`[OAuth][${provider}][브라우저 요청]`, {
-    method: "GET",
-    path,
-  });
-  window.location.assign(path);
-};
-
 export default function SocialLoginSection() {
   return (
     <section className="bg-primary-50 flex flex-1 items-center justify-start">
@@ -56,12 +48,12 @@ export default function SocialLoginSection() {
         <div className="mt-8 flex w-full max-w-95 flex-col gap-6">
           <KakaoLoginButton
             onClick={() => {
-              startOAuthLogin("카카오", "/oauth/kakao");
+              window.location.assign("/oauth/kakao");
             }}
           />
           <GoogleLoginButton
             onClick={() => {
-              startOAuthLogin("구글", "/oauth/google");
+              window.location.assign("/oauth/google");
             }}
           />
         </div>
