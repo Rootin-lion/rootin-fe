@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import LeftSection from "@/components/login/LeftSection";
-import RightSection from "@/components/login/RightSection";
+import LoginHeroSection from "@/components/login/LoginHeroSection";
+import SocialLoginSection from "@/components/login/SocialLoginSection";
 
 export const metadata: Metadata = {
   title: "로그인 | ROOTIN",
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <main className="flex min-h-dvh flex-row">
-      <LeftSection />
-      <RightSection />
+      <LoginHeroSection />
+      <SocialLoginSection />
     </main>
   );
 }

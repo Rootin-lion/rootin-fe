@@ -1,11 +1,18 @@
 import Image from "next/image";
 import BannerImg from "@/assets/contests/bannerImg.png";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
+import { CompetitionStatuType } from "@/types/contests/competition";
 
-export default function ContestCtaBanner({ onClick }: { onClick: () => void }) {
+export default function ContestCtaBanner({
+  isOpen,
+  onClick,
+}: {
+  isOpen: CompetitionStatuType;
+  onClick: () => void;
+}) {
   return (
     <div className="bg-gradient-primary mt-8 w-full">
-      <div className="mx-auto flex max-w-5xl items-end justify-between py-9">
+      <div className="mx-auto flex max-w-5xl items-center justify-between py-9">
         <div className="flex items-center gap-5">
           <div className="flex h-18 w-18 items-center justify-center rounded-[50%] bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_30%,#DAEBD9_100%)]">
             <Image src={BannerImg} width={50} height={59} alt="" />
@@ -19,11 +26,12 @@ export default function ContestCtaBanner({ onClick }: { onClick: () => void }) {
             </p>
           </div>
         </div>
-        <div>
+
+        {isOpen !== "CLOSED" && (
           <GradientOutlineButton variant="gradient" onClick={onClick}>
-            대회 참여하기
+            {isOpen === "BEFORE_START" ? "대회 준비 중" : "대회 참여하기"}
           </GradientOutlineButton>
-        </div>
+        )}
       </div>
     </div>
   );

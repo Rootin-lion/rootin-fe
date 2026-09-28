@@ -11,7 +11,7 @@ export function HeroSection() {
 
   return (
     <SectionWrapper variant="primary">
-      <div className="flex h-full max-h-200 flex-col justify-between gap-4 pt-24 pb-35">
+      <div className="flex h-full max-h-170 flex-col justify-between gap-4 pt-24 pb-35">
         <div>
           <p className="text-primary-900 text-[26px] font-semibold">
             개발자 취업 준비를 위한 CS 통합 학습 플랫폼
@@ -52,10 +52,8 @@ export function HeroSection() {
         <Image
           src={HeroImg}
           alt=""
-          width={580}
-          height={386}
           priority
-          style={{ width: "580px", height: "auto" }}
+          style={{ width: "480px", height: "auto" }}
         />
       </div>
     </SectionWrapper>

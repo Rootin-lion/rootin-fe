@@ -1,7 +1,7 @@
 import Image from "next/image";
 import CancelImg from "@/assets/cancel.png";
-// import SuccessImg from "@/assets/success.png";
-// import WarningImg from "@/assets/warning.png";
+import SuccessImg from "@/assets/success.png";
+import WarningImg from "@/assets/warning.png";
 
 interface InputWrapperProps {
   children?: React.ReactNode;
@@ -13,6 +13,7 @@ interface InputLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
 
 type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   value?: string;
+  isAvailable?: boolean | null;
   disabled?: boolean;
   onDelete?: () => void;
 };
@@ -32,6 +33,7 @@ function InputWrapperLabel({ children, ...props }: InputLabelProps) {
 function InputWrapperField({
   className,
   value,
+  isAvailable,
   disabled = false,
   onChange,
   onDelete,
@@ -61,18 +63,25 @@ function InputWrapperField({
           />
         </button>
       )}
-      {/* {value && !disabled && (
-        <div className="flex mt-1">
-          <Image src={SuccessImg} alt="success" width={20} height={20} />
-          <p className="text-[12px] text-primary font-normal">
-            사용 가능한 닉네임입니다.
-          </p>
-          <Image src={WarningImg} alt="warning" width={20} height={20} />
-          <p className="text-[12px] text-[#CC0003] font-normal">
-            이미 등록된 닉네임입니다.
-          </p>
+      {value && !disabled && typeof isAvailable === "boolean" && (
+        <div className="mt-1 flex">
+          {isAvailable ? (
+            <>
+              <Image src={SuccessImg} alt="success" width={20} height={20} />
+              <p className="text-primary text-[12px] font-normal">
+                사용 가능한 닉네임입니다.
+              </p>
+            </>
+          ) : (
+            <>
+              <Image src={WarningImg} alt="warning" width={20} height={20} />
+              <p className="text-[12px] font-normal text-[#CC0003]">
+                이미 등록된 닉네임입니다.
+              </p>
+            </>
+          )}
         </div>
-      )} */}
+      )}
     </div>
   );
 }

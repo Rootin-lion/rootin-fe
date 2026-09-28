@@ -61,7 +61,7 @@ export default function FeedbackCycle() {
       <Image
         src={FeedbackImg}
         alt=""
-        width={190}
+        width={240}
         loading="lazy"
         className="z-10"
       />

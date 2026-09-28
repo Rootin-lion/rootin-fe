@@ -1,0 +1,95 @@
+"use client";
+
+import { useState } from "react";
+import OptionButton from "@/components/shared/OptionButton";
+
+type InterestFieldOption = {
+  label: string;
+  value: string;
+};
+
+interface InterestFieldSelectorProps {
+  value: string[];
+  options: InterestFieldOption[];
+  onClick: (value: string) => void;
+  defaultOpen?: boolean;
+}
+
+export default function InterestFieldSelector({
+  value,
+  options,
+  onClick,
+  defaultOpen = false,
+}: InterestFieldSelectorProps) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const selectedOption = options.find((option) => value.includes(option.value));
+  const message =
+    isOpen && value.length === 0
+      ? "최대 3개까지 선택할 수 있어요"
+      : "관심분야를 선택해주세요";
+
+  const selectedLabelsText = value
+    .map(
+      (selectedValue) =>
+        options.find((option) => option.value === selectedValue)?.label ??
+        selectedValue,
+    )
+    .join(", ");
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div
+        className={`rounded-lg bg-white ${isOpen || selectedOption ? "border-2 border-[#9FD1A5]" : ""}`}
+      >
+        <button
+          type="button"
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen((prev) => !prev)}
+          className="text-sub-text flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-4 py-3 text-left text-[12px]"
+        >
+          <span
+            className={`text-[14px] ${selectedOption ? "text-[#1A1A1A]" : ""}`}
+          >
+            {value && value.length > 0 ? selectedLabelsText : message}
+          </span>
+
+          <svg
+            className={`text-primary h-4 w-4 transition-transform ${isOpen ? "rotate-180" : "180"}`}
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 12.5L10 7.5L15 12.5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        {isOpen && (
+          <div className="p-3">
+            <div className="flex w-full max-w-97 flex-wrap gap-x-2 gap-y-4">
+              {options.map((option, index) => {
+                const isSelected = value.includes(option.value);
+
+                return (
+                  <p key={index}>
+                    <OptionButton
+                      variant="outline"
+                      selected={isSelected}
+                      onClick={() => onClick(option.value)}
+                    >
+                      {option.label}
+                    </OptionButton>
+                  </p>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
