@@ -1,5 +1,5 @@
-import RankingPagination from "./RankingPagination";
 import { RankingState } from "@/types/competitions/competition";
+import RankingPagination from "./RankingPagination";
 
 const rowLayout =
   "grid grid-cols-[80px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-x-4 px-5 text-center";

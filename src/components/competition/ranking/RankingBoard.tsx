@@ -1,8 +1,8 @@
 "use client";
 
 import { RankingState } from "@/types/competitions/competition";
-import RankingTable from "./board/RankingTable";
 import { RankingPeriod, RankingViewState } from "@/types/competitions/ranking";
+import RankingTable from "./board/RankingTable";
 
 const RankingTabs = ({
   period,

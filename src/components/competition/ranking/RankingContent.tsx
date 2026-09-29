@@ -1,16 +1,16 @@
 "use client";
 
-import useErrorModal from "@/hooks/useErrorModal";
-import RankingContentSection from "./RankingContentSection";
-import RankingTitleSection from "./RankingTitleSection";
-import ErrorModal from "@/components/shared/ErrorModal";
 import { useEffect, useState } from "react";
-import { RankingPeriod, RankingViewState } from "@/types/competitions/ranking";
 import {
   getMyRankingAction,
   getRankingsAction,
 } from "@/app/(service)/competitions/action";
+import ErrorModal from "@/components/shared/ErrorModal";
+import useErrorModal from "@/hooks/useErrorModal";
 import { RankingState } from "@/types/competitions/competition";
+import { RankingPeriod, RankingViewState } from "@/types/competitions/ranking";
+import RankingContentSection from "./RankingContentSection";
+import RankingTitleSection from "./RankingTitleSection";
 
 export default function RankingContent({
   competitionId,

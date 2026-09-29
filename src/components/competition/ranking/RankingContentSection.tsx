@@ -1,7 +1,7 @@
+import { RankingState } from "@/types/competitions/competition";
 import { RankingPeriod, RankingViewState } from "@/types/competitions/ranking";
 import RankingBoard from "./RankingBoard";
 import RankingSidebar from "./RankingSidebar";
-import { RankingState } from "@/types/competitions/competition";
 
 export default function RankingContentSection({
   myRanking,

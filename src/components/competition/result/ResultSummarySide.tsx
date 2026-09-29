@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import CharImg from "@/assets/competitions/result/char.png";
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
-import ScoreSection from "./ScoreSection";
-import RankSection from "./RankSection";
 import { CompetitionResultState } from "@/types/competitions/competition";
-import { useRouter } from "next/navigation";
+import RankSection from "./RankSection";
+import ScoreSection from "./ScoreSection";
 
 export default function ResultSummarySide({
   competitionId,

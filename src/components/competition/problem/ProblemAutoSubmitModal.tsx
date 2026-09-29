@@ -1,9 +1,9 @@
 "use client";
 
-import Button from "@/components/shared/Button";
-import ModalWrapper from "@/components/shared/ModalWrapper";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Button from "@/components/shared/Button";
+import ModalWrapper from "@/components/shared/ModalWrapper";
 
 export default function ProblemAutoSubmitModal({
   competitionId,

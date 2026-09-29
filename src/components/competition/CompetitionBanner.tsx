@@ -1,8 +1,8 @@
-import React from "react";
 import Image from "next/image";
+import React from "react";
 import TrophyImg from "@/assets/competitions/trophy.png";
-import type { TodayCompetitionState } from "@/types/competitions/competition";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
+import type { TodayCompetitionState } from "@/types/competitions/competition";
 import ContestCountdown from "./CompetitionCountdown";
 
 const Status = ({ children }: { children: React.ReactNode }) => {

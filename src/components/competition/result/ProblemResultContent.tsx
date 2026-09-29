@@ -1,13 +1,13 @@
 "use client";
 
-import ResultSummarySide from "./ResultSummarySide";
-import ResultDetailSide from "./ResultDetailSide";
 import { useEffect, useState } from "react";
 import { getCompetitionResultAction } from "@/app/(service)/competitions/action";
-import useModal from "@/hooks/useModal";
-import useErrorModal from "@/hooks/useErrorModal";
 import ErrorModal from "@/components/shared/ErrorModal";
+import useErrorModal from "@/hooks/useErrorModal";
+import useModal from "@/hooks/useModal";
 import { CompetitionResultState } from "@/types/competitions/competition";
+import ResultDetailSide from "./ResultDetailSide";
+import ResultSummarySide from "./ResultSummarySide";
 
 export default function ProblemResultContent({
   competitionId,

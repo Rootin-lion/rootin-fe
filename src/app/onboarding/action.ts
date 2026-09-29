@@ -1,5 +1,6 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { checkNickname, completeProfile, getProfile } from "@/apis/auth";
 import {
   MEMBER_SNAPSHOT_COOKIE,
@@ -8,7 +9,6 @@ import {
 import { apiError } from "@/lib/shared/apiError";
 import { OnboardingPayload } from "@/types/auth/auth";
 import { AuthSession } from "@/types/oauth/oauth";
-import { cookies } from "next/headers";
 
 // 프로필 설정
 export async function completeProfileAction(payload: OnboardingPayload) {

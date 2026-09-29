@@ -1,5 +1,4 @@
 import type { CompetitionProblemSummary } from "@/types/competitions/competition";
-
 import QuestionNavigator from "./ProblemNavigator";
 import QuestionTimer from "./ProblemTimer";
 

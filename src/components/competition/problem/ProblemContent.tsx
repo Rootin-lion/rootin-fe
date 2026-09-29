@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   getCompetitionStatusAction,
   requestDetailProblemAction,
@@ -16,11 +16,10 @@ import type {
   CompetitionProblemDetail,
   CompetitionProblemSummary,
 } from "@/types/competitions/competition";
-
 import ProblemPanel from "../shared/ProblemPanel";
+import ProblemAutoSubmitModal from "./ProblemAutoSubmitModal";
 import ProblemSidebar from "./ProblemSidebar";
 import ProblemSubmitModal from "./ProblemSubmitModal";
-import ProblemAutoSubmitModal from "./ProblemAutoSubmitModal";
 
 type SubmitModalType = "confirm" | "autoSubmitted" | null;
 type SubmitTrigger = "manual" | "timeout";

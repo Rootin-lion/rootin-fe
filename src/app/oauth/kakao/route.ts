@@ -1,8 +1,8 @@
+import { NextResponse } from "next/server";
 import {
   KAKAO_STATE_COOKIE,
   KAKAO_STATE_COOKIE_PATH,
 } from "@/constants/oauth/oauth";
-import { NextResponse } from "next/server";
 
 export function GET() {
   const clientId = process.env.KAKAO_CLIENT_ID;

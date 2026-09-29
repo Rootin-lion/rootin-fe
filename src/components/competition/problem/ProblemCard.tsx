@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   addProblemBookmarkAction,
   removeProblemBookmarkAction,
@@ -12,7 +13,6 @@ import type {
   CompetitionProblemOption,
   PanelType,
 } from "@/types/competitions/competition";
-import { useState } from "react";
 
 const ProblemOption = ({
   option,

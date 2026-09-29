@@ -1,8 +1,8 @@
-import OsImg from "@/assets/interviews/os.png";
-import NetworkImg from "@/assets/interviews/network.png";
-import DbImg from "@/assets/interviews/db.png";
 import DataImg from "@/assets/interviews/data.png";
+import DbImg from "@/assets/interviews/db.png";
 import InfraImg from "@/assets/interviews/infra.png";
+import NetworkImg from "@/assets/interviews/network.png";
+import OsImg from "@/assets/interviews/os.png";
 import SpringImg from "@/assets/interviews/spring.png";
 import type { InterviewFieldType } from "@/types/interviews/interview";
 

@@ -1,8 +1,8 @@
+import { NextResponse } from "next/server";
 import {
   GOOGLE_STATE_COOKIE,
   GOOGLE_STATE_COOKIE_PATH,
 } from "@/constants/oauth/oauth";
-import { NextResponse } from "next/server";
 
 export function GET() {
   const clientId = process.env.GOOGLE_CLIENT_ID;

@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { RankingState } from "@/types/competitions/competition";
+import { useEffect, useState } from "react";
+import { getTop3Action } from "@/app/(service)/competitions/action";
 import BoxWrapper from "@/components/competition/shared/BoxWrapper";
-import SectionTitle from "./shared/SectionTitle";
+import useErrorModal from "@/hooks/useErrorModal";
+import type { RankingState } from "@/types/competitions/competition";
+import ErrorModal from "../shared/ErrorModal";
 import RankingBox from "./ranking/RankingBox";
 import RankingCircle from "./ranking/RankingCircle";
 import RankingConnector from "./ranking/RankingConnector";
-import { getTop3Action } from "@/app/(service)/competitions/action";
-import useErrorModal from "@/hooks/useErrorModal";
-import ErrorModal from "../shared/ErrorModal";
+import SectionTitle from "./shared/SectionTitle";
 
 export default function RankingSection({
   competitionId,

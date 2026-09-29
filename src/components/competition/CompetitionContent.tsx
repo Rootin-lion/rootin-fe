@@ -1,24 +1,24 @@
 "use client";
 
-import useModal from "@/hooks/useModal";
-import { TodayCompetitionState } from "@/types/competitions/competition";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import CompetitionBanner from "./CompetitionBanner";
-import CompetitionCtaBanner from "./CompetitionCtaBanner";
-import WarningBanner from "./WarningBanner";
-import PastCompetitionSection from "./PastCompetitionSection";
-import RankingSection from "./RankingSection";
 import {
   getCompetitionStatusAction,
   getTodayCompetitionAction,
   joinCompetitionAction,
 } from "@/app/(service)/competitions/action";
 import useErrorModal from "@/hooks/useErrorModal";
-import ErrorModal from "../shared/ErrorModal";
+import useModal from "@/hooks/useModal";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
+import { TodayCompetitionState } from "@/types/competitions/competition";
+import ErrorModal from "../shared/ErrorModal";
+import CompetitionBanner from "./CompetitionBanner";
+import CompetitionCtaBanner from "./CompetitionCtaBanner";
 import CompetitionJoinModal from "./CompetitionJoinModal";
+import PastCompetitionSection from "./PastCompetitionSection";
 import ProblemAutoSubmitModal from "./problem/ProblemAutoSubmitModal";
+import RankingSection from "./RankingSection";
+import WarningBanner from "./WarningBanner";
 
 export default function CompetitionContent() {
   const router = useRouter();

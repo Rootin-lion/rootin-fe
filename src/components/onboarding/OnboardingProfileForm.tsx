@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import InputWrapper from "@/components/shared/InputWrapper";
-import Button from "@/components/shared/Button";
-import InterestFieldSelector from "./InterestFieldSelector";
-import { OnboardingPayload } from "@/types/auth/auth";
+import React, { useEffect, useState, useTransition } from "react";
 import {
   checkNicknameAction,
   completeProfileAction,
 } from "@/app/onboarding/action";
-import ErrorModal from "../shared/ErrorModal";
-import useErrorModal from "@/hooks/useErrorModal";
+import Button from "@/components/shared/Button";
+import InputWrapper from "@/components/shared/InputWrapper";
 import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
+import useErrorModal from "@/hooks/useErrorModal";
+import { OnboardingPayload } from "@/types/auth/auth";
+import ErrorModal from "../shared/ErrorModal";
+import InterestFieldSelector from "./InterestFieldSelector";
 
 export default function OnboardingProfileForm({ email }: { email: string }) {
   const router = useRouter();

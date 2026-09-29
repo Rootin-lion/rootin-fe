@@ -1,5 +1,5 @@
-import PrevIcon from "@/assets/ranking/prev.svg";
 import NextIcon from "@/assets/ranking/next.svg";
+import PrevIcon from "@/assets/ranking/prev.svg";
 
 const PageNumberButton = ({
   pageIndex,

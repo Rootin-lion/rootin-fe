@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
-import { AuthSession } from "@/types/oauth/oauth";
+import Header from "@/components/shared/Header";
 import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
+import { AuthSession } from "@/types/oauth/oauth";
 
 export default async function ServiceLayout({
   children,

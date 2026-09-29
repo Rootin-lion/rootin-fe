@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
-import type { ContestResultsState } from "@/types/competitions/competition";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
+import type { ContestResultsState } from "@/types/competitions/competition";
 
 export default function CompetitionResultCard({
   contest,

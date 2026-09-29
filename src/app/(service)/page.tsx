@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { HeroSection } from "@/components/main/HeroSection";
+import { CTASection } from "@/components/main/CTASection";
 import { FeaturedSection } from "@/components/main/feature/FeaturedSection";
 import { FeedbackSection } from "@/components/main/FeedbackSection";
+import { HeroSection } from "@/components/main/HeroSection";
 import { RoadmapSection } from "@/components/main/RoadmapSection";
 import { StatsSection } from "@/components/main/stats/StatsSection";
-import { CTASection } from "@/components/main/CTASection";
 
 export const metadata: Metadata = {
   title: "ROOTIN | 개발자 CS 학습과 AI 모의 면접",

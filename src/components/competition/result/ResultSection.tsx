@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
+import { getResultProblemAction } from "@/app/(service)/competitions/action";
 import CheckIcon from "@/assets/competitions/result/check.png";
-import QuestionPanel from "../shared/ProblemPanel";
-import DetailWrapper from "./DetailWrapper";
+import ErrorModal from "@/components/shared/ErrorModal";
+import useErrorModal from "@/hooks/useErrorModal";
+import useModal from "@/hooks/useModal";
 import {
   CompetitionResultState,
   ProblemResult,
 } from "@/types/competitions/competition";
-import { useState } from "react";
-import useErrorModal from "@/hooks/useErrorModal";
-import ErrorModal from "@/components/shared/ErrorModal";
-import { getResultProblemAction } from "@/app/(service)/competitions/action";
-import useModal from "@/hooks/useModal";
+import QuestionPanel from "../shared/ProblemPanel";
+import DetailWrapper from "./DetailWrapper";
 
 type ItemType = "CORRECT" | "WRONG" | "UNANSWERED";
 

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { ContestResultsState } from "@/types/competitions/competition";
+import { getPastCompetitionAction } from "@/app/(service)/competitions/action";
 import BoxWrapper from "@/components/competition/shared/BoxWrapper";
+import useErrorModal from "@/hooks/useErrorModal";
+import type { ContestResultsState } from "@/types/competitions/competition";
+import ErrorModal from "../shared/ErrorModal";
 import ContestResultCard from "./CompetitionResultCard";
 import SectionTitle from "./shared/SectionTitle";
-import { getPastCompetitionAction } from "@/app/(service)/competitions/action";
-import useErrorModal from "@/hooks/useErrorModal";
-import ErrorModal from "../shared/ErrorModal";
 
 const Bar = ({
   isActive,

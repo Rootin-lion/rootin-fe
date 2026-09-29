@@ -1,15 +1,7 @@
 import "server-only";
-
-import { NextRequest, NextResponse } from "next/server";
 import { isAxiosError } from "axios";
+import { NextRequest, NextResponse } from "next/server";
 import { loginGoogle, loginKakao } from "@/apis/oauth";
-import {
-  GOOGLE_STATE_COOKIE,
-  GOOGLE_STATE_COOKIE_PATH,
-  KAKAO_STATE_COOKIE,
-  KAKAO_STATE_COOKIE_PATH,
-} from "@/constants/oauth/oauth";
-import { AuthSession } from "@/types/oauth/oauth";
 import {
   MEMBER_SNAPSHOT_COOKIE,
   MEMBER_SNAPSHOT_COOKIE_OPTIONS,
@@ -18,6 +10,13 @@ import {
   SESSION_TOKEN_COOKIE,
   SESSION_TOKEN_COOKIE_OPTIONS,
 } from "@/constants/auth/sessionTokenCookie";
+import {
+  GOOGLE_STATE_COOKIE,
+  GOOGLE_STATE_COOKIE_PATH,
+  KAKAO_STATE_COOKIE,
+  KAKAO_STATE_COOKIE_PATH,
+} from "@/constants/oauth/oauth";
+import { AuthSession } from "@/types/oauth/oauth";
 
 const providers = {
   kakao: {

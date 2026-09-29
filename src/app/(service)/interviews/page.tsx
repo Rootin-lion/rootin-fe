@@ -1,18 +1,17 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import InterviewPreview from "@/components/interviews/InterviewPreview";
+import InterviewSetup from "@/components/interviews/InterviewSetup";
+import Button from "@/components/shared/Button";
+import ModalWrapper from "@/components/shared/ModalWrapper";
+import useModal from "@/hooks/useModal";
 import type InterviewConfig from "@/types/interviews/interview";
 import type {
   InterviewFieldType,
   InterviewModeType,
 } from "@/types/interviews/interview";
-
-import ModalWrapper from "@/components/shared/ModalWrapper";
-import Button from "@/components/shared/Button";
-import InterviewPreview from "@/components/interviews/InterviewPreview";
-import InterviewSetup from "@/components/interviews/InterviewSetup";
-import useModal from "@/hooks/useModal";
-import { useRouter } from "next/navigation";
 
 export default function InterviewPage() {
   const router = useRouter();
