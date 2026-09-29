@@ -1,10 +1,10 @@
-import type { CompetitionProblemDetail } from "@/types/competitions/competition";
-
+import type {
+  CompetitionProblemDetail,
+  PanelType,
+} from "@/types/competitions/competition";
 import QuestionButtonBox from "../problem/ProblemButtonBox";
 import QuestionCard from "../problem/ProblemCard";
 import QuestionSurface from "../problem/ProblemSurface";
-
-type PanelType = "solve" | "result";
 
 const NumberLabel = ({ number }: { number?: number }) => {
   return (
@@ -45,6 +45,7 @@ export default function ProblemPanel({
             <NumberLabel number={currentProblem?.problemOrder} />
           )}
           <QuestionCard
+            variant={variant}
             currentProblem={currentProblem}
             showBookmark={variant === "result"}
             selectedOptionId={selectedOptionId}

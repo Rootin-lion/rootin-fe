@@ -142,10 +142,7 @@ export default function CompetitionCountdown({
     countdown.previous === null ? null : getDisplayTime(countdown.previous);
   const isSameDisplayMode = previousDisplayTime?.mode === displayTime.mode;
   const formattedTime = `${displayTime.primaryValue}${displayTime.primaryUnit} ${displayTime.secondaryValue}${displayTime.secondaryUnit}`;
-  const timeColor =
-    status === "IN_PROGRESS" && secondsLeft <= 300
-      ? "text-error"
-      : "text-primary-900";
+  const timeColor = secondsLeft <= 300 ? "text-error" : "text-primary-900";
 
   return (
     <p

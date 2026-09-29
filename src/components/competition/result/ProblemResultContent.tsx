@@ -8,7 +8,6 @@ import useModal from "@/hooks/useModal";
 import useErrorModal from "@/hooks/useErrorModal";
 import ErrorModal from "@/components/shared/ErrorModal";
 import { CompetitionResultState } from "@/types/competitions/competition";
-import BookmarkModal from "@/components/shared/BookmarkModal";
 
 export default function ProblemResultContent({
   competitionId,
@@ -29,14 +28,9 @@ export default function ProblemResultContent({
       strongCategories: [],
       weakCategories: [],
     });
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const {
-    error,
-    setErrorContext,
-    isModalOpen: isErrorModalOpen,
-    openModal: openErrorModal,
-    closeModal: closeErrorModal,
-  } = useErrorModal();
+
+  const { error, setErrorContext, isModalOpen, openModal, closeModal } =
+    useErrorModal();
 
   useEffect(() => {
     const getCompetitionResult = async () => {
@@ -44,7 +38,7 @@ export default function ProblemResultContent({
         const res = await getCompetitionResultAction(competitionId);
         if (!res.ok) {
           setErrorContext(res.error);
-          openErrorModal();
+          openModal();
 
           return;
         }
@@ -55,22 +49,20 @@ export default function ProblemResultContent({
           code: "UNKNOWN_ERROR",
           message: "대회 결과 조회에 실패했습니다.",
         });
-        openErrorModal();
+        openModal();
       }
     };
 
     void getCompetitionResult();
-  }, [competitionId, setErrorContext, openErrorModal]);
+  }, [competitionId, setErrorContext, openModal]);
 
   return (
     <>
-      {isModalOpen && <BookmarkModal onClose={closeErrorModal} />}
-
-      {isErrorModalOpen && (
+      {isModalOpen && (
         <ErrorModal
           code={error.code}
           message={error.message}
-          onClose={closeErrorModal}
+          onClose={closeModal}
         />
       )}
 
@@ -79,7 +71,10 @@ export default function ProblemResultContent({
         competitionResult={competitionResult}
         profileImageUrl={profileImageUrl}
       />
-      <ResultDetailSide competitionResult={competitionResult} />
+      <ResultDetailSide
+        competitionId={competitionId}
+        competitionResult={competitionResult}
+      />
     </>
   );
 }

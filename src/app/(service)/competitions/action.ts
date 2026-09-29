@@ -365,7 +365,7 @@ export async function getCompetitionResultAction(competitionId: number) {
 }
 
 // 대회 결과 문제 상세 조회
-export async function getResultProbleAction(
+export async function getResultProblemAction(
   competitionId: number,
   competitionProblemId: number,
 ) {

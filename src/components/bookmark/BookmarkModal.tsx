@@ -1,5 +1,5 @@
-import Button from "./Button";
-import ModalWrapper from "./ModalWrapper";
+import Button from "@/components/shared/Button";
+import ModalWrapper from "@/components/shared/ModalWrapper";
 
 export default function BookmarkModal({ onClose }: { onClose: () => void }) {
   return (

@@ -38,7 +38,9 @@ const AnalysisCardWrapper = ({
         {CARD_TYPE[type].title}
       </p>
       <div className="mt-1 flex items-center justify-start gap-4">
-        <div className={`${CARD_TYPE[type].bg} rounded-[50%] p-2`}>
+        <div
+          className={`${CARD_TYPE[type].bg} flex h-10 w-10 shrink-0 items-center justify-center rounded-[50%]`}
+        >
           <Image src={CARD_TYPE[type].icon} alt={type} className="h-6 w-6" />
         </div>
         <p className="text-[13px] font-semibold text-[#6A6A6A]">
