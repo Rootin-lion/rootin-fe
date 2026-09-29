@@ -29,7 +29,9 @@ export default async function ServiceLayout({
   return (
     <div className="bg-bg-ivory flex min-h-dvh flex-col">
       <Header member={member} />
-      <main className="bg-bg-green-50 flex flex-1 flex-col">{children}</main>
+      <main className="bg-bg-green-50 flex flex-1 flex-col pb-30">
+        {children}
+      </main>
       <Footer />
     </div>
   );

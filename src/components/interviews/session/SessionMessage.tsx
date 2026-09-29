@@ -3,7 +3,7 @@ import AiImg from "@/assets/interviews/msg_char.png";
 import type { MessageType } from "@/types/interviews/interview";
 import MessageBubble from "./MessageBubble";
 
-export default function InterviewMessage({
+export default function SessionMessage({
   type = "AI",
   text,
   isTyping = false,

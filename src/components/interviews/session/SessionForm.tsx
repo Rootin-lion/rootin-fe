@@ -1,6 +1,6 @@
 import SendIcon from "@/assets/interviews/send.svg";
 
-export default function InterviewForm() {
+export default function SessionwForm() {
   return (
     <div className="w-full border-t border-t-[#E5E7EB] bg-white py-3">
       <div className="relative mx-auto w-full max-w-5xl">
