@@ -1,10 +1,6 @@
-import type InterviewConfig from "@/types/interviews/interview";
+import { InterviewConfig } from "@/types/interviews/interview";
 import { apiClient } from "./client";
-
-interface AnswerPayload {
-  questionId: number;
-  answer: string;
-}
+import { AnswerPayload } from "@/types/interviews/interview";
 
 // 면접 진입
 export const createInterview = async (payload: InterviewConfig) => {
@@ -22,7 +18,7 @@ export const getInterviewQuestion = async (interviewId: number) => {
   return res;
 };
 
-// 면접 답변 제출 및 다음 질문 조회
+// 답변 제출 및 다음 질문 조회
 export const submitInterviewAnswer = async (
   interviewId: number,
   payload: AnswerPayload,

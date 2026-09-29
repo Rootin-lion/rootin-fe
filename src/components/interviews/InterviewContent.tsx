@@ -7,14 +7,17 @@ import InterviewSetup from "@/components/interviews/InterviewSetup";
 import Button from "@/components/shared/Button";
 import ModalWrapper from "@/components/shared/ModalWrapper";
 import useModal from "@/hooks/useModal";
-import type InterviewConfig from "@/types/interviews/interview";
-import type {
+import { InterviewConfig } from "@/types/interviews/interview";
+import {
   InterviewFieldType,
   InterviewModeType,
 } from "@/types/interviews/interview";
+import { useInterviewMedia } from "./InterviewMediaProvider";
 
 export default function InterviewContent() {
   const router = useRouter();
+  const { startCamera } = useInterviewMedia();
+  const [cameraError, setCameraError] = useState<string | null>(null);
   const { isModalOpen, openModal, closeModal } = useModal();
   const [config, setConfig] = useState<InterviewConfig>({
     field: "OPERATING_SYSTEM",
@@ -34,6 +37,17 @@ export default function InterviewContent() {
 
   const handleInterviewModeChange = (interviewMode: InterviewModeType) => {
     setConfig((prev) => ({ ...prev, interviewMode }));
+  };
+
+  const handleStart = async () => {
+    setCameraError(null);
+
+    try {
+      await startCamera();
+      router.push("/interviews/2");
+    } catch {
+      setCameraError("카메라 권한과 연결된 장치를 확인해주세요.");
+    }
   };
 
   return (
@@ -59,16 +73,16 @@ export default function InterviewContent() {
           <ModalWrapper.Box>
             <div className="flex flex-row gap-6">
               <Button onClick={closeModal}>취소</Button>
-              <Button
-                isActive={true}
-                onClick={() => {
-                  router.push("/interviews/2");
-                }}
-              >
+              <Button isActive={true} onClick={handleStart}>
                 시작하기
               </Button>
             </div>
           </ModalWrapper.Box>
+          {cameraError && (
+            <p role="alert" className="text-sub-text text-body-3">
+              {cameraError}
+            </p>
+          )}
         </ModalWrapper>
       )}
 
