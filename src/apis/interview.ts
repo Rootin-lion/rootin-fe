@@ -1,6 +1,11 @@
 import type InterviewConfig from "@/types/interviews/interview";
 import { apiClient } from "./client";
 
+interface AnswerPayload {
+  questionId: number;
+  answer: string;
+}
+
 // 면접 진입
 export const createInterview = async (payload: InterviewConfig) => {
   const res = await apiClient.post("/interviews/sessions", payload);
@@ -18,7 +23,10 @@ export const getInterviewQuestion = async (interviewId: number) => {
 };
 
 // 면접 답변 제출 및 다음 질문 조회
-export const submitInterviewAnswer = async (interviewId: number, payload) => {
+export const submitInterviewAnswer = async (
+  interviewId: number,
+  payload: AnswerPayload,
+) => {
   const res = await apiClient.post(
     `/nterviews/${interviewId}/answers`,
     payload,
