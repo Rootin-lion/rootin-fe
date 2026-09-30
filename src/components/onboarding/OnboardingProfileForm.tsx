@@ -2,31 +2,36 @@
 
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useTransition } from "react";
+import type { OnboardingPayload } from "@/types/auth/auth";
+import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
 import {
   checkNicknameAction,
   completeProfileAction,
 } from "@/app/onboarding/action";
 import Button from "@/components/shared/Button";
+import ErrorModal from "@/components/shared/ErrorModal";
 import InputWrapper from "@/components/shared/InputWrapper";
-import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
 import useErrorModal from "@/hooks/useErrorModal";
-import { OnboardingPayload } from "@/types/auth/auth";
-import ErrorModal from "../shared/ErrorModal";
 import InterestFieldSelector from "./InterestFieldSelector";
 
 export default function OnboardingProfileForm({ email }: { email: string }) {
   const router = useRouter();
+  // 프로필 폼 상태
   const [profileForm, setProfileForm] = useState<OnboardingPayload>({
     nickname: "",
     ageGroup: "",
     interestFields: [],
   });
+  // 닉네임 검증 상태
   const [isNicknameAvailable, setIsNicknameAvailable] = useState<
     boolean | null
   >(null);
+  // 에러 모달
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
+  // 제출 로딩 상태
   const [isSubmitting, startSubmitTransition] = useTransition();
+  // 닉네임 검증 로딩 상태
   const [, startNicknameCheckTransition] = useTransition();
 
   // 닉네임
@@ -98,7 +103,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
     profileForm.interestFields.length > 0 &&
     isNicknameAvailable === true;
 
-  // 닉네임 검증 로직
+  // 닉네임 검증
   useEffect(() => {
     const nickname = profileForm.nickname.trim();
 

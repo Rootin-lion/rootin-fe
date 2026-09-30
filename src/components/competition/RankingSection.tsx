@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import type { RankingState } from "@/types/competitions/competition";
 import { getTop3Action } from "@/app/(service)/competitions/action";
 import BoxWrapper from "@/components/competition/shared/BoxWrapper";
+import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
-import type { RankingState } from "@/types/competitions/competition";
-import ErrorModal from "../shared/ErrorModal";
 import RankingBox from "./ranking/RankingBox";
 import RankingCircle from "./ranking/RankingCircle";
 import RankingConnector from "./ranking/RankingConnector";

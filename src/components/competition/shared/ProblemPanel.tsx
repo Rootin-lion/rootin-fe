@@ -2,9 +2,9 @@ import type {
   CompetitionProblemDetail,
   PanelType,
 } from "@/types/competitions/competition";
-import QuestionButtonBox from "../problem/ProblemButtonBox";
-import QuestionCard from "../problem/ProblemCard";
-import QuestionSurface from "../problem/ProblemSurface";
+import QuestionButtonBox from "@/components/competition/problem/ProblemButtonBox";
+import QuestionCard from "@/components/competition/problem/ProblemCard";
+import QuestionSurface from "@/components/competition/problem/ProblemSurface";
 
 const NumberLabel = ({ number }: { number?: number }) => {
   return (

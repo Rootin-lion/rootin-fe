@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { ContestResultsState } from "@/types/competitions/competition";
 import { getPastCompetitionAction } from "@/app/(service)/competitions/action";
 import BoxWrapper from "@/components/competition/shared/BoxWrapper";
+import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
-import type { ContestResultsState } from "@/types/competitions/competition";
-import ErrorModal from "../shared/ErrorModal";
 import ContestResultCard from "./CompetitionResultCard";
 import SectionTitle from "./shared/SectionTitle";
 
@@ -43,6 +43,8 @@ export default function PastCompetitionSection() {
         if (!res.ok) {
           setErrorContext(res.error);
           openModal();
+
+          return;
         }
 
         setContestResults(res.data.content);

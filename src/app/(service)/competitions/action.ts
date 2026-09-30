@@ -1,5 +1,6 @@
 "use server";
 
+import type { RankingPeriod } from "@/types/competitions/ranking";
 import {
   getCompetitionResult,
   getCompetitionStatus,
@@ -17,7 +18,6 @@ import {
 } from "@/apis/competitions";
 import { actionFailure } from "@/lib/shared/actionFailure";
 import { apiError } from "@/lib/shared/apiError";
-import { RankingPeriod } from "@/types/competitions/ranking";
 
 // 오늘의 대회 조회
 export async function getTodayCompetitionAction() {

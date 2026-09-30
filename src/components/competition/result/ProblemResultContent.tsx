@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { CompetitionResultState } from "@/types/competitions/competition";
 import { getCompetitionResultAction } from "@/app/(service)/competitions/action";
 import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
 import useModal from "@/hooks/useModal";
-import { CompetitionResultState } from "@/types/competitions/competition";
 import ResultDetailSide from "./ResultDetailSide";
 import ResultSummarySide from "./ResultSummarySide";
 

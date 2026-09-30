@@ -2,16 +2,16 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { getResultProblemAction } from "@/app/(service)/competitions/action";
 import CheckIcon from "@/assets/competitions/result/check.png";
-import ErrorModal from "@/components/shared/ErrorModal";
-import useErrorModal from "@/hooks/useErrorModal";
-import useModal from "@/hooks/useModal";
-import {
+import type {
   CompetitionResultState,
   ProblemResult,
 } from "@/types/competitions/competition";
-import QuestionPanel from "../shared/ProblemPanel";
+import { getResultProblemAction } from "@/app/(service)/competitions/action";
+import QuestionPanel from "@/components/competition/shared/ProblemPanel";
+import ErrorModal from "@/components/shared/ErrorModal";
+import useErrorModal from "@/hooks/useErrorModal";
+import useModal from "@/hooks/useModal";
 import DetailWrapper from "./DetailWrapper";
 
 type ItemType = "CORRECT" | "WRONG" | "UNANSWERED";

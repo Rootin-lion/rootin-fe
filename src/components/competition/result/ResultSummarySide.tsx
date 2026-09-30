@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import CharImg from "@/assets/competitions/result/char.png";
+import type { CompetitionResultState } from "@/types/competitions/competition";
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
-import { CompetitionResultState } from "@/types/competitions/competition";
 import RankSection from "./RankSection";
 import ScoreSection from "./ScoreSection";
 

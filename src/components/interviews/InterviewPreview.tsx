@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { INTERVIEW_LIST } from "@/constants/interviews/interview";
 import type { InterviewFieldType } from "@/types/interviews/interview";
+import { INTERVIEW_LIST } from "@/constants/interviews/interview";
 
 export default function InterviewPreview({
   field = "OPERATING_SYSTEM",

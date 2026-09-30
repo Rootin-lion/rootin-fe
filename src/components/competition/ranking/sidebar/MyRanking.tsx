@@ -1,4 +1,4 @@
-import { RankingState } from "@/types/competitions/competition";
+import type { RankingState } from "@/types/competitions/competition";
 
 export default function MyRanking({
   myRanking,

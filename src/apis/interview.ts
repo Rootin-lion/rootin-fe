@@ -1,6 +1,5 @@
-import { InterviewConfig } from "@/types/interviews/interview";
+import type { AnswerPayload, InterviewConfig } from "@/types/interviews/interview";
 import { apiClient } from "./client";
-import { AnswerPayload } from "@/types/interviews/interview";
 
 // 면접 진입
 export const createInterview = async (payload: InterviewConfig) => {

@@ -1,6 +1,6 @@
-import OptionButton from "@/components/shared/OptionButton";
-import { Field_LIST } from "@/constants/interviews/interview";
 import type { InterviewFieldType } from "@/types/interviews/interview";
+import { Field_LIST } from "@/constants/interviews/interview";
+import OptionButton from "@/components/shared/OptionButton";
 
 export default function InterviewTopic({
   field,

@@ -1,6 +1,13 @@
 import Image from "next/image";
 import SuccessCharacterImage from "@/assets/success_char.png";
+import type { Metadata } from "next";
 import AutoRedirect from "@/components/onboarding/AutoRedirect";
+
+export const metadata: Metadata = {
+  title: "가입 완료 | ROOTIN",
+  description: "가입을 완료하고 ROOTIN을 시작하세요.",
+  robots: { index: false },
+};
 
 export default function OnboardingSuccessPage() {
   return (

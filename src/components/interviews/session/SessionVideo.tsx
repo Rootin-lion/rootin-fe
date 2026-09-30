@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import TimerIcon from "@/assets/interviews/timer.png";
-import { useInterviewMedia } from "../InterviewMediaProvider";
 import { useEffect, useRef } from "react";
+import TimerIcon from "@/assets/interviews/timer.png";
+import { useInterviewMedia } from "@/components/interviews/InterviewMediaProvider";
 
 export default function SessionVideo() {
   const { stream } = useInterviewMedia();

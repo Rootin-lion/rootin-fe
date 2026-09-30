@@ -2,16 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import type {
+  InterviewConfig,
+  InterviewFieldType,
+  InterviewModeType,
+} from "@/types/interviews/interview";
 import InterviewPreview from "@/components/interviews/InterviewPreview";
 import InterviewSetup from "@/components/interviews/InterviewSetup";
 import Button from "@/components/shared/Button";
 import ModalWrapper from "@/components/shared/ModalWrapper";
 import useModal from "@/hooks/useModal";
-import { InterviewConfig } from "@/types/interviews/interview";
-import {
-  InterviewFieldType,
-  InterviewModeType,
-} from "@/types/interviews/interview";
 import { useInterviewMedia } from "./InterviewMediaProvider";
 
 export default function InterviewContent() {

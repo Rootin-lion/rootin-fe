@@ -2,6 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import type {
+  CompetitionProblemDetail,
+  CompetitionProblemSummary,
+} from "@/types/competitions/competition";
 import {
   getCompetitionStatusAction,
   requestDetailProblemAction,
@@ -9,14 +13,10 @@ import {
   saveProblemAnswerAction,
   submitContestAction,
 } from "@/app/(service)/competitions/action";
+import ProblemPanel from "@/components/competition/shared/ProblemPanel";
 import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
-import type {
-  CompetitionProblemDetail,
-  CompetitionProblemSummary,
-} from "@/types/competitions/competition";
-import ProblemPanel from "../shared/ProblemPanel";
 import ProblemAutoSubmitModal from "./ProblemAutoSubmitModal";
 import ProblemSidebar from "./ProblemSidebar";
 import ProblemSubmitModal from "./ProblemSubmitModal";

@@ -2,16 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import type { TodayCompetitionState } from "@/types/competitions/competition";
 import {
   getCompetitionStatusAction,
   getTodayCompetitionAction,
   joinCompetitionAction,
 } from "@/app/(service)/competitions/action";
+import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
 import useModal from "@/hooks/useModal";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
-import { TodayCompetitionState } from "@/types/competitions/competition";
-import ErrorModal from "../shared/ErrorModal";
 import CompetitionBanner from "./CompetitionBanner";
 import CompetitionCtaBanner from "./CompetitionCtaBanner";
 import CompetitionJoinModal from "./CompetitionJoinModal";

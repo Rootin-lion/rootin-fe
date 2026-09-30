@@ -1,6 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import type {
+  CompetitionProblemDetail,
+  CompetitionProblemOption,
+  PanelType,
+} from "@/types/competitions/competition";
 import {
   addProblemBookmarkAction,
   removeProblemBookmarkAction,
@@ -8,11 +13,6 @@ import {
 import BookmarkAction from "@/components/bookmark/BookmarkAction";
 import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
-import type {
-  CompetitionProblemDetail,
-  CompetitionProblemOption,
-  PanelType,
-} from "@/types/competitions/competition";
 
 const ProblemOption = ({
   option,

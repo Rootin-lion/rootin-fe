@@ -1,4 +1,4 @@
-import { CompetitionResultState } from "@/types/competitions/competition";
+import type { CompetitionResultState } from "@/types/competitions/competition";
 import AnalysisSection from "./AnalysisSection";
 import DetailBanner from "./DetailBanner";
 import ResultSection from "./ResultSection";

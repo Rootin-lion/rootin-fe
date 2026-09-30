@@ -1,6 +1,6 @@
-import "server-only";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";
+import "server-only";
 import {
   SESSION_TOKEN_COOKIE,
   SESSION_TOKEN_COOKIE_OPTIONS,

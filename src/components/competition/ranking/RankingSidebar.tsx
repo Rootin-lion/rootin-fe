@@ -1,4 +1,4 @@
-import { RankingState } from "@/types/competitions/competition";
+import type { RankingState } from "@/types/competitions/competition";
 import MyRanking from "./sidebar/MyRanking";
 import RankingGuide from "./sidebar/RankingGuide";
 

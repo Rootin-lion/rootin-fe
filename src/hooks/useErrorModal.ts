@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { ApiError } from "@/types/api/error";
+import type { ApiError } from "@/types/api/error";
 import useModal from "./useModal";
 
 export default function useErrorModal() {

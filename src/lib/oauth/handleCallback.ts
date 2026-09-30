@@ -1,7 +1,7 @@
-import "server-only";
 import { isAxiosError } from "axios";
 import { NextRequest, NextResponse } from "next/server";
-import { loginGoogle, loginKakao } from "@/apis/oauth";
+import "server-only";
+import type { AuthSession } from "@/types/oauth/oauth";
 import {
   MEMBER_SNAPSHOT_COOKIE,
   MEMBER_SNAPSHOT_COOKIE_OPTIONS,
@@ -16,7 +16,7 @@ import {
   KAKAO_STATE_COOKIE,
   KAKAO_STATE_COOKIE_PATH,
 } from "@/constants/oauth/oauth";
-import { AuthSession } from "@/types/oauth/oauth";
+import { loginGoogle, loginKakao } from "@/apis/oauth";
 
 const providers = {
   kakao: {

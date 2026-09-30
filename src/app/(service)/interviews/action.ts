@@ -1,5 +1,6 @@
 "use server";
 
+import type { InterviewConfig, AnswerPayload } from "@/types/interviews/interview";
 import {
   createInterview,
   generateInterviewReport,
@@ -9,7 +10,6 @@ import {
 } from "@/apis/interview";
 import { actionFailure } from "@/lib/shared/actionFailure";
 import { apiError } from "@/lib/shared/apiError";
-import { InterviewConfig, AnswerPayload } from "@/types/interviews/interview";
 
 // 면접 진입
 export async function createInterviewAction(payload: InterviewConfig) {
