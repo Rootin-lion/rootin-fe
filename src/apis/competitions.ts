@@ -127,12 +127,12 @@ export const getCompetitionResult = async (competitionId: number) => {
 };
 
 // 대회 결과 문제 상세 조회
-export const getReulstProblem = async (
+export const getResultProblem = async (
   competitionId: number,
   competitionProblemId: number,
 ) => {
   const res = await apiClient.get(
-    `/competitions/${competitionId}/problems/${competitionProblemId}/solution `,
+    `/competitions/${competitionId}/problems/${competitionProblemId}/solution`,
   );
 
   return res;

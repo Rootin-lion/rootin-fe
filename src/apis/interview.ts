@@ -12,7 +12,7 @@ export const createInterview = async (payload: InterviewConfig) => {
 // 면접 질문 조회
 export const getInterviewQuestion = async (interviewId: number) => {
   const res = await apiClient.get(
-    `/interviews/ ${interviewId}/questions/current`,
+    `/interviews/${interviewId}/questions/current`,
   );
 
   return res;
@@ -24,7 +24,7 @@ export const submitInterviewAnswer = async (
   payload: AnswerPayload,
 ) => {
   const res = await apiClient.post(
-    `/nterviews/${interviewId}/answers`,
+    `/interviews/${interviewId}/answers`,
     payload,
   );
 

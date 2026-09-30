@@ -1,6 +1,7 @@
 "use server";
 
-import { addProblemBookmark, removeProblemBookmark } from "@/apis/bookamark";
+import { addProblemBookmark, removeProblemBookmark } from "@/apis/bookmark";
+import { actionFailure } from "@/lib/shared/actionFailure";
 import { apiError } from "@/lib/shared/apiError";
 
 // 북마크 설정
@@ -10,13 +11,10 @@ export async function addProblemBookmarkAction(problemId: number) {
     const data = res.data;
 
     if (!data) {
-      return {
-        ok: false,
-        error: {
-          code: "BOOKMARK_FAILED",
-          message: "북마크 저장에 실패했습니다.",
-        },
-      } as const;
+      return actionFailure({
+        code: "BOOKMARK_FAILED",
+        message: "북마크 저장에 실패했습니다.",
+      });
     }
 
     return {
@@ -24,10 +22,7 @@ export async function addProblemBookmarkAction(problemId: number) {
       data,
     } as const;
   } catch (error) {
-    return {
-      ok: false,
-      error: apiError(error, "북마크 저장에 실패했습니다."),
-    };
+    return actionFailure(apiError(error, "북마크 저장에 실패했습니다."));
   }
 }
 
@@ -38,13 +33,10 @@ export async function removeProblemBookmarkAction(problemId: number) {
     const data = res.data;
 
     if (!data) {
-      return {
-        ok: false,
-        error: {
-          code: "BOOKMARK_FAILED",
-          message: "북마크 해제에 실패했습니다.",
-        },
-      } as const;
+      return actionFailure({
+        code: "BOOKMARK_FAILED",
+        message: "북마크 해제에 실패했습니다.",
+      });
     }
 
     return {
@@ -52,9 +44,6 @@ export async function removeProblemBookmarkAction(problemId: number) {
       data,
     } as const;
   } catch (error) {
-    return {
-      ok: false,
-      error: apiError(error, "북마크 해제에 실패했습니다."),
-    };
+    return actionFailure(apiError(error, "북마크 해제에 실패했습니다."));
   }
 }

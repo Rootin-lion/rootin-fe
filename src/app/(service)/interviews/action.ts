@@ -7,23 +7,21 @@ import {
   getMyInterviewReport,
   submitInterviewAnswer,
 } from "@/apis/interview";
+import { actionFailure } from "@/lib/shared/actionFailure";
 import { apiError } from "@/lib/shared/apiError";
 import { InterviewConfig, AnswerPayload } from "@/types/interviews/interview";
 
 // 면접 진입
-export async function createInterviewAction(payolad: InterviewConfig) {
+export async function createInterviewAction(payload: InterviewConfig) {
   try {
-    const res = await createInterview(payolad);
+    const res = await createInterview(payload);
     const data = res.data.data;
 
     if (!data) {
-      return {
-        ok: false,
-        error: {
-          code: "INTERVIEW_FAILED",
-          message: "면접 생성에 실패했습니다.",
-        },
-      } as const;
+      return actionFailure({
+        code: "INTERVIEW_FAILED",
+        message: "면접 생성에 실패했습니다.",
+      });
     }
 
     return {
@@ -31,10 +29,7 @@ export async function createInterviewAction(payolad: InterviewConfig) {
       data,
     } as const;
   } catch (error) {
-    return {
-      ok: false,
-      error: apiError(error, "면접 생성세 실패했습니다."),
-    };
+    return actionFailure(apiError(error, "면접 생성에 실패했습니다."));
   }
 }
 
@@ -45,23 +40,17 @@ export async function getInterviewQuestionAction(interviewId: number) {
     const data = res.data.data;
 
     if (!data)
-      return {
-        ok: false,
-        error: {
-          code: "INTERVIEW_FAILED",
-          message: "질문 조회에 실패했습니다.",
-        },
-      } as const;
+      return actionFailure({
+        code: "INTERVIEW_FAILED",
+        message: "질문 조회에 실패했습니다.",
+      });
 
     return {
       ok: true,
       data,
     } as const;
   } catch (error) {
-    return {
-      ok: false,
-      error: apiError(error, "질문 조회에 실패했습니다."),
-    };
+    return actionFailure(apiError(error, "질문 조회에 실패했습니다."));
   }
 }
 
@@ -75,23 +64,17 @@ export async function submitInterviewAnswerAction(
     const data = res.data.data;
 
     if (!data)
-      return {
-        ok: false,
-        error: {
-          code: "INTERVIEW_FAILED",
-          message: "답변 제출에 실패했습니다.",
-        },
-      } as const;
+      return actionFailure({
+        code: "INTERVIEW_FAILED",
+        message: "답변 제출에 실패했습니다.",
+      });
 
     return {
       ok: true,
       data,
     } as const;
   } catch (error) {
-    return {
-      ok: false,
-      error: apiError(error, "답변 제출에 실패했습니다."),
-    };
+    return actionFailure(apiError(error, "답변 제출에 실패했습니다."));
   }
 }
 
@@ -102,23 +85,17 @@ export async function generateInterviewReportAction(interviewId: number) {
     const data = res.data.data;
 
     if (!data)
-      return {
-        ok: false,
-        error: {
-          code: "INTERVIEW_FAILDE",
-          message: "면접 리포트 생성에 실패했습니다.",
-        },
-      } as const;
+      return actionFailure({
+        code: "INTERVIEW_FAILED",
+        message: "면접 리포트 생성에 실패했습니다.",
+      });
 
     return {
       ok: true,
       data,
     } as const;
   } catch (error) {
-    return {
-      ok: false,
-      error: apiError(error, "면접 리포트 생성에 실패했습니다."),
-    };
+    return actionFailure(apiError(error, "면접 리포트 생성에 실패했습니다."));
   }
 }
 
@@ -129,22 +106,16 @@ export async function getMyInterviewReportAction(interviewId: number) {
     const data = res.data.data;
 
     if (!data)
-      return {
-        ok: false,
-        error: {
-          code: "INTERVIEW_FAILED",
-          message: "면접 리포트 조회에 실패했습니다.",
-        },
-      } as const;
+      return actionFailure({
+        code: "INTERVIEW_FAILED",
+        message: "면접 리포트 조회에 실패했습니다.",
+      });
 
     return {
       ok: true,
       data,
     } as const;
   } catch (error) {
-    return {
-      ok: false,
-      error: apiError(error, "면접 리포트 조회에 실패했습니다."),
-    };
+    return actionFailure(apiError(error, "면접 리포트 조회에 실패했습니다."));
   }
 }
