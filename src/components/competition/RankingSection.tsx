@@ -17,10 +17,13 @@ export default function RankingSection({
 }: {
   competitionId: number;
 }) {
+  // 랭킹 상태
   const [rankings, setRankings] = useState<RankingState[]>([]);
+  // 에러 모달 상태
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
 
+  // Top 3 랭킹 조회
   useEffect(() => {
     if (competitionId === 0) return;
 
@@ -48,8 +51,11 @@ export default function RankingSection({
     void getRanking(competitionId);
   }, [competitionId, setErrorContext, openModal]);
 
+  // 1등
   const first = rankings.find((ranking) => ranking.rank === 1);
+  // 2등
   const second = rankings.find((ranking) => ranking.rank === 2);
+  // 3등
   const third = rankings.find((ranking) => ranking.rank === 3);
 
   return (
@@ -67,6 +73,7 @@ export default function RankingSection({
           content="실력을 증명한 최고의 참가자들이에요!"
         />
         <div className="flex flex-row items-center justify-center gap-10">
+          {/* 2등 */}
           <RankingBox>
             <RankingCircle type="Silver" img={second?.imgUrl ?? null} />
             <p className="mt-4 text-[20px] font-semibold">
@@ -77,6 +84,7 @@ export default function RankingSection({
             </p>
           </RankingBox>
           <RankingConnector />
+          {/* 1등 */}
           <div className="relative">
             <div className="absolute inset-0 z-0">
               <div className="border-warning absolute h-41 w-41 border-5 bg-[#FFFCF6] opacity-80 blur-[30px]" />
@@ -94,6 +102,7 @@ export default function RankingSection({
             </div>
           </div>
           <RankingConnector />
+          {/* 3등 */}
           <RankingBox>
             <RankingCircle type="Dong" img={third?.imgUrl ?? null} />
             <p className="mt-4 text-[20px] font-semibold">

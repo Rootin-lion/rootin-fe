@@ -16,13 +16,12 @@ import CompetitionBanner from "./CompetitionBanner";
 import CompetitionCtaBanner from "./CompetitionCtaBanner";
 import CompetitionJoinModal from "./CompetitionJoinModal";
 import PastCompetitionSection from "./PastCompetitionSection";
-import ProblemAutoSubmitModal from "./problem/ProblemAutoSubmitModal";
 import RankingSection from "./RankingSection";
 import WarningBanner from "./WarningBanner";
 
 export default function CompetitionContent() {
   const router = useRouter();
-  // 오늘의 대회 정보
+  // 오늘의 대회 상태
   const [todayCompetition, setTodayCompetition] =
     useState<TodayCompetitionState>({
       competitionId: 0,
@@ -35,7 +34,6 @@ export default function CompetitionContent() {
   const setParticipation = useCompetitionParticipationStore(
     (state) => state.setParticipation,
   );
-
   // 에러 모달 상태
   const {
     error,
@@ -44,7 +42,6 @@ export default function CompetitionContent() {
     openModal: openErrorModal,
     closeModal: closeErrorModal,
   } = useErrorModal();
-
   // 모달 상태
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -123,6 +120,7 @@ export default function CompetitionContent() {
     }
   };
 
+  // 대회 0초일 때 재호출
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       void getCompetition();

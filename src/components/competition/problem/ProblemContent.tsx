@@ -38,8 +38,10 @@ export default function ProblemContent({
   const [problemNavigationItems, setProblemNavigationItems] = useState<
     CompetitionProblemSummary[]
   >([]);
+  // 현재 문제 상태
   const [currentProblem, setCurrentProblem] =
     useState<CompetitionProblemDetail | null>(null);
+  // 선택 답안 저장 상태
   const [selectedOptionByProblemId, setSelectedOptionByProblemId] = useState<
     Record<number, number>
   >({});
@@ -49,7 +51,6 @@ export default function ProblemContent({
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
   // 제출 확인 모달 상태
-
   const [activeSubmitModal, setActiveSubmitModal] =
     useState<SubmitModalType>(null);
 

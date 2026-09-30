@@ -27,14 +27,19 @@ const Bar = ({
 };
 
 export default function PastCompetitionSection() {
+  // 과거 대회 상태
   const [contestResults, setContestResults] = useState<ContestResultsState[]>(
     [],
   );
+  // 총 페이지 상태
   const [pages, setPages] = useState<number>(0);
+  // 현재 페이지 상태
   const [currentPage, setCurrentPage] = useState<number>(0);
+  // 에러 모달 상태
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
 
+  // 과거 대회 조회
   useEffect(() => {
     const getPastCompetitions = async (page: number) => {
       try {
@@ -101,6 +106,8 @@ export default function PastCompetitionSection() {
             )}
           </div>
         </div>
+
+        {/* 페이지네이션 */}
         <div className="mt-9 flex justify-center gap-2">
           {pages === 0 ? (
             ""
