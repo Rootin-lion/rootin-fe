@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   description: "AI 면접관의 질문에 답하며 실전 면접을 연습하세요.",
 };
 
-export default function InterviewSessionPage() {
-  return <InterviewSessionContent />;
+export default async function InterviewSessionPage(
+  props: PageProps<"/interviews/[interviewId]">,
+) {
+  const { interviewId } = await props.params;
+  const interviewIdNumber = Number(interviewId);
+
+  return <InterviewSessionContent interviewId={interviewIdNumber} />;
 }

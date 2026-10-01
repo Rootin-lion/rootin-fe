@@ -8,7 +8,7 @@ export type InterviewFieldType =
 
 export type InterviewModeType = "TEXT" | "VOICE";
 
-export type MessageType = "AI" | "CLIENT";
+export type MessageType = "QUESTION" | "ANSWER";
 
 export interface InterviewConfig {
   field: InterviewFieldType;
@@ -20,3 +20,25 @@ export interface AnswerPayload {
   questionId: number;
   answer: string;
 }
+
+export interface QuestionState {
+  questionId: number;
+  topicId: number;
+  topicName: string;
+  questionOrder: number;
+  questionType: string;
+  question: string;
+}
+
+export type SessionChatMessage =
+  | {
+      id: string;
+      kind: "QUESTION";
+      question: QuestionState;
+    }
+  | {
+      id: string;
+      kind: "ANSWER";
+      questionId: number;
+      text: string;
+    };

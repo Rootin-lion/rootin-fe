@@ -13,11 +13,21 @@ import Button from "@/components/shared/Button";
 import ModalWrapper from "@/components/shared/ModalWrapper";
 import useModal from "@/hooks/useModal";
 import { useInterviewMedia } from "./InterviewMediaProvider";
+import { createInterviewAction } from "@/app/(service)/interviews/action";
+import useErrorModal from "@/hooks/useErrorModal";
+import ErrorModal from "../shared/ErrorModal";
 
 export default function InterviewContent() {
   const router = useRouter();
-  const { startCamera } = useInterviewMedia();
+  const { startCamera, stopCamera } = useInterviewMedia();
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const {
+    error,
+    setErrorContext,
+    isModalOpen: isErrorModalOpen,
+    openModal: openErrorModal,
+    closeModal: closeErrorModal,
+  } = useErrorModal();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [config, setConfig] = useState<InterviewConfig>({
     field: "OPERATING_SYSTEM",
@@ -39,12 +49,37 @@ export default function InterviewContent() {
     setConfig((prev) => ({ ...prev, interviewMode }));
   };
 
+  const createInterview = async () => {
+    try {
+      const res = await createInterviewAction(config);
+
+      if (!res.ok) {
+        setErrorContext(res.error);
+        stopCamera();
+        setCameraError(null);
+        openErrorModal();
+
+        return;
+      }
+      const interviewId = res.data.interviewId;
+      router.push(`/interviews/${interviewId}`);
+    } catch {
+      setErrorContext({
+        code: "UNKNOWN_ERROR",
+        message: "면접 생성에 실패했습니다.",
+      });
+      stopCamera();
+      setCameraError(null);
+      openErrorModal();
+    }
+  };
+
   const handleStart = async () => {
     setCameraError(null);
 
     try {
       await startCamera();
-      router.push("/interviews/2");
+      await createInterview();
     } catch {
       setCameraError("카메라 권한과 연결된 장치를 확인해주세요.");
     }
@@ -52,6 +87,14 @@ export default function InterviewContent() {
 
   return (
     <div className="bg-bg-ivory border-bg-green-200 mx-auto mt-11 flex max-w-218 flex-row gap-5 rounded-[14px] border px-6 py-9">
+      {isErrorModalOpen && (
+        <ErrorModal
+          code={error.code}
+          message={error.message}
+          onClose={closeErrorModal}
+        />
+      )}
+
       {isModalOpen && (
         <ModalWrapper onClose={closeModal}>
           <ModalWrapper.Box>
