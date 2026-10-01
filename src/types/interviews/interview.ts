@@ -1,4 +1,4 @@
-export type InterviewFieldType =
+export type InterviewCategoryType =
   | "OPERATING_SYSTEM"
   | "NETWORK"
   | "DATABASE"
@@ -11,7 +11,7 @@ export type InterviewModeType = "TEXT" | "VOICE";
 export type MessageType = "QUESTION" | "ANSWER";
 
 export interface InterviewConfig {
-  field: InterviewFieldType;
+  category: InterviewCategoryType;
   questionCount: null | number;
   interviewMode: InterviewModeType;
 }

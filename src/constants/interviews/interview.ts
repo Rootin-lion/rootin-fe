@@ -4,12 +4,12 @@ import InfraImg from "@/assets/interviews/infra.png";
 import NetworkImg from "@/assets/interviews/network.png";
 import OsImg from "@/assets/interviews/os.png";
 import SpringImg from "@/assets/interviews/spring.png";
-import type { InterviewFieldType } from "@/types/interviews/interview";
+import type { InterviewCategoryType } from "@/types/interviews/interview";
 
 export const Field_LIST: {
   id: number;
   title: string;
-  label: InterviewFieldType;
+  label: InterviewCategoryType;
 }[] = [
   { id: 1, title: "운영체제", label: "OPERATING_SYSTEM" },
   { id: 2, title: "네트워크", label: "NETWORK" },

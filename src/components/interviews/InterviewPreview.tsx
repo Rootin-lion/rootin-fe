@@ -1,13 +1,13 @@
 import Image from "next/image";
-import type { InterviewFieldType } from "@/types/interviews/interview";
+import type { InterviewCategoryType } from "@/types/interviews/interview";
 import { INTERVIEW_LIST } from "@/constants/interviews/interview";
 
 export default function InterviewPreview({
-  field = "OPERATING_SYSTEM",
+  category = "OPERATING_SYSTEM",
 }: {
-  field: InterviewFieldType;
+  category: InterviewCategoryType;
 }) {
-  const data = INTERVIEW_LIST[field as keyof typeof INTERVIEW_LIST];
+  const data = INTERVIEW_LIST[category as keyof typeof INTERVIEW_LIST];
 
   return (
     <div className="bg-primary-50 border-bg-green-50 max-h-70 rounded-[14px] border px-6 pt-2">

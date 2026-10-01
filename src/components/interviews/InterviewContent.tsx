@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type {
   InterviewConfig,
-  InterviewFieldType,
+  InterviewCategoryType,
   InterviewModeType,
 } from "@/types/interviews/interview";
 import InterviewPreview from "@/components/interviews/InterviewPreview";
@@ -30,13 +30,13 @@ export default function InterviewContent() {
   } = useErrorModal();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [config, setConfig] = useState<InterviewConfig>({
-    field: "OPERATING_SYSTEM",
+    category: "OPERATING_SYSTEM",
     questionCount: null,
     interviewMode: "TEXT",
   });
 
-  const handleFieldChange = (field: InterviewFieldType) => {
-    setConfig((prev) => ({ ...prev, field }));
+  const handleCategoryChange = (category: InterviewCategoryType) => {
+    setConfig((prev) => ({ ...prev, category }));
   };
 
   const handleQuestionCountChange = (questionCount: null | number) => {
@@ -131,12 +131,12 @@ export default function InterviewContent() {
 
       <InterviewSetup
         config={config}
-        onFieldChange={handleFieldChange}
+        onFieldChange={handleCategoryChange}
         onQuestionCountChange={handleQuestionCountChange}
         onInterviewModeChange={handleInterviewModeChange}
         onStart={openModal}
       />
-      <InterviewPreview field={config.field} />
+      <InterviewPreview category={config.category} />
     </div>
   );
 }
