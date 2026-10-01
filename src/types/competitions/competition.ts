@@ -82,3 +82,23 @@ export interface CompetitionResultState {
   strongCategories: string[];
   weakCategories: string[];
 }
+
+export interface ResultOptionState {
+  optionId: number;
+  optionContent: string;
+  optionOrder: number;
+  isAnswer: boolean;
+}
+
+export interface ProblemResultState {
+  competitionProblemId: number;
+  problemId: number;
+  problemOrder: number;
+  problemTitle: string;
+  problemContent: string;
+  category: string;
+  problemExplanation: string;
+  options: ResultOptionState[];
+  selectedOptionId: number;
+  correct: boolean;
+}

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import type {
-  CompetitionProblemDetail,
   CompetitionProblemOption,
   PanelType,
+  ProblemResultState,
 } from "@/types/competitions/competition";
 import {
   addProblemBookmarkAction,
@@ -56,7 +56,7 @@ export default function ProblemCard({
   onSelectOption,
 }: {
   variant: PanelType;
-  currentProblem?: CompetitionProblemDetail;
+  currentProblem?: ProblemResultState;
   showBookmark?: boolean;
   selectedOptionId?: number;
   onSelectOption?: (selectedOptionId: number) => void;
@@ -149,7 +149,9 @@ export default function ProblemCard({
       )}
 
       <div className="flex items-start justify-between gap-4">
-        <h1 className="text-[18px] font-semibold text-black">
+        <h1
+          className={`text-[18px] font-semibold ${currentProblem?.correct ? "text-black" : "text-error"}`}
+        >
           {variant === "result" && currentProblem?.problemOrder}.{" "}
           {currentProblem?.problemContent}
         </h1>

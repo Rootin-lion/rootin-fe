@@ -6,12 +6,12 @@ import CheckIcon from "@/assets/competitions/result/check.png";
 import type {
   CompetitionResultState,
   ProblemResult,
+  ProblemResultState,
 } from "@/types/competitions/competition";
 import { getResultProblemAction } from "@/app/(service)/competitions/action";
-import QuestionPanel from "@/components/competition/shared/ProblemPanel";
+import ProblemPanel from "@/components/competition/shared/ProblemPanel";
 import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
-import useModal from "@/hooks/useModal";
 import DetailWrapper from "./DetailWrapper";
 
 type ItemType = "CORRECT" | "WRONG" | "UNANSWERED";
@@ -20,26 +20,6 @@ interface ResultItemProps {
   type: ItemType;
   problem: ProblemResult;
   onClick: () => void;
-}
-
-interface ResultOptionState {
-  optionId: number;
-  optionContent: string;
-  optionOrder: number;
-  isAnswer: boolean;
-}
-
-interface ProbleResultState {
-  competitionProblemId: number;
-  problemId: number;
-  problemOrder: number;
-  problemTitle: string;
-  problemContent: string;
-  category: string;
-  problemExplanation: string;
-  options: ResultOptionState[];
-  selectedOptionId: number;
-  correct: boolean;
 }
 
 const RESULT_ITEM_TYPE = {
@@ -57,7 +37,7 @@ const ResultItem = ({ type, problem, onClick }: ResultItemProps) => {
       <div
         className={`${RESULT_ITEM_TYPE[type].bg} flex h-7.5 w-7.5 items-center justify-center rounded-[50%] text-white`}
       >
-        1
+        {problem.problemOrder}
       </div>
       <p>{RESULT_ITEM_TYPE[type].title}</p>
       <p>{problem.score}</p>
@@ -72,17 +52,11 @@ export default function ResultSection({
   competitionId: number;
   competitionResult: CompetitionResultState;
 }) {
-  const [problemResult, setProblemResult] = useState<ProbleResultState | null>(
+  const [problemResult, setProblemResult] = useState<ProblemResultState | null>(
     null,
   );
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const {
-    error,
-    setErrorContext,
-    isModalOpen: isErrorModalOpne,
-    openModal: openErrorModal,
-    closeModal: closeErrorModal,
-  } = useErrorModal();
+  const { error, setErrorContext, isModalOpen, openModal, closeModal } =
+    useErrorModal();
 
   const getResult = async (
     competitionId: number,
@@ -105,7 +79,7 @@ export default function ResultSection({
 
       if (!res.ok) {
         setErrorContext(res.error);
-        openErrorModal();
+        openModal();
 
         return;
       }
@@ -116,7 +90,7 @@ export default function ResultSection({
         code: "UNKNOWN_ERROR",
         message: "문제 조회에 실패했습니다.",
       });
-      openErrorModal();
+      openModal();
     }
   };
 
@@ -126,11 +100,11 @@ export default function ResultSection({
 
   return (
     <DetailWrapper>
-      {isErrorModalOpne && (
+      {isModalOpen && (
         <ErrorModal
           code={error.code}
           message={error.message}
-          onClose={closeErrorModal}
+          onClose={closeModal}
         />
       )}
 
@@ -155,7 +129,7 @@ export default function ResultSection({
 
       {problemResult && (
         <>
-          <QuestionPanel
+          <ProblemPanel
             variant="result"
             currentProblem={problemResult}
             selectedOptionId={problemResult.selectedOptionId}
