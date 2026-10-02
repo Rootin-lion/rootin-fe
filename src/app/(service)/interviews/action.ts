@@ -1,6 +1,9 @@
 "use server";
 
-import type { InterviewConfig, AnswerPayload } from "@/types/interviews/interview";
+import type {
+  InterviewConfig,
+  AnswerPayload,
+} from "@/types/interviews/interview";
 import {
   createInterview,
   generateInterviewReport,
