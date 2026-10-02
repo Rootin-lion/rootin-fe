@@ -1,4 +1,3 @@
-import { isAxiosError } from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import "server-only";
 import type { AuthSession } from "@/types/oauth/oauth";
@@ -50,33 +49,8 @@ function clearStateCookie(response: NextResponse, provider: ProviderType) {
   return response;
 }
 
-function redirectUrlWithCode(
-  request: NextRequest,
-  path: string,
-  provider: ProviderType,
-  code: string | null,
-) {
-  const url = new URL(path, request.url);
-
-  if (code) {
-    url.hash = new URLSearchParams({
-      oauth_provider: provider,
-      oauth_authorization_code: code,
-      oauth_redirect_uri: providers[provider].redirectUri,
-    }).toString();
-  }
-
-  return url;
-}
-
-function redirectLogin(
-  request: NextRequest,
-  provider: ProviderType,
-  code: string | null,
-) {
-  const response = NextResponse.redirect(
-    redirectUrlWithCode(request, "/login", provider, code),
-  );
+function redirectLogin(request: NextRequest, provider: ProviderType) {
+  const response = NextResponse.redirect(new URL("/login", request.url));
   return clearStateCookie(response, provider);
 }
 
@@ -90,7 +64,7 @@ export async function handleOAuthCallback(
   const savedState = request.cookies.get(config.stateCookie)?.value;
 
   if (!code || !state || !savedState || state !== savedState)
-    return redirectLogin(request, provider, code);
+    return redirectLogin(request, provider);
 
   try {
     const res = await config.exchangeCode(code, config.redirectUri);
@@ -130,11 +104,9 @@ export async function handleOAuthCallback(
     };
 
     const response = NextResponse.redirect(
-      redirectUrlWithCode(
-        request,
+      new URL(
         payload.member.profileCompleted ? "/" : "/onboarding",
-        provider,
-        code,
+        request.url,
       ),
     );
 
@@ -156,17 +128,7 @@ export async function handleOAuthCallback(
     );
 
     return clearStateCookie(response, provider);
-  } catch (error) {
-    if (isAxiosError(error)) {
-      console.error(`${config.label} 로그인 API 오류`, {
-        status: error.response?.status,
-        errorCode: error.response?.data?.errorCode,
-        message: error.response?.data?.message ?? error.message,
-      });
-    } else {
-      console.error(`${config.label}  로그인 처리 오류`, error);
-    }
-
-    return redirectLogin(request, provider, code);
+  } catch {
+    return redirectLogin(request, provider);
   }
 }

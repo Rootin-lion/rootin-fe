@@ -116,15 +116,13 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
       startNicknameCheckTransition(async () => {
         try {
           const res = await checkNicknameAction(nickname);
-          console.log(res.data);
 
           if (shouldIgnoreResult) return;
 
           setIsNicknameAvailable(res?.data?.available);
-        } catch (error) {
+        } catch {
           if (shouldIgnoreResult) return;
 
-          console.log(error);
           setIsNicknameAvailable(null);
         }
       });
