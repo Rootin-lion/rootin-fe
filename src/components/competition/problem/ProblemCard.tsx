@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import type {
+  CompetitionProblemDetail,
   CompetitionProblemOption,
   PanelType,
-  ProblemResultState,
 } from "@/types/competitions/competition";
 import {
   addProblemBookmarkAction,
@@ -56,7 +56,7 @@ export default function ProblemCard({
   onSelectOption,
 }: {
   variant: PanelType;
-  currentProblem?: ProblemResultState;
+  currentProblem?: CompetitionProblemDetail;
   showBookmark?: boolean;
   selectedOptionId?: number;
   onSelectOption?: (selectedOptionId: number) => void;
@@ -70,6 +70,11 @@ export default function ProblemCard({
   const problemId = currentProblem?.problemId;
   const isBookmarked =
     problemId !== undefined && (bookmarkedByProblemId[problemId] ?? false);
+  const isWrongResult =
+    variant === "result" &&
+    currentProblem != null &&
+    "correct" in currentProblem &&
+    currentProblem.correct === false;
 
   // 북마크 설정
   const addBookmark = async () => {
@@ -150,7 +155,7 @@ export default function ProblemCard({
 
       <div className="flex items-start justify-between gap-4">
         <h1
-          className={`text-[18px] font-semibold ${currentProblem?.correct ? "text-black" : "text-error"}`}
+          className={`text-[18px] font-semibold ${isWrongResult ? "text-black" : "text-error"}`}
         >
           {variant === "result" && currentProblem?.problemOrder}.{" "}
           {currentProblem?.problemContent}

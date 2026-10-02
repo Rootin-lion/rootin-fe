@@ -1,4 +1,4 @@
-import type { InterviewFieldType } from "@/types/interviews/interview";
+import type { InterviewCategoryType } from "@/types/interviews/interview";
 import { Field_LIST } from "@/constants/interviews/interview";
 import OptionButton from "@/components/shared/OptionButton";
 
@@ -6,8 +6,8 @@ export default function InterviewTopic({
   field,
   onChange,
 }: {
-  field: InterviewFieldType;
-  onChange: (field: InterviewFieldType) => void;
+  field: InterviewCategoryType;
+  onChange: (field: InterviewCategoryType) => void;
 }) {
   return (
     <div className="flex flex-col gap-2">
