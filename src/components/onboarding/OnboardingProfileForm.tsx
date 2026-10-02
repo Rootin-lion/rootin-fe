@@ -1,34 +1,40 @@
 "use client";
 
-import React, { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import InputWrapper from "@/components/shared/InputWrapper";
-import Button from "@/components/shared/Button";
-import InterestFieldSelector from "./InterestFieldSelector";
-import { OnboardingPayload } from "@/types/auth/auth";
+import React, { useEffect, useState, useTransition } from "react";
+import type { OnboardingPayload } from "@/types/auth/auth";
+import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
 import {
   checkNicknameAction,
   completeProfileAction,
 } from "@/app/onboarding/action";
-import ErrorModal from "../shared/ErrorModal";
+import Button from "@/components/shared/Button";
+import ErrorModal from "@/components/shared/ErrorModal";
+import InputWrapper from "@/components/shared/InputWrapper";
 import useErrorModal from "@/hooks/useErrorModal";
-import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
+import InterestFieldSelector from "./InterestFieldSelector";
 
 export default function OnboardingProfileForm({ email }: { email: string }) {
   const router = useRouter();
+  // 프로필 폼 상태
   const [profileForm, setProfileForm] = useState<OnboardingPayload>({
     nickname: "",
     ageGroup: "",
     interestFields: [],
   });
+  // 닉네임 검증 상태
   const [isNicknameAvailable, setIsNicknameAvailable] = useState<
     boolean | null
   >(null);
+  // 에러 모달
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
+  // 제출 로딩 상태
   const [isSubmitting, startSubmitTransition] = useTransition();
+  // 닉네임 검증 로딩 상태
   const [, startNicknameCheckTransition] = useTransition();
 
+  // 닉네임
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
 
@@ -37,6 +43,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
     setIsNicknameAvailable(null);
   };
 
+  // 나이
   const handleAgeGroupToggle = (targetAge: string) => {
     setProfileForm((prev) => ({
       ...prev,
@@ -44,6 +51,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
     }));
   };
 
+  // 관심분야
   const handleInterestToggle = (targetInterest: string) => {
     if (
       profileForm.interestFields.length >= 3 &&
@@ -61,6 +69,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
     }));
   };
 
+  // 프로필 설정
   const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -94,7 +103,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
     profileForm.interestFields.length > 0 &&
     isNicknameAvailable === true;
 
-  // 닉네임 검증 로직
+  // 닉네임 검증
   useEffect(() => {
     const nickname = profileForm.nickname.trim();
 
@@ -129,6 +138,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
 
   return (
     <main className="bg-primary-50 flex min-h-dvh flex-col items-center justify-center">
+      {/* 에러 모달 */}
       {isModalOpen && (
         <ErrorModal
           code={error.code}

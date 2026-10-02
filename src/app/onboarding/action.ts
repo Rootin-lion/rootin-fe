@@ -1,14 +1,15 @@
 "use server";
 
-import { checkNickname, completeProfile, getProfile } from "@/apis/auth";
+import { cookies } from "next/headers";
+import type { OnboardingPayload } from "@/types/auth/auth";
+import type { AuthSession } from "@/types/oauth/oauth";
 import {
   MEMBER_SNAPSHOT_COOKIE,
   MEMBER_SNAPSHOT_COOKIE_OPTIONS,
 } from "@/constants/auth/memberSnapshotCookie";
+import { checkNickname, completeProfile, getProfile } from "@/apis/auth";
+import { actionFailure } from "@/lib/shared/actionFailure";
 import { apiError } from "@/lib/shared/apiError";
-import { OnboardingPayload } from "@/types/auth/auth";
-import { AuthSession } from "@/types/oauth/oauth";
-import { cookies } from "next/headers";
 
 // 프로필 설정
 export async function completeProfileAction(payload: OnboardingPayload) {
@@ -19,13 +20,10 @@ export async function completeProfileAction(payload: OnboardingPayload) {
     const profile = res.data.data;
 
     if (!profile) {
-      return {
-        ok: false,
-        error: {
-          code: "PROFILE_FAILED",
-          message: "프로필 정보를 불러오지 못했습니다.",
-        },
-      } as const;
+      return actionFailure({
+        code: "PROFILE_FAILED",
+        message: "프로필 저장 중 오류가 발생했습니다.",
+      });
     }
 
     const updatedSession: AuthSession = {
@@ -51,10 +49,9 @@ export async function completeProfileAction(payload: OnboardingPayload) {
 
     return { ok: true } as const;
   } catch (error) {
-    return {
-      ok: false,
-      error: apiError(error, "프로필 저장 중 오류가 발생했습니다."),
-    };
+    return actionFailure(
+      apiError(error, "프로필 저장 중 오류가 발생했습니다."),
+    );
   }
 }
 

@@ -1,20 +1,17 @@
-import InterviewResultFeedback from "@/components/interviews/result/InterviewResultFeedback";
-import InterviewResultOverall from "@/components/interviews/result/InterviewResultOverall";
+import InterviewResultContent from "@/components/interviews/result/InterviewResultContent";
+import { Metadata } from "next";
 
-export default function InterviewResultPage() {
-  return (
-    <div className="mx-auto mt-10 flex w-full max-w-5xl flex-col gap-6 rounded-xl border border-[#F0F0F0] bg-white px-21 py-11">
-      <div>
-        <h1 className="text-gradient-primary w-fit text-[30px] font-semibold">
-          AI 면접 결과
-        </h1>
-        <p className="text-body-3 text-text mt-3">
-          운영체제 | 3문항 | 2026.05.27
-        </p>
-      </div>
+export const metadata: Metadata = {
+  title: "AI 면접 결과 | ROOTIN",
+  description: "AI 면접 결과와 피드백을 확인하세요.",
+  robots: { index: false },
+};
 
-      <InterviewResultOverall />
-      <InterviewResultFeedback />
-    </div>
-  );
+export default async function InterviewResultPage(
+  props: PageProps<"/interviews/[interviewId]/result">,
+) {
+  const { interviewId } = await props.params;
+  const interviewIdNumber = Number(interviewId);
+
+  return <InterviewResultContent interviewId={interviewIdNumber} />;
 }

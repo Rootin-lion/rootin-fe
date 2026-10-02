@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import Header from "@/components/shared/Header";
-import Footer from "@/components/shared/Footer";
-import { AuthSession } from "@/types/oauth/oauth";
+import type { AuthSession } from "@/types/oauth/oauth";
 import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
+import Footer from "@/components/shared/Footer";
+import Header from "@/components/shared/Header";
 
 export default async function ServiceLayout({
   children,
@@ -29,7 +29,9 @@ export default async function ServiceLayout({
   return (
     <div className="bg-bg-ivory flex min-h-dvh flex-col">
       <Header member={member} />
-      <main className="bg-bg-green-50 flex flex-1 flex-col">{children}</main>
+      <main className="bg-bg-green-50 flex flex-1 flex-col pb-30">
+        {children}
+      </main>
       <Footer />
     </div>
   );

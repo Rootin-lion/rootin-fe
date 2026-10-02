@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoImg from "@/assets/logo.png";
-import { AuthMember } from "@/types/oauth/oauth";
+import type { AuthMember } from "@/types/oauth/oauth";
 
 const NavItems = [
-  { id: 1, content: "CS 대회", to: "/contests" },
+  { id: 1, content: "CS 대회", to: "/competitions" },
   { id: 2, content: "AI 면접", to: "/interviews" },
   { id: 3, content: "마이 페이지", to: "/#" },
 ];

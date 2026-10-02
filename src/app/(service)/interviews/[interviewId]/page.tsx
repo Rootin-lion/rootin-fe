@@ -1,17 +1,16 @@
-import InterviewChat from "@/components/interviews/interview/InterviewChat";
-import InterviewForm from "@/components/interviews/interview/InterviewForm";
-import InterviewVideo from "@/components/interviews/interview/InterviewVideo";
+import { Metadata } from "next";
+import InterviewSessionContent from "@/components/interviews/session/InterviewSessionContent";
 
-export default function InterviewSessionPage() {
-  return (
-    <div className="bg-bg-green-50 flex w-full flex-1 flex-col justify-between gap-11">
-      <div className="mx-auto flex max-h-126 w-full max-w-5xl flex-row gap-10 pt-6">
-        <InterviewChat />
-        <InterviewVideo />
-      </div>
-      <div>
-        <InterviewForm />
-      </div>
-    </div>
-  );
+export const metadata: Metadata = {
+  title: "AI 모의 면접 진행 | ROOTIN",
+  description: "AI 면접관의 질문에 답하며 실전 면접을 연습하세요.",
+};
+
+export default async function InterviewSessionPage(
+  props: PageProps<"/interviews/[interviewId]">,
+) {
+  const { interviewId } = await props.params;
+  const interviewIdNumber = Number(interviewId);
+
+  return <InterviewSessionContent interviewId={interviewIdNumber} />;
 }

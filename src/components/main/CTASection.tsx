@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import CtaImg from "@/assets/main/cta.png";
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
 import SectionWrapper from "./SectionWrapper";
@@ -37,7 +37,7 @@ export function CTASection() {
           <div className="mt-14 w-80">
             <PrimaryDarkButton
               className="px-7 py-4 text-[20px] duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(31,41,55,0.12)]"
-              onClick={() => router.push("/contests")}
+              onClick={() => router.push("/competitions")}
             >
               ROOTIN 시작하기 →
             </PrimaryDarkButton>

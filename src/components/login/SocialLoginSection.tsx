@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import LogoImg from "@/assets/logo.png";
-import KakaoIcon from "@/assets/login/kakao.png";
 import GoogleIcon from "@/assets/login/google.png";
+import KakaoIcon from "@/assets/login/kakao.png";
+import LogoImg from "@/assets/logo.png";
 
 const KakaoLoginButton = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -35,14 +35,6 @@ const LoginNoticeHighlight = ({ children }: { children: React.ReactNode }) => {
   return <span className="text-primary-400">{children}</span>;
 };
 
-const startOAuthLogin = (provider: "카카오" | "구글", path: string) => {
-  console.info(`[OAuth][${provider}][브라우저 요청]`, {
-    method: "GET",
-    path,
-  });
-  window.location.assign(path);
-};
-
 export default function SocialLoginSection() {
   return (
     <section className="bg-primary-50 flex flex-1 items-center justify-start">
@@ -56,19 +48,18 @@ export default function SocialLoginSection() {
         <div className="mt-8 flex w-full max-w-95 flex-col gap-6">
           <KakaoLoginButton
             onClick={() => {
-              startOAuthLogin("카카오", "/oauth/kakao");
+              window.location.assign("/oauth/kakao");
             }}
           />
           <GoogleLoginButton
             onClick={() => {
-              startOAuthLogin("구글", "/oauth/google");
+              window.location.assign("/oauth/google");
             }}
           />
         </div>
         <p className="text-sub-text mt-7 text-[12px] font-normal">
-          계속 진행하면
-          <LoginNoticeHighlight>Rootin</LoginNoticeHighlight>의
-          <LoginNoticeHighlight>이용약관</LoginNoticeHighlight>과
+          계속 진행하면 <LoginNoticeHighlight>Rootin</LoginNoticeHighlight>의{" "}
+          <LoginNoticeHighlight>이용약관</LoginNoticeHighlight>과{" "}
           <LoginNoticeHighlight>개인정보처리방침</LoginNoticeHighlight>에
           동의하는 것으로 간주됩니다.
         </p>

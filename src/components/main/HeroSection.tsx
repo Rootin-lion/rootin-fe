@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import HeroImg from "@/assets/hero.png";
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
 import SectionWrapper from "./SectionWrapper";
@@ -42,7 +42,7 @@ export function HeroSection() {
         <div className="w-48">
           <PrimaryDarkButton
             className="px-7 py-4 text-[20px] duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(31,41,55,0.12)]"
-            onClick={() => router.push("contests")}
+            onClick={() => router.push("competitions")}
           >
             지금 시작하기 →
           </PrimaryDarkButton>
