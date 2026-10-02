@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import CharImg from "@/assets/competitions/result/char.png";
 import type { CompetitionResultState } from "@/types/competitions/competition";
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
+import { formatDottedDate } from "@/lib/shared/formatDottedDate";
 import RankSection from "./RankSection";
 import ScoreSection from "./ScoreSection";
 
@@ -39,7 +40,7 @@ export default function ResultSummarySide({
       </div>
       <p className="mt-4 text-[15px] font-semibold">CS 대회 결과</p>
       <p className="mt-2 text-[12px] font-medium">
-        {competitionResult.competitionDate.replaceAll("-", ".")}
+        {formatDottedDate(competitionResult.competitionDate)}
         {competitionWeekday && ` (${competitionWeekday})`}
       </p>
       <ScoreSection competitionResult={competitionResult} />

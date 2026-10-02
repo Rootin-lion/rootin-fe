@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import type { ContestResultsState } from "@/types/competitions/competition";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
+import { formatDottedDate } from "@/lib/shared/formatDottedDate";
 
 export default function CompetitionResultCard({
   contest,
@@ -14,7 +15,7 @@ export default function CompetitionResultCard({
       <div className="flex items-baseline gap-3">
         <div className="flex flex-col gap-3">
           <p className="text-text text-[16px] font-semibold">
-            {contest.competitionDate.replaceAll("-", ".")}(
+            {formatDottedDate(contest.competitionDate)}(
             {new Date(contest.competitionDate).toLocaleDateString("ko-KR", {
               weekday: "short",
               timeZone: "Asia/Seoul",

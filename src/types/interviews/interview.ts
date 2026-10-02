@@ -42,3 +42,32 @@ export type SessionChatMessage =
       questionId: number;
       text: string;
     };
+
+export interface InterviewReportFeedbackItem {
+  title: string;
+  content: string;
+}
+
+export interface InterviewReportQuestion {
+  questionId: number;
+  questionOrder: number;
+  topicName: string;
+  question: string;
+  answer: string;
+  accuracy: number;
+  feedback: string;
+  missingKeywords: string;
+}
+
+export interface InterviewReportState {
+  interviewId: number;
+  category: InterviewCategoryType;
+  questionCount: number;
+  completedAt: string;
+  status: string;
+  averageAccuracy: number;
+  overallFeedback: string;
+  strengths: InterviewReportFeedbackItem[];
+  weaknesses: InterviewReportFeedbackItem[];
+  questions: InterviewReportQuestion[];
+}

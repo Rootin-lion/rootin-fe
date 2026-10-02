@@ -1,5 +1,15 @@
-export default function InterviewResultOverall() {
-  const accuracy = 80;
+import { InterviewReportState } from "@/types/interviews/interview";
+
+export default function InterviewResultOverall({
+  interviewReport,
+}: {
+  interviewReport: InterviewReportState;
+}) {
+  const accuracy = interviewReport?.averageAccuracy || 0;
+  const feedbacks =
+    interviewReport.overallFeedback
+      .match(/[^.]+(?:\.|$)/g)
+      ?.map((feedback) => feedback.trim()) ?? [];
 
   return (
     <div className="bg-primary-50 flex w-full max-w-214 flex-row gap-4 rounded-lg py-4">
@@ -23,23 +33,14 @@ export default function InterviewResultOverall() {
 
       <div className="border-disabled-text h-25.75 w-0 border"></div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex min-w-0 flex-1 flex-col gap-2">
         <h3 className="text-primary-900 text-[16px] font-semibold">
           주요 피드백
         </h3>
-        <ul className="text-text list-inside list-disc pl-1 text-[12px] font-normal">
-          <li>
-            전반적으로 핵심 CS 개념에 대한 이해도가 높으며 주요 용어를 적절히
-            활용하였습니다.
-          </li>
-          <li>
-            TCP 연결 과정과 데이터베이스 인덱스 구조에 대한 설명은 논리적이고
-            정확했습니다.
-          </li>
-          <li>
-            다만 프로세스와 스레드의 차이 설명에서 컨텍스트 스위칭 비용과 메모리
-            구조에 대한 보충 설명이 필요합니다.
-          </li>
+        <ul className="text-text list-outside list-disc pr-3 pl-5 text-[12px] font-normal">
+          {feedbacks.map((feedback, index) => (
+            <li key={index}>{feedback}</li>
+          ))}
         </ul>
       </div>
     </div>
