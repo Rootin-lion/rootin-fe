@@ -155,7 +155,7 @@ export default function ProblemCard({
 
       <div className="flex items-start justify-between gap-4">
         <h1
-          className={`text-[18px] font-semibold ${isWrongResult ? "text-black" : "text-error"}`}
+          className={`text-[18px] font-semibold ${!isWrongResult ? "text-black" : "text-error"}`}
         >
           {variant === "result" && currentProblem?.problemOrder}.{" "}
           {currentProblem?.problemContent}
