@@ -30,6 +30,7 @@ export default function CompetitionContent() {
       endAt: "",
       status: "CLOSED",
       remainingSeconds: 0,
+      participantCount: 0,
     });
   const setParticipation = useCompetitionParticipationStore(
     (state) => state.setParticipation,

@@ -97,7 +97,7 @@ export default function CompetitionBanner({
                     status={competition.status}
                     onExpire={onExpire}
                   />
-                  <p>132명이 참가했어요.</p>
+                  <p>{competition.participantCount}명이 참가했어요.</p>
                   <div className="mt-3">
                     <GradientOutlineButton variant="gradient" onClick={onClick}>
                       대회 참여하기

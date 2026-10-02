@@ -10,6 +10,7 @@ export interface TodayCompetitionState {
   endAt: string;
   status: CompetitionStatuType;
   remainingSeconds: number;
+  participantCount: number;
 }
 
 export interface RankingState {
