@@ -1,4 +1,4 @@
-import { InterviewReportState } from "@/types/interviews/interview";
+// import { InterviewReportState } from "@/types/interviews/interview";
 
 // export default function InterviewResultProblem({
 //   interviewReport,
