@@ -62,6 +62,7 @@ function redirectUrlWithCode(
     url.hash = new URLSearchParams({
       oauth_provider: provider,
       oauth_authorization_code: code,
+      oauth_redirect_uri: providers[provider].redirectUri,
     }).toString();
   }
 
