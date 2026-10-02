@@ -67,6 +67,8 @@ export async function handleOAuthCallback(
   if (!code || !state || !savedState || state !== savedState)
     return redirectLogin(request, provider);
 
+  console.log(`${provider} authorization code:`, code);
+
   try {
     const res = await config.exchangeCode(code, config.redirectUri);
     const payload = res.data.data;
