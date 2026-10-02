@@ -13,8 +13,10 @@ import {
 import {
   GOOGLE_STATE_COOKIE,
   GOOGLE_STATE_COOKIE_PATH,
+  GOOGLE_OAUTH_URL,
   KAKAO_STATE_COOKIE,
   KAKAO_STATE_COOKIE_PATH,
+  KAKAO_OAUTH_URL,
 } from "@/constants/oauth/oauth";
 import { loginGoogle, loginKakao } from "@/apis/oauth";
 
@@ -23,12 +25,14 @@ const providers = {
     label: "카카오",
     stateCookie: KAKAO_STATE_COOKIE,
     callbackPath: KAKAO_STATE_COOKIE_PATH,
+    redirectUri: KAKAO_OAUTH_URL,
     exchangeCode: loginKakao,
   },
   google: {
     label: "구글",
     stateCookie: GOOGLE_STATE_COOKIE,
     callbackPath: GOOGLE_STATE_COOKIE_PATH,
+    redirectUri: GOOGLE_OAUTH_URL,
     exchangeCode: loginGoogle,
   },
 };
@@ -64,7 +68,7 @@ export async function handleOAuthCallback(
     return redirectLogin(request, provider);
 
   try {
-    const res = await config.exchangeCode(code);
+    const res = await config.exchangeCode(code, config.redirectUri);
     const payload = res.data.data;
     const accessToken = payload?.accessToken;
 

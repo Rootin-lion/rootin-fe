@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-export default function InterviewResultPage() {
-  return <InterviewResultContent />;
+export default async function InterviewResultPage(
+  props: PageProps<"/interviews/[interviewId]/result">,
+) {
+  const { interviewId } = await props.params;
+  const interviewIdNumber = Number(interviewId);
+
+  return <InterviewResultContent interviewId={interviewIdNumber} />;
 }

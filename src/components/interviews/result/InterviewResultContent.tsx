@@ -1,7 +1,11 @@
 import InterviewResultFeedback from "@/components/interviews/result/InterviewResultFeedback";
 import InterviewResultOverall from "@/components/interviews/result/InterviewResultOverall";
 
-export default function InterviewResultContent() {
+export default function InterviewResultContent({
+  interviewId,
+}: {
+  interviewId: number;
+}) {
   return (
     <div className="mx-auto mt-10 flex w-full max-w-5xl flex-col gap-6 rounded-xl border border-[#F0F0F0] bg-white px-21 py-11">
       <div>
