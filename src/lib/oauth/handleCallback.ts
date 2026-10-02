@@ -50,8 +50,32 @@ function clearStateCookie(response: NextResponse, provider: ProviderType) {
   return response;
 }
 
-function redirectLogin(request: NextRequest, provider: ProviderType) {
-  const response = NextResponse.redirect(new URL("/login", request.url));
+function redirectUrlWithCode(
+  request: NextRequest,
+  path: string,
+  provider: ProviderType,
+  code: string | null,
+) {
+  const url = new URL(path, request.url);
+
+  if (code) {
+    url.hash = new URLSearchParams({
+      oauth_provider: provider,
+      oauth_authorization_code: code,
+    }).toString();
+  }
+
+  return url;
+}
+
+function redirectLogin(
+  request: NextRequest,
+  provider: ProviderType,
+  code: string | null,
+) {
+  const response = NextResponse.redirect(
+    redirectUrlWithCode(request, "/login", provider, code),
+  );
   return clearStateCookie(response, provider);
 }
 
@@ -65,9 +89,7 @@ export async function handleOAuthCallback(
   const savedState = request.cookies.get(config.stateCookie)?.value;
 
   if (!code || !state || !savedState || state !== savedState)
-    return redirectLogin(request, provider);
-
-  console.log(`${provider} authorization code:`, code);
+    return redirectLogin(request, provider, code);
 
   try {
     const res = await config.exchangeCode(code, config.redirectUri);
@@ -106,9 +128,14 @@ export async function handleOAuthCallback(
       },
     };
 
-    const response = payload.member.profileCompleted
-      ? NextResponse.redirect(new URL("/", request.url))
-      : NextResponse.redirect(new URL("/onboarding", request.url));
+    const response = NextResponse.redirect(
+      redirectUrlWithCode(
+        request,
+        payload.member.profileCompleted ? "/" : "/onboarding",
+        provider,
+        code,
+      ),
+    );
 
     // accessToken, refreshToken 쿠키 저장
     response.cookies.set(
@@ -139,6 +166,6 @@ export async function handleOAuthCallback(
       console.error(`${config.label}  로그인 처리 오류`, error);
     }
 
-    return redirectLogin(request, provider);
+    return redirectLogin(request, provider, code);
   }
 }
