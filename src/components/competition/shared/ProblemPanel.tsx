@@ -1,5 +1,5 @@
 import type {
-  CompetitionProblemDetail,
+  ProblemResultState,
   PanelType,
 } from "@/types/competitions/competition";
 import QuestionButtonBox from "@/components/competition/problem/ProblemButtonBox";
@@ -26,7 +26,7 @@ export default function ProblemPanel({
   onSubmit,
 }: {
   variant?: PanelType;
-  currentProblem?: CompetitionProblemDetail | null;
+  currentProblem?: ProblemResultState | null;
   selectedOptionId?: number;
   isFirstProblem?: boolean;
   isLastProblem?: boolean;

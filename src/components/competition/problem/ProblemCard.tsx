@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type {
-  CompetitionProblemDetail,
+  ProblemResultState,
   CompetitionProblemOption,
   PanelType,
 } from "@/types/competitions/competition";
@@ -56,7 +56,7 @@ export default function ProblemCard({
   onSelectOption,
 }: {
   variant: PanelType;
-  currentProblem?: CompetitionProblemDetail;
+  currentProblem?: ProblemResultState;
   showBookmark?: boolean;
   selectedOptionId?: number;
   onSelectOption?: (selectedOptionId: number) => void;
@@ -69,7 +69,8 @@ export default function ProblemCard({
 
   const problemId = currentProblem?.problemId;
   const isBookmarked =
-    problemId !== undefined && (bookmarkedByProblemId[problemId] ?? false);
+    problemId !== undefined &&
+    (bookmarkedByProblemId[problemId] ?? currentProblem?.bookmarked ?? false);
   const isWrongResult =
     variant === "result" &&
     currentProblem != null &&

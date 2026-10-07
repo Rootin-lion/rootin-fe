@@ -102,4 +102,5 @@ export interface ProblemResultState {
   options: ResultOptionState[];
   selectedOptionId: number;
   correct: boolean;
+  bookmarked: boolean;
 }
