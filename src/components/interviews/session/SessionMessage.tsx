@@ -7,12 +7,14 @@ export default function SessionMessage({
   type = "QUESTION",
   text,
   isTyping = false,
+  animate = true,
   onTextAnimationComplete,
   profileImageUrl,
 }: {
   type: MessageType;
   text: string;
   isTyping?: boolean;
+  animate?: boolean;
   onTextAnimationComplete?: () => void;
   profileImageUrl?: string | null;
 }) {
@@ -31,6 +33,7 @@ export default function SessionMessage({
           text={text}
           type={type}
           loading={isTyping}
+          animate={animate}
           onTextAnimationComplete={onTextAnimationComplete}
         />
       </div>

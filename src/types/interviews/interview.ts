@@ -30,7 +30,21 @@ export interface QuestionState {
   question: string;
 }
 
+export interface InterviewAnswerResult {
+  topicCompleted: boolean;
+  interviewCompleted: boolean;
+  answerLevel: string;
+  accuracy: number;
+  feedback: string;
+  nextQuestion: QuestionState | null;
+}
+
 export type SessionChatMessage =
+  | {
+      id: "intro-camera" | "intro-start";
+      kind: "INTRO";
+      text: string;
+    }
   | {
       id: string;
       kind: "QUESTION";
@@ -40,6 +54,16 @@ export type SessionChatMessage =
       id: string;
       kind: "ANSWER";
       questionId?: number;
+      text: string;
+    }
+  | {
+      id: string;
+      kind: "FEEDBACK";
+      text: string;
+    }
+  | {
+      id: "interview-complete";
+      kind: "COMPLETION";
       text: string;
     };
 

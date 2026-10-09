@@ -1,4 +1,8 @@
-import type { AnswerPayload, InterviewConfig } from "@/types/interviews/interview";
+import type {
+  AnswerPayload,
+  InterviewAnswerResult,
+  InterviewConfig,
+} from "@/types/interviews/interview";
 import { apiClient } from "./client";
 
 // 면접 진입
@@ -22,7 +26,7 @@ export const submitInterviewAnswer = async (
   interviewId: number,
   payload: AnswerPayload,
 ) => {
-  const res = await apiClient.post(
+  const res = await apiClient.post<{ data: InterviewAnswerResult }>(
     `/interviews/${interviewId}/answers`,
     payload,
   );

@@ -44,6 +44,7 @@ export default async function InterviewSessionPage(
 
   return (
     <InterviewSessionContent
+      key={interviewId}
       interviewId={interviewIdNumber}
       profileImageUrl={profileImageUrl}
       category={categoryLabel}

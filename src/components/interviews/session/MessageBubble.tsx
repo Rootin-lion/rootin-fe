@@ -48,11 +48,13 @@ export default function MessageBubble({
   type = "QUESTION",
   text,
   loading = false,
+  animate = true,
   onTextAnimationComplete,
 }: {
   type: MessageType;
   text: string;
   loading: boolean;
+  animate?: boolean;
   onTextAnimationComplete?: () => void;
 }) {
   return (
@@ -71,7 +73,7 @@ export default function MessageBubble({
             <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full motion-reduce:animate-none" />
           </span>
         </>
-      ) : type === "QUESTION" ? (
+      ) : type === "QUESTION" && animate ? (
         <AnimatedAiText
           key={text}
           text={text}

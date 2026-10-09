@@ -8,9 +8,35 @@ import { useInterviewMedia } from "@/components/interviews/InterviewMediaProvide
 const INTERVIEW_DURATION_MS = 30 * 60 * 1000;
 
 export default function SessionVideo({ interviewId }: { interviewId: number }) {
-  const { stream } = useInterviewMedia();
+  const { stream, startCamera } = useInterviewMedia();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [remainingSeconds, setRemainingSeconds] = useState<number | null>(null);
+  const [cameraError, setCameraError] = useState(false);
+  const hasLiveVideo =
+    stream?.getVideoTracks().some((track) => track.readyState === "live") ??
+    false;
+
+  useEffect(() => {
+    if (hasLiveVideo) return;
+
+    let active = true;
+    startCamera().catch(() => {
+      if (active) setCameraError(true);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [hasLiveVideo, startCamera]);
+
+  const retryCamera = async () => {
+    setCameraError(false);
+    try {
+      await startCamera();
+    } catch {
+      setCameraError(true);
+    }
+  };
 
   useEffect(() => {
     const key = `interview-deadline:${interviewId}`;
@@ -62,7 +88,7 @@ export default function SessionVideo({ interviewId }: { interviewId: number }) {
         </p>
       </div>
       <div className="h-104 w-full rounded-xl bg-gray-400">
-        {stream ? (
+        {stream && hasLiveVideo ? (
           <video
             ref={videoRef}
             autoPlay
@@ -72,7 +98,18 @@ export default function SessionVideo({ interviewId }: { interviewId: number }) {
             className="h-full w-full object-cover"
           />
         ) : (
-          <p>카메라 연결이 없습니다.</p>
+          <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
+            <p>
+              {cameraError
+                ? "카메라 권한이나 연결 상태를 확인해주세요."
+                : "카메라 연결 중..."}
+            </p>
+            {cameraError && (
+              <button type="button" onClick={retryCamera} className="underline">
+                다시 연결
+              </button>
+            )}
+          </div>
         )}
       </div>
     </div>

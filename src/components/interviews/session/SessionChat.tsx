@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import SessionMessage from "./SessionMessage";
 import { SessionChatMessage } from "@/types/interviews/interview";
+import { createIntroMessages } from "@/stores/useInterviewSessionStore";
 
 type IntroStep = "FIRST" | "WAITING" | "SECOND" | "DONE";
 
@@ -12,17 +13,38 @@ export default function SessionChat({
   messages,
   profileImageUrl,
   isTyping,
+  isPresentingFeedback,
+  introComplete,
+  restoredMessageIds,
   onIntroComplete,
+  onFeedbackComplete,
+  onCompletionComplete,
 }: {
   category: string | null;
   questionCount: number | null;
   messages: SessionChatMessage[];
   profileImageUrl: string | null;
   isTyping: boolean;
+  isPresentingFeedback: boolean;
+  introComplete: boolean;
+  restoredMessageIds: ReadonlySet<string>;
   onIntroComplete: () => void;
+  onFeedbackComplete: () => void;
+  onCompletionComplete: () => void;
 }) {
-  const [introStep, setIntroStep] = useState<IntroStep>("FIRST");
+  const [introStep, setIntroStep] = useState<IntroStep>(
+    introComplete ||
+      (restoredMessageIds.has("intro-camera") &&
+        restoredMessageIds.has("intro-start"))
+      ? "DONE"
+      : "FIRST",
+  );
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const followLatestRef = useRef(true);
+  const defaultIntros = createIntroMessages(category, questionCount);
+  const cameraIntro = messages.find((message) => message.id === "intro-camera");
+  const startIntro = messages.find((message) => message.id === "intro-start");
 
   const finishFirstMessage = useCallback(() => {
     setIntroStep("WAITING");
@@ -45,45 +67,103 @@ export default function SessionChat({
 
   useEffect(() => {
     const container = scrollContainerRef.current;
-    if (container) container.scrollTop = container.scrollHeight;
-  }, [introStep, messages.length, isTyping]);
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+      followLatestRef.current = true;
+    }
+  }, [introStep, messages.length, isTyping, isPresentingFeedback]);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    const content = contentRef.current;
+    if (!container || !content || !window.ResizeObserver) return;
+
+    const observer = new ResizeObserver(() => {
+      if (followLatestRef.current) {
+        container.scrollTop = container.scrollHeight;
+      }
+    });
+    observer.observe(content);
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleScroll = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    followLatestRef.current =
+      container.scrollHeight - container.scrollTop - container.clientHeight <
+      48;
+  };
 
   return (
     <div
       ref={scrollContainerRef}
-      className="interview-scrollbar flex w-full max-w-167 flex-col gap-4 overflow-y-auto pr-10"
+      onScroll={handleScroll}
+      className="interview-scrollbar min-h-0 w-full max-w-167 overflow-y-auto pr-10"
     >
-      <SessionMessage
-        type="QUESTION"
-        text={`안녕하세요. 면접을 시작하기 전에 먼저 카메라를 켜고 본인의\n화면이 잘 나오는지 확인해주세요.`}
-        onTextAnimationComplete={finishFirstMessage}
-      />
-
-      {(introStep === "SECOND" || introStep === "DONE") && (
+      <div ref={contentRef} className="flex flex-col gap-4">
         <SessionMessage
           type="QUESTION"
-          text={`그럼 지금부터 ${category || "-"} 분야 면접을 시작하겠습니다.\n총 ${questionCount || 0}개의 질문이 진행되며, 답변에 따라 꼬리 질문이 추가될 수 있습니다.\n준비되셨다면 ‘네’라고 말씀해주세요.`}
-          onTextAnimationComplete={finishSecondMessage}
+          text={
+            cameraIntro?.kind === "INTRO"
+              ? cameraIntro.text
+              : defaultIntros[0].text
+          }
+          animate={introStep !== "DONE"}
+          onTextAnimationComplete={finishFirstMessage}
         />
-      )}
 
-      {introStep === "DONE" &&
-        messages.map((message) => (
+        {(introStep === "SECOND" || introStep === "DONE") && (
           <SessionMessage
-            key={message.id}
-            type={message.kind}
-            profileImageUrl={profileImageUrl}
+            type="QUESTION"
             text={
-              message.kind === "QUESTION"
-                ? message.question.question
-                : message.text
+              startIntro?.kind === "INTRO"
+                ? startIntro.text
+                : defaultIntros[1].text
             }
+            animate={introStep !== "DONE"}
+            onTextAnimationComplete={finishSecondMessage}
           />
-        ))}
+        )}
 
-      {introStep === "DONE" && isTyping && (
-        <SessionMessage type="QUESTION" text="" isTyping />
-      )}
+        {introStep === "DONE" &&
+          messages.map((message, index) => {
+            if (message.kind === "INTRO") return null;
+            if (
+              isPresentingFeedback &&
+              (message.kind === "QUESTION" || message.kind === "COMPLETION") &&
+              messages[index - 1]?.kind === "FEEDBACK"
+            ) {
+              return null;
+            }
+
+            return (
+              <SessionMessage
+                key={message.id}
+                type={message.kind === "ANSWER" ? "ANSWER" : "QUESTION"}
+                animate={!restoredMessageIds.has(message.id)}
+                profileImageUrl={profileImageUrl}
+                text={
+                  message.kind === "QUESTION"
+                    ? message.question.question
+                    : message.text
+                }
+                onTextAnimationComplete={
+                  message.kind === "FEEDBACK"
+                    ? onFeedbackComplete
+                    : message.kind === "COMPLETION"
+                      ? onCompletionComplete
+                      : undefined
+                }
+              />
+            );
+          })}
+
+        {introStep === "DONE" && isTyping && (
+          <SessionMessage type="QUESTION" text="" isTyping />
+        )}
+      </div>
     </div>
   );
 }
