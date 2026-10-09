@@ -12,7 +12,7 @@ export type MessageType = "QUESTION" | "ANSWER";
 
 export interface InterviewConfig {
   category: InterviewCategoryType;
-  questionCount: null | number;
+  questionCount: number | null;
   interviewMode: InterviewModeType;
 }
 
@@ -39,7 +39,7 @@ export type SessionChatMessage =
   | {
       id: string;
       kind: "ANSWER";
-      questionId: number;
+      questionId?: number;
       text: string;
     };
 

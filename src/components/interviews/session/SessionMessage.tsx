@@ -8,14 +8,18 @@ export default function SessionMessage({
   text,
   isTyping = false,
   onTextAnimationComplete,
+  profileImageUrl,
 }: {
   type: MessageType;
   text: string;
   isTyping?: boolean;
   onTextAnimationComplete?: () => void;
+  profileImageUrl?: string | null;
 }) {
   return (
-    <div className="flex flex-row gap-3">
+    <div
+      className={`flex flex-row gap-3 ${type === "ANSWER" ? "justify-end" : ""}`}
+    >
       {type === "QUESTION" && (
         <div className="bg-primary-200 flex h-15 w-15 shrink-0 items-center justify-center rounded-[50%]">
           <Image src={AiImg} alt="char" className="h-10.25 w-10" />
@@ -31,7 +35,18 @@ export default function SessionMessage({
         />
       </div>
       {type === "ANSWER" && (
-        <div className="bg-primary flex h-12 w-12 shrink-0 items-center justify-self-center rounded-[50%]"></div>
+        <div className="bg-primary flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full">
+          {profileImageUrl && (
+            <Image
+              src={profileImageUrl}
+              alt="내 프로필"
+              width={48}
+              height={48}
+              unoptimized
+              className="h-full w-full object-cover"
+            />
+          )}
+        </div>
       )}
     </div>
   );

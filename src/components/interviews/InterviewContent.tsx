@@ -31,7 +31,7 @@ export default function InterviewContent() {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [config, setConfig] = useState<InterviewConfig>({
     category: "OPERATING_SYSTEM",
-    questionCount: null,
+    questionCount: 1,
     interviewMode: "TEXT",
   });
 
@@ -40,8 +40,6 @@ export default function InterviewContent() {
   };
 
   const handleQuestionCountChange = (questionCount: null | number) => {
-    if (questionCount === null) return;
-
     setConfig((prev) => ({ ...prev, questionCount }));
   };
 
@@ -49,9 +47,9 @@ export default function InterviewContent() {
     setConfig((prev) => ({ ...prev, interviewMode }));
   };
 
-  const createInterview = async () => {
+  const createInterview = async (questionCount: number) => {
     try {
-      const res = await createInterviewAction(config);
+      const res = await createInterviewAction({ ...config, questionCount });
 
       if (!res.ok) {
         setErrorContext(res.error);
@@ -62,7 +60,13 @@ export default function InterviewContent() {
         return;
       }
       const interviewId = res.data.interviewId;
-      router.push(`/interviews/${interviewId}`);
+
+      const query = new URLSearchParams({
+        category: config.category,
+        questionCount: String(questionCount),
+      });
+
+      router.push(`/interviews/${interviewId}?${query.toString()}`);
     } catch {
       setErrorContext({
         code: "UNKNOWN_ERROR",
@@ -75,11 +79,21 @@ export default function InterviewContent() {
   };
 
   const handleStart = async () => {
+    const questionCount = config.questionCount;
+    if (
+      questionCount === null ||
+      !Number.isInteger(questionCount) ||
+      questionCount < 1 ||
+      questionCount > 5
+    ) {
+      return;
+    }
+
     setCameraError(null);
 
     try {
       await startCamera();
-      await createInterview();
+      await createInterview(questionCount);
     } catch {
       setCameraError("카메라 권한과 연결된 장치를 확인해주세요.");
     }
