@@ -8,7 +8,7 @@ export default function BookmarkPreview({
   bookmarks: BookmarksState[];
 }) {
   return (
-    <div className="w-full max-w-98.75 rounded-lg bg-green-50 p-2.5">
+    <div className="bg-bg-green-50 w-full max-w-98.75 rounded-lg p-2.5">
       <div className="flex flex-row items-center justify-between">
         <div className="text-primary flex flex-row gap-2">
           <BookmarkIcon className="h-6 w-6" />

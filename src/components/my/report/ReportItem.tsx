@@ -28,7 +28,7 @@ export default function ReportItem({ report }: { report: MyReportSummary }) {
               평균 정확도 {report.averageAccuracy}%
             </div>
           </div>
-          <p className="text-sub-text text-[12px] font-medium whitespace-pre-wrap">
+          <p className="text-sub-text max-w-165 text-[12px] font-medium whitespace-pre-wrap">
             {report.overallFeedback}
           </p>
         </div>

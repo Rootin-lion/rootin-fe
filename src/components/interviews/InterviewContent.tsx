@@ -21,6 +21,7 @@ export default function InterviewContent() {
   const router = useRouter();
   const { startCamera, stopCamera } = useInterviewMedia();
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const [isStarting, setIsStarting] = useState(false);
   const {
     error,
     setErrorContext,
@@ -55,6 +56,7 @@ export default function InterviewContent() {
         setErrorContext(res.error);
         stopCamera();
         setCameraError(null);
+        setIsStarting(false);
         openErrorModal();
 
         return;
@@ -74,11 +76,14 @@ export default function InterviewContent() {
       });
       stopCamera();
       setCameraError(null);
+      setIsStarting(false);
       openErrorModal();
     }
   };
 
   const handleStart = async () => {
+    if (isStarting) return;
+
     const questionCount = config.questionCount;
     if (
       questionCount === null ||
@@ -90,12 +95,14 @@ export default function InterviewContent() {
     }
 
     setCameraError(null);
+    setIsStarting(true);
 
     try {
       await startCamera();
       await createInterview(questionCount);
     } catch {
       setCameraError("카메라 권한과 연결된 장치를 확인해주세요.");
+      setIsStarting(false);
     }
   };
 
@@ -110,7 +117,11 @@ export default function InterviewContent() {
       )}
 
       {isModalOpen && (
-        <ModalWrapper onClose={closeModal}>
+        <ModalWrapper
+          onClose={() => {
+            if (!isStarting) closeModal();
+          }}
+        >
           <ModalWrapper.Box>
             <ModalWrapper.Title>면접을 시작하시겠습니까?</ModalWrapper.Title>
           </ModalWrapper.Box>
@@ -129,9 +140,27 @@ export default function InterviewContent() {
           </ModalWrapper.Notice>
           <ModalWrapper.Box>
             <div className="flex flex-row gap-6">
-              <Button onClick={closeModal}>취소</Button>
-              <Button isActive={true} onClick={handleStart}>
-                시작하기
+              <Button onClick={closeModal} disabled={isStarting}>
+                취소
+              </Button>
+              <Button
+                isActive={true}
+                onClick={handleStart}
+                disabled={isStarting}
+              >
+                <span className="flex items-center justify-center">
+                  {isStarting ? (
+                    <>
+                      <span
+                        aria-hidden="true"
+                        className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+                      />
+                      <span className="sr-only">면접 시작 중</span>
+                    </>
+                  ) : (
+                    "시작하기"
+                  )}
+                </span>
               </Button>
             </div>
           </ModalWrapper.Box>

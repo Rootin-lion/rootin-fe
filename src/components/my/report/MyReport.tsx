@@ -11,7 +11,7 @@ import type { MyReportsPage } from "@/types/my/report";
 import ReportItem from "./ReportItem";
 
 export default function MyReport() {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [reportsPage, setReportsPage] = useState<MyReportsPage | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasLoadError, setHasLoadError] = useState(false);

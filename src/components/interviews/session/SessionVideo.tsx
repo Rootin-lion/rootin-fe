@@ -81,7 +81,7 @@ export default function SessionVideo({ interviewId }: { interviewId: number }) {
 
   return (
     <div className="flex w-full max-w-70.5 flex-col gap-4">
-      <div className="flex flex-row items-center gap-5 rounded-xl bg-[#F0F0F0] px-5 py-2">
+      <div className="flex min-h-13 flex-row items-center gap-5 rounded-xl bg-[#F0F0F0] px-5 py-2">
         <Image src={TimerIcon} alt="timer" className="h-9 w-9" />
         <p className="text-primary-900 text-[30px] font-bold" role="timer">
           {time}

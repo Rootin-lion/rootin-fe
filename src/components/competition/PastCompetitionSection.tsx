@@ -93,9 +93,9 @@ export default function PastCompetitionSection() {
 
         {/* 페이지네이션 */}
         <BarPagination
-          currentPage={currentPage}
+          currentPage={currentPage + 1}
           totalPages={pages}
-          onPageChange={setCurrentPage}
+          onPageChange={(page) => setCurrentPage(page - 1)}
           className="mt-9"
         />
       </div>

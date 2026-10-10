@@ -2,6 +2,7 @@ import type {
   AnswerPayload,
   InterviewAnswerResult,
   InterviewConfig,
+  InterviewReportGenerationState,
 } from "@/types/interviews/interview";
 import { apiClient } from "./client";
 
@@ -36,8 +37,8 @@ export const submitInterviewAnswer = async (
 
 // 면접 결과 생성
 export const generateInterviewReport = async (interviewId: number) => {
-  const res = await apiClient.post(
-    `/interviews/sessions/${interviewId}/report`,
+  const res = await apiClient.post<{ data: InterviewReportGenerationState }>(
+    `/interviews/${interviewId}/report`,
   );
 
   return res;
@@ -45,7 +46,7 @@ export const generateInterviewReport = async (interviewId: number) => {
 
 // 면접 결과 조회
 export const getMyInterviewReport = async (interviewId: number) => {
-  const res = await apiClient.get(`/interviews/sessions/${interviewId}/report`);
+  const res = await apiClient.get(`/interviews/${interviewId}/report`);
 
   return res;
 };

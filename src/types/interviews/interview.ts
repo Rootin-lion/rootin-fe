@@ -35,6 +35,13 @@ export interface InterviewAnswerResult {
   nextQuestion: QuestionState | null;
 }
 
+export type InterviewReportStatus = "GENERATING" | "COMPLETED" | "FAILED";
+
+export interface InterviewReportGenerationState {
+  interviewId: number;
+  status: InterviewReportStatus;
+}
+
 export type SessionChatMessage =
   | {
       id: "intro-camera" | "intro-start";

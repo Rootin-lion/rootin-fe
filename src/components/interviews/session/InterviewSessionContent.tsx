@@ -1,9 +1,7 @@
 "use client";
 
 import {
-  generateInterviewReportAction,
   getInterviewQuestionAction,
-  getMyInterviewReportAction,
   submitInterviewAnswerAction,
 } from "@/app/(service)/interviews/action";
 import { useRouter } from "next/navigation";
@@ -82,9 +80,6 @@ export default function InterviewSessionContent({
         ]?.messages.some((message) => message.kind === "COMPLETION"),
     ),
   );
-  const [reportStatus, setReportStatus] = useState<
-    "idle" | "generating" | "ready" | "failed"
-  >("idle");
   const sessionReady = useSyncExternalStore(
     subscribeToHydration,
     getClientSnapshot,
@@ -97,7 +92,6 @@ export default function InterviewSessionContent({
     ? [...messages, pendingAnswer]
     : messages;
   const requestPendingRef = useRef(false);
-  const reportPendingRef = useRef(false);
   const navigationPendingRef = useRef(false);
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
@@ -129,95 +123,32 @@ export default function InterviewSessionContent({
     setCompletionPresented(true);
   }, []);
 
-  const generateReport = useCallback(async () => {
-    if (reportPendingRef.current) return;
-    reportPendingRef.current = true;
-    setReportStatus("generating");
-
-    try {
-      if (
-        restoredMessageIds.has("interview-complete") ||
-        reportStatus === "failed"
-      ) {
-        const existingReport = await getMyInterviewReportAction(interviewId);
-        if (existingReport.ok) {
-          setReportStatus("ready");
-          return;
-        }
-      }
-
-      for (let attempt = 0; attempt < 4; attempt += 1) {
-        const result = await generateInterviewReportAction(interviewId);
-        if (result.ok) {
-          setReportStatus("ready");
-          return;
-        }
-
-        if (result.error.code === "C409-6" && attempt < 3) {
-          await new Promise<void>((resolve) => {
-            window.setTimeout(resolve, 1500 * (attempt + 1));
-          });
-          continue;
-        }
-
-        setErrorContext(result.error);
-        openModal();
-        setReportStatus("failed");
-        return;
-      }
-    } catch {
-      setErrorContext({
-        code: "INTERVIEW_FAILED",
-        message: "면접 리포트 생성에 실패했습니다.",
-      });
-      openModal();
-      setReportStatus("failed");
-    } finally {
-      reportPendingRef.current = false;
-    }
-  }, [
-    interviewId,
-    openModal,
-    reportStatus,
-    restoredMessageIds,
-    setErrorContext,
-  ]);
-
   useEffect(() => {
     if (
       !sessionReady ||
       !interviewCompleted ||
       !completionPresented ||
       isPresentingFeedback ||
-      reportStatus !== "idle"
+      navigationPendingRef.current
     )
       return;
 
-    const timeoutId = window.setTimeout(() => {
-      void generateReport();
-    }, 0);
-
-    return () => window.clearTimeout(timeoutId);
+    navigationPendingRef.current = true;
+    stopCamera();
+    const query = new URLSearchParams({
+      flow: "interview-report",
+      interviewId: String(interviewId),
+    });
+    router.replace(`/transition?${query.toString()}`);
   }, [
     completionPresented,
-    generateReport,
     interviewCompleted,
+    interviewId,
     isPresentingFeedback,
-    reportStatus,
+    router,
     sessionReady,
+    stopCamera,
   ]);
-
-  useEffect(() => {
-    if (
-      reportStatus === "ready" &&
-      completionPresented &&
-      !navigationPendingRef.current
-    ) {
-      navigationPendingRef.current = true;
-      stopCamera();
-      router.replace(`/interviews/${interviewId}/result`);
-    }
-  }, [completionPresented, interviewId, reportStatus, router, stopCamera]);
 
   // 답변 체인지
   const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -335,35 +266,18 @@ export default function InterviewSessionContent({
         )}
         <SessionVideo interviewId={interviewId} />
       </div>
-      <div>
-        {interviewCompleted ? (
-          <div className="border-t border-t-[#E5E7EB] bg-white py-3 text-center">
-            {reportStatus === "failed" ? (
-              <button
-                type="button"
-                onClick={generateReport}
-                className="underline"
-              >
-                리포트 생성 다시 시도
-              </button>
-            ) : (
-              <p role="status">면접 결과를 준비하고 있습니다.</p>
-            )}
-          </div>
-        ) : (
-          <SessionwForm
-            answer={answer}
-            onChange={handleAnswerChange}
-            onSubmit={handleSubmitClick}
-            disabled={
-              !sessionReady ||
-              !isIntroComplete ||
-              isTyping ||
-              isPresentingFeedback
-            }
-          />
-        )}
-      </div>
+      <SessionwForm
+        answer={answer}
+        onChange={handleAnswerChange}
+        onSubmit={handleSubmitClick}
+        disabled={
+          !sessionReady ||
+          !isIntroComplete ||
+          interviewCompleted ||
+          isTyping ||
+          isPresentingFeedback
+        }
+      />
     </div>
   );
 }

@@ -95,7 +95,11 @@ export async function generateInterviewReportAction(interviewId: number) {
     const res = await generateInterviewReport(interviewId);
     const data = res.data.data;
 
-    if (!data)
+    if (
+      !data ||
+      data.interviewId !== interviewId ||
+      !["GENERATING", "COMPLETED", "FAILED"].includes(data.status)
+    )
       return actionFailure({
         code: "INTERVIEW_FAILED",
         message: "면접 리포트 생성에 실패했습니다.",

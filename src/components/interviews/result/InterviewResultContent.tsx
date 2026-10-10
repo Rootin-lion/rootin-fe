@@ -58,33 +58,35 @@ export default function InterviewResultContent({
   }, [interviewId, setErrorContext, openModal]);
 
   return (
-    <div className="mx-auto mt-10 flex w-full max-w-5xl flex-col gap-6 rounded-xl border border-[#F0F0F0] bg-white px-21 py-11">
-      {isModalOpen && (
-        <ErrorModal
-          code={error.code}
-          message={error.message}
-          onClose={closeModal}
-        />
-      )}
+    <div className="pb-20">
+      <div className="mx-auto mt-10 flex w-full max-w-5xl flex-col gap-6 rounded-xl border border-[#F0F0F0] bg-white px-21 py-11">
+        {isModalOpen && (
+          <ErrorModal
+            code={error.code}
+            message={error.message}
+            onClose={closeModal}
+          />
+        )}
 
-      <div>
-        <h1 className="text-gradient-primary w-fit text-[30px] font-semibold">
-          AI 면접 결과
-        </h1>
-        <p className="text-body-3 text-text mt-3">
-          {interviewReport
-            ? INTERVIEW_CATEGORY_LABEL[interviewReport.category]
-            : "-"}{" "}
-          | {interviewReport?.questionCount || 0}문항 |{" "}
-          {interviewReport?.completedAt
-            ? formatDottedDate(interviewReport.completedAt)
-            : "0000.00.00"}
-        </p>
+        <div>
+          <h1 className="text-gradient-primary w-fit text-[30px] font-semibold">
+            AI 면접 결과
+          </h1>
+          <p className="text-body-3 text-text mt-3">
+            {interviewReport
+              ? INTERVIEW_CATEGORY_LABEL[interviewReport.category]
+              : "-"}{" "}
+            | {interviewReport?.questionCount || 0}문항 |{" "}
+            {interviewReport?.completedAt
+              ? formatDottedDate(interviewReport.completedAt)
+              : "0000.00.00"}
+          </p>
+        </div>
+
+        <InterviewResultOverall interviewReport={interviewReport} />
+        <InterviewResultFeedback interviewReport={interviewReport} />
+        {/* <InterviewResultProblem interviewReport={interviewReport} /> */}
       </div>
-
-      <InterviewResultOverall interviewReport={interviewReport} />
-      <InterviewResultFeedback interviewReport={interviewReport} />
-      {/* <InterviewResultProblem interviewReport={interviewReport} /> */}
     </div>
   );
 }
