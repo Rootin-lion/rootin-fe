@@ -26,8 +26,6 @@ export default function BookmarkAction({
       >
         <BookmarkIcon
           className={`h-6 w-6 shrink-0 ${isBookmarked ? "text-primary fill-primary" : "text-disabled-text"}`}
-          role="img"
-          aria-label="북마크"
         />
       </div>
     </>

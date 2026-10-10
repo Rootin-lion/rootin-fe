@@ -1,17 +1,13 @@
-export type InterviewCategoryType =
-  | "OPERATING_SYSTEM"
-  | "NETWORK"
-  | "DATABASE"
-  | "INFRA_CLOUD"
-  | "DATA_STRUCTURE_ALGORITHM"
-  | "JAVA_SPRING";
+import type { CategoryType } from "@/types/shared/category";
+
+export type InterviewCategoryType = CategoryType;
 
 export type InterviewModeType = "TEXT" | "VOICE";
 
 export type MessageType = "QUESTION" | "ANSWER";
 
 export interface InterviewConfig {
-  category: InterviewCategoryType;
+  category: CategoryType;
   questionCount: number | null;
   interviewMode: InterviewModeType;
 }
@@ -85,7 +81,7 @@ export interface InterviewReportQuestion {
 
 export interface InterviewReportState {
   interviewId: number;
-  category: InterviewCategoryType;
+  category: CategoryType;
   questionCount: number;
   completedAt: string;
   status: string;

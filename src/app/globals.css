@@ -276,6 +276,28 @@ body {
   mask-composite: exclude;
 }
 
+.dashboard-stat-gradient-border {
+  position: relative;
+}
+
+.dashboard-stat-gradient-border::before {
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(180deg, #bfdebe 0%, #7b857b 100%);
+  content: "";
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
 .interview-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #bddfbd #f0f0f0;
