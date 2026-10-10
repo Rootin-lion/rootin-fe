@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import SessionMessage from "./SessionMessage";
-import { SessionChatMessage } from "@/types/interviews/interview";
+import type { SessionChatMessage } from "@/types/interviews/interview";
 import { createIntroMessages } from "@/stores/useInterviewSessionStore";
+import SessionMessage from "./SessionMessage";
 
 type IntroStep = "FIRST" | "WAITING" | "SECOND" | "DONE";
 

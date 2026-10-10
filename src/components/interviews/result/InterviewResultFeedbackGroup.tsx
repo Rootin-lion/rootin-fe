@@ -1,4 +1,4 @@
-import { InterviewReportFeedbackItem } from "@/types/interviews/interview";
+import type { InterviewReportFeedbackItem } from "@/types/interviews/interview";
 
 type FeedbackType = "strength" | "improvement";
 

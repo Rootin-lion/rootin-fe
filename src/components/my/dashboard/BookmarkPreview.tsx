@@ -1,6 +1,7 @@
 import BookmarkIcon from "@/assets/bookmark.svg";
+import type { BookmarksState } from "@/types/my/dashboard";
+import EmptyPreview from "./EmptyPreview";
 import PreviewItem from "./PreviewItem";
-import { BookmarksState } from "@/types/my/dashboard";
 
 export default function BookmarkPreview({
   bookmarks,
@@ -24,9 +25,7 @@ export default function BookmarkPreview({
             <PreviewItem key={bookmark.problemId} item={bookmark} />
           ))
         ) : (
-          <p className="text-sub-text rounded-lg border border-[#E1E1E1] py-5 text-center text-xs font-medium">
-            북마크가 없습니다.
-          </p>
+          <EmptyPreview message="북마크가 없습니다." />
         )}
       </div>
     </div>

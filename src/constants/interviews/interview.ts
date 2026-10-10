@@ -5,7 +5,7 @@ import NetworkImg from "@/assets/interviews/network.png";
 import OsImg from "@/assets/interviews/os.png";
 import SpringImg from "@/assets/interviews/spring.png";
 import type { InterviewCategoryType } from "@/types/interviews/interview";
-import { INTERVIEW_CATEGORY_LABEL } from "@/constants/interviews/category";
+import { INTERVIEW_CATEGORY_LABEL } from "./category";
 
 export const Field_LIST: {
   id: number;

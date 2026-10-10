@@ -10,9 +10,9 @@ import {
   type ChartOptions,
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
-import { CATEGORY_LABEL } from "@/constants/shared/category";
 import type { CategoryAccuraciesState } from "@/types/my/dashboard";
 import type { CategoryType } from "@/types/shared/category";
+import { CATEGORY_LABEL } from "@/constants/shared/category";
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 

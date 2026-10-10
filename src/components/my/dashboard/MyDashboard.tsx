@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import { getMyDashboardAction } from "@/app/(service)/my/action";
 import CountIcon from "@/assets/my/dashboard/count.png";
 import DayIcon from "@/assets/my/dashboard/day.png";
 import PointIcon from "@/assets/my/dashboard/point.png";
 import RateIcon from "@/assets/my/dashboard/rate.png";
+import type { DashboardData } from "@/types/my/dashboard";
+import { getMyDashboardAction } from "@/app/(service)/my/action";
 import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
-import type { DashboardData } from "@/types/my/dashboard";
-
 import CategoryAccuracyChart from "./CategoryAccuracyChart";
 import DashboardGrass from "./DashboardGrass";
 import DashboardProblemPreview from "./DashboardProblemPreview";

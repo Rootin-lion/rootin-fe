@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import type { InterviewReportState } from "@/types/interviews/interview";
 import { INTERVIEW_CATEGORY_LABEL } from "@/constants/interviews/category";
-import { formatDottedDate } from "@/lib/shared/formatDottedDate";
-import InterviewResultFeedback from "@/components/interviews/result/InterviewResultFeedback";
-import InterviewResultOverall from "@/components/interviews/result/InterviewResultOverall";
 import { getMyInterviewReportAction } from "@/app/(service)/interviews/action";
-import useErrorModal from "@/hooks/useErrorModal";
 import ErrorModal from "@/components/shared/ErrorModal";
+import useErrorModal from "@/hooks/useErrorModal";
+import { formatDottedDate } from "@/lib/shared/formatDottedDate";
+import InterviewResultFeedback from "./InterviewResultFeedback";
+import InterviewResultOverall from "./InterviewResultOverall";
 // import InterviewResultProblem from "./InterviewResultProblem";
 
 export default function InterviewResultContent({

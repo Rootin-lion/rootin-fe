@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
-import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
 import type { AuthSession } from "@/types/oauth/oauth";
+import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
 import MyContent from "@/components/my/MyContent";
 
 export default async function MyPage() {

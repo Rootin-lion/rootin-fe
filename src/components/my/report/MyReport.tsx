@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { getMyReportsAction } from "@/app/(service)/my/action";
 import PageIcon from "@/assets/my/report/page.png";
+import type { MyReportsPage } from "@/types/my/report";
+import { getMyReportsAction } from "@/app/(service)/my/action";
 import BarPagination from "@/components/shared/BarPagination";
 import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
-import type { MyReportsPage } from "@/types/my/report";
 import ReportItem from "./ReportItem";
 
 export default function MyReport() {

@@ -1,4 +1,4 @@
-import { BookmarksState, WrongAnswersState } from "@/types/my/dashboard";
+import type { BookmarksState, WrongAnswersState } from "@/types/my/dashboard";
 import BookmarkPreview from "./BookmarkPreview";
 import ReviewPreview from "./ReviewPreview";
 

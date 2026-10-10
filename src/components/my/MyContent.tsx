@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AuthMember } from "@/types/oauth/oauth";
+import type { AuthMember } from "@/types/oauth/oauth";
 import MySidebar from "./MySidebar";
 import MyDashboard from "./dashboard/MyDashboard";
 import ProfileBanner from "./ProfileBanner";

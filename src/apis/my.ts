@@ -1,5 +1,5 @@
-import { apiClient } from "./client";
 import type { MyReportsPage } from "@/types/my/report";
+import { apiClient } from "./client";
 
 // 대시보드
 export const getMyDashboard = async () => {

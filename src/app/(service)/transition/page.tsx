@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import InterviewReportLoading from "@/components/interviews/result/InterviewReportLoading";
 
 export const metadata: Metadata = {

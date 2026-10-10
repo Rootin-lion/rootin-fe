@@ -1,6 +1,7 @@
 import ReviewIcon from "@/assets/review.svg";
+import type { WrongAnswersState } from "@/types/my/dashboard";
+import EmptyPreview from "./EmptyPreview";
 import PreviewItem from "./PreviewItem";
-import { WrongAnswersState } from "@/types/my/dashboard";
 
 export default function ReviewPreview({
   reviews,
@@ -19,15 +20,17 @@ export default function ReviewPreview({
         </p>
       </div>
       <div className="mt-3 flex flex-col gap-3">
-        {reviews.length > 0
-          ? reviews.map((review) => (
-              <PreviewItem
-                key={review.competitionProblemId}
-                type="review"
-                item={review}
-              />
-            ))
-          : "오답 노트가 없습니다."}
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <PreviewItem
+              key={review.competitionProblemId}
+              type="review"
+              item={review}
+            />
+          ))
+        ) : (
+          <EmptyPreview message="오답 노트가 없습니다." />
+        )}
       </div>
     </div>
   );

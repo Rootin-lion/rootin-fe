@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@/assets/my/dashboard/chevron-right.svg";
-import { CATEGORY_LABEL } from "@/constants/shared/category";
 import type { BookmarksState, WrongAnswersState } from "@/types/my/dashboard";
 import type { CategoryType } from "@/types/shared/category";
+import { CATEGORY_LABEL } from "@/constants/shared/category";
 
 export default function PreviewItem({
   type = "bookmark",

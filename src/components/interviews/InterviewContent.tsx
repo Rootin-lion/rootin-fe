@@ -1,21 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type {
   InterviewConfig,
   InterviewCategoryType,
   InterviewModeType,
 } from "@/types/interviews/interview";
-import InterviewPreview from "@/components/interviews/InterviewPreview";
-import InterviewSetup from "@/components/interviews/InterviewSetup";
-import Button from "@/components/shared/Button";
-import ModalWrapper from "@/components/shared/ModalWrapper";
-import useModal from "@/hooks/useModal";
-import { useInterviewMedia } from "./InterviewMediaProvider";
 import { createInterviewAction } from "@/app/(service)/interviews/action";
+import Button from "@/components/shared/Button";
+import ErrorModal from "@/components/shared/ErrorModal";
+import ModalWrapper from "@/components/shared/ModalWrapper";
 import useErrorModal from "@/hooks/useErrorModal";
-import ErrorModal from "../shared/ErrorModal";
+import useModal from "@/hooks/useModal";
+import InterviewPreview from "./InterviewPreview";
+import InterviewSetup from "./InterviewSetup";
+import { useInterviewMedia } from "./InterviewMediaProvider";
 
 export default function InterviewContent() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import type { ReactNode } from "react";
 import SuccessCharacterImage from "@/assets/success_char.png";
+import type { ReactNode } from "react";
 
 export default function TransitionScreen({
   title,

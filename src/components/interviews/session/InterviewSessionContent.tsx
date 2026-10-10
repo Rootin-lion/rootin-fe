@@ -1,28 +1,28 @@
 "use client";
 
 import {
-  getInterviewQuestionAction,
-  submitInterviewAnswerAction,
-} from "@/app/(service)/interviews/action";
-import { useRouter } from "next/navigation";
-import { useInterviewMedia } from "@/components/interviews/InterviewMediaProvider";
-import SessionChat from "@/components/interviews/session/SessionChat";
-import SessionwForm from "@/components/interviews/session/SessionForm";
-import SessionVideo from "@/components/interviews/session/SessionVideo";
-import ErrorModal from "@/components/shared/ErrorModal";
-import useErrorModal from "@/hooks/useErrorModal";
-import {
-  EMPTY_INTERVIEW_SESSION,
-  useInterviewSessionStore,
-} from "@/stores/useInterviewSessionStore";
-import { SessionChatMessage } from "@/types/interviews/interview";
-import {
   useCallback,
   useEffect,
   useRef,
   useState,
   useSyncExternalStore,
 } from "react";
+import { useRouter } from "next/navigation";
+import type { SessionChatMessage } from "@/types/interviews/interview";
+import {
+  getInterviewQuestionAction,
+  submitInterviewAnswerAction,
+} from "@/app/(service)/interviews/action";
+import { useInterviewMedia } from "@/components/interviews/InterviewMediaProvider";
+import ErrorModal from "@/components/shared/ErrorModal";
+import useErrorModal from "@/hooks/useErrorModal";
+import {
+  EMPTY_INTERVIEW_SESSION,
+  useInterviewSessionStore,
+} from "@/stores/useInterviewSessionStore";
+import SessionChat from "./SessionChat";
+import SessionwForm from "./SessionForm";
+import SessionVideo from "./SessionVideo";
 
 const subscribeToHydration = () => () => {};
 const getClientSnapshot = () => true;

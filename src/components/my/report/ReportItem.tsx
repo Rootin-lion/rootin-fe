@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import ChartIcon from "@/assets/my/report/chart.png";
 import ChevronRightIcon from "@/assets/my/dashboard/chevron-right.svg";
+import ChartIcon from "@/assets/my/report/chart.png";
+import type { MyReportSummary } from "@/types/my/report";
 import { CATEGORY_LABEL } from "@/constants/shared/category";
 import { formatDottedDate } from "@/lib/shared/formatDottedDate";
-import type { MyReportSummary } from "@/types/my/report";
 
 export default function ReportItem({ report }: { report: MyReportSummary }) {
   return (
