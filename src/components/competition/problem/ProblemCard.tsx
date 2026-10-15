@@ -69,7 +69,11 @@ export default function ProblemCard({
 
   const problemId = currentProblem?.problemId;
   const isBookmarked =
-    problemId !== undefined && (bookmarkedByProblemId[problemId] ?? false);
+    problemId !== undefined &&
+    (bookmarkedByProblemId[problemId] ??
+      (currentProblem && "bookmarked" in currentProblem
+        ? currentProblem.bookmarked
+        : false));
   const isWrongResult =
     variant === "result" &&
     currentProblem != null &&
@@ -157,8 +161,7 @@ export default function ProblemCard({
         <h1
           className={`text-[18px] font-semibold ${!isWrongResult ? "text-black" : "text-error"}`}
         >
-          {variant === "result" && currentProblem?.problemOrder}.{" "}
-          {currentProblem?.problemContent}
+          {currentProblem?.problemOrder}. {currentProblem?.problemContent}
         </h1>
         {showBookmark && (
           <BookmarkAction

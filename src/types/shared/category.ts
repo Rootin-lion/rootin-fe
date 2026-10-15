@@ -1,0 +1,7 @@
+export type CategoryType =
+  | "OPERATING_SYSTEM"
+  | "NETWORK"
+  | "DATABASE"
+  | "INFRA_CLOUD"
+  | "DATA_STRUCTURE_ALGORITHM"
+  | "JAVA_SPRING";

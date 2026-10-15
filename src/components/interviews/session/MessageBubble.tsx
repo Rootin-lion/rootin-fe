@@ -48,11 +48,13 @@ export default function MessageBubble({
   type = "QUESTION",
   text,
   loading = false,
+  animate = true,
   onTextAnimationComplete,
 }: {
   type: MessageType;
   text: string;
   loading: boolean;
+  animate?: boolean;
   onTextAnimationComplete?: () => void;
 }) {
   return (
@@ -60,13 +62,18 @@ export default function MessageBubble({
       className={`${MESSAGE_STYLES[type]} left-6 border px-4 py-3 text-[14px] font-normal whitespace-pre-wrap text-[#1A1A1A] ${loading ? "flex h-15 w-20 justify-center" : ""}`}
     >
       {loading ? (
-        <span className="flex items-center gap-2" aria-hidden="true">
-          {/* shadow-[0_3px_4px_rgba(81,160,92,0.35)] */}
-          <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full [animation-delay:-300ms] motion-reduce:animate-none" />
-          <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full [animation-delay:-150ms] motion-reduce:animate-none" />
-          <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full motion-reduce:animate-none" />
-        </span>
-      ) : type === "QUESTION" ? (
+        <>
+          <span className="sr-only" role="status">
+            답변을 준비하고 있습니다.
+          </span>
+          <span className="flex items-center gap-2" aria-hidden="true">
+            {/* shadow-[0_3px_4px_rgba(81,160,92,0.35)] */}
+            <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full [animation-delay:-300ms] motion-reduce:animate-none" />
+            <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full [animation-delay:-150ms] motion-reduce:animate-none" />
+            <span className="bg-primary animate-typing-bounce h-1.75 w-1.75 rounded-full motion-reduce:animate-none" />
+          </span>
+        </>
+      ) : type === "QUESTION" && animate ? (
         <AnimatedAiText
           key={text}
           text={text}

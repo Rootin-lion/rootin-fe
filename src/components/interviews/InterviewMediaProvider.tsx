@@ -25,6 +25,8 @@ export function InterviewMediaProvider({
   children: React.ReactNode;
 }) {
   const streamRef = useRef<MediaStream | null>(null);
+  const pendingStartRef = useRef<Promise<void> | null>(null);
+  const mountedRef = useRef(true);
   const [stream, setStream] = useState<MediaStream | null>(null);
 
   const startCamera = useCallback(async () => {
@@ -36,13 +38,28 @@ export function InterviewMediaProvider({
       return;
     }
 
-    const cameraStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: false,
-    });
+    if (pendingStartRef.current) return pendingStartRef.current;
 
-    streamRef.current = cameraStream;
-    setStream(cameraStream);
+    const pendingStart = navigator.mediaDevices
+      .getUserMedia({ video: true, audio: false })
+      .then((cameraStream) => {
+        if (!mountedRef.current) {
+          cameraStream.getTracks().forEach((track) => track.stop());
+          return;
+        }
+
+        streamRef.current = cameraStream;
+        setStream(cameraStream);
+      });
+
+    pendingStartRef.current = pendingStart;
+    try {
+      await pendingStart;
+    } finally {
+      if (pendingStartRef.current === pendingStart) {
+        pendingStartRef.current = null;
+      }
+    }
   }, []);
 
   const stopCamera = useCallback(() => {
@@ -52,7 +69,9 @@ export function InterviewMediaProvider({
   }, []);
 
   useEffect(() => {
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       streamRef.current?.getTracks().forEach((track) => track.stop());
     };
   }, []);

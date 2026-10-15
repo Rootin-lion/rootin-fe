@@ -1,26 +1,27 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type {
   InterviewConfig,
   InterviewCategoryType,
   InterviewModeType,
 } from "@/types/interviews/interview";
-import InterviewPreview from "@/components/interviews/InterviewPreview";
-import InterviewSetup from "@/components/interviews/InterviewSetup";
-import Button from "@/components/shared/Button";
-import ModalWrapper from "@/components/shared/ModalWrapper";
-import useModal from "@/hooks/useModal";
-import { useInterviewMedia } from "./InterviewMediaProvider";
 import { createInterviewAction } from "@/app/(service)/interviews/action";
+import Button from "@/components/shared/Button";
+import ErrorModal from "@/components/shared/ErrorModal";
+import ModalWrapper from "@/components/shared/ModalWrapper";
 import useErrorModal from "@/hooks/useErrorModal";
-import ErrorModal from "../shared/ErrorModal";
+import useModal from "@/hooks/useModal";
+import InterviewPreview from "./InterviewPreview";
+import InterviewSetup from "./InterviewSetup";
+import { useInterviewMedia } from "./InterviewMediaProvider";
 
 export default function InterviewContent() {
   const router = useRouter();
   const { startCamera, stopCamera } = useInterviewMedia();
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const [isStarting, setIsStarting] = useState(false);
   const {
     error,
     setErrorContext,
@@ -31,7 +32,7 @@ export default function InterviewContent() {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [config, setConfig] = useState<InterviewConfig>({
     category: "OPERATING_SYSTEM",
-    questionCount: null,
+    questionCount: 1,
     interviewMode: "TEXT",
   });
 
@@ -40,8 +41,6 @@ export default function InterviewContent() {
   };
 
   const handleQuestionCountChange = (questionCount: null | number) => {
-    if (questionCount === null) return;
-
     setConfig((prev) => ({ ...prev, questionCount }));
   };
 
@@ -49,20 +48,27 @@ export default function InterviewContent() {
     setConfig((prev) => ({ ...prev, interviewMode }));
   };
 
-  const createInterview = async () => {
+  const createInterview = async (questionCount: number) => {
     try {
-      const res = await createInterviewAction(config);
+      const res = await createInterviewAction({ ...config, questionCount });
 
       if (!res.ok) {
         setErrorContext(res.error);
         stopCamera();
         setCameraError(null);
+        setIsStarting(false);
         openErrorModal();
 
         return;
       }
       const interviewId = res.data.interviewId;
-      router.push(`/interviews/${interviewId}`);
+
+      const query = new URLSearchParams({
+        category: config.category,
+        questionCount: String(questionCount),
+      });
+
+      router.push(`/interviews/${interviewId}?${query.toString()}`);
     } catch {
       setErrorContext({
         code: "UNKNOWN_ERROR",
@@ -70,18 +76,33 @@ export default function InterviewContent() {
       });
       stopCamera();
       setCameraError(null);
+      setIsStarting(false);
       openErrorModal();
     }
   };
 
   const handleStart = async () => {
+    if (isStarting) return;
+
+    const questionCount = config.questionCount;
+    if (
+      questionCount === null ||
+      !Number.isInteger(questionCount) ||
+      questionCount < 1 ||
+      questionCount > 5
+    ) {
+      return;
+    }
+
     setCameraError(null);
+    setIsStarting(true);
 
     try {
       await startCamera();
-      await createInterview();
+      await createInterview(questionCount);
     } catch {
       setCameraError("카메라 권한과 연결된 장치를 확인해주세요.");
+      setIsStarting(false);
     }
   };
 
@@ -96,7 +117,11 @@ export default function InterviewContent() {
       )}
 
       {isModalOpen && (
-        <ModalWrapper onClose={closeModal}>
+        <ModalWrapper
+          onClose={() => {
+            if (!isStarting) closeModal();
+          }}
+        >
           <ModalWrapper.Box>
             <ModalWrapper.Title>면접을 시작하시겠습니까?</ModalWrapper.Title>
           </ModalWrapper.Box>
@@ -115,9 +140,27 @@ export default function InterviewContent() {
           </ModalWrapper.Notice>
           <ModalWrapper.Box>
             <div className="flex flex-row gap-6">
-              <Button onClick={closeModal}>취소</Button>
-              <Button isActive={true} onClick={handleStart}>
-                시작하기
+              <Button onClick={closeModal} disabled={isStarting}>
+                취소
+              </Button>
+              <Button
+                isActive={true}
+                onClick={handleStart}
+                disabled={isStarting}
+              >
+                <span className="flex items-center justify-center">
+                  {isStarting ? (
+                    <>
+                      <span
+                        aria-hidden="true"
+                        className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+                      />
+                      <span className="sr-only">면접 시작 중</span>
+                    </>
+                  ) : (
+                    "시작하기"
+                  )}
+                </span>
               </Button>
             </div>
           </ModalWrapper.Box>

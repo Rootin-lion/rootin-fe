@@ -1,18 +1,14 @@
-export type InterviewCategoryType =
-  | "OPERATING_SYSTEM"
-  | "NETWORK"
-  | "DATABASE"
-  | "INFRA_CLOUD"
-  | "DATA_STRUCTURE_ALGORITHM"
-  | "JAVA_SPRING";
+import type { CategoryType } from "@/types/shared/category";
+
+export type InterviewCategoryType = CategoryType;
 
 export type InterviewModeType = "TEXT" | "VOICE";
 
 export type MessageType = "QUESTION" | "ANSWER";
 
 export interface InterviewConfig {
-  category: InterviewCategoryType;
-  questionCount: null | number;
+  category: CategoryType;
+  questionCount: number | null;
   interviewMode: InterviewModeType;
 }
 
@@ -30,7 +26,28 @@ export interface QuestionState {
   question: string;
 }
 
+export interface InterviewAnswerResult {
+  topicCompleted: boolean;
+  interviewCompleted: boolean;
+  answerLevel: string;
+  accuracy: number;
+  feedback: string;
+  nextQuestion: QuestionState | null;
+}
+
+export type InterviewReportStatus = "GENERATING" | "COMPLETED" | "FAILED";
+
+export interface InterviewReportGenerationState {
+  interviewId: number;
+  status: InterviewReportStatus;
+}
+
 export type SessionChatMessage =
+  | {
+      id: "intro-camera" | "intro-start";
+      kind: "INTRO";
+      text: string;
+    }
   | {
       id: string;
       kind: "QUESTION";
@@ -39,7 +56,17 @@ export type SessionChatMessage =
   | {
       id: string;
       kind: "ANSWER";
-      questionId: number;
+      questionId?: number;
+      text: string;
+    }
+  | {
+      id: string;
+      kind: "FEEDBACK";
+      text: string;
+    }
+  | {
+      id: "interview-complete";
+      kind: "COMPLETION";
       text: string;
     };
 
@@ -61,7 +88,7 @@ export interface InterviewReportQuestion {
 
 export interface InterviewReportState {
   interviewId: number;
-  category: InterviewCategoryType;
+  category: CategoryType;
   questionCount: number;
   completedAt: string;
   status: string;

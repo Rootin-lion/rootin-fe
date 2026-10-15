@@ -1,5 +1,5 @@
+import type { Metadata } from "next";
 import InterviewResultContent from "@/components/interviews/result/InterviewResultContent";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "AI 면접 결과 | ROOTIN",

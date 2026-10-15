@@ -66,10 +66,18 @@ export async function submitInterviewAnswerAction(
     const res = await submitInterviewAnswer(interviewId, payload);
     const data = res.data.data;
 
-    if (!data)
+    if (
+      !data ||
+      typeof data.feedback !== "string" ||
+      typeof data.interviewCompleted !== "boolean" ||
+      (!data.interviewCompleted && !data.nextQuestion) ||
+      (data.nextQuestion != null &&
+        (typeof data.nextQuestion.questionId !== "number" ||
+          typeof data.nextQuestion.question !== "string"))
+    )
       return actionFailure({
         code: "INTERVIEW_FAILED",
-        message: "답변 제출에 실패했습니다.",
+        message: "답변 결과를 확인할 수 없습니다.",
       });
 
     return {
@@ -87,7 +95,11 @@ export async function generateInterviewReportAction(interviewId: number) {
     const res = await generateInterviewReport(interviewId);
     const data = res.data.data;
 
-    if (!data)
+    if (
+      !data ||
+      data.interviewId !== interviewId ||
+      !["GENERATING", "COMPLETED", "FAILED"].includes(data.status)
+    )
       return actionFailure({
         code: "INTERVIEW_FAILED",
         message: "면접 리포트 생성에 실패했습니다.",

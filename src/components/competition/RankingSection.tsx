@@ -77,10 +77,10 @@ export default function RankingSection({
           <RankingBox>
             <RankingCircle type="Silver" img={second?.imgUrl ?? null} />
             <p className="mt-4 text-[20px] font-semibold">
-              {second?.nickname ?? "아직 없음"}
+              {second?.nickname ?? "-"}
             </p>
             <p className="text-[16px] font-semibold">
-              {second ? `${second.score}점` : "-"}
+              {second ? `${second.score}` : "0"}점
             </p>
           </RankingBox>
           <RankingConnector />
@@ -93,10 +93,10 @@ export default function RankingSection({
               <RankingBox>
                 <RankingCircle type="Gold" img={first?.imgUrl ?? null} />
                 <p className="mt-4 text-[20px] font-semibold">
-                  {first?.nickname ?? "아직 없음"}
+                  {first?.nickname ?? "-"}
                 </p>
                 <p className="text-[16px] font-semibold">
-                  {first ? `${first.score}점` : "-"}
+                  {first ? `${first.score}` : "0"}점
                 </p>
               </RankingBox>
             </div>
@@ -106,10 +106,10 @@ export default function RankingSection({
           <RankingBox>
             <RankingCircle type="Dong" img={third?.imgUrl ?? null} />
             <p className="mt-4 text-[20px] font-semibold">
-              {third?.nickname ?? "아직 없음"}
+              {third?.nickname ?? "-"}
             </p>
             <p className="text-[16px] font-semibold">
-              {third ? `${third.score}점` : "-"}
+              {third ? `${third.score}` : "0"}점
             </p>
           </RankingBox>
         </div>

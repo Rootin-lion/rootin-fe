@@ -9,7 +9,7 @@ import type { AuthMember } from "@/types/oauth/oauth";
 const NavItems = [
   { id: 1, content: "CS 대회", to: "/competitions" },
   { id: 2, content: "AI 면접", to: "/interviews" },
-  { id: 3, content: "마이 페이지", to: "/#" },
+  { id: 3, content: "마이 페이지", to: "/my" },
 ];
 
 const NavItem = ({ content, to }: { content: string; to: string }) => {

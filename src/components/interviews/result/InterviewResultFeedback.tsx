@@ -1,4 +1,4 @@
-import { InterviewReportState } from "@/types/interviews/interview";
+import type { InterviewReportState } from "@/types/interviews/interview";
 import InterviewResultFeedbackGroup from "./InterviewResultFeedbackGroup";
 
 export default function InterviewResultFeedback({

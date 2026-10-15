@@ -10,9 +10,16 @@ export default function InterviewCount({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (value === "") return;
+    if (value === "") {
+      onChange(null);
 
-    onChange(Number(value));
+      return;
+    }
+
+    const count = Number(value);
+    if (!Number.isInteger(count) || count < 1 || count > 5) return;
+
+    onChange(count);
   };
 
   return (
@@ -22,10 +29,10 @@ export default function InterviewCount({
         type="number"
         min={1}
         max={5}
-        placeholder="0"
+        placeholder="1 ~ 5"
         value={questionCount ?? ""}
         onChange={handleChange}
-        className="text-text w-full rounded-lg border border-[#E1E1E1] bg-white px-4 py-3 text-[14px] font-normal"
+        className="text-text focus:border-primary focus:ring-primary border-primary-300 w-full rounded-lg border-2 px-4 py-3 text-[14px] font-normal focus:ring-1 focus:outline-none"
       />
       <p className="text-caption text-disabled-text ml-2">1 ~ 5개 선택 가능</p>
     </div>

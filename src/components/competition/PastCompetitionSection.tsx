@@ -4,27 +4,11 @@ import { useEffect, useState } from "react";
 import type { ContestResultsState } from "@/types/competitions/competition";
 import { getPastCompetitionAction } from "@/app/(service)/competitions/action";
 import BoxWrapper from "@/components/competition/shared/BoxWrapper";
+import BarPagination from "@/components/shared/BarPagination";
 import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
 import ContestResultCard from "./CompetitionResultCard";
 import SectionTitle from "./shared/SectionTitle";
-
-const Bar = ({
-  isActive,
-  onClick,
-}: {
-  isActive?: boolean;
-  onClick: () => void;
-}) => {
-  const wdtStyle = isActive ? "w-8" : "w-5";
-  const bgStyle = isActive ? "bg-primary" : "bg-[#D9D9D9]";
-  return (
-    <div
-      className={`h-2 w-5 rounded-lg ${wdtStyle} ${bgStyle} cursor-pointer`}
-      onClick={onClick}
-    />
-  );
-};
 
 export default function PastCompetitionSection() {
   // 과거 대회 상태
@@ -108,23 +92,12 @@ export default function PastCompetitionSection() {
         </div>
 
         {/* 페이지네이션 */}
-        <div className="mt-9 flex justify-center gap-2">
-          {pages === 0 ? (
-            ""
-          ) : (
-            <>
-              {Array.from({ length: pages }, (_, index) => (
-                <Bar
-                  key={index}
-                  isActive={index === currentPage}
-                  onClick={() => {
-                    setCurrentPage(index);
-                  }}
-                />
-              ))}
-            </>
-          )}
-        </div>
+        <BarPagination
+          currentPage={currentPage + 1}
+          totalPages={pages}
+          onPageChange={(page) => setCurrentPage(page - 1)}
+          className="mt-9"
+        />
       </div>
     </BoxWrapper>
   );

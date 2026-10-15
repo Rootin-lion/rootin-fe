@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function InterviewPage() {
-  return <InterviewContent />;
+  return (
+    <div className="pb-30">
+      <InterviewContent />
+    </div>
+  );
 }
