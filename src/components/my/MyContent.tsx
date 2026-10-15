@@ -6,6 +6,7 @@ import MySidebar from "./MySidebar";
 import MyDashboard from "./dashboard/MyDashboard";
 import ProfileBanner from "./ProfileBanner";
 import MyReport from "./report/MyReport";
+import MyBookmark from "./bookmark/MyBookmark";
 
 export default function MyContent({
   member,
@@ -30,6 +31,7 @@ export default function MyContent({
         <div className="flex w-full flex-col gap-6">
           <ProfileBanner member={member} today={today} />
           {selectedSection === "dashboard" && <MyDashboard today={today} />}
+          {selectedSection === "bookmark" && <MyBookmark />}
           {selectedSection === "interview" && <MyReport />}
         </div>
       </div>
