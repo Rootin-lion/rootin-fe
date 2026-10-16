@@ -1,4 +1,4 @@
-import BookmarkIcon from "@/assets/bookmark.svg";
+import BookmarkIcon from "@/assets/icon/shared/bookmark.svg";
 import type { BookmarksState } from "@/types/my/dashboard";
 import EmptyPreview from "./EmptyPreview";
 import PreviewItem from "./PreviewItem";

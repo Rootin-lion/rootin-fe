@@ -7,6 +7,7 @@ import MyDashboard from "./dashboard/MyDashboard";
 import ProfileBanner from "./ProfileBanner";
 import MyReport from "./report/MyReport";
 import MyBookmark from "./bookmark/MyBookmark";
+import MyReview from "./review/MyReview";
 
 export default function MyContent({
   member,
@@ -32,6 +33,7 @@ export default function MyContent({
           <ProfileBanner member={member} today={today} />
           {selectedSection === "dashboard" && <MyDashboard today={today} />}
           {selectedSection === "bookmark" && <MyBookmark />}
+          {selectedSection === "review" && <MyReview />}
           {selectedSection === "interview" && <MyReport />}
         </div>
       </div>

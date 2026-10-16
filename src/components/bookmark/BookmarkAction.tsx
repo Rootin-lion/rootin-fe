@@ -1,6 +1,6 @@
 "use client";
 
-import BookmarkIcon from "@/assets/bookmark.svg";
+import BookmarkIcon from "@/assets/icon/shared/bookmark.svg";
 import useModal from "@/hooks/useModal";
 import BookmarkModal from "./BookmarkModal";
 

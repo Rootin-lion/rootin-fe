@@ -1,7 +1,7 @@
 const NavItems = [
   { id: 1, title: "대시보드", value: "dashboard" },
   { id: 2, title: "북마크", value: "bookmark" },
-  { id: 3, title: "오답노트", value: "reviewnote" },
+  { id: 3, title: "오답노트", value: "review" },
   { id: 4, title: "면접 리포트", value: "interview" },
   { id: 5, title: "설정", value: "option" },
 ];
