@@ -1,5 +1,4 @@
-import NextIcon from "@/assets/ranking/next.svg";
-import PrevIcon from "@/assets/ranking/prev.svg";
+import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 
 const PageNumberButton = ({
   pageIndex,
@@ -77,7 +76,12 @@ export default function RankingPagination({
         className="flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border border-[#E1E1E1] disabled:cursor-default disabled:opacity-40"
         onClick={() => onClick(currentPage - 1)}
       >
-        <PrevIcon aria-hidden="true" />
+        <ChevronIcon
+          strokeWidth={1}
+          strokeLinecap="butt"
+          strokeLinejoin="miter"
+          className="h-3.5 w-2.5 rotate-180 text-[#9CA3AF]"
+        />
       </button>
       <div className="flex flex-row items-center justify-between gap-6">
         {showFirstPage && (
@@ -128,7 +132,12 @@ export default function RankingPagination({
         className="flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border border-[#E1E1E1] disabled:cursor-default disabled:opacity-40"
         onClick={() => onClick(currentPage + 1)}
       >
-        <NextIcon aria-hidden="true" />
+        <ChevronIcon
+          strokeWidth={1}
+          strokeLinecap="butt"
+          strokeLinejoin="miter"
+          className="h-3.5 w-2.5 text-black"
+        />
       </button>
     </div>
   );

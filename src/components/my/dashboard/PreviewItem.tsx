@@ -1,4 +1,4 @@
-import ChevronRightIcon from "@/assets/my/dashboard/chevron-right.svg";
+import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 import type { BookmarksState, WrongAnswersState } from "@/types/my/dashboard";
 import type { CategoryType } from "@/types/shared/category";
 import { CATEGORY_LABEL } from "@/constants/shared/category";
@@ -20,7 +20,10 @@ export default function PreviewItem({
         </div>
         <p className="text-[10px] font-medium text-black">{item?.title}</p>
       </div>
-      <ChevronRightIcon className="text-text ml-2 h-3 w-2.5 shrink-0" />
+      <ChevronIcon
+        strokeWidth={2.5}
+        className="text-text ml-2 h-3 w-2.5 shrink-0"
+      />
     </div>
   );
 }

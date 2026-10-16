@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ChevronRightIcon from "@/assets/my/dashboard/chevron-right.svg";
+import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 import ChartIcon from "@/assets/my/report/chart.png";
 import type { MyReportSummary } from "@/types/my/report";
 import { CATEGORY_LABEL } from "@/constants/shared/category";
@@ -37,7 +37,7 @@ export default function ReportItem({ report }: { report: MyReportSummary }) {
         href={`/interviews/${report.interviewId}/result`}
         className="flex h-8 w-8 shrink-0 items-center justify-center text-[#999999]"
       >
-        <ChevronRightIcon className="h-4 w-2.5" />
+        <ChevronIcon strokeWidth={2.5} className="h-4 w-2.5" />
       </Link>
     </div>
   );

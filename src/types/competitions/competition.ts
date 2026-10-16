@@ -79,6 +79,8 @@ export interface CompetitionResultState {
   correctCount: number;
   totalCount: number;
   solvingTimeSeconds: number;
+  myRank: number;
+  rankChange: number;
   problemResults: ProblemResult[];
   strongCategories: string[];
   weakCategories: string[];
