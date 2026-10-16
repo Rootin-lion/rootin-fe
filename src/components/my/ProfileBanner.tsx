@@ -16,7 +16,7 @@ export default function ProfileBanner({
     typeof member?.imgUrl === "string" ? member.imgUrl.trim() : "";
 
   return (
-    <div className="relative flex w-full max-w-213 flex-row justify-between rounded-xl bg-[radial-gradient(100%_100%_at_0%_50%,#EEF3E7_0%,#E4EFE0_50%,#DAEBD9_100%)] px-8 py-6">
+    <div className="relative flex w-full max-w-216 flex-row justify-between rounded-xl bg-[radial-gradient(100%_100%_at_0%_50%,#EEF3E7_0%,#E4EFE0_50%,#DAEBD9_100%)] px-8 py-6">
       <div className="flex flex-row items-center gap-3">
         {profileImageUrl ? (
           <Image
@@ -46,7 +46,7 @@ export default function ProfileBanner({
         </div>
       </div>
 
-      <div className="-after:right-8 absolute right-40 rounded-[30px] bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_0%,#EAF3E8_100%)] px-9 py-4 text-[12px] leading-5 font-medium whitespace-pre-wrap text-[#4D4D4D] after:pointer-events-none after:absolute after:bottom-4 after:h-10 after:w-14 after:bg-[#EAF3E8] after:content-[''] after:[clip-path:polygon(0_0,100%_75%,0_100%)]">
+      <div className="-after:right-8 absolute right-40 translate-y-2 rounded-[30px] bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_0%,#EAF3E8_100%)] px-9 py-4 text-[12px] leading-5 font-medium whitespace-pre-wrap text-[#4D4D4D] after:pointer-events-none after:absolute after:bottom-4 after:h-10 after:w-14 after:bg-[#EAF3E8] after:content-[''] after:[clip-path:polygon(0_0,100%_75%,0_100%)]">
         작은 성장이 모여{"\n"} 큰 실력이 됩니다.
       </div>
       <div>
