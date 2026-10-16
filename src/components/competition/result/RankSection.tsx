@@ -1,6 +1,6 @@
 import Image from "next/image";
-import UpIcon from "@/assets/competitions/result/up.png";
-// import DownIcon from "@/assets/competitions/result/down.png";
+import UpIcon from "@/assets/icon/competitions/result/rank-up.png";
+// import DownIcon from "@/assets/icon/competitions/result/rank-down.png";
 import SectionTitle from "./SectionTitle";
 import SelectedNumber from "./SelectedNumber";
 

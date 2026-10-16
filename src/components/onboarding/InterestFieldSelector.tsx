@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 import OptionButton from "@/components/shared/OptionButton";
 
 type InterestFieldOption = {
@@ -53,20 +54,10 @@ export default function InterestFieldSelector({
             {value && value.length > 0 ? selectedLabelsText : message}
           </span>
 
-          <svg
-            className={`text-primary h-4 w-4 transition-transform ${isOpen ? "rotate-180" : "180"}`}
-            viewBox="0 0 20 20"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M5 12.5L10 7.5L15 12.5"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <ChevronIcon
+            strokeWidth={1.5}
+            className={`text-primary h-2.5 w-1.5 transition-transform ${isOpen ? "rotate-90" : "-rotate-90"}`}
+          />
         </button>
         {isOpen && (
           <div className="p-3">

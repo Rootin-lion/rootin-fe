@@ -9,7 +9,7 @@ import useErrorModal from "@/hooks/useErrorModal";
 import { formatDottedDate } from "@/lib/shared/formatDottedDate";
 import InterviewResultFeedback from "./InterviewResultFeedback";
 import InterviewResultOverall from "./InterviewResultOverall";
-// import InterviewResultProblem from "./InterviewResultProblem";
+import InterviewResultProblem from "./InterviewResultProblem";
 
 export default function InterviewResultContent({
   interviewId,
@@ -85,7 +85,7 @@ export default function InterviewResultContent({
 
         <InterviewResultOverall interviewReport={interviewReport} />
         <InterviewResultFeedback interviewReport={interviewReport} />
-        {/* <InterviewResultProblem interviewReport={interviewReport} /> */}
+        <InterviewResultProblem questions={interviewReport.questions} />
       </div>
     </div>
   );

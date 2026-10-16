@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ArrowIcon from "@/assets/main/arrow.svg";
+import ArrowIcon from "@/assets/icon/main/arrow.svg";
 import type { FeatureData } from "@/types/main/featureItem";
 
 interface FeatureCardProps {

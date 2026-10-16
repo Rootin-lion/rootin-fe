@@ -1,5 +1,6 @@
 import Image from "next/image";
 import FeedbackImg from "@/assets/main/feedback.png";
+import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 
 const FeedbackBox = ({ text, angle }: { text: string; angle: number }) => {
   return (
@@ -28,19 +29,7 @@ function OrbitArrow({ angle }: { angle: number }) {
       style={{ transform: `rotate(${angle}deg)` }}
       aria-hidden="true"
     >
-      <svg
-        className="absolute top-0 left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 overflow-visible"
-        viewBox="0 0 16 16"
-        fill="none"
-      >
-        <path
-          d="M4 2.5 9.5 8 4 13.5"
-          stroke="#36723E"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <ChevronIcon className="text-primary-900 absolute top-0 left-1/2 h-3.5 w-2 -translate-x-1/2 -translate-y-1/2 overflow-visible" />
     </div>
   );
 }
