@@ -44,7 +44,7 @@ export default function ResultSummarySide({
         {competitionWeekday && ` (${competitionWeekday})`}
       </p>
       <ScoreSection competitionResult={competitionResult} />
-      <RankSection />
+      <RankSection competitionResult={competitionResult} />
       <PrimaryDarkButton
         className="mt-4 py-2 text-center text-[12px]"
         onClick={() => router.push(`/competitions/${competitionId}/ranking`)}

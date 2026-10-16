@@ -23,6 +23,8 @@ export default function ProblemResultContent({
       correctCount: 0,
       totalCount: 0,
       solvingTimeSeconds: 0,
+      myRank: 0,
+      rankChange: 0,
       problemResults: [],
       strongCategories: [],
       weakCategories: [],
