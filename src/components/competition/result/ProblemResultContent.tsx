@@ -58,7 +58,7 @@ export default function ProblemResultContent({
   }, [competitionId, setErrorContext, openModal]);
 
   return (
-    <>
+    <div className="flex w-full max-w-252.5 flex-row gap-5 pb-20">
       {isModalOpen && (
         <ErrorModal
           code={error.code}
@@ -76,6 +76,6 @@ export default function ProblemResultContent({
         competitionId={competitionId}
         competitionResult={competitionResult}
       />
-    </>
+    </div>
   );
 }

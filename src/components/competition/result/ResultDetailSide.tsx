@@ -11,7 +11,7 @@ export default function ResultDetailSide({
   competitionResult: CompetitionResultState;
 }) {
   return (
-    <div className="flex max-w-210.5 flex-1 flex-col gap-3">
+    <div className="flex max-w-210.5 min-w-0 flex-1 flex-col gap-3">
       <DetailBanner />
       <ResultSection
         competitionId={competitionId}

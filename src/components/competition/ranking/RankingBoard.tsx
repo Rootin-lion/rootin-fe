@@ -1,7 +1,11 @@
 "use client";
 
 import type { RankingState } from "@/types/competitions/competition";
-import type { RankingPeriod, RankingViewState } from "@/types/competitions/ranking";
+import type {
+  RankingFocusTarget,
+  RankingPeriod,
+  RankingViewState,
+} from "@/types/competitions/ranking";
 import RankingTable from "./board/RankingTable";
 
 const RankingTabs = ({
@@ -57,12 +61,14 @@ export default function RankingBoard({
   rankings,
   rankingView,
   totalPage,
+  focusTarget,
   onPeriodChange,
   onPageChange,
 }: {
   rankings: RankingState[];
   rankingView: RankingViewState;
   totalPage: number;
+  focusTarget: RankingFocusTarget | null;
   onPeriodChange: (period: RankingPeriod) => void;
   onPageChange: (page: number) => void;
 }) {
@@ -73,6 +79,7 @@ export default function RankingBoard({
         rankings={rankings}
         currentPage={rankingView.page}
         totalPage={totalPage}
+        focusTarget={focusTarget}
         onClick={onPageChange}
       />
     </div>
