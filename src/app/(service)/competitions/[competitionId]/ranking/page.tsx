@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import RankingContent from "@/components/competition/ranking/RankingContent";
 
 export const metadata: Metadata = {
@@ -12,5 +13,9 @@ export default async function RankingPage(
   const { competitionId } = await props.params;
   const competitionIdNumber = Number(competitionId);
 
-  return <RankingContent competitionId={competitionIdNumber} />;
+  return (
+    <Suspense fallback={<div className="bg-primary-50 min-h-dvh w-full" />}>
+      <RankingContent competitionId={competitionIdNumber} />
+    </Suspense>
+  );
 }

@@ -114,7 +114,7 @@ export default function RankingSection({
           </RankingBox>
         </div>
         <Link
-          href={`competitions/${competitionId}/ranking`}
+          href={`/competitions/${competitionId}/ranking?period=DAILY&page=1`}
           className="text-primary-900 mt-6 cursor-pointer text-right text-[16px] font-semibold"
         >
           전체 랭킹 보기 →

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ApiError } from "@/types/api/error";
 import type { RankingState } from "@/types/competitions/competition";
@@ -24,16 +24,33 @@ export default function RankingContent({
   competitionId: number;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const periodParam = searchParams.get("period");
+  const pageParam = searchParams.get("page");
+  const period: RankingPeriod =
+    periodParam === "WEEKLY" || periodParam === "MONTHLY"
+      ? periodParam
+      : "DAILY";
+  const pageNumber = Number(pageParam);
+  const page =
+    pageParam !== null &&
+    /^[1-9]\d*$/.test(pageParam) &&
+    Number.isSafeInteger(pageNumber)
+      ? pageNumber - 1
+      : 0;
+  const rankingView: RankingViewState = { period, page };
+  const rankingViewKey = `${period}:${page}`;
   const [rankings, setRankings] = useState<RankingState[]>([]);
+  const [loadedRankingViewKey, setLoadedRankingViewKey] = useState<string | null>(
+    null,
+  );
   const [myRanking, setMyRanking] = useState<RankingState | null>(null);
-  const [rankingView, setRankingView] = useState<RankingViewState>({
-    period: "DAILY",
-    page: 0,
-  });
+  const [loadedMyRankingPeriod, setLoadedMyRankingPeriod] =
+    useState<RankingPeriod | null>(null);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [refreshCount, setRefreshCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRankingCurrent, setIsRankingCurrent] = useState(false);
   const [isMyRankingLoading, setIsMyRankingLoading] = useState(true);
   const [lastUpdatedAt, setLastUpdatedAt] = useState<Date | null>(null);
   const [focusTarget, setFocusTarget] = useState<RankingFocusTarget | null>(
@@ -44,6 +61,35 @@ export default function RankingContent({
   const hasNavigatedBack = useRef(false);
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
+  const isRankingCurrent = loadedRankingViewKey === rankingViewKey;
+  const currentRankings = isRankingCurrent ? rankings : [];
+  const currentMyRanking =
+    loadedMyRankingPeriod === period ? myRanking : null;
+  const isRankingLoading = isLoading || !isRankingCurrent;
+  const isCurrentMyRankingLoading =
+    isMyRankingLoading || loadedMyRankingPeriod !== period;
+
+  const updateRankingUrl = useCallback(
+    (nextPeriod: RankingPeriod, nextPage: number, replace = false) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("period", nextPeriod);
+      params.set("page", String(nextPage + 1));
+      const url = `${pathname}?${params.toString()}`;
+
+      if (replace) {
+        router.replace(url, { scroll: false });
+      } else {
+        router.push(url, { scroll: false });
+      }
+    },
+    [pathname, router, searchParams],
+  );
+
+  useEffect(() => {
+    if (periodParam === period && pageParam === String(page + 1)) return;
+
+    updateRankingUrl(period, page, true);
+  }, [page, pageParam, period, periodParam, updateRankingUrl]);
 
   const goBackIfUnavailable = useCallback(
     (error: ApiError) => {
@@ -77,35 +123,32 @@ export default function RankingContent({
     setRankings([]);
     setTotalPage(0);
     setIsMyRankingLoading(true);
-    setIsRankingCurrent(false);
     setIsLoading(true);
-    setRankingView({ page: 0, period });
+    updateRankingUrl(period, 0);
   };
 
   const handlePageChange = (page: number) => {
     if (page === rankingView.page) return;
     clearPositionSearch();
-    setIsRankingCurrent(false);
     setIsLoading(true);
-    setRankingView((prev) => ({ ...prev, page }));
+    updateRankingUrl(rankingView.period, page);
   };
 
   const handleRefresh = () => {
-    if (isLoading) return;
+    if (isRankingLoading) return;
     clearPositionSearch();
     setIsMyRankingLoading(true);
-    setIsRankingCurrent(false);
     setIsLoading(true);
     setRefreshCount((count) => count + 1);
   };
 
   const handleShowMyPosition = async () => {
     if (
-      !myRanking ||
-      myRanking.rank < 1 ||
-      isLoading ||
+      !currentMyRanking ||
+      currentMyRanking.rank < 1 ||
+      isRankingLoading ||
       !isRankingCurrent ||
-      isMyRankingLoading ||
+      isCurrentMyRankingLoading ||
       totalPage < 1 ||
       isFindingPosition.current
     ) {
@@ -113,13 +156,13 @@ export default function RankingContent({
     }
 
     const requestId = ++positionRequestId.current;
-    const memberId = myRanking.memberId;
-    const myRank = myRanking.rank;
+    const memberId = currentMyRanking.memberId;
+    const myRank = currentMyRanking.rank;
     const period = rankingView.period;
     isFindingPosition.current = true;
 
     try {
-      if (rankings.some((ranking) => ranking.memberId === memberId)) {
+      if (currentRankings.some((ranking) => ranking.memberId === memberId)) {
         setFocusTarget({ memberId, requestId });
         return;
       }
@@ -148,9 +191,8 @@ export default function RankingContent({
           if (page === rankingView.page) {
             setRankings(pageRankings);
           } else {
-            setIsRankingCurrent(false);
             setIsLoading(true);
-            setRankingView((prev) => ({ ...prev, page }));
+            updateRankingUrl(period, page);
           }
           return;
         }
@@ -213,7 +255,7 @@ export default function RankingContent({
         setTotalPage(res.data.totalPages);
         setRankings(res.data.content);
         setLastUpdatedAt(new Date());
-        setIsRankingCurrent(true);
+        setLoadedRankingViewKey(rankingViewKey);
       } catch {
         if (ignore) return;
 
@@ -236,6 +278,7 @@ export default function RankingContent({
     competitionId,
     rankingView.period,
     rankingView.page,
+    rankingViewKey,
     refreshCount,
     goBackIfUnavailable,
     setErrorContext,
@@ -261,6 +304,7 @@ export default function RankingContent({
         }
 
         setMyRanking(res.data);
+        setLoadedMyRankingPeriod(rankingView.period);
       } catch {
         if (ignore) return;
 
@@ -302,21 +346,21 @@ export default function RankingContent({
       <div className="mx-auto max-w-5xl pt-20">
         <RankingTitleSection
           lastUpdatedAt={lastUpdatedAt}
-          isLoading={isLoading}
+          isLoading={isRankingLoading}
           onRefresh={handleRefresh}
         />
         <RankingContentSection
-          myRanking={myRanking}
-          rankings={rankings}
+          myRanking={currentMyRanking}
+          rankings={currentRankings}
           rankingView={rankingView}
           totalPage={totalPage}
           focusTarget={focusTarget}
           isMyPositionDisabled={
-            !myRanking ||
-            myRanking.rank < 1 ||
-            isLoading ||
+            !currentMyRanking ||
+            currentMyRanking.rank < 1 ||
+            isRankingLoading ||
             !isRankingCurrent ||
-            isMyRankingLoading ||
+            isCurrentMyRankingLoading ||
             totalPage < 1
           }
           onPeriodChange={handlePeriodChange}
