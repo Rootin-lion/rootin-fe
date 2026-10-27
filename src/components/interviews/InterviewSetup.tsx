@@ -5,18 +5,18 @@ import type {
 } from "@/types/interviews/interview";
 import Button from "@/components/shared/Button";
 import InterviewCount from "./InterviewCount";
-import InterviewTopic from "./InterviewField";
+import InterviewTopic from "./InterviewTopic";
 import InterviewMode from "./InterviewMode";
 
 export default function InterviewSetup({
   config,
-  onFieldChange,
+  onCategoryChange,
   onQuestionCountChange,
   onInterviewModeChange,
   onStart,
 }: {
   config: InterviewConfig;
-  onFieldChange: (field: InterviewCategoryType) => void;
+  onCategoryChange: (category: InterviewCategoryType) => void;
   onQuestionCountChange: (questionCount: null | number) => void;
   onInterviewModeChange: (interviewMode: InterviewModeType) => void;
   onStart: () => void;
@@ -29,7 +29,7 @@ export default function InterviewSetup({
 
   return (
     <div className="flex w-111 flex-col gap-6">
-      <InterviewTopic field={config.category} onChange={onFieldChange} />
+      <InterviewTopic category={config.category} onChange={onCategoryChange} />
       <InterviewCount
         questionCount={config.questionCount}
         onChange={onQuestionCountChange}

@@ -40,7 +40,9 @@ export default function ResultSummarySide({
       <PrimaryDarkButton
         className="mt-4 py-2 text-center text-[12px]"
         onClick={() =>
-          router.push(`/competitions/${competitionId}/ranking?period=DAILY&page=1`)
+          router.push(
+            `/competitions/${competitionId}/ranking?period=DAILY&page=1`,
+          )
         }
       >
         랭킹 보기

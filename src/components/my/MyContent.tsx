@@ -23,7 +23,7 @@ export default function MyContent({
   };
 
   return (
-    <div className="mx-auto w-full bg-white">
+    <div className="mx-auto min-h-dvh w-full bg-white">
       <div className="mx-auto flex max-w-5xl flex-row gap-7 pt-8 pb-20">
         <MySidebar
           selectedSection={selectedSection}

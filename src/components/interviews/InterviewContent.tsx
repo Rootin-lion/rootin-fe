@@ -174,7 +174,7 @@ export default function InterviewContent() {
 
       <InterviewSetup
         config={config}
-        onFieldChange={handleCategoryChange}
+        onCategoryChange={handleCategoryChange}
         onQuestionCountChange={handleQuestionCountChange}
         onInterviewModeChange={handleInterviewModeChange}
         onStart={openModal}

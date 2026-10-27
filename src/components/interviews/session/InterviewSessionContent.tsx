@@ -21,7 +21,7 @@ import {
   useInterviewSessionStore,
 } from "@/stores/useInterviewSessionStore";
 import SessionChat from "./SessionChat";
-import SessionwForm from "./SessionForm";
+import SessionForm from "./SessionForm";
 import SessionVideo from "./SessionVideo";
 
 const subscribeToHydration = () => () => {};
@@ -266,7 +266,7 @@ export default function InterviewSessionContent({
         )}
         <SessionVideo interviewId={interviewId} />
       </div>
-      <SessionwForm
+      <SessionForm
         answer={answer}
         onChange={handleAnswerChange}
         onSubmit={handleSubmitClick}

@@ -6,6 +6,8 @@ export type InterviewModeType = "TEXT" | "VOICE";
 
 export type MessageType = "QUESTION" | "ANSWER";
 
+export type InterviewQuestionType = "BASIC" | "FOLLOW_UP";
+
 export interface InterviewConfig {
   category: CategoryType;
   questionCount: number | null;
@@ -22,7 +24,7 @@ export interface QuestionState {
   topicId: number;
   topicName: string;
   questionOrder: number;
-  questionType: string;
+  questionType: InterviewQuestionType;
   question: string;
 }
 
@@ -79,6 +81,7 @@ export interface InterviewReportQuestion {
   questionId: number;
   questionOrder: number;
   topicName: string;
+  questionType: InterviewQuestionType;
   question: string;
   answer: string;
   accuracy: number;
