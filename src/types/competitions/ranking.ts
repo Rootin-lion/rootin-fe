@@ -4,3 +4,8 @@ export interface RankingViewState {
   period: RankingPeriod;
   page: number;
 }
+
+export interface RankingFocusTarget {
+  memberId: number;
+  requestId: number;
+}

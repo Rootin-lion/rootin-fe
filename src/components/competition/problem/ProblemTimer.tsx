@@ -1,19 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 import TimerIcon from "@/assets/competitions/solve/timer.png";
+import useDeadlineCountdown from "@/hooks/useDeadlineCountdown";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
 import QuestionSurface from "./ProblemSurface";
 
 const COMPETITION_DURATION_MS = 30 * 60 * 1000;
 
 export default function ProblemTimer({ onExpire }: { onExpire: () => void }) {
-  const onExpireRef = useRef(onExpire);
   const participation = useCompetitionParticipationStore(
     (state) => state.participation,
   );
-  const [now, setNow] = useState(() => Date.now());
 
   const startedAtTimestamp = participation
     ? Date.parse(participation.startedAt)
@@ -28,9 +26,10 @@ export default function ProblemTimer({ onExpire }: { onExpire: () => void }) {
     ? Math.min(participationExpiresAtTimestamp, serverExpiresAtTimestamp)
     : participationExpiresAtTimestamp;
   const hasDeadline = Number.isFinite(deadlineTimestamp);
-  const remainingSeconds = hasDeadline
-    ? Math.max(0, Math.ceil((deadlineTimestamp - now) / 1000))
-    : null;
+  const { current: remainingSeconds } = useDeadlineCountdown({
+    deadlineMs: hasDeadline ? deadlineTimestamp : null,
+    onExpire,
+  });
 
   const minutes =
     remainingSeconds === null
@@ -44,36 +43,6 @@ export default function ProblemTimer({ onExpire }: { onExpire: () => void }) {
     remainingSeconds !== null && remainingSeconds <= 5 * 60
       ? "text-error"
       : "text-primary-900";
-
-  useEffect(() => {
-    onExpireRef.current = onExpire;
-  }, [onExpire]);
-
-  useEffect(() => {
-    if (!hasDeadline) return;
-
-    let expired = false;
-
-    const tick = () => {
-      const currentTime = Date.now();
-
-      setNow(currentTime);
-
-      if (currentTime >= deadlineTimestamp && !expired) {
-        expired = true;
-        window.clearInterval(intervalId);
-        onExpireRef.current();
-      }
-    };
-
-    const intervalId = window.setInterval(tick, 1000);
-    const initialTickId = window.setTimeout(tick, 0);
-
-    return () => {
-      window.clearTimeout(initialTickId);
-      window.clearInterval(intervalId);
-    };
-  }, [deadlineTimestamp, hasDeadline]);
 
   return (
     <QuestionSurface>

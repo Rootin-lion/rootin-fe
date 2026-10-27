@@ -80,7 +80,7 @@ export interface CompetitionResultState {
   totalCount: number;
   solvingTimeSeconds: number;
   myRank: number;
-  rankChange: number;
+  rankChange: number | null;
   problemResults: ProblemResult[];
   strongCategories: string[];
   weakCategories: string[];

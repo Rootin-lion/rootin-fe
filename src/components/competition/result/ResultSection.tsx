@@ -23,9 +23,13 @@ interface ResultItemProps {
 }
 
 const RESULT_ITEM_TYPE = {
-  CORRECT: { title: "정답", bg: "bg-primary-900" },
-  WRONG: { title: "오답", bg: "bg-error" },
-  UNANSWERED: { title: "미답", bg: "bg-disabled-text" },
+  CORRECT: { title: "정답", bg: "bg-primary-900", text: "text-primary-900" },
+  WRONG: { title: "오답", bg: "bg-error", text: "text-error" },
+  UNANSWERED: {
+    title: "미답",
+    bg: "bg-disabled-text",
+    text: "text-disabled-text",
+  },
 };
 
 const ResultItem = ({ type, problem, onClick }: ResultItemProps) => {
@@ -39,7 +43,9 @@ const ResultItem = ({ type, problem, onClick }: ResultItemProps) => {
       >
         {problem.problemOrder}
       </div>
-      <p>{RESULT_ITEM_TYPE[type].title}</p>
+      <p className={`${RESULT_ITEM_TYPE[type].text}`}>
+        {RESULT_ITEM_TYPE[type].title}
+      </p>
       <p>{problem.score}</p>
     </div>
   );

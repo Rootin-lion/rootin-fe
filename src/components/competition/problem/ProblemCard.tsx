@@ -159,9 +159,10 @@ export default function ProblemCard({
 
       <div className="flex items-start justify-between gap-4">
         <h1
-          className={`text-[18px] font-semibold ${!isWrongResult ? "text-black" : "text-error"}`}
+          className={`flex min-w-0 gap-1 text-[18px] font-semibold ${!isWrongResult ? "text-black" : "text-error"}`}
         >
-          {currentProblem?.problemOrder}. {currentProblem?.problemContent}
+          <span className="shrink-0">{currentProblem?.problemOrder}.</span>
+          <span className="min-w-0">{currentProblem?.problemContent}</span>
         </h1>
         {showBookmark && (
           <BookmarkAction
@@ -170,11 +171,7 @@ export default function ProblemCard({
           />
         )}
       </div>
-      <div
-        className="mt-7.5 flex flex-col gap-4"
-        role="radiogroup"
-        aria-label="답안 선택"
-      >
+      <div className="mt-7.5 flex flex-col gap-4" role="radiogroup">
         {currentProblem?.options.map((option) => (
           <ProblemOption
             key={option.optionId}

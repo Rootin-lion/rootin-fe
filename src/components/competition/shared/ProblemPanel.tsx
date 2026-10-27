@@ -39,7 +39,7 @@ export default function ProblemPanel({
 
   return (
     <QuestionSurface>
-      <div className="flex h-full flex-col justify-between">
+      <div className="flex h-full flex-col justify-between gap-4">
         <div className="flex flex-col gap-7">
           {variant === "solve" && (
             <NumberLabel number={currentProblem?.problemOrder} />

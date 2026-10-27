@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import type { ContestResultsState } from "@/types/competitions/competition";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
-import { formatDottedDate } from "@/lib/shared/formatDottedDate";
+import { formatCompetitionDateWithWeekday } from "@/lib/competitions/formatCompetitionDateWithWeekday";
 
 export default function CompetitionResultCard({
   contest,
@@ -15,12 +15,7 @@ export default function CompetitionResultCard({
       <div className="flex items-baseline gap-3">
         <div className="flex flex-col gap-3">
           <p className="text-text text-[16px] font-semibold">
-            {formatDottedDate(contest.competitionDate)}(
-            {new Date(contest.competitionDate).toLocaleDateString("ko-KR", {
-              weekday: "short",
-              timeZone: "Asia/Seoul",
-            })}
-            )
+            {formatCompetitionDateWithWeekday(contest.competitionDate)}
           </p>
           <p className="text-disabled-text text-[12px] font-semibold">
             {contest.participantCount}명이 참가했어요
@@ -34,8 +29,10 @@ export default function CompetitionResultCard({
       <div className="text-right">
         <GradientOutlineButton
           variant="outline"
-          disabled={!contest.viewable}
+          disabled={contest.viewable !== true}
           onClick={() => {
+            if (!contest.viewable) return;
+
             router.push(`/competitions/${contest.competitionId}/result`);
           }}
         >

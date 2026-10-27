@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ApiError } from "@/types/api/error";
 import type { RankingState } from "@/types/competitions/competition";
-import type { RankingPeriod, RankingViewState } from "@/types/competitions/ranking";
+import type {
+  RankingFocusTarget,
+  RankingPeriod,
+  RankingViewState,
+} from "@/types/competitions/ranking";
 import {
   getMyRankingAction,
   getRankingsAction,
@@ -17,6 +23,7 @@ export default function RankingContent({
 }: {
   competitionId: number;
 }) {
+  const router = useRouter();
   const [rankings, setRankings] = useState<RankingState[]>([]);
   const [myRanking, setMyRanking] = useState<RankingState | null>(null);
   const [rankingView, setRankingView] = useState<RankingViewState>({
@@ -24,18 +31,164 @@ export default function RankingContent({
     page: 0,
   });
   const [totalPage, setTotalPage] = useState<number>(0);
+  const [refreshCount, setRefreshCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRankingCurrent, setIsRankingCurrent] = useState(false);
+  const [isMyRankingLoading, setIsMyRankingLoading] = useState(true);
+  const [lastUpdatedAt, setLastUpdatedAt] = useState<Date | null>(null);
+  const [focusTarget, setFocusTarget] = useState<RankingFocusTarget | null>(
+    null,
+  );
+  const positionRequestId = useRef(0);
+  const isFindingPosition = useRef(false);
+  const hasNavigatedBack = useRef(false);
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
 
+  const goBackIfUnavailable = useCallback(
+    (error: ApiError) => {
+      if (
+        error.code !== "C404-1" &&
+        !/제출하지\s*않|제출되지\s*않|미제출/.test(error.message)
+      ) {
+        return false;
+      }
+
+      if (!hasNavigatedBack.current) {
+        hasNavigatedBack.current = true;
+        router.back();
+      }
+
+      return true;
+    },
+    [router],
+  );
+
+  const clearPositionSearch = () => {
+    positionRequestId.current += 1;
+    isFindingPosition.current = false;
+    setFocusTarget(null);
+  };
+
   const handlePeriodChange = (period: RankingPeriod) => {
+    if (period === rankingView.period) return;
+    clearPositionSearch();
+    setMyRanking(null);
+    setRankings([]);
+    setTotalPage(0);
+    setIsMyRankingLoading(true);
+    setIsRankingCurrent(false);
+    setIsLoading(true);
     setRankingView({ page: 0, period });
   };
 
-  const hanldePageChange = (page: number) => {
+  const handlePageChange = (page: number) => {
+    if (page === rankingView.page) return;
+    clearPositionSearch();
+    setIsRankingCurrent(false);
+    setIsLoading(true);
     setRankingView((prev) => ({ ...prev, page }));
   };
 
-  // 전체 랭킹
+  const handleRefresh = () => {
+    if (isLoading) return;
+    clearPositionSearch();
+    setIsMyRankingLoading(true);
+    setIsRankingCurrent(false);
+    setIsLoading(true);
+    setRefreshCount((count) => count + 1);
+  };
+
+  const handleShowMyPosition = async () => {
+    if (
+      !myRanking ||
+      myRanking.rank < 1 ||
+      isLoading ||
+      !isRankingCurrent ||
+      isMyRankingLoading ||
+      totalPage < 1 ||
+      isFindingPosition.current
+    ) {
+      return;
+    }
+
+    const requestId = ++positionRequestId.current;
+    const memberId = myRanking.memberId;
+    const myRank = myRanking.rank;
+    const period = rankingView.period;
+    isFindingPosition.current = true;
+
+    try {
+      if (rankings.some((ranking) => ranking.memberId === memberId)) {
+        setFocusTarget({ memberId, requestId });
+        return;
+      }
+
+      let firstPage = 0;
+      let lastPage = totalPage - 1;
+
+      while (firstPage <= lastPage) {
+        const page = Math.floor((firstPage + lastPage) / 2);
+        const res = await getRankingsAction(competitionId, period, page);
+
+        if (requestId !== positionRequestId.current) return;
+
+        if (!res.ok) {
+          if (goBackIfUnavailable(res.error)) return;
+
+          setErrorContext(res.error);
+          openModal();
+          return;
+        }
+
+        const pageRankings = res.data.content as RankingState[];
+        if (pageRankings.some((ranking) => ranking.memberId === memberId)) {
+          setFocusTarget({ memberId, requestId });
+
+          if (page === rankingView.page) {
+            setRankings(pageRankings);
+          } else {
+            setIsRankingCurrent(false);
+            setIsLoading(true);
+            setRankingView((prev) => ({ ...prev, page }));
+          }
+          return;
+        }
+
+        const firstRank = pageRankings[0]?.rank;
+        const lastRank = pageRankings.at(-1)?.rank;
+        if (firstRank === undefined || lastRank === undefined) break;
+
+        if (myRank < firstRank) {
+          lastPage = page - 1;
+        } else if (myRank > lastRank) {
+          firstPage = page + 1;
+        } else {
+          break;
+        }
+      }
+
+      setErrorContext({
+        code: "RANKING_FAILED",
+        message:
+          "현재 기간의 랭킹에서 내 순위를 찾지 못했습니다. 새로고침 후 다시 시도해 주세요.",
+      });
+      openModal();
+    } catch {
+      if (requestId !== positionRequestId.current) return;
+
+      setErrorContext({
+        code: "UNKNOWN_ERROR",
+        message: "내 순위를 찾지 못했습니다.",
+      });
+      openModal();
+    } finally {
+      if (requestId === positionRequestId.current) {
+        isFindingPosition.current = false;
+      }
+    }
+  };
+
   useEffect(() => {
     let ignore = false;
 
@@ -50,6 +203,8 @@ export default function RankingContent({
         if (ignore) return;
 
         if (!res.ok) {
+          if (goBackIfUnavailable(res.error)) return;
+
           setErrorContext(res.error);
           openModal();
           return;
@@ -57,6 +212,8 @@ export default function RankingContent({
 
         setTotalPage(res.data.totalPages);
         setRankings(res.data.content);
+        setLastUpdatedAt(new Date());
+        setIsRankingCurrent(true);
       } catch {
         if (ignore) return;
 
@@ -65,6 +222,8 @@ export default function RankingContent({
           message: "랭킹을 불러오지 못했습니다.",
         });
         openModal();
+      } finally {
+        if (!ignore) setIsLoading(false);
       }
     };
 
@@ -77,11 +236,12 @@ export default function RankingContent({
     competitionId,
     rankingView.period,
     rankingView.page,
-    openModal,
+    refreshCount,
+    goBackIfUnavailable,
     setErrorContext,
+    openModal,
   ]);
 
-  // 내 랭킹
   useEffect(() => {
     let ignore = false;
 
@@ -92,6 +252,9 @@ export default function RankingContent({
         if (ignore) return;
 
         if (!res.ok) {
+          setMyRanking(null);
+          if (goBackIfUnavailable(res.error)) return;
+
           setErrorContext(res.error);
           openModal();
           return;
@@ -101,20 +264,30 @@ export default function RankingContent({
       } catch {
         if (ignore) return;
 
+        setMyRanking(null);
         setErrorContext({
           code: "UNKNOWN_ERROR",
           message: "랭킹을 불러오지 못했습니다.",
         });
         openModal();
+      } finally {
+        if (!ignore) setIsMyRankingLoading(false);
       }
     };
 
-    getMyRanking();
+    void getMyRanking();
 
     return () => {
       ignore = true;
     };
-  }, [competitionId, rankingView.period, setErrorContext, openModal]);
+  }, [
+    competitionId,
+    rankingView.period,
+    refreshCount,
+    goBackIfUnavailable,
+    setErrorContext,
+    openModal,
+  ]);
 
   return (
     <div className="bg-primary-50 min-h-dvh w-full">
@@ -127,14 +300,28 @@ export default function RankingContent({
       )}
 
       <div className="mx-auto max-w-5xl pt-20">
-        <RankingTitleSection />
+        <RankingTitleSection
+          lastUpdatedAt={lastUpdatedAt}
+          isLoading={isLoading}
+          onRefresh={handleRefresh}
+        />
         <RankingContentSection
           myRanking={myRanking}
           rankings={rankings}
           rankingView={rankingView}
           totalPage={totalPage}
+          focusTarget={focusTarget}
+          isMyPositionDisabled={
+            !myRanking ||
+            myRanking.rank < 1 ||
+            isLoading ||
+            !isRankingCurrent ||
+            isMyRankingLoading ||
+            totalPage < 1
+          }
           onPeriodChange={handlePeriodChange}
-          onPageChange={hanldePageChange}
+          onPageChange={handlePageChange}
+          onShowMyPosition={() => void handleShowMyPosition()}
         />
       </div>
     </div>

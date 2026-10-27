@@ -1,17 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import type { CompetitionStatuType } from "@/types/competitions/competition";
+import useDeadlineCountdown from "@/hooks/useDeadlineCountdown";
 
 interface ContestCountdownProps {
   initialSeconds: number;
   status: CompetitionStatuType;
   onExpire?: () => void;
-}
-
-interface CountdownValue {
-  current: number;
-  previous: number | null;
 }
 
 interface RollingTimeUnitProps {
@@ -90,53 +85,14 @@ export default function CompetitionCountdown({
   status,
   onExpire,
 }: ContestCountdownProps) {
-  const [countdown, setCountdown] = useState<CountdownValue>(() => ({
-    current: Math.max(0, initialSeconds),
-    previous: null,
-  }));
-  const onExpireRef = useRef(onExpire);
+  const countdown = useDeadlineCountdown({
+    durationSeconds: initialSeconds,
+    resetKey: status,
+    intervalMs: 250,
+    onExpire,
+  });
 
-  useEffect(() => {
-    onExpireRef.current = onExpire;
-  }, [onExpire]);
-
-  useEffect(() => {
-    const safeInitialSeconds = Math.max(0, initialSeconds);
-    const deadline = Date.now() + safeInitialSeconds * 1000;
-    let expired = false;
-
-    const tick = () => {
-      const nextSeconds = Math.max(
-        0,
-        Math.ceil((deadline - Date.now()) / 1000),
-      );
-
-      setCountdown((previous) =>
-        previous.current === nextSeconds
-          ? previous
-          : {
-              current: nextSeconds,
-              previous: previous.current,
-            },
-      );
-
-      if (nextSeconds === 0 && !expired) {
-        expired = true;
-        window.clearInterval(intervalId);
-        onExpireRef.current?.();
-      }
-    };
-
-    const intervalId = window.setInterval(tick, 250);
-    const initialTickId = window.setTimeout(tick, 0);
-
-    return () => {
-      window.clearTimeout(initialTickId);
-      window.clearInterval(intervalId);
-    };
-  }, [initialSeconds, status]);
-
-  const secondsLeft = countdown.current;
+  const secondsLeft = countdown.current ?? 0;
   const displayTime = getDisplayTime(secondsLeft);
   const previousDisplayTime =
     countdown.previous === null ? null : getDisplayTime(countdown.previous);

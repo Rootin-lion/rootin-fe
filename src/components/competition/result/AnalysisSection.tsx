@@ -33,7 +33,7 @@ const AnalysisCardWrapper = ({
   const itemLabels = items.map((item) => CATEGORY_LABELS[item] ?? item);
 
   return (
-    <div className="w-55.5 rounded-[14px] bg-green-50 px-4 pt-3 pb-4">
+    <div className="min-w-0 flex-1 rounded-[14px] bg-green-50 px-4 pt-3 pb-4">
       <p className="text-sub-text text-[12px] font-bold">
         {CARD_TYPE[type].title}
       </p>
@@ -67,7 +67,7 @@ export default function AnalysisSection({
       <p className="pt-4 pl-8 text-[16px] font-semibold text-black">
         개인 분석
       </p>
-      <div className="flex justify-center gap-7.5 py-4">
+      <div className="flex justify-center gap-7.5 px-8 py-4">
         <AnalysisCardWrapper type="STRENGTH" items={strongCategories} />
         <AnalysisCardWrapper type="WEAKNESS" items={weakCategories} />
         <AnalysisCardWrapper type="CORRECT" />
