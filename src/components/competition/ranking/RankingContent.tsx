@@ -42,9 +42,12 @@ export default function RankingContent({
   const rankingView: RankingViewState = { period, page };
   const rankingViewKey = `${period}:${page}`;
   const [rankings, setRankings] = useState<RankingState[]>([]);
-  const [loadedRankingViewKey, setLoadedRankingViewKey] = useState<string | null>(
-    null,
-  );
+  const [loadedRankingViewKey, setLoadedRankingViewKey] = useState<
+    string | null
+  >(null);
+  const [settledRankingViewKey, setSettledRankingViewKey] = useState<
+    string | null
+  >(null);
   const [myRanking, setMyRanking] = useState<RankingState | null>(null);
   const [loadedMyRankingPeriod, setLoadedMyRankingPeriod] =
     useState<RankingPeriod | null>(null);
@@ -56,16 +59,23 @@ export default function RankingContent({
   const [focusTarget, setFocusTarget] = useState<RankingFocusTarget | null>(
     null,
   );
+  const [focusTargetViewKey, setFocusTargetViewKey] = useState<string | null>(
+    null,
+  );
   const positionRequestId = useRef(0);
   const isFindingPosition = useRef(false);
+  const previousRankingViewKey = useRef(rankingViewKey);
   const hasNavigatedBack = useRef(false);
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
   const isRankingCurrent = loadedRankingViewKey === rankingViewKey;
   const currentRankings = isRankingCurrent ? rankings : [];
-  const currentMyRanking =
-    loadedMyRankingPeriod === period ? myRanking : null;
-  const isRankingLoading = isLoading || !isRankingCurrent;
+  const currentTotalPage = isRankingCurrent ? totalPage : 0;
+  const currentFocusTarget =
+    focusTargetViewKey === rankingViewKey ? focusTarget : null;
+  const currentMyRanking = loadedMyRankingPeriod === period ? myRanking : null;
+  const isRankingLoading =
+    isLoading || settledRankingViewKey !== rankingViewKey;
   const isCurrentMyRankingLoading =
     isMyRankingLoading || loadedMyRankingPeriod !== period;
 
@@ -91,6 +101,14 @@ export default function RankingContent({
     updateRankingUrl(period, page, true);
   }, [page, pageParam, period, periodParam, updateRankingUrl]);
 
+  useEffect(() => {
+    if (previousRankingViewKey.current === rankingViewKey) return;
+
+    previousRankingViewKey.current = rankingViewKey;
+    positionRequestId.current += 1;
+    isFindingPosition.current = false;
+  }, [rankingViewKey]);
+
   const goBackIfUnavailable = useCallback(
     (error: ApiError) => {
       if (
@@ -114,6 +132,7 @@ export default function RankingContent({
     positionRequestId.current += 1;
     isFindingPosition.current = false;
     setFocusTarget(null);
+    setFocusTargetViewKey(null);
   };
 
   const handlePeriodChange = (period: RankingPeriod) => {
@@ -164,6 +183,7 @@ export default function RankingContent({
     try {
       if (currentRankings.some((ranking) => ranking.memberId === memberId)) {
         setFocusTarget({ memberId, requestId });
+        setFocusTargetViewKey(rankingViewKey);
         return;
       }
 
@@ -187,6 +207,7 @@ export default function RankingContent({
         const pageRankings = res.data.content as RankingState[];
         if (pageRankings.some((ranking) => ranking.memberId === memberId)) {
           setFocusTarget({ memberId, requestId });
+          setFocusTargetViewKey(`${period}:${page}`);
 
           if (page === rankingView.page) {
             setRankings(pageRankings);
@@ -265,7 +286,10 @@ export default function RankingContent({
         });
         openModal();
       } finally {
-        if (!ignore) setIsLoading(false);
+        if (!ignore) {
+          setSettledRankingViewKey(rankingViewKey);
+          setIsLoading(false);
+        }
       }
     };
 
@@ -353,15 +377,15 @@ export default function RankingContent({
           myRanking={currentMyRanking}
           rankings={currentRankings}
           rankingView={rankingView}
-          totalPage={totalPage}
-          focusTarget={focusTarget}
+          totalPage={currentTotalPage}
+          focusTarget={currentFocusTarget}
           isMyPositionDisabled={
             !currentMyRanking ||
             currentMyRanking.rank < 1 ||
             isRankingLoading ||
             !isRankingCurrent ||
             isCurrentMyRankingLoading ||
-            totalPage < 1
+            currentTotalPage < 1
           }
           onPeriodChange={handlePeriodChange}
           onPageChange={handlePageChange}

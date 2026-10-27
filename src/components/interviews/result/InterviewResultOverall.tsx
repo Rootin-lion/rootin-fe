@@ -1,4 +1,5 @@
 import type { InterviewReportState } from "@/types/interviews/interview";
+import InterviewResultAccuracyBar from "./InterviewResultAccuracyBar";
 
 export default function InterviewResultOverall({
   interviewReport,
@@ -16,19 +17,11 @@ export default function InterviewResultOverall({
       <div className="text-text flex flex-col items-center pr-5 pl-9 font-medium">
         <h3 className="text-[16px]">평균 정확도</h3>
         <p className="mt-2 text-[14px]">{accuracy}%</p>
-        <div
-          role="progressbar"
-          aria-label="평균 정확도"
-          aria-valuenow={accuracy}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          className="mt-3 h-4 w-51.75 overflow-hidden rounded-full bg-[#E5E7EB]"
-        >
-          <div
-            className="h-full rounded-full bg-[linear-gradient(90deg,#6FB377_0%,#69AC70_50%,#36723E_100%)]"
-            style={{ width: `${accuracy}%` }}
-          />
-        </div>
+        <InterviewResultAccuracyBar
+          accuracy={accuracy}
+          label="평균 정확도"
+          className="mt-3 h-4 w-51.75"
+        />
       </div>
 
       <div className="border-disabled-text h-25.75 w-0 border"></div>

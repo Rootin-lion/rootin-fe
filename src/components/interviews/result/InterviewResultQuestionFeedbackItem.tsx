@@ -2,20 +2,24 @@
 
 import { useState } from "react";
 import ChevronIcon from "@/assets/icon/shared/chevron.svg";
-import { InterviewReportQuestion } from "@/types/interviews/interview";
-import InterviewResultProblemItemDetail from "./InterviewResultProblemItemDetail";
+import type { InterviewReportQuestion } from "@/types/interviews/interview";
+import InterviewResultQuestionFeedbackDetail from "./InterviewResultQuestionFeedbackDetail";
 
-export default function InterviewResultProlemItem({
+export default function InterviewResultQuestionFeedbackItem({
   question,
+  followUpQuestions,
 }: {
   question: InterviewReportQuestion;
+  followUpQuestions: InterviewReportQuestion[];
 }) {
   const [isShow, setIsShow] = useState<boolean>(false);
 
   return (
     <div className="border-primary-200 rounded-lg border">
-      <div
-        className="bg-primary-200 flex w-full cursor-pointer flex-row items-center gap-4 rounded-lg p-4"
+      <button
+        type="button"
+        aria-expanded={isShow}
+        className="bg-primary-200 flex w-full cursor-pointer flex-row items-center gap-4 rounded-lg p-4 text-left"
         onClick={() => setIsShow((prev) => !prev)}
       >
         <div className="bg-primary-800 flex h-6 w-6 shrink-0 items-center justify-center rounded-[50%] text-[14px] font-normal text-white">
@@ -29,8 +33,13 @@ export default function InterviewResultProlemItem({
             className={`h-6 w-3.5 transition-transform ${isShow ? "-rotate-90" : "rotate-90"}`}
           />
         </span>
-      </div>
-      {isShow && <InterviewResultProblemItemDetail question={question} />}
+      </button>
+      {isShow && (
+        <InterviewResultQuestionFeedbackDetail
+          question={question}
+          followUpQuestions={followUpQuestions}
+        />
+      )}
     </div>
   );
 }

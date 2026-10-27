@@ -1,6 +1,6 @@
 import SendIcon from "@/assets/icon/interviews/send.svg";
 
-export default function SessionwForm({
+export default function SessionForm({
   answer,
   onChange,
   onSubmit,

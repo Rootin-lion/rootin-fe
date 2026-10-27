@@ -3,11 +3,11 @@ import { Field_LIST } from "@/constants/interviews/interview";
 import OptionButton from "@/components/shared/OptionButton";
 
 export default function InterviewTopic({
-  field,
+  category,
   onChange,
 }: {
-  field: InterviewCategoryType;
-  onChange: (field: InterviewCategoryType) => void;
+  category: InterviewCategoryType;
+  onChange: (category: InterviewCategoryType) => void;
 }) {
   return (
     <div className="flex flex-col gap-2">
@@ -17,7 +17,7 @@ export default function InterviewTopic({
           <OptionButton
             variant="filled"
             key={item.id}
-            selected={item.label === field}
+            selected={item.label === category}
             onClick={() => onChange(item.label)}
           >
             {item.title}
