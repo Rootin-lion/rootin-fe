@@ -1,6 +1,6 @@
 import BookmarkIcon from "@/assets/icon/shared/bookmark.svg";
 import type { BookmarksState } from "@/types/my/dashboard";
-import type { MySection } from "../MySidebar";
+import type { MySection } from "@/constants/my/navigation";
 import PreviewSection from "./PreviewSection";
 
 export default function BookmarkPreview({

@@ -18,3 +18,13 @@ export const BOOKMARK_CATEGORY_OPTIONS = [
   value: CategoryType | "all";
   label: string;
 }>;
+
+export type BookmarkCategory =
+  (typeof BOOKMARK_CATEGORY_OPTIONS)[number]["value"];
+
+export function isBookmarkCategory(value: unknown): value is BookmarkCategory {
+  return (
+    typeof value === "string" &&
+    BOOKMARK_CATEGORY_OPTIONS.some((option) => option.value === value)
+  );
+}

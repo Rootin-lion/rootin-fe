@@ -55,13 +55,17 @@ export default function ProblemCard({
   currentProblem,
   showBookmark = false,
   selectedOptionId,
+  selectedOptionIndex,
   onSelectOption,
+  onSelectOptionIndex,
 }: {
   variant: PanelType;
   currentProblem?: CompetitionProblemDetail;
   showBookmark?: boolean;
   selectedOptionId?: number;
+  selectedOptionIndex?: number;
   onSelectOption?: (selectedOptionId: number) => void;
+  onSelectOptionIndex?: (index: number) => void;
 }) {
   const [bookmarkedByProblemId, setBookmarkedByProblemId] = useState<
     Record<number, boolean>
@@ -183,13 +187,23 @@ export default function ProblemCard({
         )}
       </div>
       <div className="mt-7.5 flex flex-col gap-4" role="radiogroup">
-        {currentProblem?.options.map((option) => (
+        {currentProblem?.options.map((option, index) => (
           <ProblemOption
-            key={option.optionId}
+            key={option.optionId ?? index}
             option={option}
-            selected={option.optionId === selectedOptionId}
+            selected={
+              variant === "bookmark"
+                ? index === selectedOptionIndex
+                : option.optionId === selectedOptionId
+            }
             onSelect={
-              onSelectOption ? () => onSelectOption(option.optionId) : undefined
+              variant === "bookmark"
+                ? onSelectOptionIndex
+                  ? () => onSelectOptionIndex(index)
+                  : undefined
+                : onSelectOption
+                  ? () => onSelectOption(option.optionId)
+                  : undefined
             }
           />
         ))}

@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { getMySectionHref } from "@/constants/my/navigation";
+import type { MySection } from "@/constants/my/navigation";
+import type { BookmarkCategory } from "@/constants/my/bookmark";
 import type { AuthMember } from "@/types/oauth/oauth";
 import MySidebar from "./MySidebar";
-import type { MySection } from "./MySidebar";
 import MyDashboard from "./dashboard/MyDashboard";
 import ProfileBanner from "./ProfileBanner";
 import MyReport from "./report/MyReport";
@@ -14,23 +17,22 @@ import MyOption from "./option/MyOption";
 export default function MyContent({
   member,
   today,
-  initialSection = "dashboard",
+  selectedSection,
+  currentPage,
+  bookmarkCategory,
 }: {
   member: AuthMember | null;
   today: string;
-  initialSection?: MySection;
+  selectedSection: MySection;
+  currentPage: number;
+  bookmarkCategory: BookmarkCategory;
 }) {
-  const [selectedSection, setSelectedSection] =
-    useState<MySection>(initialSection);
+  const router = useRouter();
   const shouldScrollToTop = useRef(false);
-
-  const handleSideChange = (side: MySection) => {
-    setSelectedSection(side);
-  };
 
   const handlePreviewSideChange = (side: MySection) => {
     shouldScrollToTop.current = true;
-    setSelectedSection(side);
+    router.push(getMySectionHref(side));
   };
 
   useEffect(() => {
@@ -43,18 +45,21 @@ export default function MyContent({
   return (
     <div className="mx-auto min-h-dvh w-full bg-white">
       <div className="mx-auto flex max-w-5xl flex-row gap-7 pt-8 pb-20">
-        <MySidebar
-          selectedSection={selectedSection}
-          onSideChange={handleSideChange}
-        />
+        <MySidebar selectedSection={selectedSection} />
         <div className="flex w-full flex-col gap-6">
           <ProfileBanner member={member} today={today} />
           {selectedSection === "dashboard" && (
             <MyDashboard today={today} onSideChange={handlePreviewSideChange} />
           )}
-          {selectedSection === "bookmark" && <MyBookmark />}
-          {selectedSection === "review" && <MyReview />}
-          {selectedSection === "interview" && <MyReport />}
+          {selectedSection === "bookmark" && (
+            <MyBookmark category={bookmarkCategory} currentPage={currentPage} />
+          )}
+          {selectedSection === "review" && (
+            <MyReview currentPage={currentPage} />
+          )}
+          {selectedSection === "interview" && (
+            <MyReport currentPage={currentPage} />
+          )}
           {selectedSection === "option" && <MyOption member={member} />}
         </div>
       </div>
