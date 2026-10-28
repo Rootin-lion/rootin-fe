@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { ApiError } from "@/types/api/error";
 import type { RankingState } from "@/types/competitions/competition";
 import type {
@@ -62,12 +62,12 @@ export default function useMyRankingPosition({
     };
   }, [rankingViewKey]);
 
-  const clearPositionSearch = () => {
+  const clearPositionSearch = useCallback(() => {
     positionRequestId.current += 1;
     isFindingPosition.current = false;
     setFocusTarget(null);
     setFocusTargetViewKey(null);
-  };
+  }, []);
 
   const showMyPosition = async () => {
     if (

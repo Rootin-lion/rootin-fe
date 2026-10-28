@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import type { ApiError } from "@/types/api/error";
 import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
@@ -43,6 +43,14 @@ export default function RankingContent({
     updateRankingUrl,
     onError: showError,
   });
+
+  useEffect(() => {
+    if (!currentFocusTarget) return;
+
+    document.addEventListener("pointerdown", clearPositionSearch);
+    return () =>
+      document.removeEventListener("pointerdown", clearPositionSearch);
+  }, [currentFocusTarget, clearPositionSearch]);
 
   const handlePeriodChange = (period: typeof rankingView.period) => {
     if (period === rankingView.period) return;

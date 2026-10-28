@@ -54,7 +54,7 @@ const TableItem = ({
   isTarget: boolean;
 }) => {
   const rankBoxStyle = isTarget
-    ? "bg-bg-green-50 text-primary-900 font-medium"
+    ? "bg-bg-green-200 text-primary-900 font-medium"
     : (rankBoxStyles[ranking.rank] ?? "bg-white");
   const rankItemStyle = rankItemStyles[ranking.rank];
   const rankProfileStyle = rankProfileStyles[ranking.rank] ?? "bg-primary-200";
