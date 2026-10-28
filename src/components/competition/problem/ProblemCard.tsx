@@ -6,6 +6,8 @@ import type {
   CompetitionProblemOption,
   PanelType,
 } from "@/types/competitions/competition";
+import { CATEGORY_LABEL } from "@/constants/shared/category";
+import type { CategoryType } from "@/types/shared/category";
 import {
   addProblemBookmarkAction,
   removeProblemBookmarkAction,
@@ -79,6 +81,7 @@ export default function ProblemCard({
     currentProblem != null &&
     "correct" in currentProblem &&
     currentProblem.correct === false;
+  const Heading = variant === "bookmark" ? "h2" : "h1";
 
   // 북마크 설정
   const addBookmark = async () => {
@@ -157,13 +160,21 @@ export default function ProblemCard({
         />
       )}
 
+      {variant === "bookmark" && currentProblem && (
+        <span className="text-primary-900 bg-primary-100 mb-4 inline-flex rounded-xl px-2 py-1 text-[10px] font-medium">
+          {CATEGORY_LABEL[currentProblem.category as CategoryType] ??
+            currentProblem.category}
+        </span>
+      )}
       <div className="flex items-start justify-between gap-4">
-        <h1
+        <Heading
           className={`flex min-w-0 gap-1 text-[18px] font-semibold ${!isWrongResult ? "text-black" : "text-error"}`}
         >
-          <span className="shrink-0">{currentProblem?.problemOrder}.</span>
+          <span className="shrink-0">
+            {variant === "bookmark" ? "Q." : `${currentProblem?.problemOrder}.`}
+          </span>
           <span className="min-w-0">{currentProblem?.problemContent}</span>
-        </h1>
+        </Heading>
         {showBookmark && (
           <BookmarkAction
             isBookmarked={isBookmarked}

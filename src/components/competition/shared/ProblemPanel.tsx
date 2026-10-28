@@ -47,7 +47,7 @@ export default function ProblemPanel({
           <QuestionCard
             variant={variant}
             currentProblem={currentProblem}
-            showBookmark={variant === "result"}
+            showBookmark={variant === "result" || variant === "bookmark"}
             selectedOptionId={selectedOptionId}
             onSelectOption={onSelectOption}
           />

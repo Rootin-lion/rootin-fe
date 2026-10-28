@@ -14,12 +14,14 @@ import MyOption from "./option/MyOption";
 export default function MyContent({
   member,
   today,
+  initialSection = "dashboard",
 }: {
   member: AuthMember | null;
   today: string;
+  initialSection?: MySection;
 }) {
   const [selectedSection, setSelectedSection] =
-    useState<MySection>("dashboard");
+    useState<MySection>(initialSection);
   const shouldScrollToTop = useRef(false);
 
   const handleSideChange = (side: MySection) => {
@@ -53,7 +55,7 @@ export default function MyContent({
           {selectedSection === "bookmark" && <MyBookmark />}
           {selectedSection === "review" && <MyReview />}
           {selectedSection === "interview" && <MyReport />}
-          {selectedSection === "option" && <MyOption />}
+          {selectedSection === "option" && <MyOption member={member} />}
         </div>
       </div>
     </div>

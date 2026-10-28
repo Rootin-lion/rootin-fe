@@ -11,7 +11,9 @@ import {
 import Button from "@/components/shared/Button";
 import ErrorModal from "@/components/shared/ErrorModal";
 import InputWrapper from "@/components/shared/InputWrapper";
+import AgeGroupSelector from "@/components/profile/AgeGroupSelector";
 import useErrorModal from "@/hooks/useErrorModal";
+import { toggleInterestField } from "@/lib/profile/toggleInterestField";
 import InterestFieldSelector from "./InterestFieldSelector";
 
 export default function OnboardingProfileForm({ email }: { email: string }) {
@@ -53,19 +55,9 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
 
   // 관심분야
   const handleInterestToggle = (targetInterest: string) => {
-    if (
-      profileForm.interestFields.length >= 3 &&
-      !profileForm.interestFields.includes(targetInterest)
-    )
-      return;
-
     setProfileForm((prev) => ({
       ...prev,
-      interestFields: prev.interestFields.includes(targetInterest)
-        ? prev.interestFields.filter(
-            (interestFields) => interestFields !== targetInterest,
-          )
-        : [...prev.interestFields, targetInterest],
+      interestFields: toggleInterestField(prev.interestFields, targetInterest),
     }));
   };
 
@@ -182,36 +174,11 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
 
         <InputWrapper>
           <InputWrapper.Label>연령대</InputWrapper.Label>
-          <div className="flex justify-center gap-2">
-            <Button
-              isActive={profileForm.ageGroup === "TEENS"}
-              aria-pressed={profileForm.ageGroup === "TEENS"}
-              onClick={() => handleAgeGroupToggle("TEENS")}
-            >
-              10대
-            </Button>
-            <Button
-              isActive={profileForm.ageGroup === "TWENTIES"}
-              aria-pressed={profileForm.ageGroup === "TWENTIES"}
-              onClick={() => handleAgeGroupToggle("TWENTIES")}
-            >
-              20대
-            </Button>
-            <Button
-              isActive={profileForm.ageGroup === "THIRTIES"}
-              aria-pressed={profileForm.ageGroup === "THIRTIES"}
-              onClick={() => handleAgeGroupToggle("THIRTIES")}
-            >
-              30대
-            </Button>
-            <Button
-              isActive={profileForm.ageGroup === "FOURTIES"}
-              aria-pressed={profileForm.ageGroup === "FOURTIES"}
-              onClick={() => handleAgeGroupToggle("FOURTIES")}
-            >
-              40대
-            </Button>
-          </div>
+          <AgeGroupSelector
+            value={profileForm.ageGroup}
+            onSelect={handleAgeGroupToggle}
+            variant="onboarding"
+          />
         </InputWrapper>
 
         <InputWrapper>

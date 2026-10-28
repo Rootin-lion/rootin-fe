@@ -1,38 +1,53 @@
 "use client";
 
+import { useState } from "react";
 import ChevronIcon from "@/assets/icon/shared/chevron.svg";
+import { CATEGORY_LABEL } from "@/constants/shared/category";
+import type { MyReviewItem } from "@/types/my/review";
 import ProblemCategory from "../shared/ProblemCategory";
 import ProblemDate from "../shared/ProblemDate";
 import ProblemText from "../shared/ProblemText";
 import ReviewItemDetail from "./ReviewItemDetail";
-import { useState } from "react";
 
-export default function ReviewItem() {
-  const [isShow, setIsShow] = useState<boolean>(false);
+export default function ReviewItem({ review }: { review: MyReviewItem }) {
+  const [isShow, setIsShow] = useState(false);
+  const detailId = `review-detail-${review.competitionId}-${review.competitionProblemId}`;
 
   return (
     <div className="flex w-full flex-col gap-3 rounded-xl border border-[#E1E1E1] bg-white px-4 py-5">
-      <div
-        className="flex cursor-pointer flex-row items-start justify-between"
-        onClick={() => setIsShow((prev) => !prev)}
-      >
+      <div className="relative flex flex-row items-start justify-between">
+        <button
+          type="button"
+          aria-label={`${review.title} 답변 ${isShow ? "접기" : "펼치기"}`}
+          aria-expanded={isShow}
+          aria-controls={detailId}
+          className="focus-visible:outline-primary absolute inset-0 z-10 cursor-pointer rounded-lg focus-visible:outline-2"
+          onClick={() => setIsShow((prev) => !prev)}
+        />
         <div className="flex min-w-0 flex-row items-start gap-2">
-          <ProblemCategory label="알고리즘" className="bg-[#FEF3F2]" />
+          <ProblemCategory
+            label={CATEGORY_LABEL[review.category] ?? review.category}
+            className="bg-[#FEF3F2]"
+          />
           <ProblemText
-            title="동적 프로그래밍 - 배낭 문제 풀이법"
-            description="0/1 배낭 문제(Knapsack Problem)에서 DP 테이블을 구성하는 방법과 시간복잡도를 설명하세요."
+            title={review.title}
+            description={review.problemContent}
             descriptionClassName="text-sub-text"
           />
         </div>
         <div className="ml-4 flex shrink-0 flex-col items-center justify-between self-stretch">
-          <ProblemDate date="2026.04.14" />
+          <ProblemDate date={review.participationDate.replaceAll("-", ".")} />
           <ChevronIcon
             strokeWidth={2}
             className="h-4 w-2.5 rotate-90 text-[#999999]"
           />
         </div>
       </div>
-      {isShow && <ReviewItemDetail />}
+      {isShow && (
+        <div id={detailId}>
+          <ReviewItemDetail review={review} />
+        </div>
+      )}
     </div>
   );
 }

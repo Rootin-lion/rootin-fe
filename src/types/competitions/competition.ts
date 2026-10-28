@@ -2,7 +2,7 @@ export type CompetitionStatuType = "BEFORE_START" | "IN_PROGRESS" | "CLOSED";
 
 export type ProblemStatus = "CORRECT" | "WRONG" | "UNANSWERED";
 
-export type PanelType = "solve" | "result";
+export type PanelType = "solve" | "result" | "bookmark";
 export interface TodayCompetitionState {
   competitionId: number;
   competitionDate: string;
