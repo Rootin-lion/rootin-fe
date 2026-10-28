@@ -20,6 +20,8 @@ export default function ResultDetailSide({
       <AnalysisSection
         strongCategories={competitionResult.strongCategories}
         weakCategories={competitionResult.weakCategories}
+        accuracy={competitionResult.accuracy}
+        topPercent={competitionResult.topPercent}
       />
     </div>
   );

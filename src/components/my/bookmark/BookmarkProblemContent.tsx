@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getResultProblemAction } from "@/app/(service)/competitions/action";
 import ProblemPanel from "@/components/competition/shared/ProblemPanel";
@@ -45,17 +44,8 @@ export default function BookmarkProblemContent({
   }, [competitionId, competitionProblemId]);
 
   return (
-    <div className="bg-bg-green-50 min-h-dvh w-full px-4 pb-20">
-      <div className="mx-auto max-w-2xl pt-12">
-        <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-text text-xl font-semibold">CS 대회 문제</h1>
-          <Link
-            href="/my?section=bookmark"
-            className="text-primary focus-visible:outline-primary text-sm hover:underline focus-visible:rounded-sm focus-visible:outline-2"
-          >
-            북마크 목록으로
-          </Link>
-        </div>
+    <div className="bg-bg-green-50 mx-auto min-h-dvh w-full max-w-5xl pb-20">
+      <div className="mx-auto w-full max-w-213 pt-12">
         {errorMessage ? (
           <p
             className="rounded-lg bg-white px-6 py-7 text-center text-sm"

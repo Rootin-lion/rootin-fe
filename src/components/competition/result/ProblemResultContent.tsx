@@ -28,6 +28,8 @@ export default function ProblemResultContent({
       problemResults: [],
       strongCategories: [],
       weakCategories: [],
+      accuracy: 0,
+      topPercent: 0,
     });
 
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
