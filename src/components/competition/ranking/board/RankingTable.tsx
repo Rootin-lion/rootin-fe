@@ -76,12 +76,12 @@ const TableItem = ({
           <Image
             src={profileImageUrl || CharImg}
             alt=""
-            width={40}
-            height={40}
+            width={32}
+            height={32}
             unoptimized={Boolean(profileImageUrl)}
             className={
               profileImageUrl
-                ? "h-full w-full object-cover"
+                ? "h-8 w-8 rounded-full object-cover"
                 : "h-8 w-8 object-contain"
             }
           />
@@ -89,7 +89,7 @@ const TableItem = ({
         <p className="min-w-0 truncate">{ranking.nickname ?? "-"}</p>
       </div>
       <p>{ranking.score ?? 0}점</p>
-      <p>8P</p>
+      <p>{ranking.point ?? 0}P</p>
     </div>
   );
 };
@@ -124,7 +124,7 @@ export default function RankingTable({
   }, [focusTarget, rankings]);
 
   return (
-    <div className="text-body-3 mt-4 w-full rounded-lg bg-white p-5 text-black">
+    <div className="text-body-3 mt-4 min-h-40 w-full rounded-lg bg-white p-5 text-black">
       <TableHeader />
       <div>
         {rankings.map((ranking) => {

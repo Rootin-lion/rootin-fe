@@ -9,6 +9,8 @@ type CardType = "STRENGTH" | "WEAKNESS" | "CORRECT";
 interface AnalysisCardWrapperProps {
   type: CardType;
   items?: string[];
+  accuracy?: number;
+  topPercent?: number;
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -29,6 +31,8 @@ const CARD_TYPE = {
 const AnalysisCardWrapper = ({
   type,
   items = [],
+  accuracy,
+  topPercent,
 }: AnalysisCardWrapperProps) => {
   const itemLabels = items.map((item) => CATEGORY_LABELS[item] ?? item);
 
@@ -45,7 +49,7 @@ const AnalysisCardWrapper = ({
         </div>
         <p className="text-[13px] font-semibold text-[#6A6A6A]">
           {type === "CORRECT"
-            ? "80% (상위 20%)"
+            ? `${accuracy}% (상위 ${topPercent}%)`
             : itemLabels.length > 0
               ? itemLabels.join(", ")
               : "-"}
@@ -58,9 +62,13 @@ const AnalysisCardWrapper = ({
 export default function AnalysisSection({
   strongCategories,
   weakCategories,
+  accuracy,
+  topPercent,
 }: {
   strongCategories: string[];
   weakCategories: string[];
+  accuracy: number;
+  topPercent: number;
 }) {
   return (
     <DetailWrapper>
@@ -70,7 +78,11 @@ export default function AnalysisSection({
       <div className="flex justify-center gap-7.5 px-8 py-4">
         <AnalysisCardWrapper type="STRENGTH" items={strongCategories} />
         <AnalysisCardWrapper type="WEAKNESS" items={weakCategories} />
-        <AnalysisCardWrapper type="CORRECT" />
+        <AnalysisCardWrapper
+          type="CORRECT"
+          accuracy={accuracy}
+          topPercent={topPercent}
+        />
       </div>
     </DetailWrapper>
   );

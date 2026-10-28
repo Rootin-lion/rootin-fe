@@ -19,6 +19,7 @@ export interface RankingState {
   nickname: string;
   imgUrl: null | string;
   score: number;
+  point: number;
   submittedAt: string;
 }
 
@@ -84,6 +85,8 @@ export interface CompetitionResultState {
   problemResults: ProblemResult[];
   strongCategories: string[];
   weakCategories: string[];
+  accuracy: number;
+  topPercent: number;
 }
 
 export interface ResultOptionState {
