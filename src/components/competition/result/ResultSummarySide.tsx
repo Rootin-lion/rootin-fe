@@ -6,19 +6,44 @@ import CharImg from "@/assets/competitions/result/char.png";
 import type { CompetitionResultState } from "@/types/competitions/competition";
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
 import { formatCompetitionDateWithWeekday } from "@/lib/competitions/formatCompetitionDateWithWeekday";
+import { useTodayCompetitionStore } from "@/stores/useTodayCompetitionStore";
 import RankSection from "./RankSection";
 import ScoreSection from "./ScoreSection";
 
 export default function ResultSummarySide({
-  competitionId,
   competitionResult,
   profileImageUrl,
 }: {
-  competitionId: number;
   competitionResult: CompetitionResultState;
   profileImageUrl: string | null;
 }) {
   const router = useRouter();
+  const handleRankingClick = () => {
+    const { todayCompetition, clearTodayCompetition } =
+      useTodayCompetitionStore.getState();
+    const today = new Intl.DateTimeFormat("sv-SE", {
+      timeZone: "Asia/Seoul",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date());
+
+    if (
+      !todayCompetition ||
+      !Number.isSafeInteger(todayCompetition.competitionId) ||
+      todayCompetition.competitionId <= 0 ||
+      todayCompetition.competitionDate.slice(0, 10) !== today
+    ) {
+      clearTodayCompetition();
+      router.push("/competitions");
+      return;
+    }
+
+    router.push(
+      `/competitions/${todayCompetition.competitionId}/ranking?period=DAILY&page=1`,
+    );
+  };
+
   return (
     <div className="flex max-h-122.5 w-37 shrink-0 flex-col items-center rounded-lg bg-white px-5 py-7">
       <div className="border-primary-300 flex h-20 w-20 shrink-0 flex-col items-center justify-center overflow-hidden rounded-full border">
@@ -39,11 +64,7 @@ export default function ResultSummarySide({
       <RankSection competitionResult={competitionResult} />
       <PrimaryDarkButton
         className="mt-4 py-2 text-center text-[12px]"
-        onClick={() =>
-          router.push(
-            `/competitions/${competitionId}/ranking?period=DAILY&page=1`,
-          )
-        }
+        onClick={handleRankingClick}
       >
         랭킹 보기
       </PrimaryDarkButton>

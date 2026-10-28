@@ -68,7 +68,6 @@ export default function ProblemResultContent({
       )}
 
       <ResultSummarySide
-        competitionId={competitionId}
         competitionResult={competitionResult}
         profileImageUrl={profileImageUrl}
       />

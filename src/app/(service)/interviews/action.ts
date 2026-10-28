@@ -12,49 +12,23 @@ import {
   submitInterviewAnswer,
 } from "@/apis/interview";
 import { actionFailure } from "@/lib/shared/actionFailure";
+import { executeNestedDataAction } from "@/lib/shared/executeDataAction";
 import { apiError } from "@/lib/shared/apiError";
 
 // 면접 진입
 export async function createInterviewAction(payload: InterviewConfig) {
-  try {
-    const res = await createInterview(payload);
-    const data = res.data.data;
-
-    if (!data) {
-      return actionFailure({
-        code: "INTERVIEW_FAILED",
-        message: "면접 생성에 실패했습니다.",
-      });
-    }
-
-    return {
-      ok: true,
-      data,
-    } as const;
-  } catch (error) {
-    return actionFailure(apiError(error, "면접 생성에 실패했습니다."));
-  }
+  return executeNestedDataAction(() => createInterview(payload), {
+    code: "INTERVIEW_FAILED",
+    message: "면접 생성에 실패했습니다.",
+  });
 }
 
 // 면접 질문 조회
 export async function getInterviewQuestionAction(interviewId: number) {
-  try {
-    const res = await getInterviewQuestion(interviewId);
-    const data = res.data.data;
-
-    if (!data)
-      return actionFailure({
-        code: "INTERVIEW_FAILED",
-        message: "질문 조회에 실패했습니다.",
-      });
-
-    return {
-      ok: true,
-      data,
-    } as const;
-  } catch (error) {
-    return actionFailure(apiError(error, "질문 조회에 실패했습니다."));
-  }
+  return executeNestedDataAction(() => getInterviewQuestion(interviewId), {
+    code: "INTERVIEW_FAILED",
+    message: "질문 조회에 실패했습니다.",
+  });
 }
 
 // 답변 제출 및 다음 질문 조회
@@ -116,21 +90,8 @@ export async function generateInterviewReportAction(interviewId: number) {
 
 // 면접 결과 조회
 export async function getMyInterviewReportAction(interviewId: number) {
-  try {
-    const res = await getMyInterviewReport(interviewId);
-    const data = res.data.data;
-
-    if (!data)
-      return actionFailure({
-        code: "INTERVIEW_FAILED",
-        message: "면접 리포트 조회에 실패했습니다.",
-      });
-
-    return {
-      ok: true,
-      data,
-    } as const;
-  } catch (error) {
-    return actionFailure(apiError(error, "면접 리포트 조회에 실패했습니다."));
-  }
+  return executeNestedDataAction(() => getMyInterviewReport(interviewId), {
+    code: "INTERVIEW_FAILED",
+    message: "면접 리포트 조회에 실패했습니다.",
+  });
 }

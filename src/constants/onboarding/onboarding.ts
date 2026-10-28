@@ -6,3 +6,10 @@ export const INTEREST_FIELD_OPTIONS = [
   { label: "자바/스프링", value: "JAVA_SPRING" },
   { label: "운영체제", value: "OPERATING_SYSTEM" },
 ];
+
+export const AGE_GROUP_OPTIONS = [
+  { label: "10대", value: "TEENS" },
+  { label: "20대", value: "TWENTIES" },
+  { label: "30대", value: "THIRTIES" },
+  { label: "40대", value: "FOURTIES" },
+];

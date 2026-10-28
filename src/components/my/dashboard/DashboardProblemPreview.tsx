@@ -1,13 +1,16 @@
 import type { BookmarksState, WrongAnswersState } from "@/types/my/dashboard";
 import BookmarkPreview from "./BookmarkPreview";
 import ReviewPreview from "./ReviewPreview";
+import { MySection } from "../MySidebar";
 
 export default function DashboardProblemPreview({
   bookmarks,
   reviews,
+  onSideChange,
 }: {
   bookmarks: BookmarksState[];
   reviews: WrongAnswersState[];
+  onSideChange: (side: MySection) => void;
 }) {
   return (
     <div className="border-primary-200 flex flex-col gap-5 rounded-[14px] border px-6 pt-4 pb-7">
@@ -15,8 +18,8 @@ export default function DashboardProblemPreview({
         나의 문제들
       </p>
       <div className="flex flex-row justify-between">
-        <BookmarkPreview bookmarks={bookmarks} />
-        <ReviewPreview reviews={reviews} />
+        <BookmarkPreview bookmarks={bookmarks} onSideChange={onSideChange} />
+        <ReviewPreview reviews={reviews} onSideChange={onSideChange} />
       </div>
     </div>
   );

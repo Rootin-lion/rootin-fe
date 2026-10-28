@@ -3,7 +3,8 @@ import type { AuthSession } from "@/types/oauth/oauth";
 import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
 import MyContent from "@/components/my/MyContent";
 
-export default async function MyPage() {
+export default async function MyPage(props: PageProps<"/my">) {
+  const { section } = await props.searchParams;
   const rawSession = (await cookies()).get(MEMBER_SNAPSHOT_COOKIE)?.value;
   let member: AuthSession["member"] | null = null;
 
@@ -24,5 +25,11 @@ export default async function MyPage() {
     .format(new Date())
     .replaceAll("-", ".");
 
-  return <MyContent member={member} today={today} />;
+  return (
+    <MyContent
+      member={member}
+      today={today}
+      initialSection={section === "bookmark" ? "bookmark" : "dashboard"}
+    />
+  );
 }

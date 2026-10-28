@@ -12,15 +12,15 @@ export default function InterviewResultQuestionFeedbackItem({
   question: InterviewReportQuestion;
   followUpQuestions: InterviewReportQuestion[];
 }) {
-  const [isShow, setIsShow] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   return (
     <div className="border-primary-200 rounded-lg border">
       <button
         type="button"
-        aria-expanded={isShow}
+        aria-expanded={isExpanded}
         className="bg-primary-200 flex w-full cursor-pointer flex-row items-center gap-4 rounded-lg p-4 text-left"
-        onClick={() => setIsShow((prev) => !prev)}
+        onClick={() => setIsExpanded((prev) => !prev)}
       >
         <div className="bg-primary-800 flex h-6 w-6 shrink-0 items-center justify-center rounded-[50%] text-[14px] font-normal text-white">
           {question.questionOrder}
@@ -30,11 +30,11 @@ export default function InterviewResultQuestionFeedbackItem({
         </p>
         <span className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center text-[#666666]">
           <ChevronIcon
-            className={`h-6 w-3.5 transition-transform ${isShow ? "-rotate-90" : "rotate-90"}`}
+            className={`h-6 w-3.5 transition-transform ${isExpanded ? "-rotate-90" : "rotate-90"}`}
           />
         </span>
       </button>
-      {isShow && (
+      {isExpanded && (
         <InterviewResultQuestionFeedbackDetail
           question={question}
           followUpQuestions={followUpQuestions}

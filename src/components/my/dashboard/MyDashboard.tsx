@@ -13,8 +13,15 @@ import CategoryAccuracyChart from "./CategoryAccuracyChart";
 import DashboardGrass from "./DashboardGrass";
 import DashboardProblemPreview from "./DashboardProblemPreview";
 import DashboardStatCard from "./DashboardStatCard";
+import { MySection } from "../MySidebar";
 
-export default function MyDashboard({ today }: { today: string }) {
+export default function MyDashboard({
+  today,
+  onSideChange,
+}: {
+  today: string;
+  onSideChange: (side: MySection) => void;
+}) {
   const [dashboardData, setDashboardData] = useState<DashboardData>();
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
@@ -44,7 +51,7 @@ export default function MyDashboard({ today }: { today: string }) {
     void getDashboard();
   }, [setErrorContext, openModal]);
 
-  const Stats = [
+  const statItems = [
     {
       key: "solved",
       title: "총 풀이 수",
@@ -93,7 +100,7 @@ export default function MyDashboard({ today }: { today: string }) {
       )}
 
       <div className="flex flex-row justify-between">
-        {Stats.map((stat) => (
+        {statItems.map((stat) => (
           <DashboardStatCard key={stat.key} stat={stat} />
         ))}
       </div>
@@ -106,6 +113,7 @@ export default function MyDashboard({ today }: { today: string }) {
       <DashboardProblemPreview
         bookmarks={dashboardData?.bookmarks ?? []}
         reviews={dashboardData?.wrongAnswers ?? []}
+        onSideChange={onSideChange}
       />
     </div>
   );

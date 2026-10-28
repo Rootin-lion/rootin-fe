@@ -10,6 +10,8 @@ import RankingPagination from "./RankingPagination";
 
 const rowLayout =
   "grid grid-cols-[80px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-x-4 px-5 text-center";
+const rankBadgeLayout =
+  "flex h-6.5 w-6.5 shrink-0 items-center justify-center justify-self-center rounded-[50%]";
 
 const rankBoxStyles: Record<number, string> = {
   1: "bg-[#FFFCF5]",
@@ -45,25 +47,28 @@ const TableHeader = () => {
 const TableItem = ({
   ranking,
   rowRef,
+  isTarget,
 }: {
   ranking: RankingState;
   rowRef?: Ref<HTMLDivElement>;
+  isTarget: boolean;
 }) => {
-  const rankBoxStyle = rankBoxStyles[ranking.rank] ?? "bg-white";
+  const rankBoxStyle = isTarget
+    ? "bg-bg-green-50 text-primary-900 font-medium"
+    : (rankBoxStyles[ranking.rank] ?? "bg-white");
   const rankItemStyle = rankItemStyles[ranking.rank];
   const rankProfileStyle = rankProfileStyles[ranking.rank] ?? "bg-primary-200";
   const profileImageUrl = ranking.imgUrl?.trim();
+  const rankBadgeClassName = rankItemStyle
+    ? `${rankBadgeLayout} ${rankItemStyle}`
+    : undefined;
 
   return (
     <div
       ref={rowRef}
       className={`${rowLayout} ${rankBoxStyle} border-b border-[#E1E1E1]`}
     >
-      <p
-        className={`${rankItemStyle ? `flex h-6.5 w-6.5 shrink-0 items-center justify-center justify-self-center rounded-[50%] ${rankItemStyle}` : ""}`}
-      >
-        {ranking.rank ?? 0}
-      </p>
+      <p className={rankBadgeClassName}>{ranking.rank ?? 0}</p>
       <div className="flex w-full max-w-48 -translate-x-3 items-center gap-3 justify-self-center py-1.5 text-left">
         <div
           className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full ${rankProfileStyle}`}
@@ -130,15 +135,18 @@ export default function RankingTable({
               key={ranking.memberId}
               ranking={ranking}
               rowRef={isTarget ? targetRowRef : undefined}
+              isTarget={isTarget}
             />
           );
         })}
       </div>
-      <RankingPagination
-        currentPage={currentPage}
-        totalPage={totalPage}
-        onClick={onClick}
-      />
+      {rankings.length > 0 && (
+        <RankingPagination
+          currentPage={currentPage}
+          totalPage={totalPage}
+          onClick={onClick}
+        />
+      )}
     </div>
   );
 }

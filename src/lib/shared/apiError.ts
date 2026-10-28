@@ -14,5 +14,6 @@ export function apiError(error: unknown, message: string) {
     code:
       responseData?.error?.code ?? responseData?.errorCode ?? "UNKNOWN_ERROR",
     message: responseData?.error?.message ?? responseData?.message ?? message,
+    status: error.response?.status,
   };
 }

@@ -1,12 +1,12 @@
 import { useRouter } from "next/navigation";
-import type { ContestResultsState } from "@/types/competitions/competition";
+import type { CompetitionResults } from "@/types/competitions/competition";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
 import { formatCompetitionDateWithWeekday } from "@/lib/competitions/formatCompetitionDateWithWeekday";
 
 export default function CompetitionResultCard({
   contest,
 }: {
-  contest: ContestResultsState;
+  contest: CompetitionResults;
 }) {
   const router = useRouter();
 

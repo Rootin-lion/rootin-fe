@@ -1,57 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import PageIcon from "@/assets/my/report/page.png";
 import type { MyReportsPage } from "@/types/my/report";
 import { getMyReportsAction } from "@/app/(service)/my/action";
 import BarPagination from "@/components/shared/BarPagination";
+import useMyPagedList from "../hooks/useMyPagedList";
 import ReportItem from "./ReportItem";
 
 export default function MyReport() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [reportsPage, setReportsPage] = useState<MyReportsPage | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasLoadError, setHasLoadError] = useState(false);
-
-  useEffect(() => {
-    let ignore = false;
-
-    const loadReports = async () => {
-      try {
-        const res = await getMyReportsAction(currentPage);
-        if (ignore) return;
-
-        if (!res.ok) {
-          setReportsPage(null);
-          setHasLoadError(true);
-          return;
-        }
-
-        setReportsPage(res.data);
-        setHasLoadError(false);
-      } catch {
-        if (ignore) return;
-        setReportsPage(null);
-        setHasLoadError(true);
-      } finally {
-        if (!ignore) setIsLoading(false);
-      }
-    };
-
-    void loadReports();
-
-    return () => {
-      ignore = true;
-    };
-  }, [currentPage]);
-
-  const handlePageChange = (page: number) => {
-    if (page === currentPage) return;
-    setIsLoading(true);
-    setHasLoadError(false);
-    setCurrentPage(page);
-  };
+  const {
+    currentPage,
+    pageData: reportsPage,
+    isLoading,
+    hasLoadError,
+    changePage,
+  } = useMyPagedList<MyReportsPage>(getMyReportsAction);
 
   return (
     <div className="flex flex-col justify-between">
@@ -84,7 +48,7 @@ export default function MyReport() {
         <BarPagination
           currentPage={currentPage}
           totalPages={reportsPage?.totalPages ?? 0}
-          onPageChange={handlePageChange}
+          onPageChange={changePage}
           className="mt-20"
         />
       )}
