@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { ContestResultsState } from "@/types/competitions/competition";
+import type { CompetitionResults } from "@/types/competitions/competition";
 import { getPastCompetitionAction } from "@/app/(service)/competitions/action";
 import BoxWrapper from "@/components/competition/shared/BoxWrapper";
 import BarPagination from "@/components/shared/BarPagination";
@@ -12,7 +12,7 @@ import SectionTitle from "./shared/SectionTitle";
 
 export default function PastCompetitionSection() {
   // 과거 대회 상태
-  const [contestResults, setContestResults] = useState<ContestResultsState[]>(
+  const [contestResults, setContestResults] = useState<CompetitionResults[]>(
     [],
   );
   // 총 페이지 상태

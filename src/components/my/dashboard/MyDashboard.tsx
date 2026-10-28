@@ -51,7 +51,7 @@ export default function MyDashboard({
     void getDashboard();
   }, [setErrorContext, openModal]);
 
-  const Stats = [
+  const statItems = [
     {
       key: "solved",
       title: "총 풀이 수",
@@ -100,7 +100,7 @@ export default function MyDashboard({
       )}
 
       <div className="flex flex-row justify-between">
-        {Stats.map((stat) => (
+        {statItems.map((stat) => (
           <DashboardStatCard key={stat.key} stat={stat} />
         ))}
       </div>

@@ -1,13 +1,13 @@
 import Image from "next/image";
 import BannerImg from "@/assets/competitions/bannerImg.png";
-import type { CompetitionStatuType } from "@/types/competitions/competition";
+import type { CompetitionStatus } from "@/types/competitions/competition";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
 
 export default function CompetitionCtaBanner({
   isOpen,
   onClick,
 }: {
-  isOpen: CompetitionStatuType;
+  isOpen: CompetitionStatus;
   onClick: () => void;
 }) {
   return (

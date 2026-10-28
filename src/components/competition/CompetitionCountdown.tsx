@@ -1,11 +1,11 @@
 "use client";
 
-import type { CompetitionStatuType } from "@/types/competitions/competition";
+import type { CompetitionStatus } from "@/types/competitions/competition";
 import useDeadlineCountdown from "@/hooks/useDeadlineCountdown";
 
 interface ContestCountdownProps {
   initialSeconds: number;
-  status: CompetitionStatuType;
+  status: CompetitionStatus;
   onExpire?: () => void;
 }
 

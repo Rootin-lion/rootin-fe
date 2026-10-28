@@ -1,4 +1,4 @@
-export type CompetitionStatuType = "BEFORE_START" | "IN_PROGRESS" | "CLOSED";
+export type CompetitionStatus = "BEFORE_START" | "IN_PROGRESS" | "CLOSED";
 
 export type ProblemStatus = "CORRECT" | "WRONG" | "UNANSWERED";
 
@@ -8,7 +8,7 @@ export interface TodayCompetitionState {
   competitionDate: string;
   startAt: string;
   endAt: string;
-  status: CompetitionStatuType;
+  status: CompetitionStatus;
   remainingSeconds: number;
   participantCount: number;
 }
@@ -22,7 +22,7 @@ export interface RankingState {
   submittedAt: string;
 }
 
-export interface ContestResultsState {
+export interface CompetitionResults {
   competitionId: number;
   competitionDate: string;
   problemCount: number;

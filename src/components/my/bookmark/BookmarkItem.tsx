@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BookmarkIcon from "@/assets/icon/shared/bookmark.svg";
 import { CATEGORY_LABEL } from "@/constants/shared/category";
+import { formatDottedDate } from "@/lib/shared/formatDottedDate";
 import type { MyBookmarkItem } from "@/types/my/bookmark";
 import ProblemCategory from "../shared/ProblemCategory";
 import ProblemDate from "../shared/ProblemDate";
@@ -45,7 +46,7 @@ export default function BookmarkItem({
           />
         </div>
         <div className="ml-4 shrink-0">
-          <ProblemDate date={item.participationDate.replaceAll("-", ".")} />
+          <ProblemDate date={formatDottedDate(item.participationDate)} />
         </div>
       </Link>
     </div>

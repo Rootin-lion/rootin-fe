@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 import { CATEGORY_LABEL } from "@/constants/shared/category";
+import { formatDottedDate } from "@/lib/shared/formatDottedDate";
 import type { MyReviewItem } from "@/types/my/review";
 import ProblemCategory from "../shared/ProblemCategory";
 import ProblemDate from "../shared/ProblemDate";
@@ -10,7 +11,7 @@ import ProblemText from "../shared/ProblemText";
 import ReviewItemDetail from "./ReviewItemDetail";
 
 export default function ReviewItem({ review }: { review: MyReviewItem }) {
-  const [isShow, setIsShow] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const detailId = `review-detail-${review.competitionId}-${review.competitionProblemId}`;
 
   return (
@@ -18,11 +19,11 @@ export default function ReviewItem({ review }: { review: MyReviewItem }) {
       <div className="relative flex flex-row items-start justify-between">
         <button
           type="button"
-          aria-label={`${review.title} 답변 ${isShow ? "접기" : "펼치기"}`}
-          aria-expanded={isShow}
+          aria-label={`${review.title} 답변 ${isExpanded ? "접기" : "펼치기"}`}
+          aria-expanded={isExpanded}
           aria-controls={detailId}
           className="focus-visible:outline-primary absolute inset-0 z-10 cursor-pointer rounded-lg focus-visible:outline-2"
-          onClick={() => setIsShow((prev) => !prev)}
+          onClick={() => setIsExpanded((prev) => !prev)}
         />
         <div className="flex min-w-0 flex-row items-start gap-2">
           <ProblemCategory
@@ -36,14 +37,14 @@ export default function ReviewItem({ review }: { review: MyReviewItem }) {
           />
         </div>
         <div className="ml-4 flex shrink-0 flex-col items-center justify-between self-stretch">
-          <ProblemDate date={review.participationDate.replaceAll("-", ".")} />
+          <ProblemDate date={formatDottedDate(review.participationDate)} />
           <ChevronIcon
             strokeWidth={2}
             className="h-4 w-2.5 rotate-90 text-[#999999]"
           />
         </div>
       </div>
-      {isShow && (
+      {isExpanded && (
         <div id={detailId}>
           <ReviewItemDetail review={review} />
         </div>
