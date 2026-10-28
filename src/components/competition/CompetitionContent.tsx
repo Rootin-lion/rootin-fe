@@ -12,6 +12,7 @@ import ErrorModal from "@/components/shared/ErrorModal";
 import useErrorModal from "@/hooks/useErrorModal";
 import useModal from "@/hooks/useModal";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
+import { useTodayCompetitionStore } from "@/stores/useTodayCompetitionStore";
 import CompetitionBanner from "./CompetitionBanner";
 import CompetitionCtaBanner from "./CompetitionCtaBanner";
 import CompetitionJoinModal from "./CompetitionJoinModal";
@@ -35,6 +36,12 @@ export default function CompetitionContent() {
   const setParticipation = useCompetitionParticipationStore(
     (state) => state.setParticipation,
   );
+  const saveTodayCompetition = useTodayCompetitionStore(
+    (state) => state.saveTodayCompetition,
+  );
+  const clearTodayCompetition = useTodayCompetitionStore(
+    (state) => state.clearTodayCompetition,
+  );
   // 에러 모달 상태
   const {
     error,
@@ -52,6 +59,7 @@ export default function CompetitionContent() {
       const res = await getTodayCompetitionAction();
 
       if (!res.ok) {
+        clearTodayCompetition();
         setErrorContext(res.error);
         setTodayCompetition((prev) => ({
           ...prev,
@@ -63,7 +71,12 @@ export default function CompetitionContent() {
       }
 
       setTodayCompetition(res.data);
+      saveTodayCompetition({
+        competitionId: res.data.competitionId,
+        competitionDate: res.data.competitionDate,
+      });
     } catch {
+      clearTodayCompetition();
       setErrorContext({
         code: "UNKNOWN_ERROR",
         message: "대회를 불러오지 못했습니다.",
@@ -74,7 +87,12 @@ export default function CompetitionContent() {
       }));
       openErrorModal();
     }
-  }, [openErrorModal, setErrorContext]);
+  }, [
+    clearTodayCompetition,
+    openErrorModal,
+    saveTodayCompetition,
+    setErrorContext,
+  ]);
 
   // 대회 진입
   const joinCompetition = async () => {
