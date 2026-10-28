@@ -13,8 +13,15 @@ import CategoryAccuracyChart from "./CategoryAccuracyChart";
 import DashboardGrass from "./DashboardGrass";
 import DashboardProblemPreview from "./DashboardProblemPreview";
 import DashboardStatCard from "./DashboardStatCard";
+import { MySection } from "../MySidebar";
 
-export default function MyDashboard({ today }: { today: string }) {
+export default function MyDashboard({
+  today,
+  onSideChange,
+}: {
+  today: string;
+  onSideChange: (side: MySection) => void;
+}) {
   const [dashboardData, setDashboardData] = useState<DashboardData>();
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
@@ -106,6 +113,7 @@ export default function MyDashboard({ today }: { today: string }) {
       <DashboardProblemPreview
         bookmarks={dashboardData?.bookmarks ?? []}
         reviews={dashboardData?.wrongAnswers ?? []}
+        onSideChange={onSideChange}
       />
     </div>
   );

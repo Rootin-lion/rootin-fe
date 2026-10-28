@@ -2,11 +2,14 @@ import ReviewIcon from "@/assets/review.svg";
 import type { WrongAnswersState } from "@/types/my/dashboard";
 import EmptyPreview from "./EmptyPreview";
 import PreviewItem from "./PreviewItem";
+import { MySection } from "../MySidebar";
 
 export default function ReviewPreview({
   reviews,
+  onSideChange,
 }: {
   reviews: WrongAnswersState[];
+  onSideChange: (side: MySection) => void;
 }) {
   return (
     <div className="bg-bg-green-50 w-full max-w-98.75 rounded-lg p-2.5">
@@ -15,7 +18,12 @@ export default function ReviewPreview({
           <ReviewIcon className="h-6 w-6 shrink-0" />
           <p className="text-[14px] font-semibold">오답노트</p>
         </div>
-        <p className="text-sub-text cursor-pointer text-[10px] font-medium">
+        <p
+          className="text-sub-text cursor-pointer text-[10px] font-medium"
+          onClick={() => {
+            onSideChange("review");
+          }}
+        >
           더보기
         </p>
       </div>

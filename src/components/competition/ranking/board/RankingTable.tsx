@@ -47,11 +47,15 @@ const TableHeader = () => {
 const TableItem = ({
   ranking,
   rowRef,
+  isTarget,
 }: {
   ranking: RankingState;
   rowRef?: Ref<HTMLDivElement>;
+  isTarget: boolean;
 }) => {
-  const rankBoxStyle = rankBoxStyles[ranking.rank] ?? "bg-white";
+  const rankBoxStyle = isTarget
+    ? "bg-bg-green-50 text-primary-900 font-medium"
+    : (rankBoxStyles[ranking.rank] ?? "bg-white");
   const rankItemStyle = rankItemStyles[ranking.rank];
   const rankProfileStyle = rankProfileStyles[ranking.rank] ?? "bg-primary-200";
   const profileImageUrl = ranking.imgUrl?.trim();
@@ -131,15 +135,18 @@ export default function RankingTable({
               key={ranking.memberId}
               ranking={ranking}
               rowRef={isTarget ? targetRowRef : undefined}
+              isTarget={isTarget}
             />
           );
         })}
       </div>
-      <RankingPagination
-        currentPage={currentPage}
-        totalPage={totalPage}
-        onClick={onClick}
-      />
+      {rankings.length > 0 && (
+        <RankingPagination
+          currentPage={currentPage}
+          totalPage={totalPage}
+          onClick={onClick}
+        />
+      )}
     </div>
   );
 }

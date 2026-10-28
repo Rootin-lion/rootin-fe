@@ -2,11 +2,14 @@ import BookmarkIcon from "@/assets/icon/shared/bookmark.svg";
 import type { BookmarksState } from "@/types/my/dashboard";
 import EmptyPreview from "./EmptyPreview";
 import PreviewItem from "./PreviewItem";
+import { MySection } from "../MySidebar";
 
 export default function BookmarkPreview({
   bookmarks,
+  onSideChange,
 }: {
   bookmarks: BookmarksState[];
+  onSideChange: (side: MySection) => void;
 }) {
   return (
     <div className="bg-bg-green-50 w-full max-w-98.75 rounded-lg p-2.5">
@@ -15,7 +18,12 @@ export default function BookmarkPreview({
           <BookmarkIcon className="h-6 w-6" />
           <p className="text-[14px] font-semibold">북마크한 문제</p>
         </div>
-        <p className="text-sub-text cursor-pointer text-[10px] font-medium">
+        <p
+          className="text-sub-text cursor-pointer text-[10px] font-medium"
+          onClick={() => {
+            onSideChange("bookmark");
+          }}
+        >
           더보기
         </p>
       </div>
