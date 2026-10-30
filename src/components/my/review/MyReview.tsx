@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { getMyReviewsAction } from "@/app/(service)/my/action";
 import BarPagination from "@/components/shared/BarPagination";
 import ErrorModal from "@/components/shared/ErrorModal";
+import { getMyListHref } from "@/constants/my/navigation";
 import useErrorModal from "@/hooks/useErrorModal";
 import type { ApiError } from "@/types/api/error";
 import type { MyReviewsPage } from "@/types/my/review";
@@ -19,7 +21,8 @@ function shouldShowReviewErrorModal(error: ApiError) {
   );
 }
 
-export default function MyReview() {
+export default function MyReview({ currentPage }: { currentPage: number }) {
+  const router = useRouter();
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
   const handleLoadError = useCallback(
@@ -32,12 +35,14 @@ export default function MyReview() {
     [setErrorContext, openModal],
   );
   const {
-    currentPage,
     pageData: reviews,
     isLoading,
     hasLoadError,
-    changePage,
-  } = useMyPagedList<MyReviewsPage>(getMyReviewsAction, handleLoadError);
+  } = useMyPagedList<MyReviewsPage>(
+    getMyReviewsAction,
+    currentPage,
+    handleLoadError,
+  );
 
   return (
     <div>
@@ -73,7 +78,9 @@ export default function MyReview() {
         <BarPagination
           currentPage={currentPage}
           totalPages={reviews?.totalPages ?? 0}
-          onPageChange={changePage}
+          onPageChange={(page) =>
+            router.push(getMyListHref("review", page), { scroll: false })
+          }
           className="mt-20"
         />
       )}

@@ -7,12 +7,15 @@ type PageResult<T> = { ok: true; data: T } | { ok: false; error: ApiError };
 
 export default function useMyPagedList<T>(
   loadPage: (page: number) => Promise<PageResult<T>>,
+  currentPage: number,
   onLoadError?: (error: ApiError) => void,
 ) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageData, setPageData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasLoadError, setHasLoadError] = useState(false);
+  const [pageState, setPageState] = useState({
+    page: currentPage,
+    data: null as T | null,
+    hasLoadError: false,
+    isLoading: true,
+  });
 
   useEffect(() => {
     let ignore = false;
@@ -23,20 +26,30 @@ export default function useMyPagedList<T>(
         if (ignore) return;
 
         if (!result.ok) {
-          setPageData(null);
-          setHasLoadError(true);
+          setPageState({
+            page: currentPage,
+            data: null,
+            hasLoadError: true,
+            isLoading: false,
+          });
           onLoadError?.(result.error);
           return;
         }
 
-        setPageData(result.data);
-        setHasLoadError(false);
+        setPageState({
+          page: currentPage,
+          data: result.data,
+          hasLoadError: false,
+          isLoading: false,
+        });
       } catch {
         if (ignore) return;
-        setPageData(null);
-        setHasLoadError(true);
-      } finally {
-        if (!ignore) setIsLoading(false);
+        setPageState({
+          page: currentPage,
+          data: null,
+          hasLoadError: true,
+          isLoading: false,
+        });
       }
     };
 
@@ -46,12 +59,10 @@ export default function useMyPagedList<T>(
     };
   }, [currentPage, loadPage, onLoadError]);
 
-  const changePage = (page: number) => {
-    if (page === currentPage) return;
-    setIsLoading(true);
-    setHasLoadError(false);
-    setCurrentPage(page);
+  const isCurrentPage = pageState.page === currentPage;
+  return {
+    pageData: isCurrentPage ? pageState.data : null,
+    isLoading: !isCurrentPage || pageState.isLoading,
+    hasLoadError: isCurrentPage && pageState.hasLoadError,
   };
-
-  return { currentPage, pageData, isLoading, hasLoadError, changePage };
 }

@@ -1,21 +1,22 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import PageIcon from "@/assets/my/report/page.png";
 import type { MyReportsPage } from "@/types/my/report";
 import { getMyReportsAction } from "@/app/(service)/my/action";
 import BarPagination from "@/components/shared/BarPagination";
+import { getMyListHref } from "@/constants/my/navigation";
 import useMyPagedList from "../hooks/useMyPagedList";
 import ReportItem from "./ReportItem";
 
-export default function MyReport() {
+export default function MyReport({ currentPage }: { currentPage: number }) {
+  const router = useRouter();
   const {
-    currentPage,
     pageData: reportsPage,
     isLoading,
     hasLoadError,
-    changePage,
-  } = useMyPagedList<MyReportsPage>(getMyReportsAction);
+  } = useMyPagedList<MyReportsPage>(getMyReportsAction, currentPage);
 
   return (
     <div className="flex flex-col justify-between">
@@ -48,7 +49,9 @@ export default function MyReport() {
         <BarPagination
           currentPage={currentPage}
           totalPages={reportsPage?.totalPages ?? 0}
-          onPageChange={changePage}
+          onPageChange={(page) =>
+            router.push(getMyListHref("interview", page), { scroll: false })
+          }
           className="mt-20"
         />
       )}

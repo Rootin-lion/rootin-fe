@@ -6,7 +6,7 @@ import {
   SESSION_TOKEN_COOKIE_OPTIONS,
 } from "@/constants/auth/sessionTokenCookie";
 
-const BaseUrl = process.env.NEXT_API_BASE_URL;
+const apiBaseUrl = process.env.NEXT_API_BASE_URL;
 
 interface SessionToken {
   accessToken: string;
@@ -59,14 +59,14 @@ const getRefreshToken = (setCookie: string | string[] | undefined) => {
 };
 
 export const apiPublic = axios.create({
-  baseURL: BaseUrl,
+  baseURL: apiBaseUrl,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 export const apiClient = axios.create({
-  baseURL: BaseUrl,
+  baseURL: apiBaseUrl,
   headers: {
     "Content-Type": "application/json",
   },

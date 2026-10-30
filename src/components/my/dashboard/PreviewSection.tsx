@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { BookmarksState, WrongAnswersState } from "@/types/my/dashboard";
-import type { MySection } from "../MySidebar";
+import type { MySection } from "@/constants/my/navigation";
 import EmptyPreview from "./EmptyPreview";
 import PreviewItem from "./PreviewItem";
 

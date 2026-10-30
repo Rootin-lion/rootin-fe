@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import CharImg from "@/assets/success_char.png";
 import LogoImg from "@/assets/logo.png";
 import type { AuthMember } from "@/types/oauth/oauth";
 
@@ -76,9 +77,9 @@ export default function Header({ member }: { member: AuthMember | null }) {
           ) : (
             <div
               aria-hidden="true"
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#7FB25B] text-white"
+              className="bg-primary-200 flex h-11 w-11 items-center justify-center overflow-hidden rounded-full"
             >
-              {nickname?.charAt(0).toUpperCase() || "U"}
+              <Image src={CharImg} alt="" className="h-9 w-9 object-contain" />
             </div>
           )}
         </div>

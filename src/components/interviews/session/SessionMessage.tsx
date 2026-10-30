@@ -1,4 +1,5 @@
 import Image from "next/image";
+import CharImg from "@/assets/success_char.png";
 import AiImg from "@/assets/interviews/msg_char.png";
 import type { MessageType } from "@/types/interviews/interview";
 import MessageBubble from "./MessageBubble";
@@ -38,8 +39,8 @@ export default function SessionMessage({
         />
       </div>
       {type === "ANSWER" && (
-        <div className="bg-primary flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full">
-          {profileImageUrl && (
+        <div className="bg-primary-200 flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full">
+          {profileImageUrl ? (
             <Image
               src={profileImageUrl}
               alt="내 프로필"
@@ -48,6 +49,8 @@ export default function SessionMessage({
               unoptimized
               className="h-full w-full object-cover"
             />
+          ) : (
+            <Image src={CharImg} alt="" className="h-10 w-10 object-contain" />
           )}
         </div>
       )}

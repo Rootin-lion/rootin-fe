@@ -1,6 +1,6 @@
 import ReviewIcon from "@/assets/review.svg";
 import type { WrongAnswersState } from "@/types/my/dashboard";
-import type { MySection } from "../MySidebar";
+import type { MySection } from "@/constants/my/navigation";
 import PreviewSection from "./PreviewSection";
 
 export default function ReviewPreview({

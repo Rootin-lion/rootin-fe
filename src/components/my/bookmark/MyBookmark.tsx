@@ -1,22 +1,29 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getMyBookmarksAction } from "@/app/(service)/my/action";
 import BarPagination from "@/components/shared/BarPagination";
 import { removeProblemBookmarkAction } from "@/components/bookmark/action";
 import ErrorModal from "@/components/shared/ErrorModal";
+import { getMyListHref } from "@/constants/my/navigation";
+import type { BookmarkCategory } from "@/constants/my/bookmark";
 import useErrorModal from "@/hooks/useErrorModal";
 import type { MyBookmarkItem } from "@/types/my/bookmark";
-import type { CategoryType } from "@/types/shared/category";
 import BookmarkItem from "./BookmarkItem";
 import BookmarkTitle from "./BookmarkTitle";
 
-export default function MyBookmark() {
-  const [category, setCategory] = useState<CategoryType | "all">("all");
+export default function MyBookmark({
+  category,
+  currentPage,
+}: {
+  category: BookmarkCategory;
+  currentPage: number;
+}) {
+  const router = useRouter();
   const [bookmarks, setBookmarks] = useState<MyBookmarkItem[]>([]);
   const [totalElements, setTotalElements] = useState(0);
   const [pageSize, setPageSize] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [hasLoadError, setHasLoadError] = useState(false);
   const [removingProblemId, setRemovingProblemId] = useState<number | null>(
@@ -66,9 +73,8 @@ export default function MyBookmark() {
     };
   }, []);
 
-  const handleCategoryChange = (category: CategoryType | "all") => {
-    setCategory(category);
-    setCurrentPage(1);
+  const handleCategoryChange = (nextCategory: BookmarkCategory) => {
+    router.push(getMyListHref("bookmark", 1, nextCategory), { scroll: false });
   };
 
   const handleRemoveBookmark = async (problemId: number) => {
@@ -106,6 +112,15 @@ export default function MyBookmark() {
       : bookmarks.filter((bookmark) => bookmark.category === category);
   const filteredTotalPages = Math.ceil(filteredBookmarks.length / pageSize);
   const visiblePage = Math.min(currentPage, Math.max(1, filteredTotalPages));
+
+  useEffect(() => {
+    if (!isLoading && !hasLoadError && currentPage !== visiblePage) {
+      router.replace(getMyListHref("bookmark", visiblePage, category), {
+        scroll: false,
+      });
+    }
+  }, [category, currentPage, hasLoadError, isLoading, router, visiblePage]);
+
   const visibleBookmarks = filteredBookmarks.slice(
     (visiblePage - 1) * pageSize,
     visiblePage * pageSize,
@@ -155,7 +170,11 @@ export default function MyBookmark() {
         <BarPagination
           currentPage={visiblePage}
           totalPages={filteredTotalPages}
-          onPageChange={setCurrentPage}
+          onPageChange={(page) =>
+            router.push(getMyListHref("bookmark", page, category), {
+              scroll: false,
+            })
+          }
           className="mt-20"
         />
       )}

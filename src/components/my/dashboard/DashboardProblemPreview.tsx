@@ -1,7 +1,7 @@
+import type { MySection } from "@/constants/my/navigation";
 import type { BookmarksState, WrongAnswersState } from "@/types/my/dashboard";
 import BookmarkPreview from "./BookmarkPreview";
 import ReviewPreview from "./ReviewPreview";
-import { MySection } from "../MySidebar";
 
 export default function DashboardProblemPreview({
   bookmarks,

@@ -17,20 +17,26 @@ const NumberLabel = ({ number }: { number?: number }) => {
 export default function ProblemPanel({
   variant = "solve",
   currentProblem,
+  children,
   selectedOptionId,
+  selectedOptionIndex,
   isFirstProblem = false,
   isLastProblem = false,
   onSelectOption,
+  onSelectOptionIndex,
   onPrevious,
   onNext,
   onSubmit,
 }: {
   variant?: PanelType;
   currentProblem?: CompetitionProblemDetail | null;
+  children?: React.ReactNode;
   selectedOptionId?: number;
+  selectedOptionIndex?: number;
   isFirstProblem?: boolean;
   isLastProblem?: boolean;
   onSelectOption?: (selectedOptionId: number) => void;
+  onSelectOptionIndex?: (index: number) => void;
   onPrevious?: () => void;
   onNext?: () => void;
   onSubmit?: () => void;
@@ -49,8 +55,11 @@ export default function ProblemPanel({
             currentProblem={currentProblem}
             showBookmark={variant === "result" || variant === "bookmark"}
             selectedOptionId={selectedOptionId}
+            selectedOptionIndex={selectedOptionIndex}
             onSelectOption={onSelectOption}
+            onSelectOptionIndex={onSelectOptionIndex}
           />
+          {children}
         </div>
         {variant === "solve" && (
           <QuestionButtonBox

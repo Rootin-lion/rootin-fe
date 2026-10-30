@@ -1,10 +1,37 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import type { AuthSession } from "@/types/oauth/oauth";
 import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
+import { isBookmarkCategory } from "@/constants/my/bookmark";
+import type { BookmarkCategory } from "@/constants/my/bookmark";
+import {
+  getMyListHref,
+  getMySectionHref,
+  isMySection,
+  parseMyPage,
+} from "@/constants/my/navigation";
 import MyContent from "@/components/my/MyContent";
 
 export default async function MyPage(props: PageProps<"/my">) {
-  const { section } = await props.searchParams;
+  const { section, category, page } = await props.searchParams;
+  if (!isMySection(section)) {
+    redirect(getMySectionHref("dashboard"));
+  }
+
+  const currentPage = parseMyPage(page);
+  let bookmarkCategory: BookmarkCategory = "all";
+
+  if (section === "bookmark") {
+    bookmarkCategory = isBookmarkCategory(category) ? category : "all";
+    if (category !== bookmarkCategory || page !== String(currentPage)) {
+      redirect(getMyListHref(section, currentPage, bookmarkCategory));
+    }
+  } else if (section === "review" || section === "interview") {
+    if (page !== String(currentPage)) {
+      redirect(getMyListHref(section, currentPage));
+    }
+  }
+
   const rawSession = (await cookies()).get(MEMBER_SNAPSHOT_COOKIE)?.value;
   let member: AuthSession["member"] | null = null;
 
@@ -29,7 +56,9 @@ export default async function MyPage(props: PageProps<"/my">) {
     <MyContent
       member={member}
       today={today}
-      initialSection={section === "bookmark" ? "bookmark" : "dashboard"}
+      selectedSection={section}
+      currentPage={currentPage}
+      bookmarkCategory={bookmarkCategory}
     />
   );
 }

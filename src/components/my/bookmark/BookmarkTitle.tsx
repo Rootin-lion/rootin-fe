@@ -1,13 +1,13 @@
 import { BOOKMARK_CATEGORY_OPTIONS } from "@/constants/my/bookmark";
-import type { CategoryType } from "@/types/shared/category";
+import type { BookmarkCategory } from "@/constants/my/bookmark";
 
 export default function BookmarkTitle({
   category,
   onCategoryChange,
   totalElements,
 }: {
-  category: CategoryType | "all";
-  onCategoryChange: (category: CategoryType | "all") => void;
+  category: BookmarkCategory;
+  onCategoryChange: (category: BookmarkCategory) => void;
   totalElements: number;
 }) {
   return (
