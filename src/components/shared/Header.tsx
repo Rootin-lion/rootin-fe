@@ -59,11 +59,7 @@ export default function Header({ member }: { member: AuthMember | null }) {
         </div>
         <div className="flex items-center justify-center gap-4">
           <p className="text-body-2 text-text">
-            {member
-              ? nickname
-                ? `${nickname}님`
-                : `${email}님`
-              : "로그인해 주세요"}
+            {`${nickname || email || "사용자"}님`}
           </p>
           {profileImg ? (
             <Image

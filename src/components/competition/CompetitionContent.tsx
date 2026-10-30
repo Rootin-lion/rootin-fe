@@ -54,7 +54,7 @@ export default function CompetitionContent() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   // 대회 조회
-  const getCompetition = useCallback(async () => {
+  const loadTodayCompetition = useCallback(async () => {
     try {
       const res = await getTodayCompetitionAction();
 
@@ -142,11 +142,11 @@ export default function CompetitionContent() {
   // 대회 0초일 때 재호출
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
-      void getCompetition();
+      void loadTodayCompetition();
     }, 0);
 
     return () => window.clearTimeout(timeoutId);
-  }, [getCompetition]);
+  }, [loadTodayCompetition]);
 
   return (
     <div className="bg-bg-green-50 flex w-full flex-col gap-6">
@@ -165,7 +165,7 @@ export default function CompetitionContent() {
       <CompetitionBanner
         competition={todayCompetition}
         onClick={openModal}
-        onExpire={getCompetition}
+        onExpire={loadTodayCompetition}
       />
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
         <RankingSection competitionId={todayCompetition.competitionId} />

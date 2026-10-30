@@ -1,9 +1,11 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import type { AuthSession } from "@/types/oauth/oauth";
 import type { Metadata } from "next";
-import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
+import { SESSION_TOKEN_COOKIE } from "@/constants/auth/sessionTokenCookie";
 import OnboardingProfileForm from "@/components/onboarding/OnboardingProfileForm";
+import OnboardingProfileRecovery from "@/components/onboarding/OnboardingProfileRecovery";
+import { isValidProfileEmail } from "@/lib/profile/isValidProfileEmail";
+import { getMemberSnapshot } from "@/lib/auth/getMemberSnapshot";
 
 export const metadata: Metadata = {
   title: "프로필 설정 | ROOTIN",
@@ -13,24 +15,21 @@ export const metadata: Metadata = {
 
 export default async function OnboardingPage() {
   const cookieStore = await cookies();
-  const rawMemberSnapshot = cookieStore.get(MEMBER_SNAPSHOT_COOKIE)?.value;
 
-  // 토큰 쿠기 검증
-  if (!cookieStore.get("sessionToken")?.value) {
+  if (!cookieStore.get(SESSION_TOKEN_COOKIE)?.value) {
     redirect("/login");
   }
 
-  // 맴버 쿠키 검증
-  if (!rawMemberSnapshot) redirect("/login");
+  const member = await getMemberSnapshot();
 
-  let memberSnapshot: AuthSession;
-  try {
-    memberSnapshot = JSON.parse(rawMemberSnapshot) as AuthSession;
-  } catch {
-    redirect("/login");
+  if (
+    !isValidProfileEmail(member?.email) ||
+    typeof member?.profileCompleted !== "boolean"
+  ) {
+    return <OnboardingProfileRecovery />;
   }
 
-  if (typeof memberSnapshot.member?.email !== "string") redirect("/login");
+  if (member.profileCompleted) redirect("/");
 
-  return <OnboardingProfileForm email={memberSnapshot.member.email} />;
+  return <OnboardingProfileForm email={member.email.trim()} />;
 }

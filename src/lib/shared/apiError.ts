@@ -1,6 +1,9 @@
 import { isAxiosError } from "axios";
+import { unstable_rethrow } from "next/navigation";
 
 export function apiError(error: unknown, message: string) {
+  unstable_rethrow(error);
+
   if (!isAxiosError(error)) {
     return {
       code: "UNKNOWN_ERROR",

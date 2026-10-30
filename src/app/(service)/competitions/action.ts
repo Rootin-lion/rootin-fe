@@ -3,6 +3,8 @@
 import type { RankingPeriod } from "@/types/competitions/ranking";
 import {
   getCompetitionResult,
+  getCompetitionProblemDetail,
+  getCompetitionProblems,
   getCompetitionStatus,
   getMyRanking,
   getPastCompetition,
@@ -11,8 +13,6 @@ import {
   getTodayCompetition,
   getTop3,
   joinCompetition,
-  requestDetailProblem,
-  requestProblems,
   saveProblemAnswer,
   submitContest,
 } from "@/apis/competitions";
@@ -77,20 +77,20 @@ export async function joinCompetitionAction(competitionId: number) {
 }
 
 // 대회 문제 목록 조회
-export async function requestProblemsAction(competitionId: number) {
-  return executeNestedDataAction(() => requestProblems(competitionId), {
+export async function getCompetitionProblemsAction(competitionId: number) {
+  return executeNestedDataAction(() => getCompetitionProblems(competitionId), {
     code: "PROBLEM_FAILED",
     message: "문제를 불러오지 못했습니다.",
   });
 }
 
 // 대회 문제 상세 조회
-export async function requestDetailProblemAction(
+export async function getCompetitionProblemDetailAction(
   competitionId: number,
   competitionProblemId: number,
 ) {
   return executeNestedDataAction(
-    () => requestDetailProblem(competitionId, competitionProblemId),
+    () => getCompetitionProblemDetail(competitionId, competitionProblemId),
     { code: "PROBLEM_FAILED", message: "문제를 불러오지 못했습니다." },
   );
 }
