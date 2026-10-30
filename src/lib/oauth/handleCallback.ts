@@ -12,10 +12,11 @@ import {
 import {
   GOOGLE_STATE_COOKIE,
   GOOGLE_STATE_COOKIE_PATH,
-  GOOGLE_OAUTH_URL,
+  GOOGLE_REDIRECT_URI,
   KAKAO_STATE_COOKIE,
   KAKAO_STATE_COOKIE_PATH,
-  KAKAO_OAUTH_URL,
+  KAKAO_REDIRECT_URI,
+  LEGACY_GOOGLE_STATE_COOKIE,
 } from "@/constants/oauth/oauth";
 import { loginGoogle, loginKakao } from "@/apis/oauth";
 
@@ -23,15 +24,17 @@ const providers = {
   kakao: {
     label: "카카오",
     stateCookie: KAKAO_STATE_COOKIE,
+    legacyStateCookie: null,
     callbackPath: KAKAO_STATE_COOKIE_PATH,
-    redirectUri: KAKAO_OAUTH_URL,
+    redirectUri: KAKAO_REDIRECT_URI,
     exchangeCode: loginKakao,
   },
   google: {
     label: "구글",
     stateCookie: GOOGLE_STATE_COOKIE,
+    legacyStateCookie: LEGACY_GOOGLE_STATE_COOKIE,
     callbackPath: GOOGLE_STATE_COOKIE_PATH,
-    redirectUri: GOOGLE_OAUTH_URL,
+    redirectUri: GOOGLE_REDIRECT_URI,
     exchangeCode: loginGoogle,
   },
 };
@@ -39,12 +42,16 @@ const providers = {
 type ProviderType = keyof typeof providers;
 
 function clearStateCookie(response: NextResponse, provider: ProviderType) {
-  const { stateCookie, callbackPath } = providers[provider];
+  const { stateCookie, legacyStateCookie, callbackPath } = providers[provider];
 
-  response.cookies.set(stateCookie, "", {
-    path: callbackPath,
-    maxAge: 0,
-  });
+  for (const cookieName of [stateCookie, legacyStateCookie]) {
+    if (cookieName) {
+      response.cookies.set(cookieName, "", {
+        path: callbackPath,
+        maxAge: 0,
+      });
+    }
+  }
 
   return response;
 }
@@ -61,7 +68,11 @@ export async function handleOAuthCallback(
   const config = providers[provider];
   const code = request.nextUrl.searchParams.get("code");
   const state = request.nextUrl.searchParams.get("state");
-  const savedState = request.cookies.get(config.stateCookie)?.value;
+  const savedState =
+    request.cookies.get(config.stateCookie)?.value ??
+    (config.legacyStateCookie
+      ? request.cookies.get(config.legacyStateCookie)?.value
+      : undefined);
 
   if (!code || !state || !savedState || state !== savedState)
     return redirectLogin(request, provider);
