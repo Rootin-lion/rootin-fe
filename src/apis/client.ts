@@ -2,6 +2,10 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";
 import "server-only";
 import {
+  MEMBER_SNAPSHOT_COOKIE,
+  MEMBER_SNAPSHOT_COOKIE_OPTIONS,
+} from "@/constants/auth/memberSnapshotCookie";
+import {
   SESSION_TOKEN_COOKIE,
   SESSION_TOKEN_COOKIE_OPTIONS,
 } from "@/constants/auth/sessionTokenCookie";
@@ -122,6 +126,8 @@ apiClient.interceptors.response.use(
       return Promise.reject(error);
     }
 
+    const memberSnapshot = cookieStore.get(MEMBER_SNAPSHOT_COOKIE)?.value;
+
     try {
       const reissueResponse = await reissueToken(sessionToken.refreshToken);
       const accessToken: unknown = reissueResponse.data?.data?.accessToken;
@@ -139,12 +145,20 @@ apiClient.interceptors.response.use(
         JSON.stringify({ accessToken, refreshToken }),
         SESSION_TOKEN_COOKIE_OPTIONS,
       );
+      if (memberSnapshot) {
+        cookieStore.set(
+          MEMBER_SNAPSHOT_COOKIE,
+          memberSnapshot,
+          MEMBER_SNAPSHOT_COOKIE_OPTIONS,
+        );
+      }
 
       originalRequest.headers.set("Authorization", `Bearer ${accessToken}`);
 
       return apiClient.request(originalRequest);
     } catch (reissueError) {
       cookieStore.delete(SESSION_TOKEN_COOKIE);
+      cookieStore.delete(MEMBER_SNAPSHOT_COOKIE);
       return Promise.reject(reissueError);
     }
   },
