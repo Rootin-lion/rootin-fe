@@ -6,11 +6,13 @@ type ActionFailure = {
   message: string;
 };
 
-export async function executeNestedDataAction<
-  R extends { data: { data: unknown } },
->(request: () => Promise<R>, failure: ActionFailure) {
+async function executeDataAction<R, D>(
+  request: () => Promise<R>,
+  selectData: (response: R) => D,
+  failure: ActionFailure,
+) {
   try {
-    const data: R["data"]["data"] = (await request()).data.data;
+    const data = selectData(await request());
     if (!data) return actionFailure(failure);
     return { ok: true, data } as const;
   } catch (error) {
@@ -18,15 +20,23 @@ export async function executeNestedDataAction<
   }
 }
 
+export async function executeNestedDataAction<
+  R extends { data: { data: unknown } },
+>(request: () => Promise<R>, failure: ActionFailure) {
+  return executeDataAction<R, R["data"]["data"]>(
+    request,
+    (response) => response.data.data,
+    failure,
+  );
+}
+
 export async function executeResponseDataAction<R extends { data: unknown }>(
   request: () => Promise<R>,
   failure: ActionFailure,
 ) {
-  try {
-    const data: R["data"] = (await request()).data;
-    if (!data) return actionFailure(failure);
-    return { ok: true, data } as const;
-  } catch (error) {
-    return actionFailure(apiError(error, failure.message));
-  }
+  return executeDataAction<R, R["data"]>(
+    request,
+    (response) => response.data,
+    failure,
+  );
 }
