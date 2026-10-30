@@ -97,7 +97,12 @@ export async function handleOAuthCallback(
       ?.split(";")[0]
       .slice("refreshToken=".length);
 
-    if (typeof accessToken !== "string" || !accessToken || !payload.member) {
+    if (
+      typeof accessToken !== "string" ||
+      !accessToken ||
+      !refreshToken ||
+      !payload.member
+    ) {
       throw new Error(`${config.label} 로그인 응답이 올바르지 않습니다.`);
     }
 
