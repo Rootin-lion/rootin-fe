@@ -22,7 +22,7 @@ export default async function ServiceLayout({
     try {
       member = (JSON.parse(rawSession) as AuthSession).member ?? null;
     } catch {
-      redirect("/login");
+      member = null;
     }
   }
 
