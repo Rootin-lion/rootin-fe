@@ -71,14 +71,14 @@ export const joinCompetition = async (competitionId: number) => {
 };
 
 // 대회 문제 목록 조회
-export const requestProblems = async (competitionId: number) => {
+export const getCompetitionProblems = async (competitionId: number) => {
   const res = await apiClient.get(`/competitions/${competitionId}/problems`);
 
   return res;
 };
 
 // 대회 문제 상세 조회
-export const requestDetailProblem = async (
+export const getCompetitionProblemDetail = async (
   competitionId: number,
   competitionProblemId: number,
 ) => {

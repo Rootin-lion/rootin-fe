@@ -9,8 +9,8 @@ import type {
 } from "@/types/competitions/competition";
 import {
   getCompetitionStatusAction,
-  requestDetailProblemAction,
-  requestProblemsAction,
+  getCompetitionProblemDetailAction,
+  getCompetitionProblemsAction,
   saveProblemAnswerAction,
 } from "@/app/(service)/competitions/action";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
@@ -47,7 +47,7 @@ export default function useCompetitionProblems(
     if (competitionProblemId === currentProblem?.competitionProblemId) return;
 
     try {
-      const res = await requestDetailProblemAction(
+      const res = await getCompetitionProblemDetailAction(
         competitionId,
         competitionProblemId,
       );
@@ -167,7 +167,7 @@ export default function useCompetitionProblems(
           ),
         );
 
-        const problemsRes = await requestProblemsAction(competitionId);
+        const problemsRes = await getCompetitionProblemsAction(competitionId);
 
         if (isCancelled) return;
 
