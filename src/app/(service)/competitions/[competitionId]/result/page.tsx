@@ -1,7 +1,5 @@
 import { Metadata } from "next";
-import { cookies } from "next/headers";
-import type { AuthSession } from "@/types/oauth/oauth";
-import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
+import { getMemberSnapshot } from "@/lib/auth/getMemberSnapshot";
 import ProblemResultContent from "@/components/competition/result/ProblemResultContent";
 
 export const metadata: Metadata = {
@@ -15,21 +13,8 @@ export default async function ProblemResultPage(
 ) {
   const { competitionId } = await props.params;
   const competitionIdNumber = Number(competitionId);
-  const rawMemberSnapshot = (await cookies()).get(
-    MEMBER_SNAPSHOT_COOKIE,
-  )?.value;
-  let profileImageUrl: string | null = null;
-
-  if (rawMemberSnapshot) {
-    try {
-      const { member } = JSON.parse(rawMemberSnapshot) as AuthSession;
-      const imgUrl = member?.imgUrl?.trim();
-
-      profileImageUrl = imgUrl || null;
-    } catch {
-      profileImageUrl = null;
-    }
-  }
+  const member = await getMemberSnapshot();
+  const profileImageUrl = member?.imgUrl?.trim() || null;
 
   return (
     <div className="bg-primary-50 min-h-dvh w-full">

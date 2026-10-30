@@ -1,12 +1,11 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import type { AuthSession } from "@/types/oauth/oauth";
 import type { Metadata } from "next";
-import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
 import { SESSION_TOKEN_COOKIE } from "@/constants/auth/sessionTokenCookie";
 import OnboardingProfileForm from "@/components/onboarding/OnboardingProfileForm";
 import OnboardingProfileRecovery from "@/components/onboarding/OnboardingProfileRecovery";
 import { isValidProfileEmail } from "@/lib/profile/isValidProfileEmail";
+import { getMemberSnapshot } from "@/lib/auth/getMemberSnapshot";
 
 export const metadata: Metadata = {
   title: "프로필 설정 | ROOTIN",
@@ -21,18 +20,7 @@ export default async function OnboardingPage() {
     redirect("/login");
   }
 
-  const rawMemberSnapshot = cookieStore.get(MEMBER_SNAPSHOT_COOKIE)?.value;
-  let member: Partial<AuthSession["member"]> | null = null;
-
-  if (rawMemberSnapshot) {
-    try {
-      member =
-        (JSON.parse(rawMemberSnapshot) as Partial<AuthSession> | null)
-          ?.member ?? null;
-    } catch {
-      member = null;
-    }
-  }
+  const member = await getMemberSnapshot();
 
   if (
     !isValidProfileEmail(member?.email) ||

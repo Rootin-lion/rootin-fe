@@ -1,9 +1,7 @@
 import { Metadata } from "next";
-import { cookies } from "next/headers";
-import type { AuthSession } from "@/types/oauth/oauth";
 import type { InterviewCategoryType } from "@/types/interviews/interview";
-import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
 import { INTERVIEW_CATEGORY_LABEL } from "@/constants/interviews/category";
+import { getMemberSnapshot } from "@/lib/auth/getMemberSnapshot";
 import InterviewSessionContent from "@/components/interviews/session/InterviewSessionContent";
 
 export const metadata: Metadata = {
@@ -17,8 +15,8 @@ export default async function InterviewSessionPage(
   const { interviewId } = await props.params;
   const { category, questionCount } = await props.searchParams;
   const interviewIdNumber = Number(interviewId);
-  const raw = (await cookies()).get(MEMBER_SNAPSHOT_COOKIE)?.value;
-  let profileImageUrl: string | null = null;
+  const member = await getMemberSnapshot();
+  const profileImageUrl = member?.imgUrl?.trim() || null;
 
   const selectedCategory =
     typeof category === "string" &&
@@ -32,15 +30,6 @@ export default async function InterviewSessionPage(
   const count = typeof questionCount === "string" ? Number(questionCount) : NaN;
   const selectedQuestionCount =
     Number.isInteger(count) && count >= 1 && count <= 5 ? count : null;
-
-  if (raw) {
-    try {
-      profileImageUrl =
-        (JSON.parse(raw) as AuthSession).member?.imgUrl?.trim() || null;
-    } catch {
-      profileImageUrl = null;
-    }
-  }
 
   return (
     <InterviewSessionContent

@@ -1,7 +1,5 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import type { AuthSession } from "@/types/oauth/oauth";
-import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
+import { getMemberSnapshot } from "@/lib/auth/getMemberSnapshot";
 import { isBookmarkCategory } from "@/constants/my/bookmark";
 import type { BookmarkCategory } from "@/constants/my/bookmark";
 import {
@@ -32,16 +30,7 @@ export default async function MyPage(props: PageProps<"/my">) {
     }
   }
 
-  const rawSession = (await cookies()).get(MEMBER_SNAPSHOT_COOKIE)?.value;
-  let member: AuthSession["member"] | null = null;
-
-  if (rawSession) {
-    try {
-      member = (JSON.parse(rawSession) as AuthSession).member ?? null;
-    } catch {
-      member = null;
-    }
-  }
+  const member = await getMemberSnapshot();
 
   const today = new Intl.DateTimeFormat("sv-SE", {
     timeZone: "Asia/Seoul",
