@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <main className="flex min-h-dvh flex-row">
-      {/* 왼쪽 섹션 */}
+    <main className="flex min-h-dvh flex-col md:flex-row">
+      {/* 서비스 소개 */}
       <LoginHeroSection />
 
-      {/* 오른쪽 섹션 */}
+      {/* 소셜 로그인 */}
       <SocialLoginSection />
     </main>
   );
