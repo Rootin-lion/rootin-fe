@@ -14,22 +14,23 @@ export default function OnboardingSuccessPage() {
     <main className="flex min-h-dvh items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,#f7faf5_0%,#edf7ef_50%,#eaf3e8_100%)] px-6 py-10">
       <AutoRedirect />
       <section
-        aria-labelledby="onboarding-success"
-        className="relative w-full max-w-md rounded-4xl px-8 py-10"
+        aria-labelledby="success-title"
+        className="relative w-full max-w-md rounded-4xl px-2 py-6 md:px-8 md:py-10"
       >
         <div className="relative mx-auto mb-8 flex items-center justify-center rounded-full">
           <Image
             src={SuccessCharacterImage}
             alt="루틴 시작을 환영하는 모코 캐릭터"
             preload
-            className="relative h-70 w-70 drop-shadow-[0_12px_24px_rgba(31,41,55,0.14)]"
+            className="relative h-auto w-full max-w-70 drop-shadow-[0_12px_24px_rgba(31,41,55,0.14)]"
+            sizes="(max-width: 343px) calc(100vw - 64px), 280px"
           />
         </div>
 
         <div className="space-y-3 text-center">
           <h1
             id="success-title"
-            className="text-gradient-primary text-[28px] leading-10.5 font-semibold"
+            className="text-gradient-primary text-title-3 font-semibold lg:leading-10.5"
           >
             환영합니다!
           </h1>

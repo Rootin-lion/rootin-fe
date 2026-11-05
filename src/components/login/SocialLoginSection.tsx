@@ -45,7 +45,7 @@ export default function SocialLoginSection() {
       <div className="flex w-full max-w-120 flex-col items-center justify-center">
         <div className="flex flex-col gap-2">
           <Image src={LogoImg} alt="ROOTIN" width={180} height={57} />
-          <p className="text-sub-text mt-6 text-[14px] font-normal">
+          <p className="typo-body-3 text-sub-text mt-6">
             소셜 로그인으로 빠르게 시작하세요
           </p>
         </div>

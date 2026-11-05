@@ -3,12 +3,16 @@ interface ModalProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
 }
 
 function ModalBox({ children }: ModalProps) {
-  return <div className="mx-auto flex w-63 flex-col gap-3">{children}</div>;
+  return (
+    <div className="mx-auto flex w-63 max-w-[calc(100%-32px)] flex-col gap-3">
+      {children}
+    </div>
+  );
 }
 
 function ModalNoticeBox({ children }: ModalProps) {
   return (
-    <div className="mx-auto w-76 rounded-lg bg-[#F0F0F0] px-4 py-3 text-left">
+    <div className="mx-auto w-76 max-w-[calc(100%-32px)] rounded-lg bg-[#F0F0F0] px-4 py-3 text-left">
       {children}
     </div>
   );
@@ -35,7 +39,7 @@ function ModalWrapperMain({
         className="fixed inset-0 z-90 bg-black/20 backdrop-blur-[3px]"
         onClick={onClose}
       />
-      <div className="fixed top-1/2 left-1/2 z-100 flex min-h-44 min-w-95 -translate-x-1/2 -translate-y-1/2 flex-col justify-center gap-6 rounded-lg bg-white py-8 text-center">
+      <div className="fixed top-1/2 left-1/2 z-100 flex max-h-[calc(100dvh-32px)] min-h-44 min-w-95 -translate-x-1/2 -translate-y-1/2 flex-col gap-6 overflow-y-auto rounded-lg bg-white py-8 text-center max-sm:w-[calc(100%-32px)] max-sm:min-w-0 sm:justify-center">
         {children}
       </div>
     </>
