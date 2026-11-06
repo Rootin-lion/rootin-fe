@@ -244,6 +244,13 @@ body {
   animation: feedback-counter-orbit 30s linear infinite;
 }
 
+@media (width < 1024px) {
+  .feedback-orbit,
+  .feedback-counter-orbit {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .feedback-orbit,
   .feedback-counter-orbit {

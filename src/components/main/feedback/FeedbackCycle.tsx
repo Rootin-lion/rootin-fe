@@ -9,9 +9,9 @@ const FeedbackBox = ({ text, angle }: { text: string; angle: number }) => {
       style={{ transform: `rotate(${angle}deg)` }}
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div className="feedback-counter-orbit">
+        <div className="feedback-counter-orbit max-lg:animate-none">
           <div
-            className="text-primary-900 flex h-18 w-33.5 items-center justify-center rounded-lg bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_0%,#DAEBD9_100%)] text-[14px] font-semibold"
+            className="text-primary-900 flex h-10 w-21 items-center justify-center rounded-lg bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_0%,#DAEBD9_100%)] text-center text-[10px] font-semibold md:h-12 md:w-24 md:text-[11px] lg:h-18 lg:w-33.5 lg:text-[14px]"
             style={{ transform: `rotate(${-angle}deg)` }}
           >
             {text}
@@ -36,12 +36,12 @@ function OrbitArrow({ angle }: { angle: number }) {
 
 export default function FeedbackCycle() {
   return (
-    <div className="feedback-orbit-group relative flex h-112.5 w-112.5 items-center justify-center rounded-[50%] border border-dashed border-[#36723E] bg-[radial-gradient(50%_50%_at_50%_50%,#FCFDF9_0%,#EAF3E8_100%)]">
+    <div className="feedback-orbit-group relative my-6 flex h-44 w-44 items-center justify-center rounded-[50%] border border-dashed border-[#36723E] bg-[radial-gradient(50%_50%_at_50%_50%,#FCFDF9_0%,#EAF3E8_100%)] min-[390px]:h-56 min-[390px]:w-56 md:h-72 md:w-72 lg:my-10 lg:h-112.5 lg:w-112.5">
       <OrbitArrow angle={-45} />
       <OrbitArrow angle={45} />
       <OrbitArrow angle={135} />
       <OrbitArrow angle={225} />
-      <div className="feedback-orbit absolute inset-0">
+      <div className="feedback-orbit absolute inset-0 max-lg:animate-none">
         <FeedbackBox text="실전 대회 참여" angle={0} />
         <FeedbackBox text="결과 분석 & 피드백" angle={90} />
         <FeedbackBox text="약점 보완 학습" angle={180} />
@@ -52,7 +52,7 @@ export default function FeedbackCycle() {
         alt=""
         width={240}
         loading="lazy"
-        className="z-10"
+        className="z-10 h-auto w-24 min-[390px]:w-32 md:w-40 lg:w-60"
       />
     </div>
   );

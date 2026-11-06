@@ -20,7 +20,7 @@ const roadmapItems = [
 
 function RoadmapArrow() {
   return (
-    <div className="mt-4 flex w-16 shrink-0 items-center text-[#7C8696]">
+    <div className="mt-4 hidden w-8 shrink-0 items-center text-[#7C8696] md:flex lg:w-16">
       <span className="block h-0 w-full border-t-[3px] border-dotted border-current" />
       <span className="block h-3 w-3 shrink-0 rotate-45 border-t-[3px] border-r-[3px] border-current" />
     </div>
@@ -52,16 +52,24 @@ export default function RoadmapBox() {
   return (
     <div
       ref={boxRef}
-      className={`roadmap-list flex gap-2 rounded-xl border border-[#E1E1E1] px-8 py-8 ${
+      role="region"
+      tabIndex={0}
+      className={`roadmap-list bg-bg-ivory mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl border border-[#E1E1E1] px-5 py-4 text-left md:max-w-none md:flex-row md:gap-2 md:overflow-x-auto md:rounded-xl md:bg-white md:px-4 md:py-6 lg:px-8 lg:py-8 ${
         isVisible ? "is-visible" : ""
       }`}
     >
       {roadmapItems.map((item, index) => (
         <div
           key={item.step}
-          className="roadmap-reveal mx-auto flex items-start gap-2"
+          className="roadmap-reveal relative w-full md:mx-auto md:flex md:w-auto md:shrink-0 md:items-start md:gap-2"
           style={{ animationDelay: `${index * 500}ms` }}
         >
+          {index < roadmapItems.length - 1 && (
+            <span
+              aria-hidden="true"
+              className="bg-primary-300 absolute top-3.5 left-18.5 h-[calc(100%+1rem)] w-px md:hidden"
+            />
+          )}
           <RoadmapItem {...item} />
           {index < roadmapItems.length - 1 && <RoadmapArrow />}
         </div>
