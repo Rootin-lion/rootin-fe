@@ -2,7 +2,7 @@ import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 import { getRankingPagination } from "./getRankingPagination";
 
 const navigationButtonClass =
-  "flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border border-[#E1E1E1] disabled:cursor-default disabled:opacity-40";
+  "flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border border-[#E1E1E1] disabled:cursor-default disabled:opacity-40 md:h-7 md:w-7";
 const activePageClass =
   "bg-primary flex h-7 w-7 shrink-0 items-center justify-center rounded-[50%] text-white";
 
@@ -58,7 +58,7 @@ export default function RankingPagination({
   } = getRankingPagination(currentPage, totalPage);
 
   return (
-    <div className="mx-auto mt-8 flex max-w-84.5 flex-row items-center justify-between gap-7">
+    <div className="mx-auto mt-5 flex max-w-84.5 flex-row items-center justify-between gap-2 md:mt-8 lg:gap-7">
       <button
         type="button"
         aria-label="이전 페이지"
@@ -73,7 +73,13 @@ export default function RankingPagination({
           className="h-3.5 w-2.5 rotate-180 text-[#9CA3AF]"
         />
       </button>
-      <div className="flex flex-row items-center justify-between gap-6">
+      <span
+        className="text-body-3 tabular-nums max-md:text-xs md:hidden"
+        aria-live="polite"
+      >
+        {currentPage + 1} / {totalPage}
+      </span>
+      <div className="hidden flex-row items-center justify-between gap-3 md:flex lg:gap-6">
         {showFirstPage && (
           <PageNumberButton
             pageIndex={firstPageIndex}
