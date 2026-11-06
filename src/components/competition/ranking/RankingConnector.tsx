@@ -4,7 +4,7 @@ const Circle = () => {
 
 export default function RankingConnector() {
   return (
-    <div className="flex gap-3">
+    <div className="hidden gap-3 lg:flex">
       <Circle />
       <Circle />
       <Circle />

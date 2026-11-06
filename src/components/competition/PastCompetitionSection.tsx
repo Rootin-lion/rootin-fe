@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 import type { CompetitionResults } from "@/types/competitions/competition";
 import { getPastCompetitionAction } from "@/app/(service)/competitions/action";
 import BoxWrapper from "@/components/competition/shared/BoxWrapper";
@@ -62,15 +63,15 @@ export default function PastCompetitionSection() {
         />
       )}
 
-      <div className="flex flex-col px-6">
+      <div className="flex min-w-0 flex-col lg:px-6">
         <SectionTitle
           title="종료된 대회"
           content="이전 대회의 결과를 확인해보세요."
         />
         <div className="mt-7 flex w-full justify-center">
-          <div className="grid w-full max-w-210 grid-cols-2 justify-items-center gap-6">
+          <div className="grid w-full max-w-210 grid-cols-1 justify-items-center gap-3 md:grid-cols-2 md:gap-6">
             {hasPastContent ? (
-              <div className="border-primary-100 bg-primary-50 col-span-2 flex min-h-40 w-full flex-col items-center justify-center rounded-lg border border-dashed px-6 text-center">
+              <div className="border-primary-100 bg-primary-50 col-span-full flex min-h-40 w-full flex-col items-center justify-center rounded-lg border border-dashed px-6 text-center">
                 <p className="text-text text-[16px] font-semibold">
                   아직 종료된 대회가 없어요.
                 </p>
@@ -92,12 +93,42 @@ export default function PastCompetitionSection() {
         </div>
 
         {/* 페이지네이션 */}
-        <BarPagination
-          currentPage={currentPage + 1}
-          totalPages={pages}
-          onPageChange={(page) => setCurrentPage(page - 1)}
-          className="mt-9"
-        />
+        {pages > 1 && (
+          <nav className="mt-6 flex items-center justify-between gap-2 md:hidden">
+            <button
+              type="button"
+              disabled={currentPage === 0}
+              onClick={() => setCurrentPage((page) => Math.max(0, page - 1))}
+              className="text-primary-900 focus-visible:outline-primary-900 flex size-11 items-center justify-center rounded-lg text-[18px] focus-visible:outline-2 focus-visible:outline-offset-2 enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ChevronIcon aria-hidden="true" className="h-4 w-2 rotate-180" />
+            </button>
+            <p className="text-sub-text text-[13px] whitespace-nowrap tabular-nums">
+              <span className="text-primary-900 font-semibold">
+                {currentPage + 1}
+              </span>{" "}
+              / {pages}
+            </p>
+            <button
+              type="button"
+              disabled={currentPage >= pages - 1}
+              onClick={() =>
+                setCurrentPage((page) => Math.min(pages - 1, page + 1))
+              }
+              className="text-primary-900 focus-visible:outline-primary-900 flex size-11 items-center justify-center rounded-lg text-[18px] focus-visible:outline-2 focus-visible:outline-offset-2 enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ChevronIcon aria-hidden="true" className="h-4 w-2" />
+            </button>
+          </nav>
+        )}
+        <div className="hidden md:block">
+          <BarPagination
+            currentPage={currentPage + 1}
+            totalPages={pages}
+            onPageChange={(page) => setCurrentPage(page - 1)}
+            className="mt-9 flex-wrap"
+          />
+        </div>
       </div>
     </BoxWrapper>
   );

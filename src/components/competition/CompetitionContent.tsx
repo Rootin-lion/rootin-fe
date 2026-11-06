@@ -167,7 +167,7 @@ export default function CompetitionContent() {
         onClick={openModal}
         onExpire={loadTodayCompetition}
       />
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-5 px-4 md:px-6 lg:px-0">
         <RankingSection competitionId={todayCompetition.competitionId} />
         <PastCompetitionSection />
         <WarningBanner />

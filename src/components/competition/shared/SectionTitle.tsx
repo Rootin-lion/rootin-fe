@@ -8,7 +8,9 @@ export default function SectionTitle({
   return (
     <div className="flex justify-between">
       <div>
-        <h1 className="text-text text-[20px] font-bold">{title}</h1>
+        <h1 className="text-text text-[17px] font-bold md:text-[20px]">
+          {title}
+        </h1>
         <p className="text-sub-text text-[12px] font-medium">{content}</p>
       </div>
     </div>
