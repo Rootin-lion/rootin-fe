@@ -18,20 +18,30 @@ function ModalNoticeBox({ children }: ModalProps) {
   );
 }
 
-function ModalWrapperContent({ children }: ModalProps) {
-  return <div className="text-body-3 text-center text-black">{children}</div>;
+function ModalWrapperContent({ children, className = "" }: ModalProps) {
+  return (
+    <div className={`text-body-3 text-center text-black ${className}`}>
+      {children}
+    </div>
+  );
 }
 
-function ModalWrapperTitle({ children }: ModalProps) {
-  return <div className="text-subtitle text-center text-black">{children}</div>;
+function ModalWrapperTitle({ children, className = "" }: ModalProps) {
+  return (
+    <div className={`text-subtitle text-center text-black ${className}`}>
+      {children}
+    </div>
+  );
 }
 
 function ModalWrapperMain({
   children,
   onClose,
+  className = "",
 }: {
   children: React.ReactNode;
   onClose: () => void;
+  className?: string;
 }) {
   return (
     <>
@@ -39,7 +49,9 @@ function ModalWrapperMain({
         className="fixed inset-0 z-90 bg-black/20 backdrop-blur-[3px]"
         onClick={onClose}
       />
-      <div className="fixed top-1/2 left-1/2 z-100 flex max-h-[calc(100dvh-32px)] min-h-44 min-w-95 -translate-x-1/2 -translate-y-1/2 flex-col gap-6 overflow-y-auto rounded-lg bg-white py-8 text-center max-sm:w-[calc(100%-32px)] max-sm:min-w-0 sm:justify-center">
+      <div
+        className={`fixed top-1/2 left-1/2 z-100 flex max-h-[calc(100dvh-32px)] min-h-44 min-w-95 -translate-x-1/2 -translate-y-1/2 flex-col gap-6 overflow-y-auto rounded-lg bg-white py-8 text-center max-sm:w-[calc(100%-32px)] max-sm:min-w-0 sm:justify-center ${className}`}
+      >
         {children}
       </div>
     </>

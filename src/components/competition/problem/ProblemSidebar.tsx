@@ -16,14 +16,16 @@ export default function ProblemSidebar({
   onExpire: () => void;
 }) {
   return (
-    <div className="flex flex-col gap-4">
-      <QuestionTimer onExpire={onExpire} />
+    <aside className="contents md:flex md:min-w-0 md:flex-col md:gap-4">
+      <div className="sticky top-0 z-20 md:static md:z-auto">
+        <QuestionTimer onExpire={onExpire} />
+      </div>
       <QuestionNavigator
         problemNavigationItems={problemNavigationItems}
         currentProblemId={currentProblemId}
         answeredProblemIds={answeredProblemIds}
         onSelectProblem={onSelectProblem}
       />
-    </div>
+    </aside>
   );
 }

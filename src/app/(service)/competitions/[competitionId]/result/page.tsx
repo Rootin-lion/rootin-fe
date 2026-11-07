@@ -18,7 +18,7 @@ export default async function ProblemResultPage(
 
   return (
     <div className="bg-primary-50 min-h-dvh w-full">
-      <div className="mt-9 flex justify-center gap-5">
+      <div className="mt-4 flex justify-center gap-3 px-4 md:mt-9 md:gap-5 md:px-5 lg:px-0">
         <ProblemResultContent
           competitionId={competitionIdNumber}
           profileImageUrl={profileImageUrl}

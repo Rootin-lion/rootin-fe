@@ -1,3 +1,4 @@
+import type { Ref } from "react";
 import type {
   CompetitionProblemDetail,
   PanelType,
@@ -27,6 +28,8 @@ export default function ProblemPanel({
   onPrevious,
   onNext,
   onSubmit,
+  headingRef,
+  panelRef,
 }: {
   variant?: PanelType;
   currentProblem?: CompetitionProblemDetail | null;
@@ -40,17 +43,32 @@ export default function ProblemPanel({
   onPrevious?: () => void;
   onNext?: () => void;
   onSubmit?: () => void;
+  headingRef?: Ref<HTMLHeadingElement>;
+  panelRef?: Ref<HTMLDivElement>;
 }) {
   if (currentProblem === null) return null;
 
   return (
-    <QuestionSurface>
+    <QuestionSurface
+      compact={variant !== "bookmark"}
+      surfaceRef={panelRef}
+      className={
+        variant === "solve"
+          ? "scroll-mt-20"
+          : variant === "result"
+            ? "max-md:p-4"
+            : ""
+      }
+    >
       <div className="flex h-full flex-col justify-between gap-4">
-        <div className="flex flex-col gap-7">
+        <div
+          className={`flex flex-col ${variant === "solve" ? "gap-3 md:gap-7" : "gap-7"}`}
+        >
           {variant === "solve" && (
             <NumberLabel number={currentProblem?.problemOrder} />
           )}
           <QuestionCard
+            headingRef={headingRef}
             variant={variant}
             currentProblem={currentProblem}
             showBookmark={variant === "result" || variant === "bookmark"}

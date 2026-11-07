@@ -37,17 +37,21 @@ const AnalysisCardWrapper = ({
   const itemLabels = items.map((item) => CATEGORY_LABELS[item] ?? item);
 
   return (
-    <div className="min-w-0 flex-1 rounded-[14px] bg-green-50 px-4 pt-3 pb-4">
+    <div className="min-w-0 flex-1 rounded-[14px] bg-green-50 p-3 lg:px-4 lg:pt-3 lg:pb-4">
       <p className="text-sub-text text-[12px] font-bold">
         {CARD_TYPE[type].title}
       </p>
-      <div className="mt-1 flex items-center justify-start gap-4">
+      <div className="mt-1 flex items-center justify-start gap-3 md:flex-col md:items-start lg:flex-row lg:items-center lg:gap-4">
         <div
-          className={`${CARD_TYPE[type].bg} flex h-10 w-10 shrink-0 items-center justify-center rounded-[50%]`}
+          className={`${CARD_TYPE[type].bg} flex h-8 w-8 shrink-0 items-center justify-center rounded-full lg:h-10 lg:w-10`}
         >
-          <Image src={CARD_TYPE[type].icon} alt={type} className="h-6 w-6" />
+          <Image
+            src={CARD_TYPE[type].icon}
+            alt=""
+            className="h-5 w-5 lg:h-6 lg:w-6"
+          />
         </div>
-        <p className="text-[13px] font-semibold text-[#6A6A6A]">
+        <p className="min-w-0 text-[12px] font-semibold [overflow-wrap:anywhere] text-[#6A6A6A] lg:text-[13px]">
           {type === "CORRECT"
             ? `${accuracy}% (상위 ${topPercent}%)`
             : itemLabels.length > 0
@@ -72,10 +76,10 @@ export default function AnalysisSection({
 }) {
   return (
     <DetailWrapper>
-      <p className="pt-4 pl-8 text-[16px] font-semibold text-black">
+      <h2 className="px-4 pt-4 text-[14px] font-semibold text-black lg:px-8 lg:text-[16px]">
         개인 분석
-      </p>
-      <div className="flex justify-center gap-7.5 px-8 py-4">
+      </h2>
+      <div className="flex flex-col gap-3 p-4 md:flex-row lg:gap-7.5 lg:px-8">
         <AnalysisCardWrapper type="STRENGTH" items={strongCategories} />
         <AnalysisCardWrapper type="WEAKNESS" items={weakCategories} />
         <AnalysisCardWrapper

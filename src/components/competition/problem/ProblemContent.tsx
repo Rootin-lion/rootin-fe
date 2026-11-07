@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ApiError } from "@/types/api/error";
 import ProblemPanel from "@/components/competition/shared/ProblemPanel";
@@ -18,6 +18,9 @@ export default function ProblemContent({
   competitionId: number;
 }) {
   const router = useRouter();
+  const problemHeadingRef = useRef<HTMLHeadingElement>(null);
+  const problemPanelRef = useRef<HTMLDivElement>(null);
+  const previousProblemIdRef = useRef<number | null>(null);
   const [shouldLeaveAfterError, setShouldLeaveAfterError] = useState(true);
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
@@ -54,6 +57,22 @@ export default function ProblemContent({
     submitCompetition,
   } = useCompetitionSubmission(competitionId, showSubmissionError);
 
+  useEffect(() => {
+    if (!currentProblem) return;
+
+    const previousProblemId = previousProblemIdRef.current;
+    previousProblemIdRef.current = currentProblem.competitionProblemId;
+
+    if (
+      previousProblemId !== null &&
+      previousProblemId !== currentProblem.competitionProblemId &&
+      window.matchMedia("(max-width: 767px)").matches
+    ) {
+      problemHeadingRef.current?.focus({ preventScroll: true });
+      problemPanelRef.current?.scrollIntoView({ block: "start" });
+    }
+  }, [currentProblem]);
+
   return (
     <div className="bg-primary-50 min-h-dvh">
       {isModalOpen && (
@@ -88,7 +107,7 @@ export default function ProblemContent({
         />
       )}
 
-      <div className="mx-auto flex w-full max-w-5xl flex-row gap-4 pt-9">
+      <div className="mx-auto grid w-full max-w-5xl grid-cols-1 items-start gap-2 px-4 pt-4 pb-8 md:grid-cols-[214px_minmax(0,1fr)] md:items-stretch md:gap-3 md:px-5 md:pt-9 lg:gap-4 lg:px-0">
         <ProblemSidebar
           problemNavigationItems={problemNavigationItems}
           currentProblemId={currentProblem?.competitionProblemId}
@@ -103,6 +122,8 @@ export default function ProblemContent({
           }}
         />
         <ProblemPanel
+          headingRef={problemHeadingRef}
+          panelRef={problemPanelRef}
           currentProblem={currentProblem}
           selectedOptionId={
             currentProblem
