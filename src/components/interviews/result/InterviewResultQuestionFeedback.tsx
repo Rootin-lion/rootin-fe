@@ -23,10 +23,10 @@ export default function InterviewResultQuestionFeedback({
 
   return (
     <div>
-      <h3 className="text-[15px] leading-5.5 font-bold text-[#1a1a1a]">
+      <h3 className="text-sm leading-5 font-bold text-[#1a1a1a] md:text-[15px] md:leading-5.5">
         문항별 상세 피드백
       </h3>
-      <div className="mt-3">
+      <div className="mt-3 flex flex-col gap-3 md:gap-4">
         {questionGroups.map(({ mainQuestion, followUpQuestions }) => (
           <InterviewResultQuestionFeedbackItem
             key={mainQuestion.questionId}
