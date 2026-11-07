@@ -78,19 +78,21 @@ export default function CompetitionBanner({
                 className="hidden h-auto w-20 shrink-0 self-center sm:w-24 md:flex lg:w-32.5"
               />
             </div>
-            <div className="text-primary-900 shrink-0 text-center text-[12px] font-normal lg:pr-35">
+            <div className="text-primary-900 flex shrink-0 items-center justify-between gap-3 text-center text-[12px] font-normal md:block lg:pr-35">
               {competition.status === "BEFORE_START" ? (
                 <>
-                  <p>대회 입장까지</p>
-                  <ContestCountdown
-                    initialSeconds={competition.remainingSeconds}
-                    status={competition.status}
-                    onExpire={onExpire}
-                  />
-                  <div className="mt-6">
+                  <div>
+                    <p>대회 입장까지</p>
+                    <ContestCountdown
+                      initialSeconds={competition.remainingSeconds}
+                      status={competition.status}
+                      onExpire={onExpire}
+                    />
+                  </div>
+                  <div className="shrink-0 md:mt-6">
                     <GradientOutlineButton
                       variant="gradient"
-                      className="min-h-11 w-full md:w-auto"
+                      className="min-h-9 max-md:min-w-0 max-md:rounded-lg max-md:px-3 max-md:py-1.5 max-md:text-[12px] md:min-h-11"
                     >
                       대회 준비중
                     </GradientOutlineButton>
@@ -98,17 +100,19 @@ export default function CompetitionBanner({
                 </>
               ) : (
                 <>
-                  <p>대회 입장 마감</p>
-                  <ContestCountdown
-                    initialSeconds={competition.remainingSeconds}
-                    status={competition.status}
-                    onExpire={onExpire}
-                  />
-                  <p>{competition.participantCount}명이 참가했어요.</p>
-                  <div className="mt-3">
+                  <div>
+                    <p>대회 입장 마감</p>
+                    <ContestCountdown
+                      initialSeconds={competition.remainingSeconds}
+                      status={competition.status}
+                      onExpire={onExpire}
+                    />
+                    <p>{competition.participantCount}명이 참가했어요.</p>
+                  </div>
+                  <div className="shrink-0 md:mt-3">
                     <GradientOutlineButton
                       variant="gradient"
-                      className="min-h-11 w-full md:w-auto"
+                      className="min-h-9 max-md:min-w-0 max-md:rounded-lg max-md:px-3 max-md:py-1.5 max-md:text-[12px] md:min-h-11"
                       onClick={onClick}
                     >
                       대회 참여하기
