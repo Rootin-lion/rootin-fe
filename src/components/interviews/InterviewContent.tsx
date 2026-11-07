@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import type {
   InterviewConfig,
@@ -13,15 +13,43 @@ import ErrorModal from "@/components/shared/ErrorModal";
 import ModalWrapper from "@/components/shared/ModalWrapper";
 import useErrorModal from "@/hooks/useErrorModal";
 import useModal from "@/hooks/useModal";
+import {
+  getInterviewCameraKey,
+  MOBILE_INTERVIEW_QUERY,
+} from "@/lib/interviews/cameraPolicy";
 import InterviewPreview from "./InterviewPreview";
 import InterviewSetup from "./InterviewSetup";
 import { useInterviewMedia } from "./InterviewMediaProvider";
 
+const subscribeToViewport = (callback: () => void) => {
+  const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+};
+const getMobileSnapshot = () =>
+  window.matchMedia(MOBILE_INTERVIEW_QUERY).matches;
+const getServerSnapshot = () => true;
+
 export default function InterviewContent() {
   const router = useRouter();
+  const isMobile = useSyncExternalStore(
+    subscribeToViewport,
+    getMobileSnapshot,
+    getServerSnapshot,
+  );
   const { startCamera, stopCamera } = useInterviewMedia();
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [isStarting, setIsStarting] = useState(false);
+  const cameraEnabledForStartRef = useRef(false);
+
+  useEffect(() => {
+    const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      if (event.matches) cameraEnabledForStartRef.current = false;
+    };
+    query.addEventListener("change", handleViewportChange);
+    return () => query.removeEventListener("change", handleViewportChange);
+  }, []);
   const {
     error,
     setErrorContext,
@@ -57,11 +85,19 @@ export default function InterviewContent() {
         stopCamera();
         setCameraError(null);
         setIsStarting(false);
+        closeModal();
         openErrorModal();
 
         return;
       }
       const interviewId = res.data.interviewId;
+      window.sessionStorage.setItem(
+        getInterviewCameraKey(interviewId),
+        cameraEnabledForStartRef.current &&
+          !window.matchMedia(MOBILE_INTERVIEW_QUERY).matches
+          ? "enabled"
+          : "disabled",
+      );
 
       const query = new URLSearchParams({
         category: config.category,
@@ -77,6 +113,7 @@ export default function InterviewContent() {
       stopCamera();
       setCameraError(null);
       setIsStarting(false);
+      closeModal();
       openErrorModal();
     }
   };
@@ -96,9 +133,12 @@ export default function InterviewContent() {
 
     setCameraError(null);
     setIsStarting(true);
+    cameraEnabledForStartRef.current = !window.matchMedia(
+      MOBILE_INTERVIEW_QUERY,
+    ).matches;
 
     try {
-      await startCamera();
+      if (cameraEnabledForStartRef.current) await startCamera();
       await createInterview(questionCount);
     } catch {
       setCameraError("카메라 권한과 연결된 장치를 확인해주세요.");
@@ -107,7 +147,7 @@ export default function InterviewContent() {
   };
 
   return (
-    <div className="bg-bg-ivory border-bg-green-200 mx-auto mt-11 flex max-w-218 flex-row gap-5 rounded-[14px] border px-6 py-9">
+    <div className="bg-bg-ivory border-bg-green-200 mx-auto mt-6 flex w-full max-w-218 flex-col gap-6 rounded-[14px] border p-4 md:mt-11 md:flex-row md:gap-5 md:px-6 md:py-9">
       {isErrorModalOpen && (
         <ErrorModal
           code={error.code}
@@ -130,7 +170,11 @@ export default function InterviewContent() {
               면접 주의사항
             </div>
             <ul className="text-disabled-text mt-3 list-outside list-disc pl-5 text-[12px] leading-5 font-medium">
-              <li>면접 시작 전 마이크 및 카메라 권한을 확인해주세요.</li>
+              <li>
+                {isMobile
+                  ? "모바일에서는 카메라 없이 면접을 진행합니다."
+                  : "면접 시작 전 마이크 및 카메라 권한을 확인해주세요."}
+              </li>
               <li>제한 시간 초과 시 빈 문자열이 자동 제출됩니다.</li>
               <li>
                 음성 면접 시 말을 끝내고 전송을 눌러야 최종 텍스트가 전송됩니다.
@@ -139,7 +183,7 @@ export default function InterviewContent() {
             </ul>
           </ModalWrapper.Notice>
           <ModalWrapper.Box>
-            <div className="flex flex-row gap-6">
+            <div className="flex flex-row gap-3 md:gap-6">
               <Button onClick={closeModal} disabled={isStarting}>
                 취소
               </Button>
@@ -151,10 +195,7 @@ export default function InterviewContent() {
                 <span className="flex items-center justify-center">
                   {isStarting ? (
                     <>
-                      <span
-                        aria-hidden="true"
-                        className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
-                      />
+                      <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                       <span className="sr-only">면접 시작 중</span>
                     </>
                   ) : (

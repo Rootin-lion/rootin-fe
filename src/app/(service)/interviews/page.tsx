@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function InterviewPage() {
   return (
-    <div className="pb-30">
+    <div className="px-4 pb-12 md:px-6 md:pb-30">
       <InterviewContent />
     </div>
   );

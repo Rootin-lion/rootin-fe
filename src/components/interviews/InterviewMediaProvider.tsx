@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { MOBILE_INTERVIEW_QUERY } from "@/lib/interviews/cameraPolicy";
 
 type InterviewMediaContextValue = {
   stream: MediaStream | null;
@@ -27,9 +28,11 @@ export function InterviewMediaProvider({
   const streamRef = useRef<MediaStream | null>(null);
   const pendingStartRef = useRef<Promise<void> | null>(null);
   const mountedRef = useRef(true);
+  const cameraRequestIdRef = useRef(0);
   const [stream, setStream] = useState<MediaStream | null>(null);
 
   const startCamera = useCallback(async () => {
+    if (window.matchMedia(MOBILE_INTERVIEW_QUERY).matches) return;
     if (
       streamRef.current
         ?.getVideoTracks()
@@ -40,10 +43,15 @@ export function InterviewMediaProvider({
 
     if (pendingStartRef.current) return pendingStartRef.current;
 
+    const requestId = ++cameraRequestIdRef.current;
     const pendingStart = navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
       .then((cameraStream) => {
-        if (!mountedRef.current) {
+        if (
+          !mountedRef.current ||
+          requestId !== cameraRequestIdRef.current ||
+          window.matchMedia(MOBILE_INTERVIEW_QUERY).matches
+        ) {
           cameraStream.getTracks().forEach((track) => track.stop());
           return;
         }
@@ -63,6 +71,8 @@ export function InterviewMediaProvider({
   }, []);
 
   const stopCamera = useCallback(() => {
+    cameraRequestIdRef.current += 1;
+    pendingStartRef.current = null;
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
     setStream(null);
@@ -70,11 +80,19 @@ export function InterviewMediaProvider({
 
   useEffect(() => {
     mountedRef.current = true;
+    const mobileQuery = window.matchMedia(MOBILE_INTERVIEW_QUERY);
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      if (event.matches) stopCamera();
+    };
+    mobileQuery.addEventListener("change", handleViewportChange);
     return () => {
       mountedRef.current = false;
+      cameraRequestIdRef.current += 1;
+      pendingStartRef.current = null;
+      mobileQuery.removeEventListener("change", handleViewportChange);
       streamRef.current?.getTracks().forEach((track) => track.stop());
     };
-  }, []);
+  }, [stopCamera]);
 
   return (
     <InterviewMediaContext.Provider value={{ stream, startCamera, stopCamera }}>

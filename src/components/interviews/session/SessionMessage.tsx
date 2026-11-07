@@ -21,15 +21,21 @@ export default function SessionMessage({
 }) {
   return (
     <div
-      className={`flex flex-row gap-3 ${type === "ANSWER" ? "justify-end" : ""}`}
+      className={`flex min-w-0 flex-row gap-2 md:gap-3 ${type === "ANSWER" ? "justify-end" : ""}`}
     >
       {type === "QUESTION" && (
-        <div className="bg-primary-200 flex h-15 w-15 shrink-0 items-center justify-center rounded-[50%]">
-          <Image src={AiImg} alt="char" className="h-10.25 w-10" />
+        <div className="bg-primary-200 flex h-9 w-9 shrink-0 items-center justify-center rounded-[50%] md:h-15 md:w-15">
+          <Image
+            src={AiImg}
+            alt="char"
+            className="h-auto w-6 md:h-10.25 md:w-10"
+          />
         </div>
       )}
 
-      <div className={`${type === "QUESTION" ? "pr-15" : "pl-18"}`}>
+      <div
+        className={`min-w-0 ${type === "QUESTION" ? "pr-2 md:pr-15" : "pl-2 md:pl-18"}`}
+      >
         <MessageBubble
           text={text}
           type={type}
@@ -39,7 +45,7 @@ export default function SessionMessage({
         />
       </div>
       {type === "ANSWER" && (
-        <div className="bg-primary-200 flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full">
+        <div className="bg-primary-200 flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full md:h-12 md:w-12">
           {profileImageUrl ? (
             <Image
               src={profileImageUrl}
@@ -50,7 +56,11 @@ export default function SessionMessage({
               className="h-full w-full object-cover"
             />
           ) : (
-            <Image src={CharImg} alt="" className="h-10 w-10 object-contain" />
+            <Image
+              src={CharImg}
+              alt=""
+              className="h-7 w-7 object-contain md:h-10 md:w-10"
+            />
           )}
         </div>
       )}

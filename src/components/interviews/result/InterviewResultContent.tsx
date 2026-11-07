@@ -58,8 +58,8 @@ export default function InterviewResultContent({
   }, [interviewId, setErrorContext, openModal]);
 
   return (
-    <div className="pb-20">
-      <div className="mx-auto mt-10 flex w-full max-w-5xl flex-col gap-6 rounded-xl border border-[#F0F0F0] bg-white px-21 py-11">
+    <div className="px-4 pb-12 md:px-6 md:pb-20">
+      <div className="mx-auto mt-6 flex w-full max-w-5xl flex-col gap-5 rounded-xl border border-[#F0F0F0] bg-white p-4 md:mt-10 md:gap-6 md:px-8 md:py-11 lg:px-21">
         {isModalOpen && (
           <ErrorModal
             code={error.code}
@@ -69,7 +69,7 @@ export default function InterviewResultContent({
         )}
 
         <div>
-          <h1 className="text-gradient-primary w-fit text-[30px] font-semibold">
+          <h1 className="text-gradient-primary w-fit text-[24px] font-semibold md:text-[30px]">
             AI 면접 결과
           </h1>
           <p className="text-body-3 text-text mt-3">

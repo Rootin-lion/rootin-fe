@@ -19,13 +19,13 @@ export default function InterviewResultQuestionFeedbackItem({
       <button
         type="button"
         aria-expanded={isExpanded}
-        className="bg-primary-200 flex w-full cursor-pointer flex-row items-center gap-4 rounded-lg p-4 text-left"
+        className="bg-primary-200 flex w-full cursor-pointer flex-row items-center gap-2 rounded-lg p-3 text-left md:gap-4 md:p-4"
         onClick={() => setIsExpanded((prev) => !prev)}
       >
         <div className="bg-primary-800 flex h-6 w-6 shrink-0 items-center justify-center rounded-[50%] text-[14px] font-normal text-white">
           {question.questionOrder}
         </div>
-        <p className="pr-2 text-[14px] font-normal text-black">
+        <p className="min-w-0 pr-2 text-xs font-normal wrap-anywhere text-black md:text-[14px]">
           {question.question}
         </p>
         <span className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center text-[#666666]">
