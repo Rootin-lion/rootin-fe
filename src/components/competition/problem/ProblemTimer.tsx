@@ -45,16 +45,16 @@ export default function ProblemTimer({ onExpire }: { onExpire: () => void }) {
       : "text-primary-900";
 
   return (
-    <QuestionSurface>
-      <div className="flex flex-col items-center">
-        <div className="flex flex-row gap-1">
+    <QuestionSurface compact>
+      <div className="flex items-center justify-between gap-3 md:flex-col md:justify-start md:gap-0">
+        <div className="flex items-center gap-1">
           <Image src={TimerIcon} alt="timer" width={20} height={14} />
-          <p className="text-primary-900 text-[13px] font-semibold">
+          <p className="text-primary-900 text-[11px] font-semibold md:text-[13px]">
             남은 시간
           </p>
         </div>
         <p
-          className={`${timeColor} text-[36px] font-bold tabular-nums`}
+          className={`${timeColor} text-[24px] font-bold tabular-nums md:text-[36px]`}
           role="timer"
           aria-label={
             remainingSeconds === null

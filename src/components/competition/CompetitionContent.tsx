@@ -2,7 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import type { TodayCompetitionState } from "@/types/competitions/competition";
+import type {
+  CompetitionStatus,
+  TodayCompetitionState,
+} from "@/types/competitions/competition";
 import {
   getCompetitionStatusAction,
   getTodayCompetitionAction,
@@ -22,6 +25,9 @@ import WarningBanner from "./WarningBanner";
 
 export default function CompetitionContent() {
   const router = useRouter();
+  const [expiredStatus, setExpiredStatus] = useState<CompetitionStatus | null>(
+    null,
+  );
   // 오늘의 대회 상태
   const [todayCompetition, setTodayCompetition] =
     useState<TodayCompetitionState>({
@@ -67,14 +73,17 @@ export default function CompetitionContent() {
         }));
         openErrorModal();
 
-        return;
+        return null;
       }
 
-      setTodayCompetition(res.data);
+      const competition: TodayCompetitionState = res.data;
+      setTodayCompetition(competition);
       saveTodayCompetition({
-        competitionId: res.data.competitionId,
-        competitionDate: res.data.competitionDate,
+        competitionId: competition.competitionId,
+        competitionDate: competition.competitionDate,
       });
+
+      return competition;
     } catch {
       clearTodayCompetition();
       setErrorContext({
@@ -86,6 +95,8 @@ export default function CompetitionContent() {
         status: "CLOSED",
       }));
       openErrorModal();
+
+      return null;
     }
   }, [
     clearTodayCompetition,
@@ -139,7 +150,7 @@ export default function CompetitionContent() {
     }
   };
 
-  // 대회 0초일 때 재호출
+  // 최초 대회 조회
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       void loadTodayCompetition();
@@ -147,6 +158,33 @@ export default function CompetitionContent() {
 
     return () => window.clearTimeout(timeoutId);
   }, [loadTodayCompetition]);
+
+  // 만료 직후 서버의 상태 전환이 늦어져도 새로고침 없이 다시 확인한다.
+  useEffect(() => {
+    if (expiredStatus === null) return;
+
+    let cancelled = false;
+    let timeoutId: number | undefined;
+
+    const refreshExpiredCompetition = async () => {
+      const competition = await loadTodayCompetition();
+      if (cancelled) return;
+
+      if (competition && competition.status === expiredStatus) {
+        timeoutId = window.setTimeout(refreshExpiredCompetition, 1000);
+        return;
+      }
+
+      setExpiredStatus(null);
+    };
+
+    void refreshExpiredCompetition();
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [expiredStatus, loadTodayCompetition]);
 
   return (
     <div className="bg-bg-green-50 flex w-full flex-col gap-6">
@@ -165,9 +203,9 @@ export default function CompetitionContent() {
       <CompetitionBanner
         competition={todayCompetition}
         onClick={openModal}
-        onExpire={loadTodayCompetition}
+        onExpire={() => setExpiredStatus(todayCompetition.status)}
       />
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-5 px-4 md:px-6 lg:px-0">
         <RankingSection competitionId={todayCompetition.competitionId} />
         <PastCompetitionSection />
         <WarningBanner />

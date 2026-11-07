@@ -59,7 +59,7 @@ export default function MessageBubble({
 }) {
   return (
     <div
-      className={`${MESSAGE_STYLES[type]} left-6 border px-4 py-3 text-[14px] font-normal whitespace-pre-wrap text-[#1A1A1A] ${loading ? "flex h-15 w-20 justify-center" : ""}`}
+      className={`${MESSAGE_STYLES[type]} min-w-0 border px-3 py-2 text-xs leading-5 font-normal wrap-anywhere whitespace-pre-wrap text-[#1A1A1A] md:px-4 md:py-3 md:text-[14px] ${loading ? "flex h-15 w-20 justify-center" : ""}`}
     >
       {loading ? (
         <>

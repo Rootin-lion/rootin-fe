@@ -12,7 +12,7 @@ export default function RankingSidebar({
   onShowMyPosition: () => void;
 }) {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex w-full min-w-0 flex-col gap-3 md:w-48 md:shrink-0 md:gap-5 lg:w-56">
       <MyRanking
         myRanking={myRanking}
         isMyPositionDisabled={isMyPositionDisabled}

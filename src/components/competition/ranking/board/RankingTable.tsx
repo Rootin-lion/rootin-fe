@@ -9,7 +9,7 @@ import type { RankingFocusTarget } from "@/types/competitions/ranking";
 import RankingPagination from "./RankingPagination";
 
 const rowLayout =
-  "grid grid-cols-[80px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-x-4 px-5 text-center";
+  "grid grid-cols-[36px_minmax(0,1fr)_minmax(0,1fr)] items-center gap-x-2 px-3 text-center md:grid-cols-[40px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[80px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-4 lg:px-5";
 const rankBadgeLayout =
   "flex h-6.5 w-6.5 shrink-0 items-center justify-center justify-self-center rounded-[50%]";
 
@@ -34,7 +34,7 @@ const rankProfileStyles: Record<number, string> = {
 const TableHeader = () => {
   return (
     <div
-      className={`${rowLayout} rounded-t-lg border border-[#E1E1E1] bg-[#F0F0F0] px-5 py-3`}
+      className={`${rowLayout} rounded-t-lg border border-[#E1E1E1] bg-[#F0F0F0] py-3 max-md:hidden`}
     >
       <p>순위</p>
       <p>닉네임</p>
@@ -60,16 +60,16 @@ const TableItem = ({
   const rankProfileStyle = rankProfileStyles[ranking.rank] ?? "bg-primary-200";
   const profileImageUrl = ranking.imgUrl?.trim();
   const rankBadgeClassName = rankItemStyle
-    ? `${rankBadgeLayout} ${rankItemStyle}`
-    : undefined;
+    ? `${rankBadgeLayout} ${rankItemStyle} max-md:row-span-2`
+    : "max-md:row-span-2";
 
   return (
     <div
       ref={rowRef}
-      className={`${rowLayout} ${rankBoxStyle} border-b border-[#E1E1E1]`}
+      className={`${rowLayout} ${rankBoxStyle} border-b border-[#E1E1E1] py-3 md:py-0`}
     >
       <p className={rankBadgeClassName}>{ranking.rank ?? 0}</p>
-      <div className="flex w-full max-w-48 -translate-x-3 items-center gap-3 justify-self-center py-1.5 text-left">
+      <div className="col-span-2 flex w-full min-w-0 items-center gap-2 py-1.5 text-left md:col-span-1 md:max-w-48 md:justify-self-center lg:-translate-x-3 lg:gap-3">
         <div
           className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full ${rankProfileStyle}`}
         >
@@ -86,10 +86,18 @@ const TableItem = ({
             }
           />
         </div>
-        <p className="min-w-0 truncate">{ranking.nickname ?? "-"}</p>
+        <p className="min-w-0 break-all md:truncate">
+          {ranking.nickname ?? "-"}
+        </p>
       </div>
-      <p>{ranking.score ?? 0}점</p>
-      <p>{ranking.point ?? 0}P</p>
+      <p className="min-w-0 text-left break-all md:text-center">
+        <span className="text-sub-text mr-1 text-[11px] md:hidden">점수</span>
+        {ranking.score ?? 0}점
+      </p>
+      <p className="min-w-0 text-left break-all md:text-center">
+        <span className="text-sub-text mr-1 text-[11px] md:hidden">포인트</span>
+        {ranking.point ?? 0}P
+      </p>
     </div>
   );
 };
@@ -124,7 +132,7 @@ export default function RankingTable({
   }, [focusTarget, rankings]);
 
   return (
-    <div className="text-body-3 mt-4 min-h-40 w-full rounded-lg bg-white p-5 text-black">
+    <div className="text-body-3 mt-4 min-h-40 w-full rounded-lg bg-white p-2 text-black max-md:text-xs md:p-3 lg:p-5">
       <TableHeader />
       <div>
         {rankings.map((ranking) => {

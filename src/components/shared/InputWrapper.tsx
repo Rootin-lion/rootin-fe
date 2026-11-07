@@ -53,13 +53,18 @@ function InputWrapperField({
         className={`cursor-pointer rounded-lg border ${fieldStyle} w-full px-4 py-3 font-normal ${className ?? ""} outline-[#BFDEBE]`}
       />
       {value && !disabled && (
-        <button type="button" aria-label="입력값 지우기" onClick={onDelete}>
+        <button
+          type="button"
+          aria-label="입력값 지우기"
+          onClick={onDelete}
+          className="focus-visible:outline-primary absolute top-0.5 right-0.5 flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg focus-visible:outline-2"
+        >
           <Image
             src={CancelImg}
             alt=""
             width={20}
             height={20}
-            className="absolute top-3.5 right-3.5 z-10 cursor-pointer rounded-[50px] bg-[#888F9C] p-1 ring"
+            className="rounded-full bg-[#888F9C] p-1 ring"
           />
         </button>
       )}

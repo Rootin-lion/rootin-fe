@@ -11,17 +11,17 @@ export default function CompetitionResultCard({
   const router = useRouter();
 
   return (
-    <div className="flex w-full max-w-102 flex-col gap-9 rounded-lg border border-[#E1E1E1] px-8 py-5">
-      <div className="flex items-baseline gap-3">
-        <div className="flex flex-col gap-3">
-          <p className="text-text text-[16px] font-semibold">
+    <div className="flex w-full min-w-0 flex-col gap-3 rounded-lg border border-[#E1E1E1] p-3 md:max-w-102 md:gap-9 md:p-4 lg:px-8 lg:py-5">
+      <div className="flex flex-wrap items-baseline gap-2 md:gap-3">
+        <div className="flex flex-col gap-1 md:gap-3">
+          <p className="text-text text-[14px] font-semibold md:text-[16px]">
             {formatCompetitionDateWithWeekday(contest.competitionDate)}
           </p>
-          <p className="text-disabled-text text-[12px] font-semibold">
+          <p className="text-disabled-text text-[11px] font-semibold md:text-[12px]">
             {contest.participantCount}명이 참가했어요
           </p>
         </div>
-        <p className="text-text text-[12px] font-medium">
+        <p className="text-text text-[11px] font-medium md:text-[12px]">
           {contest.problemCount}문제 · {contest.timeLimitMinutes}분
         </p>
       </div>
@@ -29,6 +29,7 @@ export default function CompetitionResultCard({
       <div className="text-right">
         <GradientOutlineButton
           variant="outline"
+          className="w-auto max-md:px-3 max-md:text-[11px]"
           disabled={contest.viewable !== true}
           onClick={() => {
             if (!contest.viewable) return;

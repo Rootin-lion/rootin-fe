@@ -44,7 +44,7 @@ export default function InterviewResultFeedbackGroup({
   items: InterviewReportFeedbackItem[];
 }) {
   return (
-    <div className="bg-primary-50 flex-1 rounded-[14px] px-5 pt-5 pb-7">
+    <div className="bg-primary-50 min-w-0 flex-1 rounded-[14px] p-4 wrap-anywhere md:px-5 md:pt-5 md:pb-7">
       <h3 className={`${TYPE_DATA[type].titleColor} text-[16px] font-semibold`}>
         {TYPE_DATA[type].text}
       </h3>

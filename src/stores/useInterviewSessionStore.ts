@@ -22,12 +22,15 @@ export const INTERVIEW_COMPLETION_MESSAGE =
 export function createIntroMessages(
   category: string | null,
   questionCount: number | null,
+  cameraEnabled = true,
 ): Extract<SessionChatMessage, { kind: "INTRO" }>[] {
   return [
     {
       id: "intro-camera",
       kind: "INTRO",
-      text: "안녕하세요. 면접을 시작하기 전에 먼저 카메라를 켜고 본인의\n화면이 잘 나오는지 확인해주세요.",
+      text: cameraEnabled
+        ? "안녕하세요. 면접을 시작하기 전에 먼저 카메라를 켜고 본인의\n화면이 잘 나오는지 확인해주세요."
+        : "안녕하세요. 모바일에서는 카메라 없이 면접을 진행합니다.\n질문을 읽고 아래 입력창에 답변해주세요.",
     },
     {
       id: "intro-start",
@@ -43,6 +46,7 @@ type InterviewSessionStore = {
     interviewId: number,
     category: string | null,
     questionCount: number | null,
+    cameraEnabled: boolean,
   ) => void;
   completeIntro: (interviewId: number) => void;
   appendExchange: (
@@ -63,7 +67,7 @@ export const useInterviewSessionStore = create<InterviewSessionStore>()(
     (set) => ({
       sessions: {},
 
-      ensureIntro: (interviewId, category, questionCount) =>
+      ensureIntro: (interviewId, category, questionCount, cameraEnabled) =>
         set((state) => {
           const session =
             state.sessions[interviewId] ?? EMPTY_INTERVIEW_SESSION;
@@ -80,7 +84,11 @@ export const useInterviewSessionStore = create<InterviewSessionStore>()(
             return state;
           }
 
-          const intros = createIntroMessages(category, questionCount);
+          const intros = createIntroMessages(
+            category,
+            questionCount,
+            cameraEnabled,
+          );
           return {
             sessions: {
               ...state.sessions,

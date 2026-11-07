@@ -8,6 +8,7 @@ import SessionMessage from "./SessionMessage";
 type IntroStep = "FIRST" | "WAITING" | "SECOND" | "DONE";
 
 export default function SessionChat({
+  cameraEnabled,
   category,
   questionCount,
   messages,
@@ -20,6 +21,7 @@ export default function SessionChat({
   onFeedbackComplete,
   onCompletionComplete,
 }: {
+  cameraEnabled: boolean;
   category: string | null;
   questionCount: number | null;
   messages: SessionChatMessage[];
@@ -42,7 +44,11 @@ export default function SessionChat({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const followLatestRef = useRef(true);
-  const defaultIntros = createIntroMessages(category, questionCount);
+  const defaultIntros = createIntroMessages(
+    category,
+    questionCount,
+    cameraEnabled,
+  );
   const cameraIntro = messages.find((message) => message.id === "intro-camera");
   const startIntro = messages.find((message) => message.id === "intro-start");
 
@@ -100,13 +106,13 @@ export default function SessionChat({
     <div
       ref={scrollContainerRef}
       onScroll={handleScroll}
-      className="interview-scrollbar min-h-0 w-full max-w-167 overflow-y-auto pr-10"
+      className="interview-scrollbar min-h-0 w-full min-w-0 flex-1 overflow-y-auto pr-1 md:max-w-167 md:pr-4 lg:pr-10"
     >
       <div ref={contentRef} className="flex flex-col gap-4">
         <SessionMessage
           type="QUESTION"
           text={
-            cameraIntro?.kind === "INTRO"
+            cameraEnabled && cameraIntro?.kind === "INTRO"
               ? cameraIntro.text
               : defaultIntros[0].text
           }

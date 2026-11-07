@@ -25,15 +25,21 @@ export default function ProblemAutoSubmitModal({
   }, [competitionId, router]);
 
   return (
-    <ModalWrapper onClose={onClose}>
+    <ModalWrapper onClose={onClose} className="max-md:gap-4 max-md:py-5">
       <ModalWrapper.Box>
-        <ModalWrapper.Title>TIME_OUT</ModalWrapper.Title>
-        <ModalWrapper.Content>
+        <ModalWrapper.Title className="max-md:text-[14px]">
+          TIME_OUT
+        </ModalWrapper.Title>
+        <ModalWrapper.Content className="max-md:text-[12px]">
           시간이 종료되어 자동 제출되었습니다.
         </ModalWrapper.Content>
       </ModalWrapper.Box>
       <ModalWrapper.Box>
-        <Button isActive={true} onClick={onClose}>
+        <Button
+          isActive={true}
+          onClick={onClose}
+          className="max-md:min-h-9 max-md:py-1.5 max-md:text-[12px]"
+        >
           닫기
         </Button>
       </ModalWrapper.Box>

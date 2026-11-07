@@ -13,9 +13,9 @@ export default function RankSection({
   const rankChange = competitionResult.rankChange;
 
   return (
-    <section className="mt-8 w-full">
+    <section className="col-start-2 row-start-1 w-full min-w-0 md:mt-8">
       <SectionTitle>내 순위</SectionTitle>
-      <div className="flex items-end justify-between">
+      <div className="flex flex-wrap items-end justify-between gap-x-1">
         <SelectedNumber>{competitionResult.myRank}위</SelectedNumber>
         {rankChange !== null && (
           <div className="mb-2 flex h-3.75 w-7.5 items-center justify-center gap-1 rounded-[10px] bg-[#F0F0F0] text-[8px] font-semibold">

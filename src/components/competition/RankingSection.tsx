@@ -67,35 +67,35 @@ export default function RankingSection({
           onClose={closeModal}
         />
       )}
-      <div className="flex flex-col px-6">
+      <div className="flex min-w-0 flex-col lg:px-6">
         <SectionTitle
           title="CS 랭킹 TOP 3"
           content="실력을 증명한 최고의 참가자들이에요!"
         />
-        <div className="flex flex-row items-center justify-center gap-10">
+        <div className="mt-8 grid grid-cols-3 items-center gap-2 md:flex md:justify-center md:gap-6 lg:mt-0 lg:gap-10">
           {/* 2등 */}
           <RankingBox>
             <RankingCircle type="Silver" img={second?.imgUrl ?? null} />
-            <p className="mt-4 text-[20px] font-semibold">
+            <p className="mt-4 w-full text-[12px] font-semibold break-all md:text-[16px] lg:text-[20px]">
               {second?.nickname ?? "-"}
             </p>
-            <p className="text-[16px] font-semibold">
+            <p className="text-[12px] font-semibold md:text-[16px]">
               {second ? `${second.score}` : "0"}점
             </p>
           </RankingBox>
           <RankingConnector />
           {/* 1등 */}
-          <div className="relative">
+          <div className="relative min-w-0">
             <div className="absolute inset-0 z-0">
-              <div className="border-warning absolute h-41 w-41 border-5 bg-[#FFFCF6] opacity-80 blur-[30px]" />
+              <div className="border-warning absolute h-full w-full border-5 bg-[#FFFCF6] opacity-80 blur-[30px] lg:h-41 lg:w-41" />
             </div>
             <div className="text-text relative z-10 flex flex-col text-center">
               <RankingBox>
                 <RankingCircle type="Gold" img={first?.imgUrl ?? null} />
-                <p className="mt-4 text-[20px] font-semibold">
+                <p className="mt-4 w-full text-[12px] font-semibold break-all md:text-[16px] lg:text-[20px]">
                   {first?.nickname ?? "-"}
                 </p>
-                <p className="text-[16px] font-semibold">
+                <p className="text-[12px] font-semibold md:text-[16px]">
                   {first ? `${first.score}` : "0"}점
                 </p>
               </RankingBox>
@@ -105,17 +105,17 @@ export default function RankingSection({
           {/* 3등 */}
           <RankingBox>
             <RankingCircle type="Dong" img={third?.imgUrl ?? null} />
-            <p className="mt-4 text-[20px] font-semibold">
+            <p className="mt-4 w-full text-[12px] font-semibold break-all md:text-[16px] lg:text-[20px]">
               {third?.nickname ?? "-"}
             </p>
-            <p className="text-[16px] font-semibold">
+            <p className="text-[12px] font-semibold md:text-[16px]">
               {third ? `${third.score}` : "0"}점
             </p>
           </RankingBox>
         </div>
         <Link
           href={`/competitions/${competitionId}/ranking?period=DAILY&page=1`}
-          className="text-primary-900 mt-6 cursor-pointer text-right text-[16px] font-semibold"
+          className="text-primary-900 mt-6 flex min-h-11 items-center justify-end text-right text-[12px] font-semibold md:text-[16px]"
         >
           전체 랭킹 보기 →
         </Link>

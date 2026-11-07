@@ -22,7 +22,7 @@ export default function CompetitionJoinModal({
         </ul>
       </ModalWrapper.Notice>
       <ModalWrapper.Box>
-        <div className="flex flex-row gap-6">
+        <div className="grid grid-cols-2 gap-3 md:gap-6">
           <Button onClick={onClose}>취소</Button>
           <Button isActive={true} onClick={onStart}>
             시작하기

@@ -32,7 +32,7 @@ export default function InterviewCount({
         placeholder="1 ~ 5"
         value={questionCount ?? ""}
         onChange={handleChange}
-        className="text-text focus:border-primary focus:ring-primary border-primary-300 w-full rounded-lg border-2 px-4 py-3 text-[14px] font-normal focus:ring-1 focus:outline-none"
+        className="text-text focus:border-primary focus:ring-primary border-primary-300 h-9 w-full rounded-lg border-2 px-3 py-2 text-xs font-normal focus:ring-1 focus:outline-none md:h-auto md:px-4 md:py-3 md:text-[14px]"
       />
       <p className="text-caption text-disabled-text ml-2">1 ~ 5개 선택 가능</p>
     </div>

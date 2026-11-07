@@ -4,7 +4,7 @@ export default function SelectedNumber({
   children: React.ReactNode;
 }) {
   return (
-    <span className="text-primary-900 text-[22px] font-semibold">
+    <span className="text-primary-900 text-[22px] font-semibold [overflow-wrap:anywhere]">
       {children}
     </span>
   );

@@ -10,18 +10,18 @@ export default function InterviewPreview({
   const data = INTERVIEW_LIST[category as keyof typeof INTERVIEW_LIST];
 
   return (
-    <div className="bg-primary-50 border-bg-green-50 max-h-70 rounded-[14px] border px-6 pt-2">
+    <div className="bg-primary-50 border-bg-green-50 hidden min-w-0 rounded-[14px] border px-4 pt-2 pb-4 md:flex md:max-h-70 md:flex-col md:px-6 md:pb-0">
       <div className="flex flex-row items-center gap-1">
         <Image
           src={data.img}
           alt={data.alt}
           width={80}
           height={77}
-          className="w-20"
+          className="h-auto w-14 md:w-20"
         />
         <p className="text-title-4 text-black">{data.title}</p>
       </div>
-      <p className="mt-1 w-78.5 text-[13px] leading-6 font-medium whitespace-pre-wrap text-[#6C6A6A]">
+      <p className="mt-1 text-xs leading-5 font-medium whitespace-pre-wrap text-[#6C6A6A] md:w-78.5 md:max-w-full md:text-[13px] md:leading-6">
         {data.content}
       </p>
     </div>

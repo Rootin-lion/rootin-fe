@@ -46,22 +46,22 @@ export default function InterestFieldSelector({
           type="button"
           aria-expanded={isOpen}
           onClick={() => setIsOpen((prev) => !prev)}
-          className="text-sub-text flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-4 py-3 text-left text-[12px]"
+          className="text-sub-text flex min-h-10 w-full cursor-pointer items-center justify-between gap-3 rounded-lg bg-white px-3 py-2 text-left text-[12px] md:min-h-12 md:px-4 md:py-3"
         >
           <span
-            className={`text-[14px] ${selectedOption ? "text-[#1A1A1A]" : ""}`}
+            className={`min-w-0 text-[14px] break-keep max-md:text-[11px] md:max-lg:text-[13px] ${selectedOption ? "text-[#1A1A1A]" : ""}`}
           >
             {value && value.length > 0 ? selectedLabelsText : message}
           </span>
 
           <ChevronIcon
             strokeWidth={1.5}
-            className={`text-primary h-2.5 w-1.5 transition-transform ${isOpen ? "rotate-90" : "-rotate-90"}`}
+            className={`text-primary h-2.5 w-1.5 shrink-0 transition-transform ${isOpen ? "rotate-90" : "-rotate-90"}`}
           />
         </button>
         {isOpen && (
-          <div className="p-3">
-            <div className="flex w-full max-w-97 flex-wrap gap-x-2 gap-y-4">
+          <div className="p-2 md:p-3">
+            <div className="flex w-full max-w-97 flex-wrap gap-2 md:gap-y-4 max-md:[&_button]:min-h-9 max-md:[&_button]:px-2.5 max-md:[&_button]:py-1">
               {options.map((option, index) => {
                 const isSelected = value.includes(option.value);
 

@@ -82,7 +82,7 @@ export default function RankingContent({
         />
       )}
 
-      <div className="mx-auto max-w-5xl pt-20">
+      <div className="mx-auto max-w-5xl px-4 pt-8 pb-12 md:px-6 md:pt-12 lg:pt-20 xl:px-0">
         <RankingTitleSection
           lastUpdatedAt={rankingData.lastUpdatedAt}
           isLoading={rankingData.isRankingLoading}

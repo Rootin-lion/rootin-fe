@@ -12,10 +12,11 @@ export default function AgeGroupSelector({
 }) {
   if (variant === "onboarding") {
     return (
-      <div className="flex justify-center gap-2">
+      <div className="grid grid-cols-4 gap-1.5 md:gap-2">
         {AGE_GROUP_OPTIONS.map((option) => (
           <Button
             key={option.value}
+            className="max-md:min-h-8 max-md:px-2 max-md:py-1.5"
             isActive={value === option.value}
             aria-pressed={value === option.value}
             onClick={() => onSelect(option.value)}

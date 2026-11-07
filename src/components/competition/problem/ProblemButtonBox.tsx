@@ -10,7 +10,7 @@ const SubmitButton = ({ onClick }: { onClick?: () => void }) => {
     <button
       type="button"
       onClick={onClick}
-      className="bg-primary border-primary cursor-pointer rounded-lg border px-4.5 py-1.5 text-[13px] font-medium text-white"
+      className="bg-primary border-primary focus-visible:outline-primary-900 min-h-9 cursor-pointer rounded-lg border px-3 py-1.5 text-[12px] font-medium text-white focus-visible:outline-2 focus-visible:outline-offset-2 md:min-h-0 md:px-4.5 md:text-[13px]"
     >
       제출하기
     </button>
@@ -28,7 +28,7 @@ const NavigationButton = ({
     <button
       type="button"
       onClick={onClick}
-      className="cursor-pointer rounded-lg border border-[#E1E1E1] px-4 py-2 text-[13px] font-medium text-black"
+      className="focus-visible:outline-primary-900 min-h-9 cursor-pointer rounded-lg border border-[#E1E1E1] px-3 py-1.5 text-[12px] font-medium text-black focus-visible:outline-2 focus-visible:outline-offset-2 md:min-h-0 md:px-4 md:py-2 md:text-[13px]"
     >
       {NAVIGATION_TEXT[direction]}
     </button>
@@ -49,7 +49,9 @@ export default function ProblemButtonBox({
   onSubmit?: () => void;
 }) {
   return (
-    <div className={`flex ${isFirst ? "justify-end" : "justify-between"}`}>
+    <div
+      className={`flex gap-3 ${isFirst ? "justify-end" : "justify-between"}`}
+    >
       {!isFirst && <NavigationButton direction="prev" onClick={onPrevious} />}
 
       {isLast ? (

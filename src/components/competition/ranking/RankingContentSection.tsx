@@ -29,7 +29,7 @@ export default function RankingContentSection({
   onShowMyPosition: () => void;
 }) {
   return (
-    <div className="mt-4 flex flex-row gap-4">
+    <div className="mt-5 flex min-w-0 flex-col gap-4 md:mt-4 md:flex-row">
       <RankingSidebar
         myRanking={myRanking}
         isMyPositionDisabled={isMyPositionDisabled}

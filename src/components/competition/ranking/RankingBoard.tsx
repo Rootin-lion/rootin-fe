@@ -16,7 +16,7 @@ const RankingTabs = ({
   onClick: (period: RankingPeriod) => void;
 }) => {
   return (
-    <div className="flex h-11 w-full flex-row items-center rounded-lg bg-white px-2">
+    <div className="flex min-h-12 w-full flex-row items-center rounded-lg bg-white px-2 md:h-11 md:min-h-0">
       <TabItem isActive={period === "DAILY"} onClick={() => onClick("DAILY")}>
         일간(실시간)
       </TabItem>
@@ -49,8 +49,9 @@ const TabItem = ({
   return (
     <button
       type="button"
-      className={`${TabStyle} h-8 w-37.5 cursor-pointer transition-colors duration-300 ease-out`}
+      className={`${TabStyle} min-h-11 min-w-0 flex-1 cursor-pointer transition-colors duration-300 ease-out max-md:text-xs md:h-8 md:min-h-0 md:w-37.5 md:flex-none`}
       onClick={onClick}
+      aria-pressed={isActive}
     >
       {children}
     </button>
@@ -73,7 +74,7 @@ export default function RankingBoard({
   onPageChange: (page: number) => void;
 }) {
   return (
-    <div className="w-full">
+    <div className="w-full min-w-0">
       <RankingTabs period={rankingView.period} onClick={onPeriodChange} />
       <RankingTable
         rankings={rankings}

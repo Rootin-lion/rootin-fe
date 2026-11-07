@@ -45,29 +45,43 @@ export default function ResultSummarySide({
   };
 
   return (
-    <div className="flex max-h-122.5 w-37 shrink-0 flex-col items-center rounded-lg bg-white px-5 py-7">
-      <div className="border-primary-300 flex h-20 w-20 shrink-0 flex-col items-center justify-center overflow-hidden rounded-full border">
-        <Image
-          src={profileImageUrl || CharImg}
-          alt="프로필 이미지"
-          width={73}
-          height={80}
-          unoptimized={Boolean(profileImageUrl)}
-          className={profileImageUrl ? "h-full w-full object-cover" : undefined}
-        />
+    <div className="w-full shrink-0 rounded-lg bg-white p-4 md:max-h-122.5 md:w-37 md:px-5 md:py-7">
+      <div className="flex items-center gap-3 md:flex-col md:gap-0">
+        <div className="border-primary-300 flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border md:h-20 md:w-20">
+          <Image
+            src={profileImageUrl || CharImg}
+            alt="프로필 이미지"
+            width={73}
+            height={80}
+            unoptimized={Boolean(profileImageUrl)}
+            className={
+              profileImageUrl
+                ? "h-full w-full object-cover"
+                : "h-full w-auto object-contain"
+            }
+          />
+        </div>
+        <div className="min-w-0 md:text-center">
+          <h1 className="text-[16px] font-semibold md:mt-4 md:text-[15px]">
+            CS 대회 결과
+          </h1>
+          <p className="mt-1 text-[12px] font-medium md:mt-2">
+            {formatCompetitionDateWithWeekday(
+              competitionResult.competitionDate,
+            )}
+          </p>
+        </div>
       </div>
-      <p className="mt-4 text-[15px] font-semibold">CS 대회 결과</p>
-      <p className="mt-2 text-[12px] font-medium">
-        {formatCompetitionDateWithWeekday(competitionResult.competitionDate)}
-      </p>
-      <ScoreSection competitionResult={competitionResult} />
-      <RankSection competitionResult={competitionResult} />
-      <PrimaryDarkButton
-        className="mt-4 py-2 text-center text-[12px]"
-        onClick={handleRankingClick}
-      >
-        랭킹 보기
-      </PrimaryDarkButton>
+      <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 md:mt-0 md:block">
+        <ScoreSection competitionResult={competitionResult} />
+        <RankSection competitionResult={competitionResult} />
+        <PrimaryDarkButton
+          className="py-1.5 text-center text-[11px] max-md:col-start-2 max-md:row-start-2 max-md:block max-md:min-h-8 max-md:w-auto max-md:self-center max-md:justify-self-end max-md:px-3 md:mt-4 md:py-2 md:text-[12px]"
+          onClick={handleRankingClick}
+        >
+          랭킹 보기
+        </PrimaryDarkButton>
+      </div>
     </div>
   );
 }

@@ -127,7 +127,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
   }, [profileForm.nickname]);
 
   return (
-    <main className="bg-primary-50 flex min-h-dvh flex-col items-center justify-center">
+    <main className="bg-primary-50 flex min-h-dvh flex-col items-center px-6 pt-6 pb-[max(24px,env(safe-area-inset-bottom))] md:justify-center md:py-12">
       {/* 에러 모달 */}
       {isModalOpen && (
         <ErrorModal
@@ -137,11 +137,13 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
         />
       )}
 
-      <h1 className="text-text text-[28px] font-bold">프로필 설정</h1>
+      <h1 className="typo-title-3 text-text max-md:text-[18px] md:max-lg:text-[22px]">
+        프로필 설정
+      </h1>
 
       <form
         onSubmit={handleProfileSubmit}
-        className="mt-8 flex w-full max-w-108 flex-col gap-6"
+        className="mt-6 flex w-full max-w-108 min-w-0 flex-col gap-5 max-md:flex-1 md:mt-8 md:gap-6 max-md:[&_button]:text-[11px] md:max-lg:[&_button]:text-[13px] max-md:[&_label]:text-[11px] md:max-lg:[&_label]:text-[13px]"
       >
         <InputWrapper>
           <InputWrapper.Label>이메일</InputWrapper.Label>
@@ -151,7 +153,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
             readOnly
             value={email}
             placeholder="이메일을 입력해주세요."
-            className="bg-bg-green-100 border-[#D5D9DD]"
+            className="typo-body-2 bg-bg-green-100 border-[#D5D9DD] max-md:px-3 max-md:py-2.5 max-md:text-[12px] md:max-lg:text-[14px]"
           />
         </InputWrapper>
 
@@ -161,6 +163,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
             type="text"
             id="nickname"
             name="nickname"
+            className="typo-body-2 pr-12 max-md:py-2.5 max-md:pl-3 max-md:text-[12px] md:max-lg:text-[14px]"
             isAvailable={isNicknameAvailable}
             required
             placeholder="닉네임을 입력해주세요."
@@ -192,6 +195,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
 
         <Button
           type="submit"
+          className="max-md:mt-auto max-md:shrink-0 md:min-h-12"
           disabled={!isSubmitEnabled || isSubmitting}
           isActive={isSubmitEnabled && !isSubmitting}
         >

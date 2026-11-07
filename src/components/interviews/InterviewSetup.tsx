@@ -28,7 +28,7 @@ export default function InterviewSetup({
     config.questionCount <= 5;
 
   return (
-    <div className="flex w-111 flex-col gap-6">
+    <div className="flex w-full min-w-0 flex-col gap-4 md:w-111 md:gap-6 max-md:[&_button]:min-h-9 max-md:[&_button]:py-1.5 max-md:[&_button]:text-[11px]">
       <InterviewTopic category={config.category} onChange={onCategoryChange} />
       <InterviewCount
         questionCount={config.questionCount}

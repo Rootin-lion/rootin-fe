@@ -3,11 +3,17 @@ import SectionTitle from "./SectionTitle";
 import SelectedNumber from "./SelectedNumber";
 
 const ResultStats = ({ children }: { children: React.ReactNode }) => {
-  return <div className="flex justify-between">{children}</div>;
+  return (
+    <div className="flex flex-wrap justify-between gap-x-1">{children}</div>
+  );
 };
 
 const ResultStatsItem = ({ children }: { children: React.ReactNode }) => {
-  return <p className="text-sub-text text-[12px] font-medium">{children}</p>;
+  return (
+    <p className="text-sub-text text-[11px] font-medium md:text-[12px]">
+      {children}
+    </p>
+  );
 };
 
 export default function ScoreSection({
@@ -23,13 +29,15 @@ export default function ScoreSection({
   ).padStart(2, "0");
 
   return (
-    <section className="mt-5 w-full">
-      <SectionTitle>내 점수</SectionTitle>
-      <p className="text-[14px] font-semibold text-black">
-        <SelectedNumber>{competitionResult.score}점</SelectedNumber> {""}/{" "}
-        {competitionResult.totalScore}점
-      </p>
-      <div className="mt-4 flex flex-col gap-2">
+    <section className="contents md:mt-5 md:block md:w-full">
+      <div className="col-start-1 row-start-1 min-w-0">
+        <SectionTitle>내 점수</SectionTitle>
+        <p className="text-[12px] font-semibold text-black md:text-[14px]">
+          <SelectedNumber>{competitionResult.score}점</SelectedNumber> {""}/{" "}
+          {competitionResult.totalScore}점
+        </p>
+      </div>
+      <div className="col-start-1 row-start-2 flex min-w-0 flex-col gap-1 md:mt-4 md:gap-2">
         <ResultStats>
           <ResultStatsItem>정답 수</ResultStatsItem>
           <ResultStatsItem>

@@ -7,7 +7,7 @@ export default function InterviewResultFeedback({
   interviewReport: InterviewReportState;
 }) {
   return (
-    <div className="flex w-full max-w-5xl flex-row gap-4.5">
+    <div className="flex w-full max-w-5xl flex-col gap-3 md:flex-row md:gap-4.5">
       <InterviewResultFeedbackGroup
         type="strength"
         items={interviewReport.strengths}

@@ -9,6 +9,11 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { useInterviewMedia } from "@/components/interviews/InterviewMediaProvider";
+import {
+  canUseInterviewCamera,
+  getInterviewCameraKey,
+  MOBILE_INTERVIEW_QUERY,
+} from "@/lib/interviews/cameraPolicy";
 import ErrorModal from "@/components/shared/ErrorModal";
 import {
   EMPTY_INTERVIEW_SESSION,
@@ -17,6 +22,7 @@ import {
 import SessionChat from "./SessionChat";
 import SessionForm from "./SessionForm";
 import SessionVideo from "./SessionVideo";
+import SessionTimer from "./SessionTimer";
 import useInterviewAnswer from "./useInterviewAnswer";
 
 const subscribeToHydration = () => () => {};
@@ -36,6 +42,23 @@ export default function InterviewSessionContent({
 }) {
   const router = useRouter();
   const { stopCamera } = useInterviewMedia();
+  const [cameraEnabled, setCameraEnabled] = useState(() =>
+    canUseInterviewCamera(interviewId),
+  );
+
+  useEffect(() => {
+    const key = getInterviewCameraKey(interviewId);
+    window.sessionStorage.setItem(key, cameraEnabled ? "enabled" : "disabled");
+    const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      if (!event.matches) return;
+      window.sessionStorage.setItem(key, "disabled");
+      setCameraEnabled(false);
+      stopCamera();
+    };
+    query.addEventListener("change", handleViewportChange);
+    return () => query.removeEventListener("change", handleViewportChange);
+  }, [cameraEnabled, interviewId, stopCamera]);
   const session = useInterviewSessionStore(
     (state) => state.sessions[interviewId] ?? EMPTY_INTERVIEW_SESSION,
   );
@@ -96,10 +119,11 @@ export default function InterviewSessionContent({
 
   useEffect(() => {
     if (!sessionReady) return;
-    ensureIntro(interviewId, category, questionCount);
+    ensureIntro(interviewId, category, questionCount, cameraEnabled);
     if (resumedIntro && !isIntroComplete) completeIntro(interviewId);
   }, [
     category,
+    cameraEnabled,
     completeIntro,
     ensureIntro,
     interviewId,
@@ -145,7 +169,7 @@ export default function InterviewSessionContent({
   ]);
 
   return (
-    <div className="bg-bg-green-50 flex w-full flex-1 flex-col justify-between gap-19">
+    <div className="bg-bg-green-50 flex h-[calc(100dvh-56px)] min-h-80 w-full flex-none flex-col justify-between gap-3 md:h-auto md:min-h-0 md:flex-1 md:gap-19">
       {isModalOpen && (
         <ErrorModal
           code={error.code}
@@ -154,9 +178,10 @@ export default function InterviewSessionContent({
         />
       )}
 
-      <div className="mx-auto flex max-h-126 w-full max-w-5xl flex-row gap-10 pt-6">
+      <div className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col gap-3 px-4 pt-4 md:max-h-126 md:flex-row md:gap-6 md:px-6 md:pt-6 lg:gap-10 xl:px-0">
         {sessionReady && (
           <SessionChat
+            cameraEnabled={cameraEnabled}
             category={category}
             questionCount={questionCount}
             messages={displayedMessages}
@@ -170,7 +195,10 @@ export default function InterviewSessionContent({
             onCompletionComplete={handleCompletionComplete}
           />
         )}
-        <SessionVideo interviewId={interviewId} />
+        <div className="order-first flex shrink-0 flex-col gap-4 md:order-last md:w-56 lg:w-70.5">
+          <SessionTimer interviewId={interviewId} />
+          {sessionReady && cameraEnabled && <SessionVideo />}
+        </div>
       </div>
       <SessionForm
         answer={answer}
