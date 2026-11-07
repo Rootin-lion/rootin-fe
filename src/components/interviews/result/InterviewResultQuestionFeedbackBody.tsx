@@ -31,13 +31,13 @@ export default function InterviewResultQuestionFeedbackBody({
   return (
     <div className="flex min-w-0 flex-col gap-3 md:gap-5 md:px-2">
       <div className="grid grid-cols-1 items-start gap-1.5 md:grid-cols-[60px_minmax(0,1fr)] md:gap-4">
-        <h4 className="text-xs font-semibold text-black md:text-[14px]">내 답변</h4>
+        <h4 className="text-[12px] font-semibold text-black md:text-[14px]">내 답변</h4>
         <p className="rounded-lg border border-[#E0E0E0] bg-[#F1F1F1] px-3 py-2 text-xs font-normal wrap-anywhere whitespace-pre-wrap text-[#1a1a1a] max-md:leading-relaxed md:text-[14px]">
           {question.answer}
         </p>
       </div>
       <div className="grid grid-cols-1 items-start gap-1.5 md:grid-cols-[60px_minmax(0,1fr)] md:gap-4">
-        <h4 className="text-xs font-semibold text-black md:text-[14px]">피드백</h4>
+        <h4 className="text-[12px] font-semibold text-black md:text-[14px]">피드백</h4>
         <p className="rounded-lg border border-[#FFB4B4] bg-[#FCEEEE] px-3 py-2 text-xs font-normal wrap-anywhere whitespace-pre-wrap text-[#1a1a1a] max-md:leading-relaxed md:text-[14px]">
           {question.feedback}
         </p>
@@ -50,7 +50,7 @@ export default function InterviewResultQuestionFeedbackBody({
             label={`${question.questionOrder}번 질문 정확도`}
             className="h-2 w-25"
           />
-          <p className="text-primary text-xs font-semibold md:text-[14px]">
+          <p className="text-primary text-[12px] font-semibold md:text-[14px]">
             {question.accuracy}%
           </p>
         </div>
