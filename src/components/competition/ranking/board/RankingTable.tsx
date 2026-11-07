@@ -9,7 +9,7 @@ import type { RankingFocusTarget } from "@/types/competitions/ranking";
 import RankingPagination from "./RankingPagination";
 
 const rowLayout =
-  "grid grid-cols-[36px_minmax(0,1fr)_minmax(0,1fr)] items-center gap-x-2 px-3 text-center md:grid-cols-[40px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[80px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-4 lg:px-5";
+  "grid grid-cols-[36px_minmax(0,1.6fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] items-center gap-x-2 px-2 text-center md:grid-cols-[40px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] md:px-3 lg:grid-cols-[80px_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-4 lg:px-5";
 const rankBadgeLayout =
   "flex h-6.5 w-6.5 shrink-0 items-center justify-center justify-self-center rounded-[50%]";
 
@@ -34,7 +34,7 @@ const rankProfileStyles: Record<number, string> = {
 const TableHeader = () => {
   return (
     <div
-      className={`${rowLayout} rounded-t-lg border border-[#E1E1E1] bg-[#F0F0F0] py-3 max-md:hidden`}
+      className={`${rowLayout} rounded-t-lg border border-[#E1E1E1] bg-[#F0F0F0] py-2 md:py-3`}
     >
       <p>순위</p>
       <p>닉네임</p>
@@ -60,18 +60,18 @@ const TableItem = ({
   const rankProfileStyle = rankProfileStyles[ranking.rank] ?? "bg-primary-200";
   const profileImageUrl = ranking.imgUrl?.trim();
   const rankBadgeClassName = rankItemStyle
-    ? `${rankBadgeLayout} ${rankItemStyle} max-md:row-span-2`
-    : "max-md:row-span-2";
+    ? `${rankBadgeLayout} ${rankItemStyle}`
+    : undefined;
 
   return (
     <div
       ref={rowRef}
-      className={`${rowLayout} ${rankBoxStyle} border-b border-[#E1E1E1] py-3 md:py-0`}
+      className={`${rowLayout} ${rankBoxStyle} border-b border-[#E1E1E1] py-2 md:py-0`}
     >
       <p className={rankBadgeClassName}>{ranking.rank ?? 0}</p>
-      <div className="col-span-2 flex w-full min-w-0 items-center gap-2 py-1.5 text-left md:col-span-1 md:max-w-48 md:justify-self-center lg:-translate-x-3 lg:gap-3">
+      <div className="flex w-full min-w-0 items-center gap-1.5 py-1.5 text-left md:max-w-48 md:justify-self-center md:gap-2 lg:-translate-x-3 lg:gap-3">
         <div
-          className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full ${rankProfileStyle}`}
+          className={`flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full md:h-10 md:w-10 ${rankProfileStyle}`}
         >
           <Image
             src={profileImageUrl || CharImg}
@@ -81,21 +81,19 @@ const TableItem = ({
             unoptimized={Boolean(profileImageUrl)}
             className={
               profileImageUrl
-                ? "h-8 w-8 rounded-full object-cover"
-                : "h-8 w-8 object-contain"
+                ? "h-6 w-6 rounded-full object-cover md:h-8 md:w-8"
+                : "h-6 w-6 object-contain md:h-8 md:w-8"
             }
           />
         </div>
-        <p className="min-w-0 break-all md:truncate">
+        <p className="min-w-0 truncate" title={ranking.nickname ?? "-"}>
           {ranking.nickname ?? "-"}
         </p>
       </div>
-      <p className="min-w-0 text-left break-all md:text-center">
-        <span className="text-sub-text mr-1 text-[11px] md:hidden">점수</span>
+      <p className="min-w-0 break-all">
         {ranking.score ?? 0}점
       </p>
-      <p className="min-w-0 text-left break-all md:text-center">
-        <span className="text-sub-text mr-1 text-[11px] md:hidden">포인트</span>
+      <p className="min-w-0 break-all">
         {ranking.point ?? 0}P
       </p>
     </div>
