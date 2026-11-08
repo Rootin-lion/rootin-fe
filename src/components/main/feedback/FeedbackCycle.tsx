@@ -9,7 +9,7 @@ const FeedbackBox = ({ text, angle }: { text: string; angle: number }) => {
       style={{ transform: `rotate(${angle}deg)` }}
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div className="feedback-counter-orbit max-lg:animate-none">
+        <div className="feedback-counter-orbit">
           <div
             className="text-primary-900 flex h-10 w-21 items-center justify-center rounded-lg bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_0%,#DAEBD9_100%)] text-center text-[10px] font-semibold md:h-12 md:w-24 md:text-[11px] lg:h-18 lg:w-33.5 lg:text-[14px]"
             style={{ transform: `rotate(${-angle}deg)` }}
@@ -41,7 +41,7 @@ export default function FeedbackCycle() {
       <OrbitArrow angle={45} />
       <OrbitArrow angle={135} />
       <OrbitArrow angle={225} />
-      <div className="feedback-orbit absolute inset-0 max-lg:animate-none">
+      <div className="feedback-orbit absolute inset-0">
         <FeedbackBox text="실전 대회 참여" angle={0} />
         <FeedbackBox text="결과 분석 & 피드백" angle={90} />
         <FeedbackBox text="약점 보완 학습" angle={180} />
