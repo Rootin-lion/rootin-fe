@@ -13,11 +13,11 @@ export default function DashboardProblemPreview({
   onSideChange: (side: MySection) => void;
 }) {
   return (
-    <div className="border-primary-200 flex flex-col gap-5 rounded-[14px] border px-6 pt-4 pb-7">
-      <p className="pl-2 text-[14px] font-semibold text-[#1a1a1a]">
+    <div className="border-primary-200 flex min-w-0 flex-col gap-3 rounded-[14px] border p-3 lg:gap-5 lg:px-6 lg:pt-4 lg:pb-7">
+      <p className="text-[14px] font-semibold text-[#1a1a1a] lg:pl-2">
         나의 문제들
       </p>
-      <div className="flex flex-row justify-between">
+      <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:justify-between lg:gap-6">
         <BookmarkPreview bookmarks={bookmarks} onSideChange={onSideChange} />
         <ReviewPreview reviews={reviews} onSideChange={onSideChange} />
       </div>

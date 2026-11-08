@@ -44,10 +44,12 @@ export default function MyContent({
 
   return (
     <div className="mx-auto min-h-dvh w-full bg-white">
-      <div className="mx-auto flex max-w-5xl flex-row gap-7 pt-8 pb-20">
-        <MySidebar selectedSection={selectedSection} />
-        <div className="flex w-full flex-col gap-6">
+      <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)] gap-4 px-4 pt-4 pb-10 md:grid-cols-[132px_minmax(0,1fr)] md:gap-x-3 md:gap-y-6 md:px-5 md:pt-6 lg:gap-x-7 lg:px-0 lg:pt-8 lg:pb-20">
+        <div className="min-w-0 md:col-start-2 md:row-start-1">
           <ProfileBanner member={member} today={today} />
+        </div>
+        <MySidebar selectedSection={selectedSection} />
+        <div className="min-w-0 md:col-start-2 md:row-start-2">
           {selectedSection === "dashboard" && (
             <MyDashboard today={today} onSideChange={handlePreviewSideChange} />
           )}

@@ -90,7 +90,7 @@ export default function MyDashboard({
   );
 
   return (
-    <div className="flex flex-col gap-4.5">
+    <div className="flex min-w-0 flex-col gap-4 lg:gap-4.5">
       {isModalOpen && (
         <ErrorModal
           code={error.code}
@@ -99,12 +99,12 @@ export default function MyDashboard({
         />
       )}
 
-      <div className="flex flex-row justify-between">
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-4 lg:flex lg:justify-between">
         {statItems.map((stat) => (
           <DashboardStatCard key={stat.key} stat={stat} />
         ))}
       </div>
-      <div className="flex flex-row justify-between">
+      <div className="flex min-w-0 flex-col gap-4 lg:flex-row lg:justify-between lg:gap-7">
         <DashboardGrass today={today} activityByDate={activityByDate} />
         <CategoryAccuracyChart
           categoryAccuracies={dashboardData?.categoryAccuracies}

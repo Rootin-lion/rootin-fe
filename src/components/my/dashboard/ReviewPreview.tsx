@@ -14,7 +14,7 @@ export default function ReviewPreview({
     <PreviewSection
       type="review"
       title="오답노트"
-      icon={<ReviewIcon className="h-6 w-6 shrink-0" />}
+      icon={<ReviewIcon className="h-4 w-4 shrink-0 lg:h-6 lg:w-6" />}
       titleClassName="text-error"
       emptyMessage="오답 노트가 없습니다."
       items={reviews}

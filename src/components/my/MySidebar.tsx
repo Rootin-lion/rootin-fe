@@ -8,21 +8,24 @@ export default function MySidebar({
   selectedSection: MySection;
 }) {
   return (
-    <div className="relative max-h-57 pr-3 after:absolute after:inset-y-0 after:right-0 after:w-px after:bg-[linear-gradient(to_bottom,transparent_0%,var(--color-primary)_50%,transparent_100%)] after:content-['']">
-      <ul className="flex flex-col gap-3">
+    <nav
+      aria-label="마이페이지 메뉴"
+      className="border-primary-200 relative min-w-0 border-b pb-2 md:col-start-1 md:row-span-2 md:row-start-1 md:max-h-57 md:border-b-0 md:pr-3 md:pb-0 md:after:absolute md:after:inset-y-0 md:after:right-0 md:after:w-px md:after:bg-[linear-gradient(to_bottom,transparent_0%,var(--color-primary)_50%,transparent_100%)] md:after:content-['']"
+    >
+      <ul className="flex w-full flex-wrap justify-start gap-1 md:flex-col md:gap-3">
         {MY_NAV_ITEMS.map((item) => (
           <li key={item.id}>
             <Link
               href={getMySectionHref(item.value)}
               scroll={false}
               aria-current={selectedSection === item.value ? "page" : undefined}
-              className={`flex h-9 w-30 items-center justify-center text-[14px] font-normal ${selectedSection === item.value ? "bg-bg-green-200 text-text rounded-lg" : "text-disabled-text"}`}
+              className={`focus-visible:outline-primary flex min-h-8 items-center justify-center rounded-lg px-1.5 text-[11px] font-normal whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 md:h-9 md:min-h-9 md:w-30 md:px-0 md:text-[14px] ${selectedSection === item.value ? "bg-bg-green-200 text-text" : "text-disabled-text"}`}
             >
               {item.title}
             </Link>
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
 }
