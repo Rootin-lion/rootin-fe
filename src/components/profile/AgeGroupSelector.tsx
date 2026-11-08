@@ -29,14 +29,14 @@ export default function AgeGroupSelector({
   }
 
   return (
-    <div className="grid grid-cols-4 gap-3 sm:gap-7">
+    <div className="grid grid-cols-4 gap-1.5 md:gap-3 lg:gap-7">
       {AGE_GROUP_OPTIONS.map((option) => (
         <button
           key={option.value}
           type="button"
           aria-pressed={value === option.value}
           onClick={() => onSelect(option.value)}
-          className={`h-10 cursor-pointer rounded-lg text-[14px] ${value === option.value ? "bg-primary text-white" : "bg-[#F2F2F2] text-[#888F9C]"}`}
+          className={`focus-visible:outline-primary h-10 min-w-0 cursor-pointer rounded-lg text-[12px] focus-visible:outline-2 focus-visible:outline-offset-2 md:text-[14px] ${value === option.value ? "bg-primary text-white" : "bg-[#F2F2F2] text-[#888F9C]"}`}
         >
           {option.label}
         </button>

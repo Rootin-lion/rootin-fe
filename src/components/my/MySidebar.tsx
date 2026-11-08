@@ -19,7 +19,7 @@ export default function MySidebar({
               href={getMySectionHref(item.value)}
               scroll={false}
               aria-current={selectedSection === item.value ? "page" : undefined}
-              className={`focus-visible:outline-primary flex min-h-8 items-center justify-center rounded-lg px-1.5 text-[11px] font-normal whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 md:h-9 md:min-h-9 md:w-30 md:px-0 md:text-[14px] ${selectedSection === item.value ? "bg-bg-green-200 text-text" : "text-disabled-text"}`}
+              className={`focus-visible:outline-primary flex min-h-8 items-center justify-center rounded-lg px-1.5 whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 md:h-9 md:min-h-9 md:w-30 md:px-0 ${selectedSection === item.value ? "text-text md:bg-bg-green-200 text-[12px] font-semibold md:text-[14px] md:font-normal" : "text-disabled-text text-[11px] font-normal md:text-[14px]"}`}
             >
               {item.title}
             </Link>
