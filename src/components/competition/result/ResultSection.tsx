@@ -140,7 +140,7 @@ export default function ResultSection({
         </p>
       </div>
       <div
-        className="grid grid-cols-4 items-start gap-x-2 gap-y-4 px-4 pb-4 min-[400px]:grid-cols-5 md:flex md:flex-wrap md:justify-center md:gap-5 md:px-5 md:pb-11 lg:gap-12"
+        className="grid grid-cols-5 items-start gap-x-2 gap-y-4 px-4 pb-4 md:flex md:flex-wrap md:justify-center md:gap-5 md:px-5 md:pb-11 lg:gap-12"
         role="group"
         aria-label="문제별 결과"
       >

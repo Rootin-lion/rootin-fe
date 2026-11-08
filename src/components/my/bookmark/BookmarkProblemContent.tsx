@@ -56,8 +56,8 @@ export default function BookmarkProblemContent({
   const isCorrect = selectedOptionIndex === correctOptionIndex;
 
   return (
-    <div className="bg-bg-green-50 mx-auto min-h-dvh w-full max-w-5xl pb-20">
-      <div className="mx-auto w-full max-w-213 pt-12">
+    <div className="bg-bg-green-50 mx-auto min-h-dvh w-full max-w-5xl px-4 pb-10 md:px-5 md:pb-20 lg:px-0">
+      <div className="mx-auto w-full max-w-213 min-w-0 pt-4 md:pt-12">
         {errorMessage ? (
           <p
             className="rounded-lg bg-white px-6 py-7 text-center text-sm"
@@ -80,7 +80,10 @@ export default function BookmarkProblemContent({
               {selectedOptionIndex !== null && (
                 <>
                   {correctOption ? (
-                    <section className="flex flex-col gap-5" aria-live="polite">
+                    <section
+                      className="flex min-w-0 flex-col gap-3 [overflow-wrap:anywhere] md:gap-5"
+                      aria-live="polite"
+                    >
                       <div
                         className={isCorrect ? "text-primary" : "text-error"}
                       >
@@ -95,19 +98,19 @@ export default function BookmarkProblemContent({
                               ×
                             </span>
                           )}
-                          <h2 className="text-[18px] font-semibold">
+                          <h2 className="text-[14px] font-semibold md:text-[18px]">
                             {isCorrect ? "정답" : "오답"}
                           </h2>
                         </div>
-                        <p className="mt-1 ml-6 text-[14px] font-semibold">
+                        <p className="mt-1 ml-6 text-[12px] leading-relaxed font-semibold md:text-[14px]">
                           {correctOption.optionContent}
                         </p>
                       </div>
                       <div>
-                        <h2 className="text-[18px] font-semibold text-black">
+                        <h2 className="text-[14px] font-semibold text-black md:text-[18px]">
                           정답 및 해설
                         </h2>
-                        <p className="text-text mt-1 ml-6 text-[12px]">
+                        <p className="text-text mt-1 ml-6 text-[12px] leading-relaxed">
                           {problem.problemExplanation || "-"}
                         </p>
                       </div>
@@ -120,7 +123,7 @@ export default function BookmarkProblemContent({
                   <div className="flex justify-end">
                     <Link
                       href="/my?section=bookmark"
-                      className="rounded-lg border border-[#E1E1E1] px-4 py-2 text-sm text-black"
+                      className="focus-visible:outline-primary flex min-h-11 items-center rounded-lg border border-[#E1E1E1] px-4 py-2 text-[12px] text-black focus-visible:outline-2 md:min-h-0 md:text-sm"
                     >
                       뒤로가기
                     </Link>

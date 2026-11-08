@@ -14,7 +14,12 @@ export default function BookmarkPreview({
     <PreviewSection
       type="bookmark"
       title="북마크한 문제"
-      icon={<BookmarkIcon className="h-6 w-6" />}
+      icon={
+        <BookmarkIcon
+          viewBox="0 0 24 24"
+          className="h-4 w-4 shrink-0 lg:h-6 lg:w-6"
+        />
+      }
       titleClassName="text-primary"
       emptyMessage="북마크가 없습니다."
       items={bookmarks}

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type ChangeEvent } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import CharImg from "@/assets/competitions/result/char.png";
 import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
 import AgeGroupSelector from "@/components/profile/AgeGroupSelector";
@@ -16,6 +16,8 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
   );
   const [isInterestOpen, setIsInterestOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const isCurrentNickname = Boolean(nickname && nickname === member?.nickname);
   const selectedInterests = interestFields
@@ -28,9 +30,18 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file || !["image/jpeg", "image/png"].includes(file.type)) return;
-    if (file.size > 5 * 1024 * 1024) return;
+    if (!file) return;
+    event.target.value = "";
+    if (!["image/jpeg", "image/png"].includes(file.type)) {
+      setImageError("JPG 또는 PNG 파일을 선택해주세요.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setImageError("사진은 5MB 이하로 선택해주세요.");
+      return;
+    }
 
+    setImageError(null);
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === "string") setPreviewImage(reader.result);
@@ -43,11 +54,13 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
   };
 
   return (
-    <section className="w-full max-w-213 rounded-xl border border-[#E1E1E1] px-6 py-9 sm:px-17.5">
-      <h2 className="text-text text-[18px] font-semibold">프로필 설정</h2>
+    <section className="w-full max-w-213 rounded-xl border border-[#E1E1E1] px-3 py-4 md:px-6 md:py-6 lg:px-17.5 lg:py-9">
+      <h2 className="text-text text-[14px] font-semibold md:text-[16px] lg:text-[18px]">
+        프로필 설정
+      </h2>
 
-      <div className="mx-auto mt-13 w-full max-w-190 sm:pl-8">
-        <div className="flex flex-wrap items-center gap-8">
+      <div className="mx-auto mt-4 w-full max-w-190 min-w-0 md:mt-7 lg:mt-13 lg:pl-8">
+        <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:flex-wrap md:gap-5 lg:justify-start lg:gap-8">
           <div className="relative h-34 w-34 shrink-0 rounded-full bg-[#EAF3E8]">
             <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full">
               <Image
@@ -59,17 +72,25 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
                 className="h-full w-full object-cover"
               />
             </div>
-            <label className="absolute right-2 bottom-0 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-[#E1E1E1] bg-white">
-              <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
-                <path d="m5 16 10-10 3 3L8 19H5v-3Z" fill="#4D4D4D" />
-                <path d="m14 7 3-3 3 3-3 3" fill="#4D4D4D" />
-              </svg>
-            </label>
+            <button
+              type="button"
+              aria-label="프로필 사진 변경"
+              onClick={() => imageInputRef.current?.click()}
+              className="focus-visible:outline-primary absolute right-0 -bottom-2 flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              <span className="flex size-7 items-center justify-center rounded-full border border-[#E1E1E1] bg-white">
+                <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                  <path d="m5 16 10-10 3 3L8 19H5v-3Z" fill="#4D4D4D" />
+                  <path d="m14 7 3-3 3 3-3 3" fill="#4D4D4D" />
+                </svg>
+              </span>
+            </button>
           </div>
 
-          <label
-            htmlFor="option-profile-image"
-            className="flex h-17 w-50 cursor-pointer items-center justify-center gap-5 rounded-lg border border-dashed border-[#A7A7A7] bg-[#F5F5F5]"
+          <button
+            type="button"
+            onClick={() => imageInputRef.current?.click()}
+            className="focus-visible:outline-primary flex h-17 w-50 max-w-full cursor-pointer items-center justify-center gap-5 rounded-lg border border-dashed border-[#A7A7A7] bg-[#F5F5F5] focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             <svg
               viewBox="0 0 24 24"
@@ -93,21 +114,34 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
                 JPG, PNG 최대 5MB
               </span>
             </span>
-          </label>
+          </button>
           <input
+            ref={imageInputRef}
             id="option-profile-image"
             type="file"
             accept="image/jpeg,image/png"
             onChange={handleImageChange}
+            tabIndex={-1}
+            aria-label="프로필 사진 파일"
+            aria-describedby={imageError ? "option-image-error" : undefined}
             className="sr-only"
           />
         </div>
+        {imageError && (
+          <p
+            id="option-image-error"
+            role="alert"
+            className="text-error mt-2 text-center text-[11px] lg:text-left lg:text-[12px]"
+          >
+            {imageError}
+          </p>
+        )}
 
-        <div className="mt-10 flex flex-col gap-8">
-          <div className="flex flex-col gap-2">
+        <div className="mt-5 flex flex-col gap-5 md:mt-8 md:gap-6 lg:mt-10 lg:gap-8">
+          <div className="flex min-w-0 flex-col gap-1.5 md:gap-2">
             <label
               htmlFor="option-email"
-              className="text-[15px] font-medium text-[#1A1A1A]"
+              className="text-[11px] font-medium text-[#1A1A1A] md:text-[14px] lg:text-[15px]"
             >
               이메일
             </label>
@@ -116,14 +150,14 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
               type="email"
               value={member?.email ?? ""}
               disabled
-              className="h-12 w-full rounded-lg border border-[#D5D9DD] bg-[#F2F3F5] px-4 text-[14px] text-[#888F9C]"
+              className="h-11 w-full min-w-0 rounded-lg border border-[#D5D9DD] bg-[#F2F3F5] px-3 text-[12px] text-[#888F9C] md:h-12 md:px-4 md:text-[14px]"
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex min-w-0 flex-col gap-1.5 md:gap-2">
             <label
               htmlFor="option-nickname"
-              className="text-[15px] font-medium text-[#1A1A1A]"
+              className="text-[11px] font-medium text-[#1A1A1A] md:text-[14px] lg:text-[15px]"
             >
               닉네임
             </label>
@@ -132,13 +166,13 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
               type="text"
               value={nickname}
               onChange={(event) => setNickname(event.target.value)}
-              className={`outline-primary-300 h-12 w-full rounded-lg border bg-white px-4 text-[14px] text-[#1A1A1A] ${isCurrentNickname ? "border-primary" : "border-[#D5D9DD]"}`}
+              className={`outline-primary-300 h-11 w-full min-w-0 rounded-lg border bg-white px-3 text-[12px] text-[#1A1A1A] md:h-12 md:px-4 md:text-[14px] ${isCurrentNickname ? "border-primary" : "border-[#D5D9DD]"}`}
             />
             {isCurrentNickname && (
-              <p className="text-primary flex items-center gap-1 text-[12px]">
+              <p className="text-primary flex items-center gap-1 text-[10px] md:text-[12px]">
                 <span
                   aria-hidden="true"
-                  className="bg-primary flex h-3.5 w-3.5 items-center justify-center rounded-full text-[10px] text-white"
+                  className="bg-primary flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full text-[10px] text-white"
                 >
                   ✓
                 </span>
@@ -147,8 +181,8 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
             )}
           </div>
 
-          <fieldset>
-            <legend className="mb-3 text-[15px] font-medium text-[#1A1A1A]">
+          <fieldset className="min-w-0">
+            <legend className="mb-1.5 text-[12px] font-medium text-[#1A1A1A] md:mb-3 md:text-[14px] lg:text-[15px]">
               연령대
             </legend>
             <AgeGroupSelector
@@ -158,8 +192,11 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
             />
           </fieldset>
 
-          <div className="flex flex-col gap-2">
-            <span className="text-[15px] font-medium text-[#1A1A1A]">
+          <div className="flex min-w-0 flex-col gap-1.5 md:gap-2">
+            <span
+              id="option-interest-label"
+              className="text-[12px] font-medium text-[#1A1A1A] md:text-[14px] lg:text-[15px]"
+            >
               관심 분야
             </span>
             <div className="relative">
@@ -167,10 +204,17 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
                 type="button"
                 aria-expanded={isInterestOpen}
                 aria-controls="option-interest-list"
+                aria-labelledby="option-interest-label option-interest-value"
+                aria-describedby="option-interest-hint"
                 onClick={() => setIsInterestOpen((open) => !open)}
-                className="flex h-12 w-full cursor-pointer items-center justify-between rounded-lg border border-[#D5D9DD] bg-white px-4 text-left text-[14px] text-[#1A1A1A]"
+                className="focus-visible:outline-primary flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-lg border border-[#D5D9DD] bg-white px-3 py-2 text-left text-[12px] text-[#1A1A1A] focus-visible:outline-2 focus-visible:outline-offset-2 md:min-h-12 md:px-4 md:text-[14px] lg:h-12 lg:py-0"
               >
-                <span>{selectedInterests || "관심 분야를 선택해주세요"}</span>
+                <span
+                  id="option-interest-value"
+                  className="min-w-0 wrap-anywhere"
+                >
+                  {selectedInterests || "관심 분야를 선택해주세요"}
+                </span>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -189,7 +233,7 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
               {isInterestOpen && (
                 <div
                   id="option-interest-list"
-                  className="absolute z-10 mt-1 flex w-full flex-wrap gap-2 rounded-lg border border-[#D5D9DD] bg-white p-3 shadow-sm"
+                  className="z-10 mt-2 flex w-full flex-wrap gap-1.5 rounded-lg border border-[#D5D9DD] bg-white p-2 shadow-sm md:gap-2 md:p-3 lg:absolute lg:mt-1"
                 >
                   {INTEREST_FIELD_OPTIONS.map((option) => {
                     const selected = interestFields.includes(option.value);
@@ -199,7 +243,7 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
                         type="button"
                         aria-pressed={selected}
                         onClick={() => toggleInterest(option.value)}
-                        className={`cursor-pointer rounded-md border px-3 py-1.5 text-[14px] ${selected ? "border-primary text-primary" : "border-[#D5D9DD] text-[#1A1A1A]"}`}
+                        className={`focus-visible:outline-primary min-h-9 max-w-full cursor-pointer rounded-md border px-2.5 py-1.5 text-[11px] wrap-anywhere focus-visible:outline-2 focus-visible:outline-offset-2 md:min-h-10 md:px-3 md:text-[14px] lg:min-h-0 ${selected ? "border-primary text-primary" : "border-[#D5D9DD] text-[#1A1A1A]"}`}
                       >
                         {option.label}
                       </button>
@@ -208,13 +252,19 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
                 </div>
               )}
             </div>
+            <p
+              id="option-interest-hint"
+              className="text-disabled-text text-[11px] md:text-[12px]"
+            >
+              최대 3개까지 선택할 수 있습니다.
+            </p>
           </div>
         </div>
 
-        <div className="mt-22 flex justify-center sm:mt-23">
+        <div className="mt-4 flex justify-center md:mt-6 lg:mt-23">
           <button
             type="button"
-            className="bg-primary h-12 w-full max-w-122 cursor-pointer rounded-xl text-[14px] font-medium text-white"
+            className="focus-visible:outline-primary bg-primary h-10 w-full max-w-122 cursor-pointer rounded-lg text-[12px] font-medium text-white focus-visible:outline-2 focus-visible:outline-offset-2 md:h-12 md:rounded-xl md:text-[14px]"
           >
             저장하기
           </button>

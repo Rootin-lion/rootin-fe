@@ -17,8 +17,8 @@ export default function DetailBanner() {
           <p className="text-[14px] font-semibold break-keep text-black md:text-[16px]">
             수고하셨어요! 대회를 완료했어요.
           </p>
-          <p className="text-sub-text text-[12px] font-medium break-keep md:text-[13px]">
-            꾸준한 도전이 실력을 키웁니다. 내일도 함께해요!
+          <p className="text-sub-text text-[12px] font-medium break-keep whitespace-pre-wrap md:text-[13px]">
+            꾸준한 도전이 실력을 키웁니다.{"\n"} 내일도 함께해요!
           </p>
         </div>
       </div>
