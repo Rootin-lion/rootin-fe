@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
+import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 import { getMyReviewsAction } from "@/app/(service)/my/action";
 import BarPagination from "@/components/shared/BarPagination";
 import ErrorModal from "@/components/shared/ErrorModal";
@@ -54,13 +55,16 @@ export default function MyReview({ currentPage }: { currentPage: number }) {
         />
       )}
       <ReviewTitle totalElements={reviews?.totalElements ?? 0} />
-      <div className="mt-9 flex flex-col gap-6">
+      <div className="mt-4 flex flex-col gap-2 md:mt-9 md:gap-6">
         {isLoading ? (
-          <p className="text-sub-text mt-12 text-center text-sm" role="status">
+          <p
+            className="text-sub-text mt-6 text-center text-[12px] md:mt-12 md:text-sm"
+            role="status"
+          >
             오답 노트를 불러오는 중입니다.
           </p>
         ) : hasLoadError ? (
-          <p className="text-sub-text text-sm">
+          <p className="text-sub-text text-[12px] md:text-sm">
             오답 노트를 불러오지 못했습니다.
           </p>
         ) : reviews?.content.length ? (
@@ -71,18 +75,71 @@ export default function MyReview({ currentPage }: { currentPage: number }) {
             />
           ))
         ) : (
-          <p className="text-sub-text text-sm">아직 오답 노트가 없습니다.</p>
+          <p className="text-sub-text text-[12px] md:text-sm">
+            아직 오답 노트가 없습니다.
+          </p>
         )}
       </div>
       {!isLoading && !hasLoadError && (
-        <BarPagination
-          currentPage={currentPage}
-          totalPages={reviews?.totalPages ?? 0}
-          onPageChange={(page) =>
-            router.push(getMyListHref("review", page), { scroll: false })
-          }
-          className="mt-20"
-        />
+        <>
+          {(reviews?.totalPages ?? 0) > 1 && (
+            <nav
+              aria-label="오답 노트 페이지 이동"
+              className="mt-6 flex items-center justify-between gap-2 md:hidden"
+            >
+              <button
+                type="button"
+                aria-label="이전 페이지"
+                disabled={currentPage <= 1}
+                onClick={() =>
+                  router.push(getMyListHref("review", currentPage - 1), {
+                    scroll: false,
+                  })
+                }
+                className="text-primary-900 focus-visible:outline-primary flex min-h-11 items-center gap-2 rounded-lg px-2 text-[12px] focus-visible:outline-2 enabled:cursor-pointer disabled:opacity-40"
+              >
+                <ChevronIcon
+                  aria-hidden="true"
+                  className="h-3 w-1.5 rotate-180"
+                />
+                이전
+              </button>
+              <p
+                className="text-sub-text text-[12px] whitespace-nowrap tabular-nums"
+                aria-live="polite"
+              >
+                <span className="text-primary-900 font-semibold">
+                  {currentPage}
+                </span>{" "}
+                / {reviews?.totalPages ?? 0}
+              </p>
+              <button
+                type="button"
+                aria-label="다음 페이지"
+                disabled={currentPage >= (reviews?.totalPages ?? 0)}
+                onClick={() =>
+                  router.push(getMyListHref("review", currentPage + 1), {
+                    scroll: false,
+                  })
+                }
+                className="text-primary-900 focus-visible:outline-primary flex min-h-11 items-center gap-2 rounded-lg px-2 text-[12px] focus-visible:outline-2 enabled:cursor-pointer disabled:opacity-40"
+              >
+                다음
+                <ChevronIcon aria-hidden="true" className="h-3 w-1.5" />
+              </button>
+            </nav>
+          )}
+          <div className="hidden md:block">
+            <BarPagination
+              currentPage={currentPage}
+              totalPages={reviews?.totalPages ?? 0}
+              onPageChange={(page) =>
+                router.push(getMyListHref("review", page), { scroll: false })
+              }
+              className="mt-20"
+            />
+          </div>
+        </>
       )}
     </div>
   );
