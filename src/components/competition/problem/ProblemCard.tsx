@@ -28,13 +28,10 @@ const ProblemOption = ({
   variant: PanelType;
 }) => {
   const isDisabled = !onSelect || selected;
-  const compact = variant !== "bookmark";
   const optionTextSize =
     variant === "solve"
       ? "text-[12px] md:text-[15px]"
-      : variant === "result"
-        ? "text-[13px] md:text-[15px]"
-        : "text-[15px]";
+      : "text-[13px] md:text-[15px]";
 
   return (
     <button
@@ -43,7 +40,7 @@ const ProblemOption = ({
       aria-checked={selected}
       disabled={isDisabled}
       onClick={onSelect}
-      className={`border-primary-200 flex w-full items-center rounded-lg border text-left ${compact ? "min-h-11 gap-2.5 px-3 py-2.5 md:min-h-15 md:gap-5 md:pr-5 md:pl-5" : "h-15 gap-5 pl-5"} ${selected ? "bg-primary-100 border-primary border" : "bg-white"} text-black ${isDisabled ? "cursor-default" : "cursor-pointer"}`}
+      className={`border-primary-200 flex min-h-11 w-full items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left md:min-h-15 md:gap-5 md:px-5 ${selected ? "bg-primary-100 border-primary border" : "bg-white"} text-black ${isDisabled ? "cursor-default" : "cursor-pointer"}`}
     >
       {selected ? (
         <div className="border-primary shrink-0 rounded-[50%] border p-0.5">
@@ -51,11 +48,11 @@ const ProblemOption = ({
         </div>
       ) : (
         <span
-          className={`h-3.5 w-3.5 ${compact ? "shrink-0" : ""} rounded-full border ${selected ? "border-white bg-white" : "border-primary-200"}`}
+          className={`h-3.5 w-3.5 shrink-0 rounded-full border ${selected ? "border-white bg-white" : "border-primary-200"}`}
         />
       )}
       <p
-        className={`font-medium ${compact ? "min-w-0 leading-relaxed [overflow-wrap:anywhere]" : ""} ${optionTextSize}`}
+        className={`min-w-0 leading-relaxed font-medium [overflow-wrap:anywhere] ${optionTextSize}`}
       >
         {option.optionContent}
       </p>
@@ -101,7 +98,6 @@ export default function ProblemCard({
     "correct" in currentProblem &&
     currentProblem.correct === false;
   const Heading = variant === "solve" ? "h1" : "h2";
-  const isResponsive = variant !== "bookmark";
 
   // 북마크 설정
   const addBookmark = async () => {
@@ -190,7 +186,7 @@ export default function ProblemCard({
         <Heading
           ref={headingRef}
           tabIndex={headingRef ? -1 : undefined}
-          className={`flex min-w-0 gap-1 font-semibold ${isResponsive ? "text-[14px] leading-relaxed [overflow-wrap:anywhere] md:text-[18px]" : "text-[18px]"} ${!isWrongResult ? "text-black" : "text-error"}`}
+          className={`flex min-w-0 gap-1 text-[14px] leading-relaxed font-semibold [overflow-wrap:anywhere] md:text-[18px] ${!isWrongResult ? "text-black" : "text-error"}`}
         >
           <span className="shrink-0">
             {variant === "bookmark" ? "Q." : `${currentProblem?.problemOrder}.`}
@@ -200,7 +196,7 @@ export default function ProblemCard({
         {showBookmark && (
           <BookmarkAction
             className={
-              variant === "result"
+              variant === "result" || variant === "bookmark"
                 ? "flex h-11 w-11 items-center justify-center md:h-auto md:w-auto"
                 : undefined
             }
@@ -210,7 +206,7 @@ export default function ProblemCard({
         )}
       </div>
       <div
-        className={`flex flex-col ${isResponsive ? "mt-3 gap-2 md:mt-7.5 md:gap-4" : "mt-7.5 gap-4"}`}
+        className="mt-3 flex flex-col gap-2 md:mt-7.5 md:gap-4"
         role="radiogroup"
       >
         {currentProblem?.options.map((option, index) => (

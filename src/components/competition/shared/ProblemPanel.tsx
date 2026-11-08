@@ -50,7 +50,7 @@ export default function ProblemPanel({
 
   return (
     <QuestionSurface
-      compact={variant !== "bookmark"}
+      compact
       surfaceRef={panelRef}
       className={
         variant === "solve"
@@ -62,7 +62,7 @@ export default function ProblemPanel({
     >
       <div className="flex h-full flex-col justify-between gap-4">
         <div
-          className={`flex flex-col ${variant === "solve" ? "gap-3 md:gap-7" : "gap-7"}`}
+          className={`flex flex-col ${variant === "result" ? "gap-7" : "gap-3 md:gap-7"}`}
         >
           {variant === "solve" && (
             <NumberLabel number={currentProblem?.problemOrder} />

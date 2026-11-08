@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import ChevronIcon from "@/assets/icon/shared/chevron.svg";
 import BarPagination from "@/components/shared/BarPagination";
 import { removeProblemBookmarkAction } from "@/components/bookmark/action";
 import ErrorModal from "@/components/shared/ErrorModal";
@@ -38,6 +39,10 @@ export default function MyBookmark({
 
   const handleCategoryChange = (nextCategory: BookmarkCategory) => {
     router.push(getMyListHref("bookmark", 1, nextCategory), { scroll: false });
+  };
+
+  const handlePageChange = (page: number) => {
+    router.push(getMyListHref("bookmark", page, category), { scroll: false });
   };
 
   const handleRemoveBookmark = async (problemId: number) => {
@@ -88,7 +93,7 @@ export default function MyBookmark({
         onCategoryChange={handleCategoryChange}
         totalElements={totalElements}
       />
-      <div className="mt-9 flex flex-col gap-6">
+      <div className="mt-4 flex flex-col gap-2 md:mt-9 md:gap-6">
         {isLoading ? (
           <p className="text-sub-text mt-12 text-center text-sm" role="status">
             북마크를 불러오는 중입니다.
@@ -115,16 +120,55 @@ export default function MyBookmark({
         )}
       </div>
       {!isLoading && !hasLoadError && (
-        <BarPagination
-          currentPage={visiblePage}
-          totalPages={totalPages}
-          onPageChange={(page) =>
-            router.push(getMyListHref("bookmark", page, category), {
-              scroll: false,
-            })
-          }
-          className="mt-20"
-        />
+        <>
+          {totalPages > 1 && (
+            <nav
+              aria-label="북마크 페이지 이동"
+              className="mt-6 flex items-center justify-between gap-2 md:hidden"
+            >
+              <button
+                type="button"
+                aria-label="이전 페이지"
+                disabled={visiblePage <= 1}
+                onClick={() => handlePageChange(visiblePage - 1)}
+                className="text-primary-900 focus-visible:outline-primary flex min-h-11 items-center gap-2 rounded-lg px-2 text-[12px] focus-visible:outline-2 enabled:cursor-pointer disabled:opacity-40"
+              >
+                <ChevronIcon
+                  aria-hidden="true"
+                  className="h-4 w-2 rotate-180"
+                />
+                이전
+              </button>
+              <p
+                className="text-sub-text text-[12px] whitespace-nowrap tabular-nums"
+                aria-live="polite"
+              >
+                <span className="text-primary-900 font-semibold">
+                  {visiblePage}
+                </span>{" "}
+                / {totalPages}
+              </p>
+              <button
+                type="button"
+                aria-label="다음 페이지"
+                disabled={visiblePage >= totalPages}
+                onClick={() => handlePageChange(visiblePage + 1)}
+                className="text-primary-900 focus-visible:outline-primary flex min-h-11 items-center gap-2 rounded-lg px-2 text-[12px] focus-visible:outline-2 enabled:cursor-pointer disabled:opacity-40"
+              >
+                다음
+                <ChevronIcon aria-hidden="true" className="h-4 w-2" />
+              </button>
+            </nav>
+          )}
+          <div className="hidden md:block">
+            <BarPagination
+              currentPage={visiblePage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              className="mt-20"
+            />
+          </div>
+        </>
       )}
     </div>
   );
