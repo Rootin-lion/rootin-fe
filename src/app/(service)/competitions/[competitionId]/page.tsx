@@ -13,5 +13,10 @@ export default async function ProblemPage(
   const { competitionId } = await props.params;
   const competitionIdNumber = Number(competitionId);
 
-  return <ProblemContent competitionId={competitionIdNumber} />;
+  return (
+    <ProblemContent
+      key={competitionIdNumber}
+      competitionId={competitionIdNumber}
+    />
+  );
 }

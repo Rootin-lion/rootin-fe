@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ApiError } from "@/types/api/error";
 import type {
@@ -9,11 +9,22 @@ import type {
 } from "@/types/competitions/competition";
 import {
   getCompetitionStatusAction,
-  getCompetitionProblemDetailAction,
   getCompetitionProblemsAction,
-  saveProblemAnswerAction,
 } from "@/app/(service)/competitions/action";
+import {
+  fetchCompetitionProblem,
+  type CompetitionProblemResponse,
+} from "@/lib/competitions/fetchCompetitionProblem";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
+import useCompetitionAnswers from "./useCompetitionAnswers";
+
+interface ProblemSession {
+  active: boolean;
+  requestId: number;
+  cache: Map<number, CompetitionProblemDetail>;
+  pending: Map<number, Promise<CompetitionProblemResponse>>;
+  controllers: Set<AbortController>;
+}
 
 export default function useCompetitionProblems(
   competitionId: number,
@@ -28,38 +39,74 @@ export default function useCompetitionProblems(
   >([]);
   const [currentProblem, setCurrentProblem] =
     useState<CompetitionProblemDetail | null>(null);
-  const [selectedOptionByProblemId, setSelectedOptionByProblemId] = useState<
-    Record<number, number>
-  >({});
+  const [activeProblemId, setActiveProblemId] = useState<number | null>(null);
+  const [isLoadingProblem, setLoadingProblem] = useState(false);
+  const sessionRef = useRef<ProblemSession | null>(null);
+  const { restoreAnswers, selectAnswer, ...answers } = useCompetitionAnswers(
+    competitionId,
+    onError,
+  );
 
-  const currentProblemIndex = currentProblem
-    ? problemNavigationItems.findIndex(
-        ({ competitionProblemId }) =>
-          competitionProblemId === currentProblem.competitionProblemId,
-      )
-    : -1;
+  const currentProblemIndex =
+    activeProblemId !== null
+      ? problemNavigationItems.findIndex(
+          ({ competitionProblemId }) =>
+            competitionProblemId === activeProblemId,
+        )
+      : -1;
   const isFirstProblem = currentProblemIndex <= 0;
   const isLastProblem =
     currentProblemIndex >= 0 &&
     currentProblemIndex === problemNavigationItems.length - 1;
 
   const loadProblem = async (competitionProblemId: number) => {
-    if (competitionProblemId === currentProblem?.competitionProblemId) return;
+    const session = sessionRef.current;
+    if (!session?.active) return;
+    const requestId = ++session.requestId;
+    setActiveProblemId(competitionProblemId);
+
+    const cached = session.cache.get(competitionProblemId);
+    if (cached) {
+      setCurrentProblem(cached);
+      setLoadingProblem(false);
+      return;
+    }
+
+    setLoadingProblem(true);
 
     try {
-      const res = await getCompetitionProblemDetailAction(
-        competitionId,
-        competitionProblemId,
-      );
+      let request = session.pending.get(competitionProblemId);
+      if (!request) {
+        const controller = new AbortController();
+        session.controllers.add(controller);
+        request = fetchCompetitionProblem(
+          competitionId,
+          competitionProblemId,
+          controller.signal,
+        ).finally(() => {
+          session.pending.delete(competitionProblemId);
+          session.controllers.delete(controller);
+        });
+        session.pending.set(competitionProblemId, request);
+      }
+      const res = await request;
+      if (!session.active) return;
+      if (res.ok) session.cache.set(competitionProblemId, res.data);
+      if (requestId !== session.requestId) return;
 
       if (!res.ok) {
-        onError(res.error, true);
+        if (res.error.status === 401) {
+          router.replace("/login");
+        } else {
+          onError(res.error, true);
+        }
 
         return;
       }
 
       setCurrentProblem(res.data);
     } catch {
+      if (!session.active || requestId !== session.requestId) return;
       onError(
         {
           code: "UNKNOWN_ERROR",
@@ -67,6 +114,10 @@ export default function useCompetitionProblems(
         },
         true,
       );
+    } finally {
+      if (session.active && requestId === session.requestId) {
+        setLoadingProblem(false);
+      }
     }
   };
 
@@ -93,45 +144,21 @@ export default function useCompetitionProblems(
   };
 
   // 답안 저장
-  const handleSelectOption = async (selectedOptionId: number) => {
-    if (!currentProblem) return;
-
-    const competitionProblemId = currentProblem.competitionProblemId;
-
-    if (selectedOptionByProblemId[competitionProblemId] === selectedOptionId) {
-      return;
-    }
-
-    try {
-      const res = await saveProblemAnswerAction(
-        competitionId,
-        competitionProblemId,
-        selectedOptionId,
-      );
-
-      if (!res.ok) {
-        onError(res.error, false);
-
-        return;
-      }
-
-      setSelectedOptionByProblemId((previous) => ({
-        ...previous,
-        [competitionProblemId]: selectedOptionId,
-      }));
-    } catch {
-      onError(
-        {
-          code: "UNKNOWN_ERROR",
-          message: "문제 답안 저장에 실패했습니다.",
-        },
-        false,
-      );
-    }
+  const handleSelectOption = (selectedOptionId: number) => {
+    if (!currentProblem || isLoadingProblem) return;
+    return selectAnswer(currentProblem.competitionProblemId, selectedOptionId);
   };
 
   useEffect(() => {
     let isCancelled = false;
+    const session: ProblemSession = {
+      active: true,
+      requestId: 0,
+      cache: new Map(),
+      pending: new Map(),
+      controllers: new Set(),
+    };
+    sessionRef.current = session;
 
     const initializeCompetition = async () => {
       try {
@@ -156,16 +183,7 @@ export default function useCompetitionProblems(
           startedAt: statusRes.data.startedAt,
           expiresAt: statusRes.data.expiresAt,
         });
-        setSelectedOptionByProblemId(
-          Object.fromEntries(
-            statusRes.data.answeredProblems.map(
-              ({ competitionProblemId, selectedOptionId }) => [
-                competitionProblemId,
-                selectedOptionId,
-              ],
-            ),
-          ),
-        );
+        restoreAnswers(statusRes.data.answeredProblems);
 
         const problemsRes = await getCompetitionProblemsAction(competitionId);
 
@@ -178,7 +196,12 @@ export default function useCompetitionProblems(
         }
 
         setProblemNavigationItems(problemsRes.data.problems);
-        setCurrentProblem(problemsRes.data.firstProblem);
+        const firstProblem = problemsRes.data.firstProblem;
+        setCurrentProblem(firstProblem ?? null);
+        if (firstProblem) {
+          session.cache.set(firstProblem.competitionProblemId, firstProblem);
+          setActiveProblemId(firstProblem.competitionProblemId);
+        }
       } catch {
         if (isCancelled) return;
 
@@ -196,13 +219,17 @@ export default function useCompetitionProblems(
 
     return () => {
       isCancelled = true;
+      session.active = false;
+      session.controllers.forEach((controller) => controller.abort());
     };
-  }, [competitionId, onError, router, setParticipation]);
+  }, [competitionId, onError, router, setParticipation, restoreAnswers]);
 
   return {
     problemNavigationItems,
     currentProblem,
-    selectedOptionByProblemId,
+    ...answers,
+    activeProblemId,
+    isLoadingProblem,
     isFirstProblem,
     isLastProblem,
     loadProblem,
