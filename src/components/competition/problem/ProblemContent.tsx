@@ -42,7 +42,14 @@ export default function ProblemContent({
   const {
     problemNavigationItems,
     currentProblem,
+    activeProblemId,
+    isLoadingProblem,
     selectedOptionByProblemId,
+    savedOptionByProblemId,
+    isAnsweringLocked,
+    lockAnswers,
+    waitForPendingSaves,
+    resumeAnswers,
     isFirstProblem,
     isLastProblem,
     loadProblem,
@@ -55,7 +62,11 @@ export default function ProblemContent({
     openSubmitConfirmModal,
     closeSubmitModal,
     submitCompetition,
-  } = useCompetitionSubmission(competitionId, showSubmissionError);
+  } = useCompetitionSubmission(competitionId, showSubmissionError, {
+    lockAnswers,
+    waitForPendingSaves,
+    resumeAnswers,
+  });
 
   useEffect(() => {
     if (!currentProblem) return;
@@ -110,9 +121,9 @@ export default function ProblemContent({
       <div className="mx-auto grid w-full max-w-5xl grid-cols-1 items-start gap-2 px-4 pt-4 pb-8 md:grid-cols-[214px_minmax(0,1fr)] md:items-stretch md:gap-3 md:px-5 md:pt-9 lg:gap-4 lg:px-0">
         <ProblemSidebar
           problemNavigationItems={problemNavigationItems}
-          currentProblemId={currentProblem?.competitionProblemId}
+          currentProblemId={activeProblemId ?? undefined}
           answeredProblemIds={
-            new Set(Object.keys(selectedOptionByProblemId).map(Number))
+            new Set(Object.keys(savedOptionByProblemId).map(Number))
           }
           onSelectProblem={(competitionProblemId) => {
             void loadProblem(competitionProblemId);
@@ -132,9 +143,13 @@ export default function ProblemContent({
           }
           isFirstProblem={isFirstProblem}
           isLastProblem={isLastProblem}
-          onSelectOption={(selectedOptionId) => {
-            void handleSelectOption(selectedOptionId);
-          }}
+          onSelectOption={
+            isAnsweringLocked || isLoadingProblem
+              ? undefined
+              : (selectedOptionId) => {
+                  void handleSelectOption(selectedOptionId);
+                }
+          }
           onPrevious={handlePreviousProblem}
           onNext={handleNextProblem}
           onSubmit={openSubmitConfirmModal}

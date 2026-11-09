@@ -4,14 +4,14 @@
 
 ## 기술 구성
 
-| 기술                               | 현재 사용처                                                                                              |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Next.js 16 · React 19 · TypeScript | App Router 기반 페이지·레이아웃, Server Component와 Client Component, Server Action, OAuth Route Handler |
-| Tailwind CSS 4                     | [globals.css](../src/app/globals.css)의 색상·타이포그래피 토큰과 컴포넌트별 반응형 스타일                |
-| Axios                              | [client.ts](../src/apis/client.ts)의 서버 전용 API 클라이언트와 인증·401 재시도 처리                     |
-| Zustand 5                          | 대회 참가 정보, 오늘의 대회, 면접 대화 상태                                                              |
-| Chart.js · react-chartjs-2         | 마이페이지 [분야별 정답률 차트](../src/components/my/dashboard/CategoryAccuracyChart.tsx)                |
-| SVGR                               | [next.config.ts](../next.config.ts)의 Turbopack 규칙을 통한 SVG React 컴포넌트 가져오기                  |
+| 기술                               | 현재 사용처                                                                                                  |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Next.js 16 · React 19 · TypeScript | App Router 기반 페이지·레이아웃, Server Component와 Client Component, Server Action, OAuth·API Route Handler |
+| Tailwind CSS 4                     | [globals.css](../src/app/globals.css)의 색상·타이포그래피 토큰과 컴포넌트별 반응형 스타일                    |
+| Axios                              | [client.ts](../src/apis/client.ts)의 서버 전용 API 클라이언트와 인증·401 재시도 처리                         |
+| Zustand 5                          | 대회 참가 정보, 오늘의 대회, 면접 대화 상태                                                                  |
+| Chart.js · react-chartjs-2         | 마이페이지 [분야별 정답률 차트](../src/components/my/dashboard/CategoryAccuracyChart.tsx)                    |
+| SVGR                               | [next.config.ts](../next.config.ts)의 Turbopack 규칙을 통한 SVG React 컴포넌트 가져오기                      |
 
 패키지 선언과 실행 명령은 [package.json](../package.json)에 있습니다.
 
@@ -20,17 +20,20 @@
 ```text
 브라우저
   ├─ 페이지 요청 → app의 Server Component → 레이아웃·초기 props
-  └─ 화면 조작 → Client Component / hook
+  ├─ 화면 조작 → Client Component / hook
                     → Server Action
                     → apis의 Axios 요청 → 백엔드
                     ← 성공 데이터 또는 에러 결과
                  → 화면·클라이언트 상태 갱신
+  └─ 대회 문제 이동 → fetch → 문제 상세 GET Route Handler
+                            → 서버 Axios → 백엔드
+                         ← 결과를 화면별 메모리에 보관
 
 소셜 로그인 → OAuth Route Handler → 공급자 인가 화면
             → callback Route Handler → 백엔드 코드 교환 → 쿠키 저장
 ```
 
-Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client Component에서는 Server Action을 통해 요청합니다. OAuth는 브라우저 리다이렉트와 Route Handler를 사용합니다.
+Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client Component는 Server Action을 호출하거나, 대회 문제 상세처럼 `fetch`로 API Route Handler를 호출합니다. 두 경로 모두 백엔드 인증 요청은 서버 Axios에서 수행합니다. OAuth는 브라우저 리다이렉트와 Route Handler를 사용합니다.
 
 ## 폴더별 책임
 
@@ -67,7 +70,7 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 
 ## API와 Server Action
 
-1. 컴포넌트나 훅이 기능별 Server Action을 호출합니다.
+1. 일반적인 기능 요청은 컴포넌트나 훅이 기능별 Server Action을 호출합니다.
 2. Action은 `src/apis`의 요청 함수를 호출합니다.
 3. 인증 요청은 `apiClient`가 쿠키의 access token을 `Authorization` 헤더에 추가합니다. OAuth 코드 교환과 토큰 재발급은 `apiPublic`을 사용합니다.
 4. Action은 응답을 추출하고 필요한 검증을 수행한 뒤 결과를 반환합니다.
@@ -85,6 +88,24 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 - 에러 모달을 열지, 화면 안에 오류를 표시할지는 각 호출 화면이 결정합니다.
 
 인증 헤더, 401 재시도, 쿠키 저장 흐름은 [인증 흐름](./auth-flow.md)에 정리되어 있습니다.
+
+### 대회 문제 풀이
+
+화면 경로는 `/competitions/[competitionId]`입니다. 문제 ID는 상세 조회용 API 경로에 포함하며, 문제별 화면 페이지를 추가하지 않습니다.
+
+| 책임               | 코드와 동작                                                                                                                                                                         |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 초기화·문제 이동   | [useCompetitionProblems](../src/components/competition/problem/useCompetitionProblems.ts): 참여 상태와 최초 문제 복원, 상세 캐시, 중복 조회 합치기, 마지막으로 선택한 문제만 표시   |
+| 답안 선택·저장     | [useCompetitionAnswers](../src/components/competition/problem/useCompetitionAnswers.ts): 선택 즉시 표시, 서버 저장값 분리, 문제별 순차 저장과 최신 선택 합치기, 실패 시 복원        |
+| 브라우저 상세 요청 | [fetchCompetitionProblem](../src/lib/competitions/fetchCompetitionProblem.ts): 인증 쿠키를 포함한 같은 출처 GET 요청, 세션 만료 시 로그인 처리용 결과 반환                          |
+| 인증된 상세 조회   | [GET Route Handler](../src/app/api/competitions/[competitionId]/problems/[competitionProblemId]/route.ts): ID 검사·세션 확인, 기존 서버 Axios로 상세 조회, `private, no-store` 응답 |
+| 최종 제출          | [useCompetitionSubmission](../src/components/competition/problem/useCompetitionSubmission.ts): 신규 선택 잠금, 대기 중 저장 확인, 중복 제출 방지, 수동·만료 제출 처리               |
+
+- 답안 선택은 서버 응답보다 먼저 화면에 반영하지만, 내비게이터의 풀이 완료 표시는 저장이 확인된 답안만 기준으로 합니다. 이전 선택의 실패 응답이 더 나중의 선택을 되돌리지 않도록 변경 순서를 관리합니다.
+- 최초 문제와 방문한 문제는 현재 화면의 메모리에만 보관합니다. 대회 변경·화면 이탈 시 폐기하며, 새로고침하면 서버에서 상태를 복원합니다. 조회 중 다른 문제를 선택하면 이전 응답으로 현재 화면을 덮어쓰지 않습니다.
+- 문제 상세 GET은 답안 저장 Server Action의 클라이언트 대기열과 분리합니다. 백엔드까지의 요청 자체가 없어지는 것은 아니며, 처음 방문하는 문제는 응답을 기다립니다.
+- 수동 제출 중 저장이 실패하면 제출을 중단하고 입력을 재개합니다. 시간 만료 시에는 저장 실패가 있어도 자동 제출을 진행하며, 최종 마감·답안 인정 여부는 서버가 판단합니다.
+- 로딩·저장 중 문구와 버튼 표시 변경은 이번 범위에 추가하지 않습니다. 배포 환경의 응답 시간과 실제 백엔드 동작은 별도 검증 대상입니다.
 
 ## 상태 관리
 

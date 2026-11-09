@@ -97,6 +97,16 @@
 7. 새 access token으로 원래 요청을 한 번 재시도합니다.
 8. 재발급 요청·응답 확인·쿠키 갱신 중 실패하면 두 인증 관련 쿠키를 삭제하고 `/login`으로 이동합니다. 세션을 파싱할 수 없어 재발급을 시작하지 못한 경우에는 원래 401 오류를 전달합니다.
 
-현재 인증 API는 대회·면접·마이페이지·온보딩·북마크 Server Action에서 호출합니다. 토큰 재발급과 인증 쿠키 갱신은 [API 클라이언트](../src/apis/client.ts)의 응답 인터셉터에 모여 있습니다.
+현재 인증 API는 대회·면접·마이페이지·온보딩·북마크 Server Action과 대회 문제 상세 GET Route Handler에서 호출합니다. 토큰 재발급과 인증 쿠키 갱신은 [API 클라이언트](../src/apis/client.ts)의 응답 인터셉터에 모여 있습니다.
+
+### 대회 문제 GET 조회
+
+1. 풀이 화면의 [fetchCompetitionProblem](../src/lib/competitions/fetchCompetitionProblem.ts)이 같은 출처의 `GET /api/competitions/[competitionId]/problems/[competitionProblemId]`를 호출합니다. HttpOnly 쿠키는 브라우저가 함께 전송하며, access token·refresh token을 클라이언트 코드로 꺼내지 않습니다.
+2. [Route Handler](../src/app/api/competitions/[competitionId]/problems/[competitionProblemId]/route.ts)는 두 ID를 검사하고, `sessionToken` 쿠키가 없으면 JSON 형식의 HTTP 401을 반환합니다.
+3. 쿠키가 있으면 기존 `apiClient`로 백엔드 문제 상세를 조회합니다. 쿠키의 토큰 구조 검사와 인증 헤더 설정·401 재발급은 위의 공통 인터셉터를 사용합니다. 대회 참여·문제 접근 권한은 백엔드가 검증합니다.
+4. 응답은 `Cache-Control: private, no-store`로 반환합니다. 풀이 화면의 문제 캐시는 서버 공유 캐시가 아닌 해당 화면의 메모리에만 유지합니다.
+5. 재발급 실패로 서버가 `/login`으로 리다이렉트하거나 HTTP 401이 반환되면, 브라우저 요청 함수가 인증 만료 결과로 변환하고 풀이 화면이 `/login`으로 이동합니다. 그 밖의 조회 오류는 기존 문제 조회 오류 정책으로 처리합니다.
+
+이 경로는 Server Action의 클라이언트 대기열과 조회를 분리하기 위한 API입니다. 풀이 화면 주소는 `/competitions/[competitionId]`를 유지합니다. 실제 만료 토큰·재발급 성공/실패·동시 요청에서의 백엔드 동작은 별도 확인이 필요합니다.
 
 모바일 인앱 브라우저에서는 루트 레이아웃의 `MobileInAppBrowserGate`가 Chrome 열기를 시도하고 안내 화면을 표시합니다. 판별 조건과 이동 방식은 [모바일 반응형 구현](./mobile-responsive-plan.md#인앱-브라우저-처리)에 정리되어 있습니다.

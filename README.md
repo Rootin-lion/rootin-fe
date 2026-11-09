@@ -6,6 +6,7 @@
 
 - 카카오·구글 OAuth, 온보딩, 인증 쿠키와 토큰 재발급 처리
 - 대회 조회·참가·문제 풀이·답안 저장·제출·결과·랭킹 API 호출
+- 대회 답안 즉시 선택 반영·저장 실패 시 복원, 방문한 문제 캐시와 인증된 GET 상세 조회
 - 면접 생성·질문 조회·답변 제출·리포트 생성 및 조회 API 호출
 - 마이페이지 대시보드·북마크·오답노트·면접 리포트 조회
 - 모바일 반응형 레이아웃, 모바일 면접 카메라 제외, 인앱 브라우저 외부 열기 안내
@@ -20,22 +21,23 @@
 
 ## 기술 스택
 
-| 구분            | 사용 기술                                           |
-| --------------- | --------------------------------------------------- |
-| 프레임워크      | Next.js 16.3.5, App Router                          |
-| UI              | React 19.2.4, TypeScript 5                          |
-| 스타일          | Tailwind CSS 4, Pretendard                          |
-| HTTP            | Axios, 서버 전용 API 클라이언트                     |
-| 클라이언트 상태 | Zustand 5, 일부 상태의 `sessionStorage` 저장        |
-| 차트            | Chart.js 4, react-chartjs-2 5                       |
-| 개발 서버·SVG   | Turbopack, SVGR (`@svgr/webpack`)                   |
-| 코드 검사·포맷  | ESLint 9, Prettier 3, `prettier-plugin-tailwindcss` |
+| 구분            | 사용 기술                                                |
+| --------------- | -------------------------------------------------------- |
+| 프레임워크      | Next.js 16, App Router                                   |
+| UI              | React 19.2.4, TypeScript 5                               |
+| 스타일          | Tailwind CSS 4, Pretendard                               |
+| HTTP            | Axios 서버 전용 API 클라이언트, 문제 상세 조회용 `fetch` |
+| 클라이언트 상태 | Zustand 5, 일부 상태의 `sessionStorage` 저장             |
+| 차트            | Chart.js 4, react-chartjs-2 5                            |
+| 개발 서버·SVG   | Turbopack, SVGR (`@svgr/webpack`)                        |
+| 코드 검사·포맷  | ESLint 9, Prettier 3, `prettier-plugin-tailwindcss`      |
+| 테스트          | Vitest 5, Testing Library, jsdom 29                      |
 
 버전 범위와 실행 명령은 [package.json](./package.json), 설치 버전은 [package-lock.json](./package-lock.json)을 기준으로 합니다. Chart.js는 마이페이지 분야별 정답률 차트에 사용합니다.
 
 ## 시작하기
 
-현재 설치된 Next.js의 최소 요구 버전은 Node.js **20.9.0**입니다. npm으로 의존성을 설치합니다.
+개발·테스트 환경은 **Node.js 22.13 이상인 22.x**를 기준으로 합니다. Vitest 5와 jsdom 29의 요구사항을 함께 반영한 기준이며, Next.js 자체의 최소 요구 버전과는 다릅니다. npm으로 의존성을 설치합니다.
 
 ```bash
 npm ci
@@ -85,6 +87,7 @@ npm run start
 | `npm run format`       | 프로젝트 전체 Prettier 포맷 적용 |
 | `npm run format:check` | Prettier 포맷 검사               |
 | `npx tsc --noEmit`     | TypeScript 타입 검사             |
+| `npx vitest run`       | `test/unit/**/*.test.ts` 실행    |
 
 ## 화면 경로
 
@@ -111,12 +114,22 @@ npm run start
 
 `[competitionId]`, `[competitionProblemId]`, `[interviewId]`는 동적 경로 구간입니다. `src/app/(service)`는 URL에 포함되지 않는 라우트 그룹이며, 공통 인증 진입 확인·Header·Footer를 적용합니다. 별도의 `/ranking` 페이지는 없습니다.
 
+### 대회 문제 풀이
+
+- 화면 주소는 `/competitions/[competitionId]`를 유지하고, 문제 이동은 페이지 내부 상태로 처리합니다.
+- 답안은 클릭 즉시 표시합니다. 서버 저장 실패 시 마지막으로 저장에 성공한 선택으로 복원하며, 문제 번호의 풀이 완료 표시는 서버 저장 성공을 기준으로 합니다.
+- 문제 상세는 `GET /api/competitions/[competitionId]/problems/[competitionProblemId]`로 조회합니다. 답안 저장 Server Action의 클라이언트 대기열과 조회 요청을 분리하고, 최초 문제와 방문한 문제를 현재 풀이 화면의 메모리에 보관합니다.
+- 수동 제출은 진행 중인 답안 저장을 확인한 뒤 실행합니다. 시간 만료 시에는 대기 중 저장이 실패해도 자동 제출을 진행하고, 마감 이후 답안 인정 여부는 서버가 판정합니다.
+
+구현 책임과 인증 처리는 [아키텍처](./docs/architecture.md#대회-문제-풀이), [인증 흐름](./docs/auth-flow.md#대회-문제-get-조회)을 참고합니다. 배포 사이트에서의 지연 시간 개선 수치는 아직 측정하지 않았습니다.
+
 ## 폴더 구조
 
 ```text
 docs/              # 아키텍처, 인증, 모바일 작업 기준
+test/              # 테스트 코드와 공통 setup
 src/
-├── app/           # 페이지·레이아웃, 기능별 Server Action, OAuth Route Handler
+├── app/           # 페이지·레이아웃, Server Action, OAuth·API Route Handler
 ├── apis/          # Axios 클라이언트와 기능별 백엔드 요청
 ├── assets/        # 이미지와 SVG
 ├── components/    # shared 공통 UI와 기능별 화면·전용 훅
