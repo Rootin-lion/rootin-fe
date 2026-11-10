@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import ChevronIcon from "@/assets/icon/shared/chevron.svg";
+import ChevronIcon from "@/assets/icons/shared/chevron.svg";
 import { getMyReviewsAction } from "@/app/(service)/my/action";
 import BarPagination from "@/components/shared/BarPagination";
 import ErrorModal from "@/components/shared/ErrorModal";

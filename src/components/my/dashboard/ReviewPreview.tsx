@@ -1,4 +1,4 @@
-import ReviewIcon from "@/assets/review.svg";
+import ReviewIcon from "@/assets/icons/my/dashboard/review.svg";
 import type { WrongAnswersState } from "@/types/my/dashboard";
 import type { MySection } from "@/constants/my/navigation";
 import PreviewSection from "./PreviewSection";

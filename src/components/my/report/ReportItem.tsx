@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import ChevronIcon from "@/assets/icon/shared/chevron.svg";
-import ChartIcon from "@/assets/my/report/chart.png";
+import ChevronIcon from "@/assets/icons/shared/chevron.svg";
+import ChartIcon from "@/assets/icons/my/report/chart.png";
 import type { MyReportSummary } from "@/types/my/report";
 import { CATEGORY_LABEL } from "@/constants/shared/category";
 import { formatDottedDate } from "@/lib/shared/formatDottedDate";

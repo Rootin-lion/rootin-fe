@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import TimerIcon from "@/assets/competitions/solve/timer.png";
+import TimerIcon from "@/assets/icons/shared/timer.png";
 import useDeadlineCountdown from "@/hooks/useDeadlineCountdown";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
 import QuestionSurface from "./ProblemSurface";

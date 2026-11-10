@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ChevronIcon from "@/assets/icon/shared/chevron.svg";
+import ChevronIcon from "@/assets/icons/shared/chevron.svg";
 import type { CompetitionResults } from "@/types/competitions/competition";
 import { getPastCompetitionAction } from "@/app/(service)/competitions/action";
 import BoxWrapper from "@/components/competition/shared/BoxWrapper";

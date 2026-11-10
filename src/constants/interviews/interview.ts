@@ -1,9 +1,9 @@
-import DataImg from "@/assets/interviews/data.png";
-import DbImg from "@/assets/interviews/db.png";
-import InfraImg from "@/assets/interviews/infra.png";
-import NetworkImg from "@/assets/interviews/network.png";
-import OsImg from "@/assets/interviews/os.png";
-import SpringImg from "@/assets/interviews/spring.png";
+import DataImg from "@/assets/images/interviews/data.png";
+import DbImg from "@/assets/images/interviews/db.png";
+import InfraImg from "@/assets/images/interviews/infra.png";
+import NetworkImg from "@/assets/images/interviews/network.png";
+import OsImg from "@/assets/images/interviews/os.png";
+import SpringImg from "@/assets/images/interviews/spring.png";
 import type { InterviewCategoryType } from "@/types/interviews/interview";
 import { INTERVIEW_CATEGORY_LABEL } from "./category";
 

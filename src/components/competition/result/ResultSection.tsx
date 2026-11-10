@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useId, useRef, useState } from "react";
-import CheckIcon from "@/assets/competitions/result/check.png";
+import CheckIcon from "@/assets/icons/competitions/result/check.png";
 import type {
   CompetitionResultState,
   ProblemResult,

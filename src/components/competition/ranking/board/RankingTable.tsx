@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { Ref } from "react";
 import Image from "next/image";
-import CharImg from "@/assets/success_char.png";
+import CharImg from "@/assets/images/shared/success_char.png";
 import type { RankingState } from "@/types/competitions/competition";
 import type { RankingFocusTarget } from "@/types/competitions/ranking";
 import RankingPagination from "./RankingPagination";
@@ -69,7 +69,7 @@ const TableItem = ({
       className={`${rowLayout} ${rankBoxStyle} border-b border-[#E1E1E1] py-2 md:py-0`}
     >
       <p className={rankBadgeClassName}>{ranking.rank ?? 0}</p>
-      <div className="flex w-full min-w-0 items-center gap-1.5 py-1.5 text-left md:max-w-48 md:justify-self-center md:gap-2 lg:-translate-x-3 lg:gap-3">
+      <div className="flex w-full min-w-0 items-center gap-1.5 py-1.5 text-left md:max-w-48 md:gap-2 md:justify-self-center lg:-translate-x-3 lg:gap-3">
         <div
           className={`flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full md:h-10 md:w-10 ${rankProfileStyle}`}
         >
@@ -90,12 +90,8 @@ const TableItem = ({
           {ranking.nickname ?? "-"}
         </p>
       </div>
-      <p className="min-w-0 break-all">
-        {ranking.score ?? 0}점
-      </p>
-      <p className="min-w-0 break-all">
-        {ranking.point ?? 0}P
-      </p>
+      <p className="min-w-0 break-all">{ranking.score ?? 0}점</p>
+      <p className="min-w-0 break-all">{ranking.point ?? 0}P</p>
     </div>
   );
 };

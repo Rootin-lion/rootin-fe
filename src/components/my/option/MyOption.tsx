@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState, type ChangeEvent } from "react";
-import CharImg from "@/assets/competitions/result/char.png";
+import CharImg from "@/assets/images/competitions/result/char.png";
 import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
 import AgeGroupSelector from "@/components/profile/AgeGroupSelector";
 import { toggleInterestField } from "@/lib/profile/toggleInterestField";

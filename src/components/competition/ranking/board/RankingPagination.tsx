@@ -1,4 +1,4 @@
-import ChevronIcon from "@/assets/icon/shared/chevron.svg";
+import ChevronIcon from "@/assets/icons/shared/chevron.svg";
 import { getRankingPagination } from "./getRankingPagination";
 
 const navigationButtonClass =

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import GrowthImg from "@/assets/my/growth.png";
+import GrowthImg from "@/assets/images/my/growth.png";
 import type { AuthMember } from "@/types/oauth/oauth";
 
 export default function ProfileBanner({

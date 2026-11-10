@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import CheckIcon from "@/assets/competitions/result/check.png";
+import CheckIcon from "@/assets/icons/competitions/result/check.png";
 import { getResultProblemAction } from "@/app/(service)/competitions/action";
 import ProblemPanel from "@/components/competition/shared/ProblemPanel";
 import type { ProblemResultState } from "@/types/competitions/competition";
@@ -81,7 +81,7 @@ export default function BookmarkProblemContent({
                 <>
                   {correctOption ? (
                     <section
-                      className="flex min-w-0 flex-col gap-3 [overflow-wrap:anywhere] md:gap-5"
+                      className="flex min-w-0 flex-col gap-3 wrap-anywhere md:gap-5"
                       aria-live="polite"
                     >
                       <div

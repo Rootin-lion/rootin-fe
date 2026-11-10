@@ -1,5 +1,5 @@
 import Image from "next/image";
-import DetailImg from "@/assets/competitions/result/detail_img.png";
+import DetailImg from "@/assets/images/competitions/result/detail_img.png";
 import DetailWrapper from "./DetailWrapper";
 
 export default function DetailBanner() {

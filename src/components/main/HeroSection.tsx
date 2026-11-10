@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import HeroImg from "@/assets/hero.png";
+import HeroImg from "@/assets/images/shared/hero.png";
 import PrimaryDarkButton from "@/components/shared/PrimaryDarkButton";
 import SectionWrapper from "./SectionWrapper";
 

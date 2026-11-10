@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import ChevronIcon from "@/assets/icon/shared/chevron.svg";
+import ChevronIcon from "@/assets/icons/shared/chevron.svg";
 import BarPagination from "@/components/shared/BarPagination";
 import { removeProblemBookmarkAction } from "@/components/bookmark/action";
 import ErrorModal from "@/components/shared/ErrorModal";
@@ -11,7 +11,7 @@ import type { BookmarkCategory } from "@/constants/my/bookmark";
 import useErrorModal from "@/hooks/useErrorModal";
 import BookmarkItem from "./BookmarkItem";
 import BookmarkTitle from "./BookmarkTitle";
-import useMyBookmarks from "./useMyBookmarks";
+import useMyBookmarks from "../hooks/useMyBookmarks";
 
 export default function MyBookmark({
   category,
