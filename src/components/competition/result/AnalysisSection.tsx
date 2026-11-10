@@ -1,7 +1,7 @@
 import Image from "next/image";
-import CorrectIcon from "@/assets/competitions/result/correct.png";
-import StrengthIcon from "@/assets/competitions/result/strength.png";
-import WeaknessIcon from "@/assets/competitions/result/weakness.png";
+import CorrectIcon from "@/assets/icons/competitions/result/correct.png";
+import StrengthIcon from "@/assets/icons/competitions/result/strength.png";
+import WeaknessIcon from "@/assets/icons/competitions/result/weakness.png";
 import DetailWrapper from "./DetailWrapper";
 
 type CardType = "STRENGTH" | "WEAKNESS" | "CORRECT";
@@ -51,7 +51,7 @@ const AnalysisCardWrapper = ({
             className="h-5 w-5 lg:h-6 lg:w-6"
           />
         </div>
-        <p className="min-w-0 text-[12px] font-semibold [overflow-wrap:anywhere] text-[#6A6A6A] lg:text-[13px]">
+        <p className="min-w-0 text-[12px] font-semibold wrap-anywhere text-[#6A6A6A] lg:text-[13px]">
           {type === "CORRECT"
             ? `${accuracy}% (상위 ${topPercent}%)`
             : itemLabels.length > 0

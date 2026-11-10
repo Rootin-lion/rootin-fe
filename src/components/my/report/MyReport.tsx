@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import ChevronIcon from "@/assets/icon/shared/chevron.svg";
-import PageIcon from "@/assets/my/report/page.png";
+import ChevronIcon from "@/assets/icons/shared/chevron.svg";
+import PageIcon from "@/assets/icons/my/report/page.png";
 import type { MyReportsPage } from "@/types/my/report";
 import { getMyReportsAction } from "@/app/(service)/my/action";
 import BarPagination from "@/components/shared/BarPagination";

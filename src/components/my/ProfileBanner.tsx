@@ -1,5 +1,5 @@
 import Image from "next/image";
-import GrowthImg from "@/assets/my/growth.png";
+import GrowthImg from "@/assets/images/my/growth.png";
 import type { AuthMember } from "@/types/oauth/oauth";
 
 export default function ProfileBanner({
@@ -35,7 +35,7 @@ export default function ProfileBanner({
             {nickname.charAt(0).toUpperCase() || "U"}
           </div>
         )}
-        <div className="flex min-w-0 flex-col gap-1 [overflow-wrap:anywhere]">
+        <div className="flex min-w-0 flex-col gap-1 wrap-anywhere">
           <p className="text-primary-900 text-[14px] font-bold lg:text-[16px]">
             {nickname || email || "사용자"}
           </p>
@@ -48,7 +48,7 @@ export default function ProfileBanner({
         </div>
       </div>
 
-      <div className="col-span-2 row-start-2 text-[11px] leading-5 font-medium text-[#4D4D4D] lg:absolute lg:right-40 lg:translate-y-2 lg:rounded-[30px] lg:bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_0%,#EAF3E8_100%)] lg:px-9 lg:py-4 lg:text-[12px] lg:after:pointer-events-none lg:after:absolute lg:after:right-[-32px] lg:after:bottom-4 lg:after:h-10 lg:after:w-14 lg:after:bg-[#EAF3E8] lg:after:content-[''] lg:after:[clip-path:polygon(0_0,100%_75%,0_100%)]">
+      <div className="col-span-2 row-start-2 text-[11px] leading-5 font-medium text-[#4D4D4D] lg:absolute lg:right-40 lg:translate-y-2 lg:rounded-[30px] lg:bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_0%,#EAF3E8_100%)] lg:px-9 lg:py-4 lg:text-[12px] lg:after:pointer-events-none lg:after:absolute lg:after:-right-8 lg:after:bottom-4 lg:after:h-10 lg:after:w-14 lg:after:bg-[#EAF3E8] lg:after:content-[''] lg:after:[clip-path:polygon(0_0,100%_75%,0_100%)]">
         작은 성장이 모여 <br className="hidden lg:block" />큰 실력이 됩니다.
       </div>
       <div className="col-start-2 row-start-1 shrink-0">

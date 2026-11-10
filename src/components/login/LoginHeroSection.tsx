@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LoginImg from "@/assets/hero.png";
+import LoginImg from "@/assets/images/shared/hero.png";
 
 export default function LoginHeroSection() {
   return (

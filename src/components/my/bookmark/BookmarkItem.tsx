@@ -1,5 +1,5 @@
 import Link from "next/link";
-import BookmarkIcon from "@/assets/icon/shared/bookmark.svg";
+import BookmarkIcon from "@/assets/icons/shared/bookmark.svg";
 import { CATEGORY_LABEL } from "@/constants/shared/category";
 import { formatDottedDate } from "@/lib/shared/formatDottedDate";
 import type { MyBookmarkItem } from "@/types/my/bookmark";

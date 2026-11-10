@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import ChevronIcon from "@/assets/icon/shared/chevron.svg";
-import ChartIcon from "@/assets/my/report/chart.png";
+import ChevronIcon from "@/assets/icons/shared/chevron.svg";
+import ChartIcon from "@/assets/icons/my/report/chart.png";
 import type { MyReportSummary } from "@/types/my/report";
 import { CATEGORY_LABEL } from "@/constants/shared/category";
 import { formatDottedDate } from "@/lib/shared/formatDottedDate";
@@ -13,11 +13,11 @@ export default function ReportItem({ report }: { report: MyReportSummary }) {
         {CATEGORY_LABEL[report.category]}
       </div>
       <div className="col-span-2 row-start-2 min-w-0 md:col-span-1 md:col-start-2 md:row-start-1">
-        <h3 className="text-text text-[13px] font-semibold [overflow-wrap:anywhere] md:text-[16px]">
+        <h3 className="text-text text-[13px] font-semibold wrap-anywhere md:text-[16px]">
           {report.title}
         </h3>
         <div className="mt-1 flex flex-col items-start gap-1 md:mt-0 md:flex-row md:flex-wrap md:items-center md:gap-2">
-          <p className="md:text-caption text-text text-[11px] [overflow-wrap:anywhere]">
+          <p className="md:text-caption text-text text-[11px] wrap-anywhere">
             {report.interviewMode === "TEXT" ? "텍스트" : "음성"} 면접 |{" "}
             {report.questionCount}문항 | {formatDottedDate(report.completedAt)}
           </p>
@@ -26,7 +26,7 @@ export default function ReportItem({ report }: { report: MyReportSummary }) {
             평균 정확도 {report.averageAccuracy}%
           </div>
         </div>
-        <p className="text-sub-text mt-1 max-w-165 text-[11px] leading-relaxed font-medium [overflow-wrap:anywhere] whitespace-pre-wrap md:mt-0 md:text-[12px] md:leading-normal">
+        <p className="text-sub-text mt-1 max-w-165 text-[11px] leading-relaxed font-medium wrap-anywhere whitespace-pre-wrap md:mt-0 md:text-[12px] md:leading-normal">
           {report.overallFeedback}
         </p>
       </div>

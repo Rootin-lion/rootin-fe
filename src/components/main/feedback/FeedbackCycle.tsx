@@ -1,6 +1,6 @@
 import Image from "next/image";
-import FeedbackImg from "@/assets/main/feedback.png";
-import ChevronIcon from "@/assets/icon/shared/chevron.svg";
+import FeedbackImg from "@/assets/images/main/feedback.png";
+import ChevronIcon from "@/assets/icons/shared/chevron.svg";
 
 const FeedbackBox = ({ text, angle }: { text: string; angle: number }) => {
   return (

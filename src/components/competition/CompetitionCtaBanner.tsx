@@ -1,5 +1,5 @@
 import Image from "next/image";
-import BannerImg from "@/assets/competitions/bannerImg.png";
+import BannerImg from "@/assets/images/competitions/bannerImg.png";
 import type { CompetitionStatus } from "@/types/competitions/competition";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
 

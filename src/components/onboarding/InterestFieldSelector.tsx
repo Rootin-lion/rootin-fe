@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import ChevronIcon from "@/assets/icon/shared/chevron.svg";
+import ChevronIcon from "@/assets/icons/shared/chevron.svg";
 import OptionButton from "@/components/shared/OptionButton";
 
 type InterestFieldOption = {

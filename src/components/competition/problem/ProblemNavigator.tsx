@@ -1,5 +1,5 @@
 import Image from "next/image";
-import NavImg from "@/assets/competitions/solve/nav_char.png";
+import NavImg from "@/assets/images/competitions/solve/nav_char.png";
 import type { CompetitionProblemSummary } from "@/types/competitions/competition";
 import QuestionStatus from "./ProblemStatus";
 import QuestionSurface from "./ProblemSurface";

@@ -1,6 +1,6 @@
-import analysisImg from "@/assets/main/analysis.png";
-import DocumentImg from "@/assets/main/document.png";
-import TrophyImg from "@/assets/main/trophy.png";
+import analysisImg from "@/assets/images/main/analysis.png";
+import DocumentImg from "@/assets/images/main/document.png";
+import TrophyImg from "@/assets/images/main/trophy.png";
 import type { FeatureData } from "@/types/main/featureItem";
 import SectionWrapper from "@/components/main/SectionWrapper";
 import { FeatureCard } from "./FeaturedCard";

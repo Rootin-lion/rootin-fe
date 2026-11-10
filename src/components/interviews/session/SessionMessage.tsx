@@ -1,6 +1,6 @@
 import Image from "next/image";
-import CharImg from "@/assets/success_char.png";
-import AiImg from "@/assets/interviews/msg_char.png";
+import CharImg from "@/assets/images/shared/success_char.png";
+import AiImg from "@/assets/images/interviews/msg_char.png";
 import type { MessageType } from "@/types/interviews/interview";
 import MessageBubble from "./MessageBubble";
 

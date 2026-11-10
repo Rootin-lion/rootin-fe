@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import TimerIcon from "@/assets/interviews/timer.png";
+import TimerIcon from "@/assets/icons/shared/timer.png";
 
 const INTERVIEW_DURATION_MS = 30 * 60 * 1000;
 

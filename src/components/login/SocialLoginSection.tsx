@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import GoogleIcon from "@/assets/login/google.png";
-import KakaoIcon from "@/assets/login/kakao.png";
-import LogoImg from "@/assets/logo.png";
+import GoogleIcon from "@/assets/icons/login/google.png";
+import KakaoIcon from "@/assets/icons/login/kakao.png";
+import LogoImg from "@/assets/images/shared/logo.png";
 
 const KakaoLoginButton = ({ onClick }: { onClick: () => void }) => {
   return (

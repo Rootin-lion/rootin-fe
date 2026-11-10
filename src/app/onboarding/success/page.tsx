@@ -1,5 +1,5 @@
 import Image from "next/image";
-import SuccessCharacterImage from "@/assets/success_char.png";
+import SuccessCharacterImage from "@/assets/images/shared/success_char.png";
 import type { Metadata } from "next";
 import AutoRedirect from "@/components/onboarding/AutoRedirect";
 

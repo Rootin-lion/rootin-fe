@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
-import CharImg from "@/assets/success_char.png";
-import LogoImg from "@/assets/logo.png";
+import CharImg from "@/assets/images/shared/success_char.png";
+import LogoImg from "@/assets/images/shared/logo.png";
 import type { AuthMember } from "@/types/oauth/oauth";
 
 const NavItems = [

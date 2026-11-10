@@ -1,4 +1,4 @@
-import SendIcon from "@/assets/icon/interviews/send.svg";
+import SendIcon from "@/assets/icons/interviews/send.svg";
 
 export default function SessionForm({
   answer,

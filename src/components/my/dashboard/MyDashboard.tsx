@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { getMyDashboardAction } from "@/app/(service)/my/action";
-import CountIcon from "@/assets/my/dashboard/count.png";
-import DayIcon from "@/assets/my/dashboard/day.png";
-import PointIcon from "@/assets/my/dashboard/point.png";
-import RateIcon from "@/assets/my/dashboard/rate.png";
+import CountIcon from "@/assets/icons/my/dashboard/count.png";
+import DayIcon from "@/assets/icons/my/dashboard/day.png";
+import PointIcon from "@/assets/icons/my/dashboard/point.png";
+import RateIcon from "@/assets/icons/my/dashboard/rate.png";
 import ErrorModal from "@/components/shared/ErrorModal";
 import type { MySection } from "@/constants/my/navigation";
 import useErrorModal from "@/hooks/useErrorModal";

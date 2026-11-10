@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import TrophyImg from "@/assets/competitions/trophy.png";
+import TrophyImg from "@/assets/images/competitions/trophy.png";
 import type { TodayCompetitionState } from "@/types/competitions/competition";
 import GradientOutlineButton from "@/components/shared/GradientOutlineButton";
 import ContestCountdown from "./CompetitionCountdown";
