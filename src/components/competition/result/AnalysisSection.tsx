@@ -51,7 +51,7 @@ const AnalysisCardWrapper = ({
             className="h-5 w-5 lg:h-6 lg:w-6"
           />
         </div>
-        <p className="min-w-0 text-[12px] font-semibold [overflow-wrap:anywhere] text-[#6A6A6A] lg:text-[13px]">
+        <p className="min-w-0 text-[12px] font-semibold wrap-anywhere text-[#6A6A6A] lg:text-[13px]">
           {type === "CORRECT"
             ? `${accuracy}% (상위 ${topPercent}%)`
             : itemLabels.length > 0

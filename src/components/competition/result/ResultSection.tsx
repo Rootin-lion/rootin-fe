@@ -47,7 +47,7 @@ const ResultItem = ({
       aria-label={`${problem.problemOrder}번 문제, ${RESULT_ITEM_TYPE[type].title}, ${problem.score}점`}
       aria-expanded={selected}
       aria-controls={selected ? detailsId : undefined}
-      className={`focus-visible:outline-primary-900 flex min-h-11 min-w-11 cursor-pointer flex-col items-center gap-2 rounded text-[12px] [overflow-wrap:anywhere] focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-0 md:gap-3 md:text-base ${selected ? "font-semibold" : ""}`}
+      className={`focus-visible:outline-primary-900 flex min-h-11 min-w-11 cursor-pointer flex-col items-center gap-2 rounded text-[12px] wrap-anywhere focus-visible:outline-2 focus-visible:outline-offset-2 md:min-w-0 md:gap-3 md:text-base ${selected ? "font-semibold" : ""}`}
       onClick={onClick}
     >
       <div
@@ -168,7 +168,7 @@ export default function ResultSection({
             currentProblem={problemResult}
             selectedOptionId={problemResult.selectedOptionId}
           />
-          <div className="flex min-w-0 flex-col gap-4 px-4 pb-4 [overflow-wrap:anywhere] md:gap-6 md:px-6 md:pb-7 lg:px-8">
+          <div className="flex min-w-0 flex-col gap-4 px-4 pb-4 wrap-anywhere md:gap-6 md:px-6 md:pb-7 lg:px-8">
             <div className="text-primary">
               <div className="flex flex-row items-center gap-1">
                 <Image
