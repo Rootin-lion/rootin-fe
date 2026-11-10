@@ -37,6 +37,8 @@ const rankingCircleType = {
 };
 
 export default function RankingCircle({ type, img }: RankingCircleProps) {
+  const profileImageUrl = img?.trim();
+
   return (
     <div
       className={`relative flex items-center justify-center rounded-[50%] ${rankingCircleType[type].circleStyle} `}
@@ -51,10 +53,11 @@ export default function RankingCircle({ type, img }: RankingCircleProps) {
         />
       )}
       <Image
-        src={img ? img : CharImg}
+        src={profileImageUrl || CharImg}
         alt="char"
         width={rankingCircleType[type].width}
         height={rankingCircleType[type].heigth}
+        unoptimized={Boolean(profileImageUrl)}
         className="h-auto max-h-full w-3/4 rounded-[50%] object-contain px-2 py-1 lg:w-auto"
       />
       <div
