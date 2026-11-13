@@ -112,7 +112,7 @@ describe("관심 분야 선택", () => {
 });
 ```
 
-React Testing Library, `user-event`, `jest-dom`과 React 플러그인은 설치되어 있지만 현재 `include`에는 `.test.tsx`가 없습니다. 컴포넌트 테스트용 파일을 두더라도 현재 설정으로는 실행 대상이 되지 않습니다. 실제 브라우저 E2E 도구, API mock 도구와 커버리지 provider는 현재 프로젝트에 설정되어 있지 않습니다.
+React Testing Library, `user-event`, `jest-dom`과 React 플러그인은 설치되어 있지만 현재 컴포넌트 테스트 파일은 없습니다. 현재 `include`는 `.test.ts`만 수집하며 `.test.tsx`는 수집하지 않습니다. 실제 브라우저 E2E 도구, API mock 도구와 커버리지 provider는 현재 프로젝트에 설정되어 있지 않습니다.
 
 ## 검증 범위
 
