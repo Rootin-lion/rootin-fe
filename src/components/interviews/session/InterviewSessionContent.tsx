@@ -28,6 +28,14 @@ import useInterviewAnswer from "./useInterviewAnswer";
 const subscribeToHydration = () => () => {};
 const getClientSnapshot = () => true;
 const getServerSnapshot = () => false;
+const subscribeToViewport = (callback: () => void) => {
+  const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+};
+const getMobileSnapshot = () =>
+  window.matchMedia(MOBILE_INTERVIEW_QUERY).matches;
+const getServerMobileSnapshot = () => true;
 
 export default function InterviewSessionContent({
   interviewId,
@@ -42,6 +50,11 @@ export default function InterviewSessionContent({
 }) {
   const router = useRouter();
   const { stopCamera } = useInterviewMedia();
+  const isMobile = useSyncExternalStore(
+    subscribeToViewport,
+    getMobileSnapshot,
+    getServerMobileSnapshot,
+  );
   const [cameraEnabled, setCameraEnabled] = useState(() =>
     canUseInterviewCamera(interviewId),
   );
@@ -197,7 +210,9 @@ export default function InterviewSessionContent({
         )}
         <div className="order-first flex shrink-0 flex-col gap-4 md:order-last md:w-56 lg:w-70.5">
           <SessionTimer interviewId={interviewId} />
-          {sessionReady && cameraEnabled && <SessionVideo />}
+          {sessionReady && !isMobile && (
+            <SessionVideo cameraEnabled={cameraEnabled} />
+          )}
         </div>
       </div>
       <SessionForm
