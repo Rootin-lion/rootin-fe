@@ -13,11 +13,13 @@
 
 ## 문서
 
-| 문서                                                   | 내용                                             |
-| ------------------------------------------------------ | ------------------------------------------------ |
-| [아키텍처](./docs/architecture.md)                     | 폴더별 책임, 라우트, 데이터 흐름과 상태 관리     |
-| [인증 흐름](./docs/auth-flow.md)                       | OAuth, 쿠키, 온보딩과 토큰 재발급                |
-| [모바일 반응형 계획](./docs/mobile-responsive-plan.md) | 화면 너비 기준, 현재 반영 사항과 검증 체크리스트 |
+| 문서                                                   | 내용                                                |
+| ------------------------------------------------------ | --------------------------------------------------- |
+| [아키텍처](./docs/architecture.md)                     | 폴더별 책임, 라우트, 데이터 흐름과 상태 관리        |
+| [인증 흐름](./docs/auth-flow.md)                       | OAuth, 쿠키, 온보딩과 토큰 재발급                   |
+| [모바일 반응형 구현](./docs/mobile-responsive-plan.md) | 화면 너비 기준, 카메라 정책과 인앱 브라우저 처리    |
+| [개발 테스트](./docs/testing.md)                       | Vitest 설정·테스트 범위와 작성 방법                 |
+| [커밋·코드 컨벤션](./docs/conventions.md)              | 커밋 로그 기반 메시지 형식, 이름·import·스타일 기준 |
 
 ## 기술 스택
 
@@ -78,16 +80,36 @@ npm run start
 
 ## 개발 명령어
 
-| 명령어                 | 설명                             |
-| ---------------------- | -------------------------------- |
-| `npm run dev`          | Turbopack 개발 서버 실행         |
-| `npm run build`        | 프로덕션 빌드                    |
-| `npm run start`        | 빌드 결과로 프로덕션 서버 실행   |
-| `npm run lint`         | ESLint 검사                      |
-| `npm run format`       | 프로젝트 전체 Prettier 포맷 적용 |
-| `npm run format:check` | Prettier 포맷 검사               |
-| `npx tsc --noEmit`     | TypeScript 타입 검사             |
-| `npx vitest run`       | `test/unit/**/*.test.ts` 실행    |
+| 명령어                 | 설명                                         |
+| ---------------------- | -------------------------------------------- |
+| `npm run dev`          | Turbopack 개발 서버 실행                     |
+| `npm run build`        | 프로덕션 빌드                                |
+| `npm run start`        | 빌드 결과로 프로덕션 서버 실행               |
+| `npm run lint`         | ESLint 검사                                  |
+| `npm run format`       | 프로젝트 전체 Prettier 포맷 적용             |
+| `npm run format:check` | Prettier 포맷 검사                           |
+| `npx tsc --noEmit`     | TypeScript 타입 검사                         |
+| `npx vitest run`       | `test/unit/**/*.test.ts` 실행                |
+| `npx vitest --watch`   | 변경한 코드와 관련된 Vitest 테스트 반복 실행 |
+
+## Vitest 개발 테스트
+
+[vitest.config.mts](./vitest.config.mts)는 `test/unit/**/*.test.ts`를 수집해 `jsdom` 환경에서 실행합니다. `vite-tsconfig-paths`가 `@/` 별칭을 해석하고, React 플러그인은 JSX 변환을 지원합니다. [공통 setup](./test/setup/vitest.setup.ts)은 Testing Library의 DOM matcher와 테스트 후 DOM 정리를 등록합니다.
+
+```bash
+# 전체 테스트를 한 번 실행
+npx vitest run
+
+# 개발 중 변경 사항을 감지하며 실행
+npx vitest --watch
+
+# 특정 파일만 실행
+npx vitest run test/unit/constants/my/navigation.test.ts
+```
+
+현재 테스트는 이메일 검증, 관심 분야 선택, 마이페이지 URL·페이지 해석, 랭킹 페이지네이션, 모바일 인앱 브라우저 판별·Chrome 링크 생성, 날짜 표시와 면접 세션 복원의 8개 파일입니다. 새 단위 테스트는 `src/`의 경로를 따라 `test/unit/<원본 경로>/<모듈명>.test.ts`에 작성합니다. 예를 들어 `src/constants/my/navigation.ts`의 테스트는 `test/unit/constants/my/navigation.test.ts`에 둡니다.
+
+Testing Library 관련 패키지와 setup은 준비되어 있지만, 현재 수집 패턴에 컴포넌트용 `.test.tsx`는 포함되어 있지 않습니다. Vitest 실행에는 Next.js 서버·프로덕션 빌드가 필요하지 않으며, 이 테스트들은 실제 브라우저 화면·OAuth·백엔드 연동을 검증하지 않습니다. 파일별 검증 내용과 작성 예시는 [테스트 문서](./docs/testing.md#vitest-단위-테스트)를 참고합니다.
 
 ## 화면 경로
 
@@ -126,7 +148,7 @@ npm run start
 ## 폴더 구조
 
 ```text
-docs/              # 아키텍처, 인증, 모바일 작업 기준
+docs/              # 아키텍처, 인증, 모바일 구현, 개발 테스트, 컨벤션
 test/              # 테스트 코드와 공통 setup
 src/
 ├── app/           # 페이지·레이아웃, Server Action, OAuth·API Route Handler
@@ -144,16 +166,16 @@ src/
 
 ## 코드 작성 규칙
 
-### Import
+커밋 로그와 현재 설정을 바탕으로 정리한 상세 기준은 [커밋·코드 컨벤션](./docs/conventions.md)을 참고합니다.
 
-다음 순서로 정렬하며, import 문 사이에는 빈 줄을 두지 않습니다.
+### Import
 
 1. React, Next.js 및 외부 라이브러리
 2. 이미지·SVG
 3. 타입
 4. 상수
-5. 공통 컴포넌트 및 다른 영역의 컴포넌트
-6. 같은 폴더·하위 폴더의 로컬 컴포넌트
+5. 다른 영역의 API·Action·공통 컴포넌트·훅·유틸리티
+6. 같은 폴더·하위 폴더의 로컬 모듈
 
 타입으로만 사용하는 항목은 `import type`으로 작성합니다. 다른 영역의 파일은 `@/` 경로를, 같은 폴더와 하위 폴더는 `./` 경로를 사용합니다. `@/`는 `src/`를 가리킵니다. 필요한 파일에는 `"use client"`를 import보다 위에 둡니다.
 
