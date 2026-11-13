@@ -1,6 +1,7 @@
 import Image from "next/image";
 import GrowthImg from "@/assets/images/my/growth.png";
 import type { AuthMember } from "@/types/oauth/oauth";
+import LogoutButton from "./LogoutButton";
 
 export default function ProfileBanner({
   member,
@@ -35,10 +36,13 @@ export default function ProfileBanner({
             {nickname.charAt(0).toUpperCase() || "U"}
           </div>
         )}
-        <div className="flex min-w-0 flex-col gap-1 wrap-anywhere">
-          <p className="text-primary-900 text-[14px] font-bold lg:text-[16px]">
-            {nickname || email || "사용자"}
-          </p>
+        <div className="flex min-w-0 flex-col gap-0.5 wrap-anywhere">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 lg:gap-x-3">
+            <p className="text-primary-900 min-w-0 text-[14px] font-bold lg:text-[16px]">
+              {nickname || email || "사용자"}
+            </p>
+            <LogoutButton />
+          </div>
           <p className="text-sub-text text-[11px] font-normal lg:text-[12px]">
             {email || "-"}
           </p>

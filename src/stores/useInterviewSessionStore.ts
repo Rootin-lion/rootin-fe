@@ -30,7 +30,7 @@ export function createIntroMessages(
       kind: "INTRO",
       text: cameraEnabled
         ? "안녕하세요. 면접을 시작하기 전에 먼저 카메라를 켜고 본인의\n화면이 잘 나오는지 확인해주세요."
-        : "안녕하세요. 모바일에서는 카메라 없이 면접을 진행합니다.\n질문을 읽고 아래 입력창에 답변해주세요.",
+        : "안녕하세요. 카메라 없이 면접을 진행합니다.\n질문을 읽고 아래 입력창에 답변해주세요.",
     },
     {
       id: "intro-start",

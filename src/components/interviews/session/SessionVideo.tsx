@@ -1,19 +1,30 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import CameraOffIcon from "@/assets/icons/interviews/camera-off.svg";
 import { useInterviewMedia } from "@/components/interviews/InterviewMediaProvider";
 import { MOBILE_INTERVIEW_QUERY } from "@/lib/interviews/cameraPolicy";
 
-export default function SessionVideo() {
+export default function SessionVideo({
+  cameraEnabled,
+}: {
+  cameraEnabled: boolean;
+}) {
   const { stream, startCamera } = useInterviewMedia();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [cameraError, setCameraError] = useState(false);
   const hasLiveVideo =
-    stream?.getVideoTracks().some((track) => track.readyState === "live") ??
-    false;
+    cameraEnabled &&
+    (stream?.getVideoTracks().some((track) => track.readyState === "live") ??
+      false);
+  const cameraUnavailable = !cameraEnabled || cameraError;
 
   useEffect(() => {
-    if (hasLiveVideo || window.matchMedia(MOBILE_INTERVIEW_QUERY).matches)
+    if (
+      !cameraEnabled ||
+      hasLiveVideo ||
+      window.matchMedia(MOBILE_INTERVIEW_QUERY).matches
+    )
       return;
 
     let active = true;
@@ -24,10 +35,11 @@ export default function SessionVideo() {
     return () => {
       active = false;
     };
-  }, [hasLiveVideo, startCamera]);
+  }, [cameraEnabled, hasLiveVideo, startCamera]);
 
   const retryCamera = async () => {
-    if (window.matchMedia(MOBILE_INTERVIEW_QUERY).matches) return;
+    if (!cameraEnabled || window.matchMedia(MOBILE_INTERVIEW_QUERY).matches)
+      return;
     setCameraError(false);
     try {
       await startCamera();
@@ -39,17 +51,19 @@ export default function SessionVideo() {
   useEffect(() => {
     const video = videoRef.current;
 
-    if (!video || !stream) return;
+    if (!cameraEnabled || !video || !stream) return;
 
     video.srcObject = stream;
 
     return () => {
       video.srcObject = null;
     };
-  }, [stream]);
+  }, [cameraEnabled, stream]);
 
   return (
-    <div className="h-104 w-full overflow-hidden rounded-xl bg-gray-400">
+    <div
+      className={`h-104 w-full overflow-hidden rounded-xl ${cameraUnavailable && !hasLiveVideo ? "bg-gray-100" : "bg-gray-400"}`}
+    >
       {stream && hasLiveVideo ? (
         <video
           ref={videoRef}
@@ -61,13 +75,33 @@ export default function SessionVideo() {
         />
       ) : (
         <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
-          <p>
-            {cameraError
-              ? "카메라 권한이나 연결 상태를 확인해주세요."
-              : "카메라 연결 중..."}
+          {cameraUnavailable && (
+            <div
+              aria-hidden="true"
+              className="mb-1 flex size-24 items-center justify-center rounded-full border border-gray-300 bg-gray-200 text-gray-500"
+            >
+              <CameraOffIcon className="size-12" />
+            </div>
+          )}
+          <p
+            className={
+              cameraUnavailable
+                ? "text-[13px] leading-5 text-gray-600"
+                : undefined
+            }
+          >
+            {!cameraEnabled
+              ? "카메라 없이 면접을 진행하고 있어요."
+              : cameraError
+                ? "카메라 권한이나 연결 상태를 확인해주세요."
+                : "카메라 연결 중..."}
           </p>
-          {cameraError && (
-            <button type="button" onClick={retryCamera} className="underline">
+          {cameraEnabled && cameraError && (
+            <button
+              type="button"
+              onClick={retryCamera}
+              className="min-h-9 cursor-pointer rounded-lg border border-gray-300 bg-white px-4 text-[12px] font-medium text-gray-600 transition-colors hover:bg-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
+            >
               다시 연결
             </button>
           )}

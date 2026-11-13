@@ -1,5 +1,9 @@
 "use server";
 
+import { cookies } from "next/headers";
+import { redirect, RedirectType } from "next/navigation";
+import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
+import { SESSION_TOKEN_COOKIE } from "@/constants/auth/sessionTokenCookie";
 import {
   getMyBookmarks,
   getMyDashboard,
@@ -9,6 +13,13 @@ import {
 import { actionFailure } from "@/lib/shared/actionFailure";
 import { executeNestedDataAction } from "@/lib/shared/executeDataAction";
 import { apiError } from "@/lib/shared/apiError";
+
+export async function logoutAction() {
+  const cookieStore = await cookies();
+  cookieStore.delete(SESSION_TOKEN_COOKIE);
+  cookieStore.delete(MEMBER_SNAPSHOT_COOKIE);
+  redirect("/login", RedirectType.replace);
+}
 
 // 대시보드
 export async function getMyDashboardAction() {
