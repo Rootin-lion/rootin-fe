@@ -20,9 +20,9 @@ const roadmapItems = [
 
 function RoadmapArrow() {
   return (
-    <div className="mt-4 hidden w-8 shrink-0 items-center text-[#7C8696] md:flex lg:w-16">
+    <div className="absolute top-3.5 right-0 hidden w-5 translate-x-1/2 items-center text-[#7C8696] md:flex lg:static lg:mt-4 lg:w-16 lg:shrink-0 lg:translate-x-0">
       <span className="block h-0 w-full border-t-[3px] border-dotted border-current" />
-      <span className="block h-3 w-3 shrink-0 rotate-45 border-t-[3px] border-r-[3px] border-current" />
+      <span className="block h-2 w-2 shrink-0 rotate-45 border-t-[3px] border-r-[3px] border-current lg:h-3 lg:w-3" />
     </div>
   );
 }
@@ -54,14 +54,14 @@ export default function RoadmapBox() {
       ref={boxRef}
       role="region"
       tabIndex={0}
-      className={`roadmap-list bg-bg-ivory mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl border border-[#E1E1E1] px-5 py-4 text-left md:max-w-none md:flex-row md:gap-2 md:overflow-x-auto md:rounded-xl md:bg-white md:px-4 md:py-6 lg:px-8 lg:py-8 ${
+      className={`roadmap-list bg-bg-ivory mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl border border-[#E1E1E1] px-5 py-4 text-left md:grid md:max-w-none md:grid-cols-7 md:gap-0 md:rounded-xl md:bg-white md:px-4 md:py-6 lg:flex lg:flex-row lg:gap-2 lg:overflow-x-auto lg:px-8 lg:py-8 ${
         isVisible ? "is-visible" : ""
       }`}
     >
       {roadmapItems.map((item, index) => (
         <div
           key={item.step}
-          className="roadmap-reveal relative w-full md:mx-auto md:flex md:w-auto md:shrink-0 md:items-start md:gap-2"
+          className="roadmap-reveal relative w-full md:min-w-0 lg:mx-auto lg:flex lg:w-auto lg:shrink-0 lg:items-start lg:gap-2"
           style={{ animationDelay: `${index * 500}ms` }}
         >
           {index < roadmapItems.length - 1 && (
