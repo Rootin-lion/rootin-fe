@@ -10,7 +10,7 @@ export default defineConfig({
 
     setupFiles: ["./test/setup/vitest.setup.ts"],
 
-    include: ["test/unit/**/*.test.ts"],
+    include: ["test/unit/**/*.test.ts", "test/components/**/*.test.tsx"],
 
     clearMocks: true,
   },
