@@ -10,8 +10,8 @@ export default function InterviewTopic({
   onChange: (category: InterviewCategoryType) => void;
 }) {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="text-body-3 text-text">면접 분야</div>
+    <fieldset className="min-w-0">
+      <legend className="text-body-3 text-text mb-2">면접 분야</legend>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:gap-4">
         {Field_LIST.map((item) => (
           <OptionButton
@@ -24,6 +24,6 @@ export default function InterviewTopic({
           </OptionButton>
         ))}
       </div>
-    </div>
+    </fieldset>
   );
 }

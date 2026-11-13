@@ -9,8 +9,8 @@ export default function InterviewMode({
   onChange: (mode: InterviewModeType) => void;
 }) {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="text-body-3 text-text">면접 방식</div>
+    <fieldset className="min-w-0">
+      <legend className="text-body-3 text-text mb-2">면접 방식</legend>
       <div className="grid grid-cols-2 gap-2">
         <OptionButton
           variant="filled"
@@ -27,6 +27,6 @@ export default function InterviewMode({
           음성
         </OptionButton>
       </div>
-    </div>
+    </fieldset>
   );
 }
