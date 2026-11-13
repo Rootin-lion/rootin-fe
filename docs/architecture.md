@@ -1,6 +1,6 @@
 # 아키텍처
 
-기준일: 2026-11-09. 현재 프로젝트의 폴더 구조, 라우트, API 요청과 상태 관리 방식을 설명합니다.
+기준일: 2026-11-13. 현재 프로젝트의 폴더 구조, 라우트, API 요청과 상태 관리 방식을 설명합니다.
 
 ## 기술 구성
 
@@ -12,8 +12,11 @@
 | Zustand 5                          | 대회 참가 정보, 오늘의 대회, 면접 대화 상태                                                                  |
 | Chart.js · react-chartjs-2         | 마이페이지 [분야별 정답률 차트](../src/components/my/dashboard/CategoryAccuracyChart.tsx)                    |
 | SVGR                               | [next.config.ts](../next.config.ts)의 Turbopack 규칙을 통한 SVG React 컴포넌트 가져오기                      |
+| Vitest · Testing Library · jsdom   | [Vitest 설정](../vitest.config.mts), [단위 테스트](../test/unit), DOM matcher와 cleanup 공통 setup           |
 
 패키지 선언과 실행 명령은 [package.json](../package.json)에 있습니다.
+
+코드 배치·이름·import와 커밋 메시지 작성 기준은 [커밋·코드 컨벤션](./conventions.md)에 정리되어 있습니다.
 
 ## 전체 흐름
 
@@ -37,17 +40,19 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 
 ## 폴더별 책임
 
-| 위치             | 책임                                                         | 대표 코드                                                                                                |
-| ---------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| `src/app`        | 페이지 진입, 레이아웃, URL 해석, Server Action·Route Handler | [서비스 레이아웃](<../src/app/(service)/layout.tsx>)                                                     |
-| `src/apis`       | 엔드포인트·메서드·요청 데이터 정의, 인증 헤더와 재발급       | [공통 클라이언트](../src/apis/client.ts), [대회 요청](../src/apis/competitions.ts)                       |
-| `src/components` | 화면 렌더링, 이벤트, 기능별 UI와 전용 훅                     | [문제 풀이](../src/components/competition/problem/ProblemContent.tsx)                                    |
-| `src/hooks`      | 여러 화면에서 사용하는 모달·에러·타이머 로직                 | [에러 모달 훅](../src/hooks/useErrorModal.ts)                                                            |
-| `src/stores`     | 화면 간 공유 상태와 일부 세션 상태 저장                      | [면접 상태](../src/stores/useInterviewSessionStore.ts)                                                   |
-| `src/lib`        | UI와 분리한 파싱·응답 처리·정책·포맷 함수                    | [프로필 파서](../src/lib/auth/getMemberSnapshot.ts), [응답 처리](../src/lib/shared/executeDataAction.ts) |
-| `src/constants`  | 선택 항목, 경로 구성, 쿠키·OAuth 설정                        | [마이페이지 URL 규칙](../src/constants/my/navigation.ts)                                                 |
-| `src/types`      | 기능별 요청·응답·화면 상태 타입                              | [면접 타입](../src/types/interviews/interview.ts)                                                        |
-| `src/assets`     | 이미지·SVG                                                   | [SVG 설정](../next.config.ts)                                                                            |
+| 위치             | 책임                                                                  | 대표 코드                                                                                                |
+| ---------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `src/app`        | 페이지 진입, 레이아웃, URL 해석, Server Action·Route Handler          | [서비스 레이아웃](<../src/app/(service)/layout.tsx>)                                                     |
+| `src/apis`       | 엔드포인트·메서드·요청 데이터 정의, 인증 헤더와 재발급                | [공통 클라이언트](../src/apis/client.ts), [대회 요청](../src/apis/competitions.ts)                       |
+| `src/components` | 화면 렌더링, 이벤트, 기능별 UI와 전용 훅                              | [문제 풀이](../src/components/competition/problem/ProblemContent.tsx)                                    |
+| `src/hooks`      | 여러 화면에서 사용하는 모달·에러·타이머 로직                          | [에러 모달 훅](../src/hooks/useErrorModal.ts)                                                            |
+| `src/stores`     | 화면 간 공유 상태와 일부 세션 상태 저장                               | [면접 상태](../src/stores/useInterviewSessionStore.ts)                                                   |
+| `src/lib`        | UI와 분리한 파싱·응답 처리·정책·포맷 함수                             | [프로필 파서](../src/lib/auth/getMemberSnapshot.ts), [응답 처리](../src/lib/shared/executeDataAction.ts) |
+| `src/constants`  | 선택 항목, 경로 구성, 쿠키·OAuth 설정                                 | [마이페이지 URL 규칙](../src/constants/my/navigation.ts)                                                 |
+| `src/types`      | 기능별 요청·응답·화면 상태 타입                                       | [면접 타입](../src/types/interviews/interview.ts)                                                        |
+| `src/assets`     | 이미지·SVG                                                            | [SVG 설정](../next.config.ts)                                                                            |
+| `test/unit`      | 입력 검증·선택 상태·페이지·URL·날짜 계산과 면접 세션 복원 단위 테스트 | [마이페이지 URL·페이지 테스트](../test/unit/constants/my/navigation.test.ts)                             |
+| `test/setup`     | 테스트 공통 환경 초기화와 DOM 정리                                    | [Vitest setup](../test/setup/vitest.setup.ts)                                                            |
 
 기능 전용 훅은 해당 컴포넌트 폴더에 함께 둡니다. 예를 들어 `useCompetitionProblems`, `useInterviewAnswer`, `useMyPagedList`는 각각 문제 풀이·면접·마이페이지 영역에 있습니다.
 
@@ -84,6 +89,7 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 - `executeResponseDataAction`은 `response.data`를 추출합니다. 답안 저장·북마크 변경 등에 사용합니다.
 - 공통 반환은 `{ ok: true, data }` 또는 `{ ok: false, error }`입니다. 온보딩 저장은 성공 시 `{ ok: true }`, 닉네임 중복 검사는 API 응답 본문을 반환합니다.
 - 공통 함수는 데이터 존재 확인과 오류 변환을 담당합니다. 면접 답변·리포트 생성 상태, 북마크 목록 등은 각 Action에서 추가 검증합니다.
+- 공통 응답 함수는 추출한 값이 falsy이면 실패로 처리합니다. `null`·`undefined`뿐 아니라 `0`·`false`·빈 문자열도 실패이며, 빈 배열과 빈 객체는 이 검사에서 성공으로 통과합니다.
 - [apiError](../src/lib/shared/apiError.ts)는 Next.js 제어 흐름 오류를 다시 던지고 백엔드 오류를 코드·메시지·상태로 변환합니다.
 - 에러 모달을 열지, 화면 안에 오류를 표시할지는 각 호출 화면이 결정합니다.
 
@@ -105,7 +111,7 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 - 최초 문제와 방문한 문제는 현재 화면의 메모리에만 보관합니다. 대회 변경·화면 이탈 시 폐기하며, 새로고침하면 서버에서 상태를 복원합니다. 조회 중 다른 문제를 선택하면 이전 응답으로 현재 화면을 덮어쓰지 않습니다.
 - 문제 상세 GET은 답안 저장 Server Action의 클라이언트 대기열과 분리합니다. 백엔드까지의 요청 자체가 없어지는 것은 아니며, 처음 방문하는 문제는 응답을 기다립니다.
 - 수동 제출 중 저장이 실패하면 제출을 중단하고 입력을 재개합니다. 시간 만료 시에는 저장 실패가 있어도 자동 제출을 진행하며, 최종 마감·답안 인정 여부는 서버가 판단합니다.
-- 로딩·저장 중 문구와 버튼 표시 변경은 이번 범위에 추가하지 않습니다. 배포 환경의 응답 시간과 실제 백엔드 동작은 별도 검증 대상입니다.
+- 배포 환경의 응답 시간과 실제 백엔드 저장·마감 판정은 로컬 단위 테스트로 검증되지 않습니다.
 
 ## 상태 관리
 
@@ -122,13 +128,30 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 
 면접 대화 복원은 [interviewSessionPersistence](../src/stores/interviewSessionPersistence.ts)에서 저장 데이터 구조를 검사합니다. 브라우저 저장값은 대화·선택 상태·남은 시간 복원에 사용하며, 인증 토큰은 서버에서 HttpOnly 쿠키로 읽습니다.
 
+### 면접 세션 복원
+
+- Zustand persist의 `merge`에서 `restoreSessions()`로 저장된 세션을 복원합니다.
+- 면접 ID는 양의 안전한 정수여야 하며, 안내 완료 여부와 메시지 배열의 구조를 검사합니다.
+- 메시지 하나라도 검사에 실패하면 해당 세션 전체를 제외하고 다른 정상 세션은 유지합니다. 안내·질문·답변·피드백·종료 메시지는 종류별 필드를 확인합니다.
+- 구버전 데이터에 `interviewCompleted`가 없어도 복원합니다. 종료 플래그가 `true`이거나 `COMPLETION` 메시지가 있으면 종료 상태이며, 둘 다 없으면 진행 중 상태입니다.
+- 이 복원 함수는 저장 데이터를 읽어 화면 상태로 정리하며, 백엔드의 면접 진행 상태나 답변 저장 여부를 조회하지 않습니다.
+
 ### 마이페이지 목록
 
 - `section`은 `dashboard`, `bookmark`, `review`, `interview`, `option` 중 하나입니다.
 - 페이지 번호는 1부터 시작합니다. [페이지 진입 코드](<../src/app/(service)/my/page.tsx>)가 잘못된 query를 기본값으로 정리하고 필요한 경우 정상 URL로 이동합니다.
 - [useMyPagedList](../src/components/my/hooks/useMyPagedList.ts)는 화면이 바뀐 뒤 도착한 이전 요청 결과를 무시합니다.
-- 북마크는 [useMyBookmarks](../src/components/my/bookmark/useMyBookmarks.ts)가 API의 전체 페이지를 모은 뒤 클라이언트에서 카테고리 필터와 페이지를 계산합니다.
+- 북마크는 [useMyBookmarks](../src/components/my/hooks/useMyBookmarks.ts)가 API의 전체 페이지를 모은 뒤 클라이언트에서 카테고리 필터와 페이지를 계산합니다.
 - 북마크 변경 요청에는 `problemId`, 상세 경로에는 `competitionId`와 `competitionProblemId`를 사용합니다.
+
+### 날짜 표시
+
+| 함수                                                                                            | 현재 동작                                                                            | 사용처                           |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | -------------------------------- |
+| [formatDottedDate](../src/lib/shared/formatDottedDate.ts)                                       | 앞 10글자의 `-`를 `.`으로 바꿈. 날짜 파싱이나 시간대 변환은 하지 않음                | 북마크·오답노트·면접 리포트 날짜 |
+| [formatCompetitionDateWithWeekday](../src/lib/competitions/formatCompetitionDateWithWeekday.ts) | 위 날짜 표기에 `Asia/Seoul` 기준 한국어 요일 추가. 파싱할 수 없으면 날짜 표기만 반환 | 대회 목록·결과 요약              |
+
+날짜 부분과 요일의 기준은 다릅니다. 예를 들어 `2026-11-13T23:30:00Z`는 현재 구현에서 `2026.11.13 (토)`로 표시됩니다. 날짜는 입력 문자열을 유지하고 요일만 서울 시간대로 계산하며, 이 동작은 단위 테스트로 확인합니다.
 
 ## 공통 UI와 브라우저 기능
 
@@ -138,3 +161,12 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 - 면접 결과 대기 화면은 [InterviewReportLoading](../src/components/interviews/result/InterviewReportLoading.tsx)에서 리포트 생성 Action을 호출합니다. 생성 중이거나 마지막 답변 분석 중인 `C409-6` 응답이면 3초 뒤 다시 요청하고, `COMPLETED`이면 결과 화면으로 이동합니다. 실패 시 오류 모달과 재시도 버튼을 표시합니다.
 
 화면 너비별 배치와 카메라·인앱 브라우저 처리는 [모바일 반응형 구현](./mobile-responsive-plan.md)에 정리되어 있습니다.
+
+## 개발 테스트
+
+- Vitest는 `test/unit/**/*.test.ts`의 순수 함수 테스트를 `jsdom`에서 실행합니다. React Testing Library 공통 setup은 있지만 `.test.tsx` 컴포넌트 테스트는 현재 수집하지 않습니다.
+- 테스트는 `src/`와 같은 경로를 사용합니다. 예를 들어 `src/stores/interviewSessionPersistence.ts`의 테스트는 `test/unit/stores/interviewSessionPersistence.test.ts`에 둡니다. 한 모듈의 여러 함수는 하나의 테스트 파일 안에서 `describe`로 구분합니다.
+- 2026-11-13 로컬 실행 결과는 8개 파일·114개 테스트 통과입니다. 이메일·관심 분야, 마이페이지 URL·페이지, 랭킹 페이지, 인앱 판별·Chrome URL, 날짜와 면접 세션 복원을 검증합니다.
+- Vitest는 Next.js 서버 없이 실행합니다. 현재 OAuth·백엔드 통합·실제 모바일 기기의 동작을 검증하는 자동 테스트는 없습니다.
+
+실행 명령, 테스트 파일별 범위와 작성 방법은 [개발 테스트](./testing.md)를 참고합니다.
