@@ -5,11 +5,15 @@ export default function SessionForm({
   onChange,
   onSubmit,
   disabled = false,
+  onCompositionStart,
+  onCompositionEnd,
 }: {
   answer: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
   disabled?: boolean;
+  onCompositionStart?: () => void;
+  onCompositionEnd?: () => void;
 }) {
   return (
     <div className="w-full shrink-0 border-t border-t-[#E5E7EB] bg-white px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))] md:px-6 md:py-3">
@@ -17,6 +21,10 @@ export default function SessionForm({
         className="relative mx-auto w-full max-w-5xl"
         onSubmit={(event) => {
           event.preventDefault();
+          const nativeEvent = event.nativeEvent as Event & {
+            isComposing?: boolean;
+          };
+          if (nativeEvent.isComposing) return;
           onSubmit();
         }}
       >
@@ -25,6 +33,12 @@ export default function SessionForm({
           value={answer}
           onChange={onChange}
           disabled={disabled}
+          onCompositionStart={onCompositionStart}
+          onCompositionEnd={onCompositionEnd}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && event.nativeEvent.isComposing)
+              event.preventDefault();
+          }}
           className="bg-bg-ivory focus:border-primary focus:ring-primary border-primary-300 min-h-12 w-full rounded-xl border-2 py-3 pr-14 pl-3 text-[16px] focus:border focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:pr-12 md:pl-4"
         />
         <button

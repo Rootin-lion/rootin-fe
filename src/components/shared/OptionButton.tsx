@@ -5,6 +5,7 @@ interface OptionButtonProps {
   variant: OptionButtonType;
   selected: boolean;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 const VARIANT_STYLES = {
@@ -25,6 +26,7 @@ export default function OptionButton({
   variant,
   selected,
   onClick,
+  disabled = false,
 }: OptionButtonProps) {
   const styles = VARIANT_STYLES[variant];
 
@@ -33,7 +35,8 @@ export default function OptionButton({
       type="button"
       aria-pressed={selected}
       onClick={onClick}
-      className={`cursor-pointer border ${styles.base} ${
+      disabled={disabled}
+      className={`cursor-pointer border disabled:cursor-not-allowed disabled:opacity-40 ${styles.base} ${
         selected ? styles.selected : styles.unselected
       }`}
     >

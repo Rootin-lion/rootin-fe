@@ -5,6 +5,7 @@ import { logoutAction } from "@/app/(service)/my/action";
 import { useCompetitionParticipationStore } from "@/stores/useCompetitionParticipationStore";
 import { useInterviewSessionStore } from "@/stores/useInterviewSessionStore";
 import { useTodayCompetitionStore } from "@/stores/useTodayCompetitionStore";
+import { useSpeechRecognition } from "@/components/shared/SpeechRecognitionProvider";
 
 function clearClientSession() {
   useCompetitionParticipationStore.getState().clearParticipation();
@@ -53,8 +54,15 @@ export default function LogoutButton({
 }: {
   variant?: LogoutButtonVariant;
 }) {
+  const { stop } = useSpeechRecognition();
   return (
-    <form action={logoutAction} onSubmit={clearClientSession}>
+    <form
+      action={logoutAction}
+      onSubmit={() => {
+        stop();
+        clearClientSession();
+      }}
+    >
       <LogoutSubmitButton variant={variant} />
     </form>
   );

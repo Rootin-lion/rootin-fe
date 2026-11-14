@@ -14,12 +14,14 @@ export default function InterviewSetup({
   onQuestionCountChange,
   onInterviewModeChange,
   onStart,
+  voiceDisabled = false,
 }: {
   config: InterviewConfig;
   onCategoryChange: (category: InterviewCategoryType) => void;
   onQuestionCountChange: (questionCount: null | number) => void;
   onInterviewModeChange: (interviewMode: InterviewModeType) => void;
   onStart: () => void;
+  voiceDisabled?: boolean;
 }) {
   const isValidQuestionCount =
     config.questionCount !== null &&
@@ -37,6 +39,7 @@ export default function InterviewSetup({
       <InterviewMode
         interviewMode={config.interviewMode}
         onChange={onInterviewModeChange}
+        voiceDisabled={voiceDisabled}
       />
       <Button
         isActive={isValidQuestionCount}

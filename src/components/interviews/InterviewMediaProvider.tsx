@@ -12,7 +12,7 @@ import { MOBILE_INTERVIEW_QUERY } from "@/lib/interviews/cameraPolicy";
 
 type InterviewMediaContextValue = {
   stream: MediaStream | null;
-  startCamera: () => Promise<void>;
+  startCamera: (withMicrophone?: boolean) => Promise<void>;
   stopCamera: () => void;
 };
 
@@ -31,12 +31,16 @@ export function InterviewMediaProvider({
   const cameraRequestIdRef = useRef(0);
   const [stream, setStream] = useState<MediaStream | null>(null);
 
-  const startCamera = useCallback(async () => {
+  const startCamera = useCallback(async (withMicrophone = false) => {
     if (window.matchMedia(MOBILE_INTERVIEW_QUERY).matches) return;
     if (
       streamRef.current
         ?.getVideoTracks()
-        .some((track) => track.readyState === "live")
+        .some((track) => track.readyState === "live") &&
+      (!withMicrophone ||
+        streamRef.current
+          ?.getAudioTracks()
+          .some((track) => track.readyState === "live"))
     ) {
       return;
     }
@@ -45,7 +49,7 @@ export function InterviewMediaProvider({
 
     const requestId = ++cameraRequestIdRef.current;
     const pendingStart = navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
+      .getUserMedia({ video: true, audio: withMicrophone })
       .then((cameraStream) => {
         if (
           !mountedRef.current ||
@@ -56,6 +60,7 @@ export function InterviewMediaProvider({
           return;
         }
 
+        streamRef.current?.getTracks().forEach((track) => track.stop());
         streamRef.current = cameraStream;
         setStream(cameraStream);
       });

@@ -9,7 +9,11 @@ export default function ProblemSubmitModal({
   onSubmit: () => void;
 }) {
   return (
-    <ModalWrapper onClose={onClose} className="max-md:gap-4 max-md:py-5">
+    <ModalWrapper
+      onClose={onClose}
+      describedByContent
+      className="max-md:gap-4 max-md:py-5"
+    >
       <ModalWrapper.Box>
         <ModalWrapper.Title className="max-md:text-[14px]">
           정말 제출하시겠습니까?

@@ -24,6 +24,8 @@ import SessionForm from "./SessionForm";
 import SessionVideo from "./SessionVideo";
 import SessionTimer from "./SessionTimer";
 import useInterviewAnswer from "./useInterviewAnswer";
+import useSpeechInput from "@/hooks/useSpeechInput";
+import type { InterviewModeType } from "@/types/interviews/interview";
 
 const subscribeToHydration = () => () => {};
 const getClientSnapshot = () => true;
@@ -42,14 +44,16 @@ export default function InterviewSessionContent({
   profileImageUrl,
   category,
   questionCount,
+  interviewMode = "TEXT",
 }: {
   interviewId: number;
   profileImageUrl: string | null;
   category: string | null;
   questionCount: number | null;
+  interviewMode?: InterviewModeType;
 }) {
   const router = useRouter();
-  const { stopCamera } = useInterviewMedia();
+  const { stream, stopCamera } = useInterviewMedia();
   const isMobile = useSyncExternalStore(
     subscribeToViewport,
     getMobileSnapshot,
@@ -110,10 +114,11 @@ export default function InterviewSessionContent({
   const navigationPendingRef = useRef(false);
   const {
     answer,
+    updateAnswer,
+    canAcceptAnswer,
     pendingAnswer,
     isTyping,
     isPresentingFeedback,
-    handleAnswerChange,
     handleSubmitClick,
     handleFeedbackComplete,
     error,
@@ -126,6 +131,31 @@ export default function InterviewSessionContent({
     interviewCompleted,
     messages,
   });
+  const inputDisabled =
+    !sessionReady ||
+    !isIntroComplete ||
+    interviewCompleted ||
+    isTyping ||
+    isPresentingFeedback ||
+    isModalOpen;
+  const currentQuestionId =
+    messages.findLast((message) => message.kind === "QUESTION")?.question
+      .questionId ?? "intro";
+  const audioTrack = stream
+    ?.getAudioTracks()
+    .find((track) => track.readyState === "live");
+  const speech = useSpeechInput({
+    value: answer,
+    onValueChange: updateAnswer,
+    disabled: inputDisabled,
+    available: interviewMode === "VOICE" && !interviewCompleted,
+    draftKey: currentQuestionId,
+    canAcceptTranscript: canAcceptAnswer,
+    autoStart: interviewMode === "VOICE" && Boolean(audioTrack),
+    audioTrack,
+  });
+  const submitAnswer = () =>
+    handleSubmitClick(speech.snapshot(), () => speech.resetDraft(""));
   const displayedMessages = pendingAnswer
     ? [...messages, pendingAnswer]
     : messages;
@@ -182,7 +212,7 @@ export default function InterviewSessionContent({
   ]);
 
   return (
-    <div className="bg-bg-green-50 flex h-[calc(100dvh-56px)] min-h-80 w-full flex-none flex-col justify-between gap-3 md:h-auto md:min-h-0 md:flex-1 md:gap-19">
+    <div className="bg-bg-green-50 flex h-[calc(100dvh-56px)] min-h-80 w-full flex-none flex-col justify-between gap-3 md:min-h-0 md:gap-4 lg:h-auto lg:flex-1 lg:gap-19">
       {isModalOpen && (
         <ErrorModal
           code={error.code}
@@ -191,7 +221,7 @@ export default function InterviewSessionContent({
         />
       )}
 
-      <div className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col gap-3 px-4 pt-4 md:max-h-126 md:flex-row md:gap-6 md:px-6 md:pt-6 lg:gap-10 xl:px-0">
+      <div className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col gap-3 px-4 pt-4 md:flex-row md:gap-6 md:px-6 md:pt-6 lg:max-h-126 lg:gap-10 xl:px-0">
         {sessionReady && (
           <SessionChat
             cameraEnabled={cameraEnabled}
@@ -208,24 +238,23 @@ export default function InterviewSessionContent({
             onCompletionComplete={handleCompletionComplete}
           />
         )}
-        <div className="order-first flex shrink-0 flex-col gap-4 md:order-last md:w-56 lg:w-70.5">
+        <div className="order-first flex shrink-0 flex-col gap-4 md:order-last md:min-h-0 md:w-56 lg:w-70.5">
           <SessionTimer interviewId={interviewId} />
           {sessionReady && !isMobile && (
-            <SessionVideo cameraEnabled={cameraEnabled} />
+            <SessionVideo
+              cameraEnabled={cameraEnabled && !isMobile}
+              withMicrophone={interviewMode === "VOICE"}
+            />
           )}
         </div>
       </div>
       <SessionForm
         answer={answer}
-        onChange={handleAnswerChange}
-        onSubmit={handleSubmitClick}
-        disabled={
-          !sessionReady ||
-          !isIntroComplete ||
-          interviewCompleted ||
-          isTyping ||
-          isPresentingFeedback
-        }
+        onChange={(event) => speech.changeValue(event.target.value)}
+        onSubmit={submitAnswer}
+        onCompositionStart={speech.onCompositionStart}
+        onCompositionEnd={speech.onCompositionEnd}
+        disabled={inputDisabled}
       />
     </div>
   );

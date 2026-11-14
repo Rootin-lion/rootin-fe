@@ -1,6 +1,6 @@
 # 커밋·코드 컨벤션
 
-기준일: 2026-11-13. 커밋 및 코드 컨벤션 양식을 설명합니다.
+기준일: 2026-11-14. 커밋 및 코드 컨벤션 양식을 설명합니다.
 
 ## 커밋 메시지
 
@@ -35,19 +35,19 @@ git diff --cached
 
 ## 코드 배치와 이름
 
-| 대상            | 기준                                        | 예시                                                        |
-| --------------- | ------------------------------------------- | ----------------------------------------------------------- |
-| 컴포넌트        | 파일·컴포넌트 이름에 PascalCase 사용        | `ProblemContent.tsx`, `ProblemSubmitModal.tsx`              |
-| 훅              | `use`로 시작하는 camelCase 사용             | `useCompetitionAnswers.ts`, `useMyPagedList.ts`             |
-| 일반 함수·변수  | 역할을 나타내는 camelCase 사용              | `getCompetitionProblems`, `selectedOptionByProblemId`       |
-| 설정 상수       | UPPER_SNAKE_CASE 사용                       | `SESSION_TOKEN_COOKIE`, `MOBILE_INTERVIEW_QUERY`            |
-| 타입·인터페이스 | PascalCase 사용. 기존 모듈의 선언 방식 유지 | `ApiError`, `InterviewSessionSnapshot`                      |
-| 테스트          | 원본 모듈명에 `.test.ts` 사용               | `navigation.test.ts`, `interviewSessionPersistence.test.ts` |
+| 대상            | 기준                                                | 예시                                                  |
+| --------------- | --------------------------------------------------- | ----------------------------------------------------- |
+| 컴포넌트        | 파일·컴포넌트 이름에 PascalCase 사용                | `ProblemContent.tsx`, `ProblemSubmitModal.tsx`        |
+| 훅              | `use`로 시작하는 camelCase 사용                     | `useCompetitionAnswers.ts`, `useMyPagedList.ts`       |
+| 일반 함수·변수  | 역할을 나타내는 camelCase 사용                      | `getCompetitionProblems`, `selectedOptionByProblemId` |
+| 설정 상수       | UPPER_SNAKE_CASE 사용                               | `SESSION_TOKEN_COOKIE`, `MOBILE_INTERVIEW_QUERY`      |
+| 타입·인터페이스 | PascalCase 사용. 기존 모듈의 선언 방식 유지         | `ApiError`, `InterviewSessionSnapshot`                |
+| 테스트          | 순수 함수는 `.test.ts`, 컴포넌트는 `.test.tsx` 사용 | `navigation.test.ts`, `SessionForm.test.tsx`          |
 
 - 여러 화면에서 쓰는 훅은 `src/hooks/`, 기능 전용 훅은 해당 `src/components/` 영역에 둡니다.
 - UI와 분리한 포맷·검증·정책 함수는 `src/lib/`, 공유 상태는 `src/stores/`에 둡니다.
 - 서버 요청은 `src/apis/`, 화면에서 호출하는 Server Action은 해당 기능의 `action.ts`에 둡니다. 북마크 Action은 현재 `src/components/bookmark/action.ts`에 있습니다.
-- 테스트는 `src/` 경로를 따라 `test/unit/`에 둡니다. 데이터·mock은 한 파일에서만 쓰면 그 테스트 안에 정의합니다.
+- 순수 함수 테스트는 `src/` 경로를 따라 `test/unit/`에, 컴포넌트 테스트는 `src/components/` 경로를 따라 `test/components/`에 둡니다. 데이터·mock은 한 파일에서만 쓰면 그 테스트 안에 정의합니다.
 
 전체 폴더 책임은 [아키텍처](./architecture.md#폴더별-책임), 테스트 구성은 [개발 테스트](./testing.md#파일-배치)를 참고합니다.
 
@@ -86,12 +86,12 @@ git diff --cached
 
 ## 포맷과 검증
 
-| 도구·설정                            | 적용 범위                                                                         |
-| ------------------------------------ | --------------------------------------------------------------------------------- |
-| [Prettier 설정](../.prettierrc.json) | `prettier-plugin-tailwindcss` 등록. 클래스 순서 정리와 Prettier 기본 포맷 사용    |
-| [ESLint 설정](../eslint.config.mjs)  | Next.js Core Web Vitals·TypeScript 규칙. import·커밋 형식의 자동 정렬·검사는 없음 |
-| [TypeScript 설정](../tsconfig.json)  | `strict: true`, `noEmit: true`                                                    |
-| [Vitest 설정](../vitest.config.mts)  | `test/unit/**/*.test.ts` 수집, `jsdom`, 공통 setup                                |
+| 도구·설정                            | 적용 범위                                                                          |
+| ------------------------------------ | ---------------------------------------------------------------------------------- |
+| [Prettier 설정](../.prettierrc.json) | `prettier-plugin-tailwindcss` 등록. 클래스 순서 정리와 Prettier 기본 포맷 사용     |
+| [ESLint 설정](../eslint.config.mjs)  | Next.js Core Web Vitals·TypeScript 규칙. import·커밋 형식의 자동 정렬·검사는 없음  |
+| [TypeScript 설정](../tsconfig.json)  | `strict: true`, `noEmit: true`                                                     |
+| [Vitest 설정](../vitest.config.mts)  | `test/unit/**/*.test.ts`·`test/components/**/*.test.tsx` 수집, `jsdom`, 공통 setup |
 
 변경 범위에 맞는 검사를 실행합니다. 문서는 포맷·링크를 확인하고, TypeScript·테스트 코드를 바꾼 경우 관련 정적 검사와 테스트를 실행합니다.
 

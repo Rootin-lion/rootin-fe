@@ -11,7 +11,7 @@ export default function ErrorModal({
   onClose: () => void;
 }) {
   return (
-    <ModalWrapper onClose={onClose}>
+    <ModalWrapper onClose={onClose} describedByContent>
       <ModalWrapper.Box>
         <ModalWrapper.Title>{code}</ModalWrapper.Title>
         <ModalWrapper.Content>{message}</ModalWrapper.Content>

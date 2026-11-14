@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import MobileInAppBrowserGate from "@/components/shared/MobileInAppBrowserGate";
+import { SpeechRecognitionProvider } from "@/components/shared/SpeechRecognitionProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,7 +22,9 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-bg-ivory flex min-h-full flex-col">
-        <MobileInAppBrowserGate>{children}</MobileInAppBrowserGate>
+        <MobileInAppBrowserGate>
+          <SpeechRecognitionProvider>{children}</SpeechRecognitionProvider>
+        </MobileInAppBrowserGate>
       </body>
     </html>
   );

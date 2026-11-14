@@ -13,6 +13,9 @@ import ErrorModal from "@/components/shared/ErrorModal";
 import ModalWrapper from "@/components/shared/ModalWrapper";
 import useErrorModal from "@/hooks/useErrorModal";
 import useModal from "@/hooks/useModal";
+import useMediaAvailability from "@/hooks/useMediaAvailability";
+import { useSpeechRecognition } from "@/components/shared/SpeechRecognitionProvider";
+import { canRequestMedia } from "@/lib/shared/mediaPolicy";
 import {
   getInterviewCameraKey,
   MOBILE_INTERVIEW_QUERY,
@@ -32,6 +35,9 @@ const getServerSnapshot = () => true;
 
 export default function InterviewContent() {
   const router = useRouter();
+  const { canUseMedia } = useMediaAvailability();
+  const { supported: speechSupported } = useSpeechRecognition();
+  const voiceAvailable = canUseMedia && speechSupported;
   const isMobile = useSyncExternalStore(
     subscribeToViewport,
     getMobileSnapshot,
@@ -73,12 +79,20 @@ export default function InterviewContent() {
   };
 
   const handleInterviewModeChange = (interviewMode: InterviewModeType) => {
+    if (interviewMode === "VOICE" && (!canRequestMedia() || !speechSupported))
+      return;
     setConfig((prev) => ({ ...prev, interviewMode }));
   };
 
   const createInterview = async (questionCount: number) => {
     try {
-      const res = await createInterviewAction({ ...config, questionCount });
+      const interviewMode =
+        canRequestMedia() && speechSupported ? config.interviewMode : "TEXT";
+      const res = await createInterviewAction({
+        ...config,
+        questionCount,
+        interviewMode,
+      });
 
       if (!res.ok) {
         setErrorContext(res.error);
@@ -102,6 +116,7 @@ export default function InterviewContent() {
       const query = new URLSearchParams({
         category: config.category,
         questionCount: String(questionCount),
+        interviewMode,
       });
 
       router.push(`/interviews/${interviewId}?${query.toString()}`);
@@ -138,10 +153,11 @@ export default function InterviewContent() {
     ).matches;
 
     try {
-      if (cameraEnabledForStartRef.current) await startCamera();
+      if (cameraEnabledForStartRef.current)
+        await startCamera(config.interviewMode === "VOICE" && speechSupported);
       await createInterview(questionCount);
     } catch {
-      setCameraError("카메라 권한과 연결된 장치를 확인해주세요.");
+      setCameraError("카메라·마이크 권한과 연결된 장치를 확인해주세요.");
       setIsStarting(false);
     }
   };
@@ -214,11 +230,12 @@ export default function InterviewContent() {
       )}
 
       <InterviewSetup
-        config={config}
+        config={voiceAvailable ? config : { ...config, interviewMode: "TEXT" }}
         onCategoryChange={handleCategoryChange}
         onQuestionCountChange={handleQuestionCountChange}
         onInterviewModeChange={handleInterviewModeChange}
         onStart={openModal}
+        voiceDisabled={!voiceAvailable}
       />
       <InterviewPreview category={config.category} />
     </div>

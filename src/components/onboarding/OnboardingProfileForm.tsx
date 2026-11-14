@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useCallback, useEffect, useState, useTransition } from "react";
 import type { OnboardingPayload } from "@/types/auth/auth";
 import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
 import {
@@ -15,6 +15,8 @@ import AgeGroupSelector from "@/components/profile/AgeGroupSelector";
 import useErrorModal from "@/hooks/useErrorModal";
 import { toggleInterestField } from "@/lib/profile/toggleInterestField";
 import InterestFieldSelector from "./InterestFieldSelector";
+import useSpeechInput from "@/hooks/useSpeechInput";
+import SpeechInputButton from "@/components/shared/SpeechInputButton";
 
 export default function OnboardingProfileForm({ email }: { email: string }) {
   const router = useRouter();
@@ -37,13 +39,16 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
   const [, startNicknameCheckTransition] = useTransition();
 
   // 닉네임
-  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nickname = e.target.value;
-
+  const updateNickname = useCallback((nickname: string) => {
     setProfileForm((prev) => ({ ...prev, nickname }));
-
     setIsNicknameAvailable(null);
-  };
+  }, []);
+  const nicknameSpeech = useSpeechInput({
+    value: profileForm.nickname,
+    onValueChange: updateNickname,
+    disabled: isSubmitting || isModalOpen,
+    available: !isSubmitting,
+  });
 
   // 나이
   const handleAgeGroupToggle = (targetAge: string) => {
@@ -99,7 +104,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
   useEffect(() => {
     const nickname = profileForm.nickname.trim();
 
-    if (!nickname) return;
+    if (!nickname || nicknameSpeech.enabled) return;
 
     // 이전 값 보호
     let shouldIgnoreResult = false;
@@ -124,7 +129,7 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
       shouldIgnoreResult = true;
       window.clearTimeout(timeoutId);
     };
-  }, [profileForm.nickname]);
+  }, [profileForm.nickname, nicknameSpeech.enabled]);
 
   return (
     <main className="bg-primary-50 flex min-h-dvh flex-col items-center px-6 pt-6 pb-[max(24px,env(safe-area-inset-bottom))] md:justify-center md:py-12">
@@ -159,20 +164,35 @@ export default function OnboardingProfileForm({ email }: { email: string }) {
 
         <InputWrapper>
           <InputWrapper.Label htmlFor="nickname">닉네임</InputWrapper.Label>
-          <InputWrapper.Input
-            type="text"
-            id="nickname"
-            name="nickname"
-            className="typo-body-2 pr-12 max-md:py-2.5 max-md:pl-3 max-md:text-[12px] md:max-lg:text-[14px]"
-            isAvailable={isNicknameAvailable}
-            required
-            placeholder="닉네임을 입력해주세요."
-            value={profileForm.nickname}
-            onChange={handleNicknameChange}
-            onDelete={() => {
-              setProfileForm((prev) => ({ ...prev, nickname: "" }));
-            }}
-          />
+          <div className="flex items-start gap-2">
+            <div className="min-w-0 flex-1">
+              <InputWrapper.Input
+                type="text"
+                id="nickname"
+                name="nickname"
+                className="typo-body-2 pr-12 max-md:py-2.5 max-md:pl-3 max-md:text-[12px] md:max-lg:text-[14px]"
+                isAvailable={isNicknameAvailable}
+                required
+                placeholder="닉네임을 입력해주세요."
+                value={profileForm.nickname}
+                onChange={(event) =>
+                  nicknameSpeech.changeValue(event.target.value)
+                }
+                onDelete={() => nicknameSpeech.changeValue("")}
+                onCompositionStart={nicknameSpeech.onCompositionStart}
+                onCompositionEnd={nicknameSpeech.onCompositionEnd}
+              />
+            </div>
+            <SpeechInputButton speech={nicknameSpeech} />
+          </div>
+          {(nicknameSpeech.enabled || nicknameSpeech.error) && (
+            <p role="status" className="text-sub-text text-xs">
+              {nicknameSpeech.error ??
+                (nicknameSpeech.phase === "listening"
+                  ? "닉네임 입력 중 · 마이크를 끄면 중복 검사를 진행해요."
+                  : "마이크 연결 중...")}
+            </p>
+          )}
         </InputWrapper>
 
         <InputWrapper>

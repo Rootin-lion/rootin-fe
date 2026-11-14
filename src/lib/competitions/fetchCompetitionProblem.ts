@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { ApiError } from "@/types/api/error";
 import type { CompetitionProblemDetail } from "@/types/competitions/competition";
 
@@ -10,15 +11,22 @@ export async function fetchCompetitionProblem(
   competitionProblemId: number,
   signal: AbortSignal,
 ): Promise<CompetitionProblemResponse> {
-  const response = await fetch(
+  const response = await axios.get<string>(
     `/api/competitions/${competitionId}/problems/${competitionProblemId}`,
-    { cache: "no-store", credentials: "same-origin", signal },
+    {
+      signal,
+      // Check login redirects before parsing a potentially HTML response.
+      responseType: "text",
+      // Preserve the API's error result for non-2xx responses.
+      validateStatus: () => true,
+    },
   );
+  const responseUrl: string | undefined = response.request?.responseURL;
 
   // Token recovery can redirect to the login page from the server API client.
   if (
     response.status === 401 ||
-    (response.redirected && new URL(response.url).pathname === "/login")
+    (responseUrl && new URL(responseUrl).pathname === "/login")
   ) {
     return {
       ok: false,
@@ -30,8 +38,8 @@ export async function fetchCompetitionProblem(
     };
   }
 
-  const result: CompetitionProblemResponse = await response.json();
-  if (!response.ok && result.ok) {
+  const result: CompetitionProblemResponse = JSON.parse(response.data);
+  if ((response.status < 200 || response.status >= 300) && result.ok) {
     throw new Error("문제를 불러오지 못했습니다.");
   }
   return result;

@@ -30,40 +30,59 @@ export default function useInterviewAnswer({
     (state) => state.appendAnswerResult,
   );
   const [answer, setAnswer] = useState("");
+  const answerRef = useRef("");
   const [pendingAnswer, setPendingAnswer] = useState<SessionChatMessage | null>(
     null,
   );
   const [isTyping, setIsTyping] = useState(false);
   const [isPresentingFeedback, setIsPresentingFeedback] = useState(false);
   const requestPendingRef = useRef(false);
+  const feedbackPendingRef = useRef(false);
+  const errorPendingRef = useRef(false);
   const { error, setErrorContext, isModalOpen, openModal, closeModal } =
     useErrorModal();
 
   const handleFeedbackComplete = useCallback(() => {
+    feedbackPendingRef.current = false;
     setIsPresentingFeedback(false);
   }, []);
 
+  const updateAnswer = useCallback((value: string) => {
+    answerRef.current = value;
+    setAnswer(value);
+  }, []);
+
+  const canAcceptAnswer = useCallback(
+    () =>
+      sessionReady &&
+      isIntroComplete &&
+      !interviewCompleted &&
+      !requestPendingRef.current &&
+      !feedbackPendingRef.current &&
+      !errorPendingRef.current,
+    [sessionReady, isIntroComplete, interviewCompleted],
+  );
+
   const handleAnswerChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.target.value);
+    updateAnswer(e.target.value);
   };
 
   // 답변 제출
-  const handleSubmitClick = async () => {
-    const trimmedAnswer = answer.trim();
-    if (
-      !sessionReady ||
-      !isIntroComplete ||
-      interviewCompleted ||
-      isPresentingFeedback ||
-      requestPendingRef.current ||
-      !trimmedAnswer
-    )
-      return;
+  const handleSubmitClick = async (
+    value = answerRef.current,
+    onAccepted?: () => void,
+  ) => {
+    const trimmedAnswer = value.trim();
+    if (!canAcceptAnswer() || !trimmedAnswer) return;
 
     const currentQuestion = messages.findLast(
       (message) => message.kind === "QUESTION",
     );
-    if (!currentQuestion && trimmedAnswer !== "네") return;
+    if (
+      !currentQuestion &&
+      trimmedAnswer.replace(/[.!?。！？]+$/u, "").trim() !== "네"
+    )
+      return;
 
     const answerMessage: Extract<SessionChatMessage, { kind: "ANSWER" }> =
       currentQuestion
@@ -77,12 +96,14 @@ export default function useInterviewAnswer({
 
     requestPendingRef.current = true;
     setPendingAnswer(answerMessage);
-    setAnswer("");
+    updateAnswer("");
+    onAccepted?.();
     setIsTyping(true);
 
     const restoreAnswer = () => {
+      errorPendingRef.current = true;
       setPendingAnswer(null);
-      setAnswer(trimmedAnswer);
+      updateAnswer(trimmedAnswer);
     };
 
     try {
@@ -99,7 +120,8 @@ export default function useInterviewAnswer({
           return;
         }
 
-        setIsPresentingFeedback(Boolean(res.data.feedback.trim()));
+        feedbackPendingRef.current = Boolean(res.data.feedback.trim());
+        setIsPresentingFeedback(feedbackPendingRef.current);
         appendAnswerResult(interviewId, answerMessage, res.data);
       } else {
         const res = await getInterviewQuestionAction(interviewId);
@@ -132,6 +154,8 @@ export default function useInterviewAnswer({
 
   return {
     answer,
+    updateAnswer,
+    canAcceptAnswer,
     pendingAnswer,
     isTyping,
     isPresentingFeedback,
@@ -140,6 +164,9 @@ export default function useInterviewAnswer({
     handleFeedbackComplete,
     error,
     isModalOpen,
-    closeModal,
+    closeModal: () => {
+      errorPendingRef.current = false;
+      closeModal();
+    },
   };
 }
