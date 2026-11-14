@@ -19,7 +19,7 @@ export function FeatureCard({ item }: FeatureCardProps) {
           {item.title}
         </h2>
         <p className="text-sub-text mt-2 text-left text-[12px] leading-relaxed font-medium whitespace-pre-wrap md:text-center lg:mt-5 lg:text-[16px] lg:leading-7.5">
-          매일 진행되는 CS 대회로 실력을{"\n"}증명하고 실시간 순위를 확인하세요
+          매일 진행되는 CS 대회로 실력을{"\n"}증명하고 실시간 순위를 확인하세요.
         </p>
         <Image
           src={item.image}

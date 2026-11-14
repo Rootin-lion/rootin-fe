@@ -13,7 +13,7 @@ export default async function InterviewSessionPage(
   props: PageProps<"/interviews/[interviewId]">,
 ) {
   const { interviewId } = await props.params;
-  const { category, questionCount } = await props.searchParams;
+  const { category, questionCount, interviewMode } = await props.searchParams;
   const interviewIdNumber = Number(interviewId);
   const member = await getMemberSnapshot();
   const profileImageUrl = member?.imgUrl?.trim() || null;
@@ -38,6 +38,7 @@ export default async function InterviewSessionPage(
       profileImageUrl={profileImageUrl}
       category={categoryLabel}
       questionCount={selectedQuestionCount}
+      interviewMode={interviewMode === "VOICE" ? "VOICE" : "TEXT"}
     />
   );
 }

@@ -7,6 +7,8 @@ import { INTEREST_FIELD_OPTIONS } from "@/constants/onboarding/onboarding";
 import AgeGroupSelector from "@/components/profile/AgeGroupSelector";
 import { toggleInterestField } from "@/lib/profile/toggleInterestField";
 import type { AuthMember } from "@/types/oauth/oauth";
+import useSpeechInput from "@/hooks/useSpeechInput";
+import SpeechInputButton from "@/components/shared/SpeechInputButton";
 
 export default function MyOption({ member }: { member: AuthMember | null }) {
   const [nickname, setNickname] = useState(member?.nickname ?? "");
@@ -18,6 +20,10 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const nicknameSpeech = useSpeechInput({
+    value: nickname,
+    onValueChange: setNickname,
+  });
 
   const isCurrentNickname = Boolean(nickname && nickname === member?.nickname);
   const selectedInterests = interestFields
@@ -161,13 +167,28 @@ export default function MyOption({ member }: { member: AuthMember | null }) {
             >
               닉네임
             </label>
-            <input
-              id="option-nickname"
-              type="text"
-              value={nickname}
-              onChange={(event) => setNickname(event.target.value)}
-              className={`outline-primary-300 h-11 w-full min-w-0 rounded-lg border bg-white px-3 text-[12px] text-[#1A1A1A] md:h-12 md:px-4 md:text-[14px] ${isCurrentNickname ? "border-primary" : "border-[#D5D9DD]"}`}
-            />
+            <div className="flex items-center gap-2">
+              <input
+                id="option-nickname"
+                type="text"
+                value={nickname}
+                onChange={(event) =>
+                  nicknameSpeech.changeValue(event.target.value)
+                }
+                onCompositionStart={nicknameSpeech.onCompositionStart}
+                onCompositionEnd={nicknameSpeech.onCompositionEnd}
+                className={`outline-primary-300 h-11 w-full min-w-0 flex-1 rounded-lg border bg-white px-3 text-[12px] text-[#1A1A1A] md:h-12 md:px-4 md:text-[14px] ${isCurrentNickname ? "border-primary" : "border-[#D5D9DD]"}`}
+              />
+              <SpeechInputButton speech={nicknameSpeech} />
+            </div>
+            {(nicknameSpeech.enabled || nicknameSpeech.error) && (
+              <p role="status" className="text-sub-text text-xs">
+                {nicknameSpeech.error ??
+                  (nicknameSpeech.phase === "listening"
+                    ? "마이크 켜짐 · 말한 내용이 닉네임에 입력돼요."
+                    : "마이크 연결 중...")}
+              </p>
+            )}
             {isCurrentNickname && (
               <p className="text-primary flex items-center gap-1 text-[10px] md:text-[12px]">
                 <span

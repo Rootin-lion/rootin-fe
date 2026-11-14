@@ -7,8 +7,10 @@ import { MOBILE_INTERVIEW_QUERY } from "@/lib/interviews/cameraPolicy";
 
 export default function SessionVideo({
   cameraEnabled,
+  withMicrophone = false,
 }: {
   cameraEnabled: boolean;
+  withMicrophone?: boolean;
 }) {
   const { stream, startCamera } = useInterviewMedia();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -28,21 +30,21 @@ export default function SessionVideo({
       return;
 
     let active = true;
-    startCamera().catch(() => {
+    startCamera(withMicrophone).catch(() => {
       if (active) setCameraError(true);
     });
 
     return () => {
       active = false;
     };
-  }, [cameraEnabled, hasLiveVideo, startCamera]);
+  }, [cameraEnabled, hasLiveVideo, startCamera, withMicrophone]);
 
   const retryCamera = async () => {
     if (!cameraEnabled || window.matchMedia(MOBILE_INTERVIEW_QUERY).matches)
       return;
     setCameraError(false);
     try {
-      await startCamera();
+      await startCamera(withMicrophone);
     } catch {
       setCameraError(true);
     }
@@ -62,7 +64,7 @@ export default function SessionVideo({
 
   return (
     <div
-      className={`h-104 w-full overflow-hidden rounded-xl ${cameraUnavailable && !hasLiveVideo ? "bg-gray-100" : "bg-gray-400"}`}
+      className={`h-104 w-full overflow-hidden rounded-xl md:h-auto md:max-h-104 md:min-h-0 md:flex-1 lg:h-104 lg:flex-none ${cameraUnavailable && !hasLiveVideo ? "bg-gray-100" : "bg-gray-400"}`}
     >
       {stream && hasLiveVideo ? (
         <video

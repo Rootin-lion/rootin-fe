@@ -1,4 +1,6 @@
-export const MOBILE_INTERVIEW_QUERY = "(width < 768px)";
+import { MOBILE_MEDIA_QUERY } from "@/lib/shared/mediaPolicy";
+
+export const MOBILE_INTERVIEW_QUERY = MOBILE_MEDIA_QUERY;
 
 export const getInterviewCameraKey = (interviewId: number) =>
   `interview-camera:${interviewId}`;
