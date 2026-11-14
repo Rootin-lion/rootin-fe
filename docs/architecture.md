@@ -28,7 +28,7 @@
                     → apis의 Axios 요청 → 백엔드
                     ← 성공 데이터 또는 에러 결과
                  → 화면·클라이언트 상태 갱신
-  └─ 대회 문제 이동 → fetch → 문제 상세 GET Route Handler
+  └─ 대회 문제 이동 → 브라우저 Axios → 문제 상세 GET Route Handler
                             → 서버 Axios → 백엔드
                          ← 결과를 화면별 메모리에 보관
 
@@ -36,7 +36,7 @@
             → callback Route Handler → 백엔드 코드 교환 → 쿠키 저장
 ```
 
-Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client Component는 Server Action을 호출하거나, 대회 문제 상세처럼 `fetch`로 API Route Handler를 호출합니다. 두 경로 모두 백엔드 인증 요청은 서버 Axios에서 수행합니다. OAuth는 브라우저 리다이렉트와 Route Handler를 사용합니다.
+Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client Component는 Server Action을 호출하거나, 대회 문제 상세처럼 브라우저에서 Axios로 API Route Handler를 호출합니다. 브라우저의 같은 출처 요청에는 쿠키가 자동으로 포함되며, 두 경로 모두 백엔드 인증 요청은 서버 Axios에서 수행합니다. OAuth는 브라우저 리다이렉트와 Route Handler를 사용합니다.
 
 ## 폴더별 책임
 

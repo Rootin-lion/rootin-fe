@@ -23,17 +23,17 @@
 
 ## 기술 스택
 
-| 구분            | 사용 기술                                                |
-| --------------- | -------------------------------------------------------- |
-| 프레임워크      | Next.js 16, App Router                                   |
-| UI              | React 19.2.4, TypeScript 5                               |
-| 스타일          | Tailwind CSS 4, Pretendard                               |
-| HTTP            | Axios 서버 전용 API 클라이언트, 문제 상세 조회용 `fetch` |
-| 클라이언트 상태 | Zustand 5, 일부 상태의 `sessionStorage` 저장             |
-| 차트            | Chart.js 4, react-chartjs-2 5                            |
-| 개발 서버·SVG   | Turbopack, SVGR (`@svgr/webpack`)                        |
-| 코드 검사·포맷  | ESLint 9, Prettier 3, `prettier-plugin-tailwindcss`      |
-| 테스트          | Vitest 5, Testing Library, jsdom 29                      |
+| 구분            | 사용 기술                                                     |
+| --------------- | ------------------------------------------------------------- |
+| 프레임워크      | Next.js 16, App Router                                        |
+| UI              | React 19.2.4, TypeScript 5                                    |
+| 스타일          | Tailwind CSS 4, Pretendard                                    |
+| HTTP            | Axios 서버 전용 API 클라이언트, 브라우저의 문제 상세 GET 요청 |
+| 클라이언트 상태 | Zustand 5, 일부 상태의 `sessionStorage` 저장                  |
+| 차트            | Chart.js 4, react-chartjs-2 5                                 |
+| 개발 서버·SVG   | Turbopack, SVGR (`@svgr/webpack`)                             |
+| 코드 검사·포맷  | ESLint 9, Prettier 3, `prettier-plugin-tailwindcss`           |
+| 테스트          | Vitest 5, Testing Library, jsdom 29                           |
 
 버전 범위와 실행 명령은 [package.json](./package.json), 설치 버전은 [package-lock.json](./package-lock.json)을 기준으로 합니다. Chart.js는 마이페이지 분야별 정답률 차트에 사용합니다.
 
