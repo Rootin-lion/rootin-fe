@@ -27,9 +27,10 @@ export default function InterviewResultQuestionFeedback({
         문항별 상세 피드백
       </h3>
       <div className="mt-3 flex flex-col gap-3 md:gap-4">
-        {questionGroups.map(({ mainQuestion, followUpQuestions }) => (
+        {questionGroups.map(({ mainQuestion, followUpQuestions }, index) => (
           <InterviewResultQuestionFeedbackItem
             key={mainQuestion.questionId}
+            questionNumber={index + 1}
             question={mainQuestion}
             followUpQuestions={followUpQuestions}
           />

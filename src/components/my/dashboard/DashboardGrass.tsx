@@ -11,8 +11,8 @@ const LEVEL_COLORS = [
 
 function getActivityLevel(count: number) {
   if (count <= 0) return 0;
-  if (count <= 2) return 1;
-  if (count <= 4) return 2;
+  if (count <= 1) return 1;
+  if (count <= 2) return 2;
   return 3;
 }
 
@@ -63,7 +63,7 @@ export default function DashboardGrass({
   const hasActivity = days.some(
     (date) => date && (activityByDate[date] ?? 0) > 0,
   );
-  const levelLabels = ["0문제", "1~2문제", "3~4문제", "5문제 이상"];
+  const levelLabels = ["0문제", "1문제", "2문제", "3문제 이상"];
 
   return (
     <section className="border-primary-200 w-full min-w-0 rounded-[22px] border p-3 lg:mt-6 lg:h-75.5 lg:max-w-148.75 lg:px-5 lg:pt-5">

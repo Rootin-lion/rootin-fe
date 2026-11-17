@@ -2,16 +2,21 @@ import type { InterviewReportQuestion } from "@/types/interviews/interview";
 import InterviewResultQuestionFeedbackBody from "./InterviewResultQuestionFeedbackBody";
 
 export default function InterviewResultQuestionFeedbackDetail({
+  questionNumber,
   question,
   followUpQuestions,
 }: {
+  questionNumber: number;
   question: InterviewReportQuestion;
   followUpQuestions: InterviewReportQuestion[];
 }) {
   return (
     <div className="p-3 md:px-6 md:py-8">
-      <InterviewResultQuestionFeedbackBody question={question} />
-      {followUpQuestions.map((followUpQuestion) => (
+      <InterviewResultQuestionFeedbackBody
+        question={question}
+        accuracyLabel={`${questionNumber}번 질문 정확도`}
+      />
+      {followUpQuestions.map((followUpQuestion, index) => (
         <div
           key={followUpQuestion.questionId}
           className="mt-5 border-t border-[#E1E1E1] pt-5 md:mt-8 md:pt-8"
@@ -24,7 +29,10 @@ export default function InterviewResultQuestionFeedbackDetail({
               {followUpQuestion.question}
             </p>
           </div>
-          <InterviewResultQuestionFeedbackBody question={followUpQuestion} />
+          <InterviewResultQuestionFeedbackBody
+            question={followUpQuestion}
+            accuracyLabel={`${questionNumber}번 질문의 ${index + 1}번 꼬리질문 정확도`}
+          />
         </div>
       ))}
     </div>

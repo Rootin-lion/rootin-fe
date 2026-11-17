@@ -33,6 +33,7 @@ describe("면접 질문별 피드백 펼침", () => {
   test("처음에는 질문만 표시하고 상세 답변을 숨김", () => {
     render(
       <InterviewResultQuestionFeedbackItem
+        questionNumber={1}
         question={question}
         followUpQuestions={[followUp]}
       />,
@@ -52,6 +53,7 @@ describe("면접 질문별 피드백 펼침", () => {
     const user = userEvent.setup();
     render(
       <InterviewResultQuestionFeedbackItem
+        questionNumber={1}
         question={question}
         followUpQuestions={[followUp]}
       />,
@@ -61,12 +63,15 @@ describe("면접 질문별 피드백 펼침", () => {
     await user.click(toggle);
 
     expect(toggle).toHaveAttribute("aria-expanded", "true");
-    for (const item of [question, followUp]) {
+    for (const [item, accuracyLabel] of [
+      [question, "1번 질문 정확도"],
+      [followUp, "1번 질문의 1번 꼬리질문 정확도"],
+    ] as const) {
       expect(screen.getByText(item.answer)).toBeInTheDocument();
       expect(screen.getByText(item.feedback)).toBeInTheDocument();
       expect(
         screen.getByRole("progressbar", {
-          name: `${item.questionOrder}번 질문 정확도`,
+          name: accuracyLabel,
         }),
       ).toHaveAttribute("aria-valuenow", String(item.accuracy));
     }
@@ -84,6 +89,7 @@ describe("면접 질문별 피드백 펼침", () => {
     const user = userEvent.setup();
     render(
       <InterviewResultQuestionFeedbackItem
+        questionNumber={1}
         question={question}
         followUpQuestions={[]}
       />,
@@ -102,6 +108,7 @@ describe("면접 질문별 피드백 펼침", () => {
     const user = userEvent.setup();
     render(
       <InterviewResultQuestionFeedbackItem
+        questionNumber={1}
         question={question}
         followUpQuestions={[]}
       />,
@@ -119,6 +126,7 @@ describe("면접 질문별 피드백 펼침", () => {
     const user = userEvent.setup();
     render(
       <InterviewResultQuestionFeedbackItem
+        questionNumber={1}
         question={{ ...question, missingKeywords: "없음, , " }}
         followUpQuestions={[]}
       />,
