@@ -138,6 +138,7 @@ export default function SessionChat({
             if (message.kind === "INTRO") return null;
             if (
               isPresentingFeedback &&
+              index === messages.length - 1 &&
               (message.kind === "QUESTION" || message.kind === "COMPLETION") &&
               messages[index - 1]?.kind === "FEEDBACK"
             ) {

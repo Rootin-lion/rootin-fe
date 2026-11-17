@@ -6,9 +6,11 @@ import type { InterviewReportQuestion } from "@/types/interviews/interview";
 import InterviewResultQuestionFeedbackDetail from "./InterviewResultQuestionFeedbackDetail";
 
 export default function InterviewResultQuestionFeedbackItem({
+  questionNumber,
   question,
   followUpQuestions,
 }: {
+  questionNumber: number;
   question: InterviewReportQuestion;
   followUpQuestions: InterviewReportQuestion[];
 }) {
@@ -23,7 +25,7 @@ export default function InterviewResultQuestionFeedbackItem({
         onClick={() => setIsExpanded((prev) => !prev)}
       >
         <div className="bg-primary-800 flex h-5 w-5 shrink-0 items-center justify-center rounded-[50%] text-[11px] font-medium text-white md:h-6 md:w-6 md:text-[14px] md:font-normal">
-          {question.questionOrder}
+          {questionNumber}
         </div>
         <p className="min-w-0 text-xs font-normal wrap-anywhere text-black max-md:leading-relaxed md:pr-2 md:text-[14px]">
           {question.question}
@@ -36,6 +38,7 @@ export default function InterviewResultQuestionFeedbackItem({
       </button>
       {isExpanded && (
         <InterviewResultQuestionFeedbackDetail
+          questionNumber={questionNumber}
           question={question}
           followUpQuestions={followUpQuestions}
         />

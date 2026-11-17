@@ -9,6 +9,7 @@ import ErrorModal from "@/components/shared/ErrorModal";
 import TransitionScreen from "@/components/shared/TransitionScreen";
 
 const REPORT_POLL_INTERVAL_MS = 3000;
+const MIN_LOADING_DURATION_MS = 3500;
 
 export default function InterviewReportLoading({
   interviewId,
@@ -24,6 +25,7 @@ export default function InterviewReportLoading({
   useEffect(() => {
     let active = true;
     let timeoutId: number;
+    const startedAt = performance.now();
 
     const fail = (context: ApiError) => {
       setFailed(true);
@@ -47,7 +49,13 @@ export default function InterviewReportLoading({
         }
 
         if (result.data.status === "COMPLETED") {
-          router.replace(`/interviews/${interviewId}/result`);
+          const remainingDuration = Math.max(
+            0,
+            MIN_LOADING_DURATION_MS - (performance.now() - startedAt),
+          );
+          timeoutId = window.setTimeout(() => {
+            if (active) router.replace(`/interviews/${interviewId}/result`);
+          }, remainingDuration);
           return;
         }
 
