@@ -191,7 +191,11 @@ npx vitest run test/components/interviews/session/SessionForm.test.tsx
 
 ## 검증 범위
 
-현재 테스트는 순수 함수의 입력·계산 결과와 컴포넌트의 DOM·사용자 상호작용을 검증합니다. `jsdom`에서는 실제 CSS 배치·화면 밀림·카메라 권한·앱 전환을 확인하지 않습니다. 또한 현재 테스트에는 OAuth 코드 교환, 토큰 재발급, Server Action과 백엔드 권한 검증이 포함되어 있지 않습니다.
+현재 테스트는 순수 함수의 입력·계산 결과와 컴포넌트의 DOM·사용자 상호작용을 검증합니다. `jsdom`에서는 실제 CSS 배치·화면 밀림·카메라 권한·앱 전환을 확인하지 않습니다.
+
+[인증 요청 회귀 테스트](../test/unit/lib/auth/authenticatedRequests.test.ts)는 Axios adapter와 Next.js 쿠키·이동 API를 대체하여 토큰 재발급과 한 번의 요청 재시도, refresh token 교체·유지, 프로필 캐시 만료 갱신, Server Action의 로그인 이동과 문제 GET의 `401` JSON 응답을 검증합니다. 서버 모듈을 읽기 위해 Vitest에서만 `server-only`를 Next.js의 빈 marker 모듈에 연결합니다. 실제 OAuth 코드 교환, 브라우저 쿠키 반영, 백엔드 토큰 재발급·권한 검증은 포함하지 않습니다.
+
+[면접 흐름 테스트](../test/components/interviews/InterviewFlow.test.tsx)는 장치 연결 후 생성, 생성 실패 정리, 세션 안내 복원과 피드백·종료 메시지 표시 후 한 번의 이동을 검증합니다. [미디어 Provider 테스트](../test/components/interviews/InterviewMediaProvider.test.tsx)는 767px·768px 경계, 모바일 전환 시 스트림 해제, 늦게 도착한 스트림 폐기와 `matchMedia` 없는 환경의 resize 구독을 확인합니다. 화면 크기와 장치 요청은 대체하며 실제 카메라·마이크 권한, CSS 배치나 실제 기기 동작은 검증하지 않습니다.
 
 2026-11-14 검증에서는 브라우저 연결 도구가 사용 불가하여 실제 브라우저의 dialog 포커스 순환·배경 조작 차단·Escape 닫기와 변경한 그룹의 시각적 배치를 확인하지 못했습니다. 위 컴포넌트 테스트 통과에 해당 브라우저 검증은 포함되지 않습니다.
 

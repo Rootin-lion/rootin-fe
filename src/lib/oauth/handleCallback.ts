@@ -19,6 +19,7 @@ import {
   LEGACY_GOOGLE_STATE_COOKIE,
 } from "@/constants/oauth/oauth";
 import { loginGoogle, loginKakao } from "@/apis/oauth";
+import { getRefreshToken } from "@/lib/auth/sessionToken";
 
 const providers = {
   kakao: {
@@ -82,20 +83,7 @@ export async function handleOAuthCallback(
     const payload = res.data.data;
     const accessToken = payload?.accessToken;
 
-    // refreshToken 추출
-    const setCookie = res.headers["set-cookie"];
-    const cookies = Array.isArray(setCookie)
-      ? setCookie
-      : setCookie
-        ? [setCookie]
-        : [];
-
-    const refreshCookie = cookies.find((cookie) =>
-      cookie.startsWith("refreshToken="),
-    );
-    const refreshToken = refreshCookie
-      ?.split(";")[0]
-      .slice("refreshToken=".length);
+    const refreshToken = getRefreshToken(res.headers["set-cookie"]);
 
     if (
       typeof accessToken !== "string" ||

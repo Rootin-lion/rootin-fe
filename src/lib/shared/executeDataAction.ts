@@ -1,5 +1,5 @@
 import { actionFailure } from "./actionFailure";
-import { apiError } from "./apiError";
+import { actionError } from "./actionError";
 
 type ActionFailure = {
   code: string;
@@ -16,7 +16,7 @@ async function executeDataAction<R, D>(
     if (!data) return actionFailure(failure);
     return { ok: true, data } as const;
   } catch (error) {
-    return actionFailure(apiError(error, failure.message));
+    return actionFailure(await actionError(error, failure.message));
   }
 }
 

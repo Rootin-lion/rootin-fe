@@ -93,7 +93,12 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 - [apiError](../src/lib/shared/apiError.ts)는 Next.js 제어 흐름 오류를 다시 던지고 백엔드 오류를 코드·메시지·상태로 변환합니다.
 - 에러 모달을 열지, 화면 안에 오류를 표시할지는 각 호출 화면이 결정합니다.
 
-인증 헤더, 401 재시도, 쿠키 저장 흐름은 [인증 흐름](./auth-flow.md)에 정리되어 있습니다.
+인증 처리는 다음 책임으로 나눕니다.
+
+- [API 클라이언트](../src/apis/client.ts)는 인증 헤더를 추가하고, 백엔드 401 응답에 한 번만 토큰을 재발급받아 재시도합니다.
+- [토큰 재발급](../src/apis/reissueToken.ts)은 새 access token을 검증하고, 응답에 refresh token이 없으면 기존 값을 유지합니다. [세션 쿠키](../src/lib/auth/sessionCookies.ts)는 토큰 저장, 기존 프로필 캐시의 만료 갱신과 두 쿠키 삭제를 담당합니다.
+- 재발급 실패는 `SessionExpiredError`로 전달합니다. [Action 오류 처리](../src/lib/shared/actionError.ts)는 두 쿠키를 삭제하고 `/login`으로 이동하며, 기존 Action 성공·실패 반환 형태와 도메인별 검증은 유지합니다.
+- 문제 상세 GET Route Handler는 같은 만료 오류에서 두 쿠키를 삭제하고 `401` JSON을 반환합니다. 브라우저는 이 응답을 받아 로그인으로 이동하며, API 응답으로 로그인 HTML을 받지 않습니다.
 
 ### 대회 문제 풀이
 
@@ -130,6 +135,10 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 
 ### 면접 세션 복원
 
+- [useInterviewStart](../src/components/interviews/useInterviewStart.ts)는 장치 연결 후 면접을 생성하고 카메라 설정 저장·세션 이동과 생성 실패 정리를 담당합니다. 설정 화면은 입력값과 모달 UI를 관리합니다.
+- [useInterviewSessionLifecycle](../src/components/interviews/session/useInterviewSessionLifecycle.ts)은 카메라 설정과 기존 메시지 ID를 복원하고 안내 완료 상태를 관리합니다. 답변 제출은 기존 `useInterviewAnswer`, 음성 입력은 `useSpeechInput`에 연결합니다.
+- [useInterviewCompletion](../src/components/interviews/session/useInterviewCompletion.ts)은 면접 종료, 피드백 표시 완료, 종료 메시지 표시 완료를 확인한 뒤 카메라를 중지하고 리포트 대기 화면으로 한 번만 이동합니다.
+
 - Zustand persist의 `merge`에서 `restoreSessions()`로 저장된 세션을 복원합니다.
 - 면접 ID는 양의 안전한 정수여야 하며, 안내 완료 여부와 메시지 배열의 구조를 검사합니다.
 - 메시지 하나라도 검사에 실패하면 해당 세션 전체를 제외하고 다른 정상 세션은 유지합니다. 안내·질문·답변·피드백·종료 메시지는 종류별 필드를 확인합니다.
@@ -157,7 +166,8 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 
 - 색상·타이포그래피는 [globals.css](../src/app/globals.css), 버튼·모달·페이지네이션은 `components/shared`를 기준으로 합니다.
 - [MobileInAppBrowserGate](../src/components/shared/MobileInAppBrowserGate.tsx)는 모바일 인앱 브라우저·Android WebView 판별 시 Chrome 열기를 시도하고 수동 링크와 주소 복사를 제공합니다.
-- [cameraPolicy](../src/lib/interviews/cameraPolicy.ts)는 768px 미만 면접에서 카메라 사용을 제외합니다. 스트림 생성·해제는 [InterviewMediaProvider](../src/components/interviews/InterviewMediaProvider.tsx)가 담당합니다.
+- 미디어 화면 크기 기준은 [mediaPolicy](../src/lib/shared/mediaPolicy.ts)의 768px입니다. 화면 표시는 [useMediaAvailability](../src/hooks/useMediaAvailability.ts)를 사용하고, 장치 요청 직전 검사와 모바일 전환 시 즉시 중지는 같은 정책의 판별·구독 함수를 사용합니다. 서버 렌더링 중에는 장치를 사용할 수 없는 상태로 표시합니다.
+- [cameraPolicy](../src/lib/interviews/cameraPolicy.ts)는 공통 미디어 정책과 저장된 설정으로 면접 카메라 사용 여부를 결정합니다. 스트림 생성·해제는 [InterviewMediaProvider](../src/components/interviews/InterviewMediaProvider.tsx)가 담당하며, 모바일 전환 후 큰 화면으로 돌아와도 비활성화 설정을 유지합니다.
 - 면접 결과 대기 화면은 [InterviewReportLoading](../src/components/interviews/result/InterviewReportLoading.tsx)에서 리포트 생성 Action을 호출합니다. 생성 중이거나 마지막 답변 분석 중인 `C409-6` 응답이면 3초 뒤 다시 요청하고, `COMPLETED`이면 결과 화면으로 이동합니다. 실패 시 오류 모달과 재시도 버튼을 표시합니다.
 
 화면 너비별 배치와 카메라·인앱 브라우저 처리는 [모바일 반응형 구현](./mobile-responsive-plan.md)에 정리되어 있습니다.

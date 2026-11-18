@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import { getCompetitionProblemDetail } from "@/apis/competitions";
 import { SESSION_TOKEN_COOKIE } from "@/constants/auth/sessionTokenCookie";
 import { apiError } from "@/lib/shared/apiError";
+import { clearSessionCookies } from "@/lib/auth/sessionCookies";
+import { SessionExpiredError } from "@/lib/auth/SessionExpiredError";
 
 const headers = { "Cache-Control": "private, no-store" };
 
@@ -62,6 +64,7 @@ export async function GET(
     return Response.json({ ok: true, data }, { headers });
   } catch (cause) {
     const error = apiError(cause, "문제를 불러오지 못했습니다.");
+    if (cause instanceof SessionExpiredError) await clearSessionCookies();
     return Response.json(
       { ok: false, error },
       { status: error.status ?? 500, headers },

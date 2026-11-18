@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import CameraOffIcon from "@/assets/icons/interviews/camera-off.svg";
 import { useInterviewMedia } from "@/components/interviews/InterviewMediaProvider";
-import { MOBILE_INTERVIEW_QUERY } from "@/lib/interviews/cameraPolicy";
+import { canRequestMedia } from "@/lib/shared/mediaPolicy";
 
 export default function SessionVideo({
   cameraEnabled,
@@ -22,12 +22,7 @@ export default function SessionVideo({
   const cameraUnavailable = !cameraEnabled || cameraError;
 
   useEffect(() => {
-    if (
-      !cameraEnabled ||
-      hasLiveVideo ||
-      window.matchMedia(MOBILE_INTERVIEW_QUERY).matches
-    )
-      return;
+    if (!cameraEnabled || hasLiveVideo || !canRequestMedia()) return;
 
     let active = true;
     startCamera(withMicrophone).catch(() => {
@@ -40,8 +35,7 @@ export default function SessionVideo({
   }, [cameraEnabled, hasLiveVideo, startCamera, withMicrophone]);
 
   const retryCamera = async () => {
-    if (!cameraEnabled || window.matchMedia(MOBILE_INTERVIEW_QUERY).matches)
-      return;
+    if (!cameraEnabled || !canRequestMedia()) return;
     setCameraError(false);
     try {
       await startCamera(withMicrophone);

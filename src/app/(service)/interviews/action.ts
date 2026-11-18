@@ -13,7 +13,7 @@ import {
 } from "@/apis/interview";
 import { actionFailure } from "@/lib/shared/actionFailure";
 import { executeNestedDataAction } from "@/lib/shared/executeDataAction";
-import { apiError } from "@/lib/shared/apiError";
+import { actionError } from "@/lib/shared/actionError";
 
 // 면접 진입
 export async function createInterviewAction(payload: InterviewConfig) {
@@ -59,7 +59,7 @@ export async function submitInterviewAnswerAction(
       data,
     } as const;
   } catch (error) {
-    return actionFailure(apiError(error, "답변 제출에 실패했습니다."));
+    return actionFailure(await actionError(error, "답변 제출에 실패했습니다."));
   }
 }
 
@@ -84,7 +84,9 @@ export async function generateInterviewReportAction(interviewId: number) {
       data,
     } as const;
   } catch (error) {
-    return actionFailure(apiError(error, "면접 리포트 생성에 실패했습니다."));
+    return actionFailure(
+      await actionError(error, "면접 리포트 생성에 실패했습니다."),
+    );
   }
 }
 
