@@ -135,6 +135,10 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 
 ### 면접 세션 복원
 
+- [useInterviewStart](../src/components/interviews/useInterviewStart.ts)는 장치 연결 후 면접을 생성하고 카메라 설정 저장·세션 이동과 생성 실패 정리를 담당합니다. 설정 화면은 입력값과 모달 UI를 관리합니다.
+- [useInterviewSessionLifecycle](../src/components/interviews/session/useInterviewSessionLifecycle.ts)은 카메라 설정과 기존 메시지 ID를 복원하고 안내 완료 상태를 관리합니다. 답변 제출은 기존 `useInterviewAnswer`, 음성 입력은 `useSpeechInput`에 연결합니다.
+- [useInterviewCompletion](../src/components/interviews/session/useInterviewCompletion.ts)은 면접 종료, 피드백 표시 완료, 종료 메시지 표시 완료를 확인한 뒤 카메라를 중지하고 리포트 대기 화면으로 한 번만 이동합니다.
+
 - Zustand persist의 `merge`에서 `restoreSessions()`로 저장된 세션을 복원합니다.
 - 면접 ID는 양의 안전한 정수여야 하며, 안내 완료 여부와 메시지 배열의 구조를 검사합니다.
 - 메시지 하나라도 검사에 실패하면 해당 세션 전체를 제외하고 다른 정상 세션은 유지합니다. 안내·질문·답변·피드백·종료 메시지는 종류별 필드를 확인합니다.

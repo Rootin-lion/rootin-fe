@@ -1,28 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useSyncExternalStore } from "react";
 import type {
   InterviewConfig,
   InterviewCategoryType,
   InterviewModeType,
 } from "@/types/interviews/interview";
-import { createInterviewAction } from "@/app/(service)/interviews/action";
 import Button from "@/components/shared/Button";
 import ErrorModal from "@/components/shared/ErrorModal";
 import ModalWrapper from "@/components/shared/ModalWrapper";
-import useErrorModal from "@/hooks/useErrorModal";
 import useModal from "@/hooks/useModal";
 import useMediaAvailability from "@/hooks/useMediaAvailability";
 import { useSpeechRecognition } from "@/components/shared/SpeechRecognitionProvider";
 import { canRequestMedia } from "@/lib/shared/mediaPolicy";
-import {
-  getInterviewCameraKey,
-  MOBILE_INTERVIEW_QUERY,
-} from "@/lib/interviews/cameraPolicy";
+import { MOBILE_INTERVIEW_QUERY } from "@/lib/interviews/cameraPolicy";
 import InterviewPreview from "./InterviewPreview";
 import InterviewSetup from "./InterviewSetup";
-import { useInterviewMedia } from "./InterviewMediaProvider";
+import useInterviewStart from "./useInterviewStart";
 
 const subscribeToViewport = (callback: () => void) => {
   const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
@@ -34,7 +28,6 @@ const getMobileSnapshot = () =>
 const getServerSnapshot = () => true;
 
 export default function InterviewContent() {
-  const router = useRouter();
   const { canUseMedia } = useMediaAvailability();
   const { supported: speechSupported } = useSpeechRecognition();
   const voiceAvailable = canUseMedia && speechSupported;
@@ -43,26 +36,6 @@ export default function InterviewContent() {
     getMobileSnapshot,
     getServerSnapshot,
   );
-  const { startCamera, stopCamera } = useInterviewMedia();
-  const [cameraError, setCameraError] = useState<string | null>(null);
-  const [isStarting, setIsStarting] = useState(false);
-  const cameraEnabledForStartRef = useRef(false);
-
-  useEffect(() => {
-    const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
-    const handleViewportChange = (event: MediaQueryListEvent) => {
-      if (event.matches) cameraEnabledForStartRef.current = false;
-    };
-    query.addEventListener("change", handleViewportChange);
-    return () => query.removeEventListener("change", handleViewportChange);
-  }, []);
-  const {
-    error,
-    setErrorContext,
-    isModalOpen: isErrorModalOpen,
-    openModal: openErrorModal,
-    closeModal: closeErrorModal,
-  } = useErrorModal();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [config, setConfig] = useState<InterviewConfig>({
     category: "OPERATING_SYSTEM",
@@ -84,83 +57,18 @@ export default function InterviewContent() {
     setConfig((prev) => ({ ...prev, interviewMode }));
   };
 
-  const createInterview = async (questionCount: number) => {
-    try {
-      const interviewMode =
-        canRequestMedia() && speechSupported ? config.interviewMode : "TEXT";
-      const res = await createInterviewAction({
-        ...config,
-        questionCount,
-        interviewMode,
-      });
-
-      if (!res.ok) {
-        setErrorContext(res.error);
-        stopCamera();
-        setCameraError(null);
-        setIsStarting(false);
-        closeModal();
-        openErrorModal();
-
-        return;
-      }
-      const interviewId = res.data.interviewId;
-      window.sessionStorage.setItem(
-        getInterviewCameraKey(interviewId),
-        cameraEnabledForStartRef.current &&
-          !window.matchMedia(MOBILE_INTERVIEW_QUERY).matches
-          ? "enabled"
-          : "disabled",
-      );
-
-      const query = new URLSearchParams({
-        category: config.category,
-        questionCount: String(questionCount),
-        interviewMode,
-      });
-
-      router.push(`/interviews/${interviewId}?${query.toString()}`);
-    } catch {
-      setErrorContext({
-        code: "UNKNOWN_ERROR",
-        message: "면접 생성에 실패했습니다.",
-      });
-      stopCamera();
-      setCameraError(null);
-      setIsStarting(false);
-      closeModal();
-      openErrorModal();
-    }
-  };
-
-  const handleStart = async () => {
-    if (isStarting) return;
-
-    const questionCount = config.questionCount;
-    if (
-      questionCount === null ||
-      !Number.isInteger(questionCount) ||
-      questionCount < 1 ||
-      questionCount > 5
-    ) {
-      return;
-    }
-
-    setCameraError(null);
-    setIsStarting(true);
-    cameraEnabledForStartRef.current = !window.matchMedia(
-      MOBILE_INTERVIEW_QUERY,
-    ).matches;
-
-    try {
-      if (cameraEnabledForStartRef.current)
-        await startCamera(config.interviewMode === "VOICE" && speechSupported);
-      await createInterview(questionCount);
-    } catch {
-      setCameraError("카메라·마이크 권한과 연결된 장치를 확인해주세요.");
-      setIsStarting(false);
-    }
-  };
+  const {
+    handleStart,
+    isStarting,
+    cameraError,
+    error,
+    isErrorModalOpen,
+    closeErrorModal,
+  } = useInterviewStart({
+    config,
+    speechSupported,
+    closeStartModal: closeModal,
+  });
 
   return (
     <div className="bg-bg-ivory border-bg-green-200 mx-auto mt-6 flex w-full max-w-218 flex-col gap-6 rounded-[14px] border p-4 md:mt-11 md:flex-row md:gap-5 md:px-6 md:py-9">
