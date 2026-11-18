@@ -8,7 +8,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { MOBILE_INTERVIEW_QUERY } from "@/lib/interviews/cameraPolicy";
+import {
+  canRequestMedia,
+  subscribeToMediaViewport,
+} from "@/lib/shared/mediaPolicy";
 
 type InterviewMediaContextValue = {
   stream: MediaStream | null;
@@ -32,7 +35,7 @@ export function InterviewMediaProvider({
   const [stream, setStream] = useState<MediaStream | null>(null);
 
   const startCamera = useCallback(async (withMicrophone = false) => {
-    if (window.matchMedia(MOBILE_INTERVIEW_QUERY).matches) return;
+    if (!canRequestMedia()) return;
     if (
       streamRef.current
         ?.getVideoTracks()
@@ -54,7 +57,7 @@ export function InterviewMediaProvider({
         if (
           !mountedRef.current ||
           requestId !== cameraRequestIdRef.current ||
-          window.matchMedia(MOBILE_INTERVIEW_QUERY).matches
+          !canRequestMedia()
         ) {
           cameraStream.getTracks().forEach((track) => track.stop());
           return;
@@ -85,16 +88,14 @@ export function InterviewMediaProvider({
 
   useEffect(() => {
     mountedRef.current = true;
-    const mobileQuery = window.matchMedia(MOBILE_INTERVIEW_QUERY);
-    const handleViewportChange = (event: MediaQueryListEvent) => {
-      if (event.matches) stopCamera();
-    };
-    mobileQuery.addEventListener("change", handleViewportChange);
+    const unsubscribe = subscribeToMediaViewport(() => {
+      if (!canRequestMedia()) stopCamera();
+    });
     return () => {
       mountedRef.current = false;
       cameraRequestIdRef.current += 1;
       pendingStartRef.current = null;
-      mobileQuery.removeEventListener("change", handleViewportChange);
+      unsubscribe();
       streamRef.current?.getTracks().forEach((track) => track.stop());
     };
   }, [stopCamera]);

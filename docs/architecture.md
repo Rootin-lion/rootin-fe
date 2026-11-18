@@ -166,7 +166,8 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 
 - 색상·타이포그래피는 [globals.css](../src/app/globals.css), 버튼·모달·페이지네이션은 `components/shared`를 기준으로 합니다.
 - [MobileInAppBrowserGate](../src/components/shared/MobileInAppBrowserGate.tsx)는 모바일 인앱 브라우저·Android WebView 판별 시 Chrome 열기를 시도하고 수동 링크와 주소 복사를 제공합니다.
-- [cameraPolicy](../src/lib/interviews/cameraPolicy.ts)는 768px 미만 면접에서 카메라 사용을 제외합니다. 스트림 생성·해제는 [InterviewMediaProvider](../src/components/interviews/InterviewMediaProvider.tsx)가 담당합니다.
+- 미디어 화면 크기 기준은 [mediaPolicy](../src/lib/shared/mediaPolicy.ts)의 768px입니다. 화면 표시는 [useMediaAvailability](../src/hooks/useMediaAvailability.ts)를 사용하고, 장치 요청 직전 검사와 모바일 전환 시 즉시 중지는 같은 정책의 판별·구독 함수를 사용합니다. 서버 렌더링 중에는 장치를 사용할 수 없는 상태로 표시합니다.
+- [cameraPolicy](../src/lib/interviews/cameraPolicy.ts)는 공통 미디어 정책과 저장된 설정으로 면접 카메라 사용 여부를 결정합니다. 스트림 생성·해제는 [InterviewMediaProvider](../src/components/interviews/InterviewMediaProvider.tsx)가 담당하며, 모바일 전환 후 큰 화면으로 돌아와도 비활성화 설정을 유지합니다.
 - 면접 결과 대기 화면은 [InterviewReportLoading](../src/components/interviews/result/InterviewReportLoading.tsx)에서 리포트 생성 Action을 호출합니다. 생성 중이거나 마지막 답변 분석 중인 `C409-6` 응답이면 3초 뒤 다시 요청하고, `COMPLETED`이면 결과 화면으로 이동합니다. 실패 시 오류 모달과 재시도 버튼을 표시합니다.
 
 화면 너비별 배치와 카메라·인앱 브라우저 처리는 [모바일 반응형 구현](./mobile-responsive-plan.md)에 정리되어 있습니다.

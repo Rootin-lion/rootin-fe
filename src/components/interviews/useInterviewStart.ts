@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createInterviewAction } from "@/app/(service)/interviews/action";
 import useErrorModal from "@/hooks/useErrorModal";
+import { getInterviewCameraKey } from "@/lib/interviews/cameraPolicy";
 import {
-  getInterviewCameraKey,
-  MOBILE_INTERVIEW_QUERY,
-} from "@/lib/interviews/cameraPolicy";
-import { canRequestMedia } from "@/lib/shared/mediaPolicy";
+  canRequestMedia,
+  subscribeToMediaViewport,
+} from "@/lib/shared/mediaPolicy";
 import type { ApiError } from "@/types/api/error";
 import type { InterviewConfig } from "@/types/interviews/interview";
 import { useInterviewMedia } from "./InterviewMediaProvider";
@@ -36,12 +36,9 @@ export default function useInterviewStart({
   } = useErrorModal();
 
   useEffect(() => {
-    const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
-    const handleViewportChange = (event: MediaQueryListEvent) => {
-      if (event.matches) cameraEnabledForStartRef.current = false;
-    };
-    query.addEventListener("change", handleViewportChange);
-    return () => query.removeEventListener("change", handleViewportChange);
+    return subscribeToMediaViewport(() => {
+      if (!canRequestMedia()) cameraEnabledForStartRef.current = false;
+    });
   }, []);
 
   const handleCreateError = (context: ApiError) => {
@@ -71,8 +68,7 @@ export default function useInterviewStart({
       const interviewId = res.data.interviewId;
       window.sessionStorage.setItem(
         getInterviewCameraKey(interviewId),
-        cameraEnabledForStartRef.current &&
-          !window.matchMedia(MOBILE_INTERVIEW_QUERY).matches
+        cameraEnabledForStartRef.current && canRequestMedia()
           ? "enabled"
           : "disabled",
       );
@@ -105,9 +101,7 @@ export default function useInterviewStart({
 
     setCameraError(null);
     setIsStarting(true);
-    cameraEnabledForStartRef.current = !window.matchMedia(
-      MOBILE_INTERVIEW_QUERY,
-    ).matches;
+    cameraEnabledForStartRef.current = canRequestMedia();
 
     try {
       if (cameraEnabledForStartRef.current)

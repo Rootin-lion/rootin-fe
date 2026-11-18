@@ -5,8 +5,12 @@ import { useInterviewMedia } from "@/components/interviews/InterviewMediaProvide
 import {
   canUseInterviewCamera,
   getInterviewCameraKey,
-  MOBILE_INTERVIEW_QUERY,
 } from "@/lib/interviews/cameraPolicy";
+import useMediaAvailability from "@/hooks/useMediaAvailability";
+import {
+  canRequestMedia,
+  subscribeToMediaViewport,
+} from "@/lib/shared/mediaPolicy";
 import {
   EMPTY_INTERVIEW_SESSION,
   useInterviewSessionStore,
@@ -15,14 +19,6 @@ import {
 const subscribeToHydration = () => () => {};
 const getClientSnapshot = () => true;
 const getServerSnapshot = () => false;
-const subscribeToViewport = (callback: () => void) => {
-  const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
-  query.addEventListener("change", callback);
-  return () => query.removeEventListener("change", callback);
-};
-const getMobileSnapshot = () =>
-  window.matchMedia(MOBILE_INTERVIEW_QUERY).matches;
-const getServerMobileSnapshot = () => true;
 
 export default function useInterviewSessionLifecycle({
   interviewId,
@@ -34,11 +30,8 @@ export default function useInterviewSessionLifecycle({
   questionCount: number | null;
 }) {
   const { stream, stopCamera } = useInterviewMedia();
-  const isMobile = useSyncExternalStore(
-    subscribeToViewport,
-    getMobileSnapshot,
-    getServerMobileSnapshot,
-  );
+  const { canUseMedia } = useMediaAvailability();
+  const isMobile = !canUseMedia;
   const [cameraEnabled, setCameraEnabled] = useState(() =>
     canUseInterviewCamera(interviewId),
   );
@@ -46,15 +39,12 @@ export default function useInterviewSessionLifecycle({
   useEffect(() => {
     const key = getInterviewCameraKey(interviewId);
     window.sessionStorage.setItem(key, cameraEnabled ? "enabled" : "disabled");
-    const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
-    const handleViewportChange = (event: MediaQueryListEvent) => {
-      if (!event.matches) return;
+    return subscribeToMediaViewport(() => {
+      if (canRequestMedia()) return;
       window.sessionStorage.setItem(key, "disabled");
       setCameraEnabled(false);
       stopCamera();
-    };
-    query.addEventListener("change", handleViewportChange);
-    return () => query.removeEventListener("change", handleViewportChange);
+    });
   }, [cameraEnabled, interviewId, stopCamera]);
 
   const session = useInterviewSessionStore(

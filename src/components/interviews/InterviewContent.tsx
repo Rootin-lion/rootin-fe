@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import type {
   InterviewConfig,
   InterviewCategoryType,
@@ -13,29 +13,15 @@ import useModal from "@/hooks/useModal";
 import useMediaAvailability from "@/hooks/useMediaAvailability";
 import { useSpeechRecognition } from "@/components/shared/SpeechRecognitionProvider";
 import { canRequestMedia } from "@/lib/shared/mediaPolicy";
-import { MOBILE_INTERVIEW_QUERY } from "@/lib/interviews/cameraPolicy";
 import InterviewPreview from "./InterviewPreview";
 import InterviewSetup from "./InterviewSetup";
 import useInterviewStart from "./useInterviewStart";
-
-const subscribeToViewport = (callback: () => void) => {
-  const query = window.matchMedia(MOBILE_INTERVIEW_QUERY);
-  query.addEventListener("change", callback);
-  return () => query.removeEventListener("change", callback);
-};
-const getMobileSnapshot = () =>
-  window.matchMedia(MOBILE_INTERVIEW_QUERY).matches;
-const getServerSnapshot = () => true;
 
 export default function InterviewContent() {
   const { canUseMedia } = useMediaAvailability();
   const { supported: speechSupported } = useSpeechRecognition();
   const voiceAvailable = canUseMedia && speechSupported;
-  const isMobile = useSyncExternalStore(
-    subscribeToViewport,
-    getMobileSnapshot,
-    getServerSnapshot,
-  );
+  const isMobile = !canUseMedia;
   const { isModalOpen, openModal, closeModal } = useModal();
   const [config, setConfig] = useState<InterviewConfig>({
     category: "OPERATING_SYSTEM",
