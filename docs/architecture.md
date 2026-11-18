@@ -93,7 +93,12 @@ Axios 공통 모듈은 `server-only`이며 서버 쿠키를 읽습니다. Client
 - [apiError](../src/lib/shared/apiError.ts)는 Next.js 제어 흐름 오류를 다시 던지고 백엔드 오류를 코드·메시지·상태로 변환합니다.
 - 에러 모달을 열지, 화면 안에 오류를 표시할지는 각 호출 화면이 결정합니다.
 
-인증 헤더, 401 재시도, 쿠키 저장 흐름은 [인증 흐름](./auth-flow.md)에 정리되어 있습니다.
+인증 처리는 다음 책임으로 나눕니다.
+
+- [API 클라이언트](../src/apis/client.ts)는 인증 헤더를 추가하고, 백엔드 401 응답에 한 번만 토큰을 재발급받아 재시도합니다.
+- [토큰 재발급](../src/apis/reissueToken.ts)은 새 access token을 검증하고, 응답에 refresh token이 없으면 기존 값을 유지합니다. [세션 쿠키](../src/lib/auth/sessionCookies.ts)는 토큰 저장, 기존 프로필 캐시의 만료 갱신과 두 쿠키 삭제를 담당합니다.
+- 재발급 실패는 `SessionExpiredError`로 전달합니다. [Action 오류 처리](../src/lib/shared/actionError.ts)는 두 쿠키를 삭제하고 `/login`으로 이동하며, 기존 Action 성공·실패 반환 형태와 도메인별 검증은 유지합니다.
+- 문제 상세 GET Route Handler는 같은 만료 오류에서 두 쿠키를 삭제하고 `401` JSON을 반환합니다. 브라우저는 이 응답을 받아 로그인으로 이동하며, API 응답으로 로그인 HTML을 받지 않습니다.
 
 ### 대회 문제 풀이
 

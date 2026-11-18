@@ -1,8 +1,17 @@
 import { isAxiosError } from "axios";
 import { unstable_rethrow } from "next/navigation";
+import { SessionExpiredError } from "@/lib/auth/SessionExpiredError";
 
 export function apiError(error: unknown, message: string) {
   unstable_rethrow(error);
+
+  if (error instanceof SessionExpiredError) {
+    return {
+      code: "UNAUTHENTICATED",
+      message: error.message,
+      status: 401,
+    };
+  }
 
   if (!isAxiosError(error)) {
     return {

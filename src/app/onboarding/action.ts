@@ -11,7 +11,8 @@ import {
 import { SESSION_TOKEN_COOKIE } from "@/constants/auth/sessionTokenCookie";
 import { checkNickname, completeProfile, getProfile } from "@/apis/auth";
 import { actionFailure } from "@/lib/shared/actionFailure";
-import { apiError } from "@/lib/shared/apiError";
+import { actionError } from "@/lib/shared/actionError";
+import { redirectOnSessionExpired } from "@/lib/auth/redirectOnSessionExpired";
 import { isValidProfileEmail } from "@/lib/profile/isValidProfileEmail";
 
 function toAuthSession(profile: unknown): AuthSession | null {
@@ -75,7 +76,9 @@ export async function recoverProfileAction() {
       },
     } as const;
   } catch (error) {
-    return actionFailure(apiError(error, "프로필 정보를 불러오지 못했습니다."));
+    return actionFailure(
+      await actionError(error, "프로필 정보를 불러오지 못했습니다."),
+    );
   }
 }
 
@@ -105,14 +108,18 @@ export async function completeProfileAction(payload: OnboardingPayload) {
     return { ok: true } as const;
   } catch (error) {
     return actionFailure(
-      apiError(error, "프로필 저장 중 오류가 발생했습니다."),
+      await actionError(error, "프로필 저장 중 오류가 발생했습니다."),
     );
   }
 }
 
 // 닉네임 중복 검사
 export async function checkNicknameAction(nickname: string) {
-  const res = await checkNickname(nickname);
-
-  return res?.data;
+  try {
+    const res = await checkNickname(nickname);
+    return res?.data;
+  } catch (error) {
+    await redirectOnSessionExpired(error);
+    throw error;
+  }
 }

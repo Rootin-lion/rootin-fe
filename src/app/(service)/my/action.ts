@@ -1,9 +1,7 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
-import { MEMBER_SNAPSHOT_COOKIE } from "@/constants/auth/memberSnapshotCookie";
-import { SESSION_TOKEN_COOKIE } from "@/constants/auth/sessionTokenCookie";
+import { clearSessionCookies } from "@/lib/auth/sessionCookies";
 import {
   getMyBookmarks,
   getMyDashboard,
@@ -12,12 +10,10 @@ import {
 } from "@/apis/my";
 import { actionFailure } from "@/lib/shared/actionFailure";
 import { executeNestedDataAction } from "@/lib/shared/executeDataAction";
-import { apiError } from "@/lib/shared/apiError";
+import { actionError } from "@/lib/shared/actionError";
 
 export async function logoutAction() {
-  const cookieStore = await cookies();
-  cookieStore.delete(SESSION_TOKEN_COOKIE);
-  cookieStore.delete(MEMBER_SNAPSHOT_COOKIE);
+  await clearSessionCookies();
   redirect("/login", RedirectType.replace);
 }
 
@@ -62,6 +58,8 @@ export async function getMyBookmarksAction(page: number) {
       data,
     } as const;
   } catch (error) {
-    return actionFailure(apiError(error, "북마크 조회에 실패했습니다."));
+    return actionFailure(
+      await actionError(error, "북마크 조회에 실패했습니다."),
+    );
   }
 }
